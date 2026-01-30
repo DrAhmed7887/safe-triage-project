@@ -24,7 +24,8 @@ export default function Dashboard() {
             const newRecord = {
                 id: Date.now(),
                 created_at: new Date().toISOString(),
-                name: "Anonymous",
+                patient_id: input.patient_id || null,
+                name: input.patient_name || "Anonymous",
                 age: input.age,
                 gender: input.gender,
                 chief_complaint: input.chief_complaint_text, // Ensure mapping matches TriageForm state

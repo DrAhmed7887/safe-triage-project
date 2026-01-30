@@ -6,7 +6,8 @@ class Patient(Base):
     __tablename__ = "patients"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, default="Unknown") # Optional in current form, defaulting
+    patient_id = Column(String, index=True, nullable=True)  # Hospital MRN / Patient ID
+    name = Column(String, default="Unknown")  # Patient Name
     age = Column(Float)
     gender = Column(String)
     

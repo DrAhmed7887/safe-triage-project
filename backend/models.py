@@ -32,6 +32,10 @@ class Vitals(BaseModel):
     pain_score: Optional[int] = Field(0, description="Pain Scale 0-10", ge=0, le=10)
 
 class PatientInput(BaseModel):
+    # Patient Identification
+    patient_id: Optional[str] = Field(None, description="Hospital Patient ID / MRN (Medical Record Number)")
+    patient_name: Optional[str] = Field(None, description="Patient full name")
+    
     # Demographics
     age: float = Field(..., description="Age in years (use decimals for months, e.g. 0.25 = 3mo)")
     gender: Gender = Field(..., description="Patient gender")

@@ -6,6 +6,8 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export default function TriageForm({ onResult }) {
     const [formData, setFormData] = useState({
+        patient_id: '',
+        patient_name: '',
         age: '',
         gender: 'male',
         chief_complaint_text: '',
@@ -70,13 +72,25 @@ export default function TriageForm({ onResult }) {
         }
     };
 
+    // Generate temporary Patient ID if none provided
+    const generateTempId = () => {
+        const now = new Date();
+        const dateStr = now.toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD
+        const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase(); // 4 random chars
+        return `TEMP-${dateStr}-${randomPart}`;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
         try {
+            // Auto-generate Patient ID if empty
+            const patientId = formData.patient_id?.trim() || generateTempId();
+            
             const payload = {
                 ...formData,
+                patient_id: patientId,
                 age: formData.age ? parseFloat(formData.age) : 0,
                 vitals: {
                     ...formData.vitals,
@@ -116,6 +130,43 @@ export default function TriageForm({ onResult }) {
 
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
                 {error && <div className="p-4 bg-red-50 text-red-700 rounded-lg flex items-center gap-2"><AlertCircle className="w-5 h-5" /> {error}</div>}
+
+                {/* Patient Identification Section */}
+                <div className="space-y-4 pb-4 border-b border-slate-200">
+                    <h3 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Patient Identification
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">
+                                Patient ID / MRN
+                                <span className="text-xs text-slate-400 font-normal ml-1">(auto-generated if empty)</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                value={formData.patient_id} 
+                                onChange={e => setFormData({ ...formData, patient_id: e.target.value })} 
+                                className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border" 
+                                placeholder="Leave empty for auto-ID" 
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Patient Name</label>
+                            <input 
+                                type="text" 
+                                value={formData.patient_name} 
+                                onChange={e => setFormData({ ...formData, patient_name: e.target.value })} 
+                                className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border" 
+                                placeholder="Full Name" 
+                                dir="auto"
+                            />
+                        </div>
+                    </div>
+                </div>
 
                 <div className="grid grid-cols-2 gap-4">
                     <div>

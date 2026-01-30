@@ -20,6 +20,7 @@ export default function PatientList({ refreshTrigger = 0 }) {
                 const lowerTerm = searchTerm.toLowerCase();
                 stored = stored.filter(p =>
                     (p.name && p.name.toLowerCase().includes(lowerTerm)) ||
+                    (p.patient_id && p.patient_id.toLowerCase().includes(lowerTerm)) ||
                     (p.id && String(p.id).toLowerCase().includes(lowerTerm))
                 );
             }
@@ -45,9 +46,10 @@ export default function PatientList({ refreshTrigger = 0 }) {
         if (!stored.length) return;
 
         // Simple flatten for CSV
-        const headers = ["ID", "Name", "Date", "Age", "Gender", "Complaint", "Level", "Label", "RedFlags"];
+        const headers = ["RecordID", "PatientID", "Name", "Date", "Age", "Gender", "Complaint", "Level", "Label", "RedFlags"];
         const rows = stored.map(p => [
             p.id,
+            `"${p.patient_id || ''}"`,
             `"${p.name || 'Anonymous'}"`,
             p.created_at,
             p.age,
@@ -115,7 +117,7 @@ export default function PatientList({ refreshTrigger = 0 }) {
                     <div>
                         <input
                             type="text"
-                            placeholder="Search by Name or ID..."
+                            placeholder="Search by Name or Patient ID (MRN)..."
                             className="w-full text-xs p-2 rounded border border-slate-200 focus:border-blue-500 focus:outline-none"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -154,9 +156,15 @@ export default function PatientList({ refreshTrigger = 0 }) {
                                         <span className="text-sm font-bold text-slate-900">
                                             {patient.name || 'Anonymous'}
                                         </span>
-                                        <span className="text-[10px] font-mono text-slate-400">
-                                            {patient.id}
-                                        </span>
+                                        {patient.patient_id && (
+                                            <span className={`text-[10px] font-mono px-1 rounded ${
+                                                patient.patient_id.startsWith('TEMP-') 
+                                                    ? 'text-amber-600 bg-amber-50' 
+                                                    : 'text-blue-600 bg-blue-50'
+                                            }`}>
+                                                {patient.patient_id}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2 text-xs text-slate-500">
@@ -199,8 +207,17 @@ export default function PatientList({ refreshTrigger = 0 }) {
                             <div className={`p-6 text-white bg-gradient-to-r ${selectedPatient.triage_level === 1 ? 'from-red-600 to-red-700' : selectedPatient.triage_level === 2 ? 'from-orange-500 to-orange-600' : selectedPatient.triage_level === 3 ? 'from-yellow-500 to-yellow-600' : selectedPatient.triage_level === 4 ? 'from-green-500 to-green-600' : 'from-blue-500 to-blue-600'}`}>
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
-                                        <h2 className="text-xl font-bold">Patient Details</h2>
-                                        <p className="text-white/80 text-sm">ID: #{selectedPatient.id}</p>
+                                        <h2 className="text-xl font-bold">{selectedPatient.name || 'Anonymous'}</h2>
+                                        {selectedPatient.patient_id && (
+                                            <p className={`text-sm font-mono inline-block px-2 py-0.5 rounded mt-1 ${
+                                                selectedPatient.patient_id.startsWith('TEMP-')
+                                                    ? 'bg-amber-500/30 text-amber-100'
+                                                    : 'bg-white/20 text-white/90'
+                                            }`}>
+                                                {selectedPatient.patient_id.startsWith('TEMP-') ? '⏱ ' : 'MRN: '}
+                                                {selectedPatient.patient_id}
+                                            </p>
+                                        )}
                                     </div>
                                     <button onClick={() => setSelectedPatient(null)} className="p-1 hover:bg-white/20 rounded-full transition-colors">
                                         <X className="w-6 h-6" />

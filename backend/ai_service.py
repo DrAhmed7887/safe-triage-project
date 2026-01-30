@@ -25,14 +25,34 @@ class AIService:
                 "red_flags": []
             }
 
+        # Helper to format vitals
+        raw_vitals = patient_data.get('vitals', {})
+        formatted_vitals = {}
+        # Ensure we capture all standard vitals, marking missing ones explicitly
+        standard_keys = ['hr', 'rr', 'spo2', 'temp', 'sbp', 'dbp', 'gcs', 'pain_score']
+        for key in standard_keys:
+            val = raw_vitals.get(key)
+            if val is None:
+                formatted_vitals[key] = "Not Recorded"
+            else:
+                formatted_vitals[key] = val
+
         prompt = f"""
         You are an expert ER doctor in an Egyptian hospital. Analyze the patient and respond in JSON only.
+        
+        CRITICAL INSTRUCTION - Missing Vital Signs:
+        - If a vital sign is missing, null, or marked "Not Recorded":
+          * State explicitly: "[Vital] not available for assessment"
+          * Do NOT infer, estimate, or assume any value
+          * Adjust triage reasoning to acknowledge this data gap
+          * If missing vitals are critical for accurate triage (e.g. absent HR/BP in chest pain), note this limitation and consider it a red flag.
+        - NEVER use phrases like "vitals appear normal" or "vitals are stable" unless ALL critical vitals (HR, RR, BP, SpO2) are present and within normal range.
         
         Patient Data:
         Age: {patient_data.get('age')}
         Gender: {patient_data.get('gender')}
         Complaint: {patient_data.get('chief_complaint_text')}
-        Vitals: {json.dumps(patient_data.get('vitals'))}
+        Vitals: {json.dumps(formatted_vitals)}
         
         Format Requirement:
         {{
