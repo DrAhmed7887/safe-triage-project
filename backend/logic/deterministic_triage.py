@@ -119,6 +119,8 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
     "testicular_pain": SymptomCategory(2, "ألم خصية حاد", "Acute Testicular Pain"),
     "severe_headache": SymptomCategory(2, "صداع شديد مفاجئ", "Sudden Severe Headache"),
     "high_fever_toxic": SymptomCategory(2, "سخونية عالية مع إعياء شديد", "High Fever + Toxic Appearance"),
+    "dvt_pe": SymptomCategory(2, "جلطة وريدية/رئوية", "DVT/Pulmonary Embolism"),
+    "hemoptysis": SymptomCategory(2, "كحة بدم", "Hemoptysis"),
     
     # =========== LEVEL 3: Urgent ===========
     "abdominal_pain_moderate": SymptomCategory(3, "ألم بطن متوسط", "Moderate Abdominal Pain"),
@@ -143,6 +145,10 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
     "mild_gi": SymptomCategory(4, "أعراض معوية خفيفة", "Mild GI Symptoms"),
     "back_pain_chronic": SymptomCategory(4, "ألم ظهر مزمن", "Chronic Back Pain"),
     "headache_mild": SymptomCategory(4, "صداع خفيف", "Mild Headache"),
+    "eye_complaint": SymptomCategory(4, "شكوى عين", "Eye Complaint"),
+    "dental": SymptomCategory(4, "مشكلة أسنان", "Dental Problem"),
+    "skin_fungal": SymptomCategory(4, "فطريات جلدية", "Skin Fungal Infection"),
+    "hiccups": SymptomCategory(4, "زغطة", "Hiccups"),
     
     # =========== LEVEL 5: Non-Urgent ===========
     "prescription_refill": SymptomCategory(5, "تجديد روشتة", "Prescription Refill"),

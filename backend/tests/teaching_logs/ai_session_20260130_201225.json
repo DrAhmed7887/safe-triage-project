@@ -1,0 +1,29 @@
+{
+  "summary": {
+    "session_id": "20260130_201225",
+    "total_scenarios": 0,
+    "successful_generations": 0,
+    "correct": 0,
+    "accuracy": 0,
+    "critical_misses": 0,
+    "major_misses": 0,
+    "minor_misses": 0,
+    "keywords_added": 0,
+    "duration_seconds": 301.824535
+  },
+  "results": [],
+  "keywords_added": [],
+  "database_stats": {
+    "version": "1.0.0",
+    "last_updated": "2026-01-30T20:00:49.387864",
+    "total_keywords": 301,
+    "updates_count": 0,
+    "keywords_by_level": {
+      "1": 79,
+      "2": 76,
+      "3": 46,
+      "4": 74,
+      "5": 26
+    }
+  }
+}

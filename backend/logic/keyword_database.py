@@ -35,7 +35,8 @@ DEFAULT_KEYWORDS = {
             "priority": 1
         },
         "respiratory_arrest": {
-            "keywords": ["not breathing", "مش بيتنفس", "توقف التنفس", "مش قادر يتنفس", "وقف نفسه"],
+            "keywords": ["not breathing", "مش بيتنفس", "توقف التنفس", "مش قادر يتنفس", "وقف نفسه",
+                        "زرق", "شفايفه بنفسجي", "شفايفه زرقا", "cyanosis", "لونه أزرق"],
             "added_by_ai": [],
             "priority": 1
         },
@@ -52,7 +53,9 @@ DEFAULT_KEYWORDS = {
         },
         "severe_trauma": {
             "keywords": ["gunshot", "stab", "طعن", "رصاص", "حادثة", "accident", "اتضرب",
-                        "حادث سيارة", "اتطعن", "طلق ناري"],
+                        "حادث سيارة", "اتطعن", "طلق ناري", "اتعلق في الكهربا", "كهربا",
+                        "صعق", "electrocution", "حرق شديد", "حروق", "burn", "وقع من الدور",
+                        "سقط من ارتفاع", "fall from height", "وقع من السلم", "وقع من البلكونة"],
             "added_by_ai": [],
             "priority": 1
         },
@@ -65,7 +68,8 @@ DEFAULT_KEYWORDS = {
         "poisoning_overdose": {
             "keywords": ["overdose", "poison", "تسمم", "جرعة زيادة", "أخد دوا كتير",
                         "بلع دوا", "شرب دوا", "أخد حبوب كتير", "جرعة زايدة",
-                        "شرب مبيد", "أكل سم", "تسمم غذائي"],
+                        "شرب مبيد", "أكل سم", "تسمم غذائي", "بلع بطاريات", "بلع حاجة",
+                        "بلع عملة", "ابتلاع جسم غريب", "swallowed"],
             "added_by_ai": [],
             "priority": 1
         },
@@ -91,7 +95,8 @@ DEFAULT_KEYWORDS = {
         },
         "stroke_symptoms": {
             "keywords": ["stroke", "جلطة", "شلل", "مش قادر يتكلم", "وشه مايل",
-                        "جلطة دماغية", "نص جسمه", "ايده مش بتتحرك"],
+                        "جلطة دماغية", "نص جسمه", "ايده مش بتتحرك", "بيشوف ضلم",
+                        "بقع سودا", "فقد البصر", "vision loss", "sudden blindness"],
             "added_by_ai": [],
             "priority": 2
         },
@@ -123,7 +128,8 @@ DEFAULT_KEYWORDS = {
         },
         "severe_headache": {
             "keywords": ["worst headache", "صداع شديد", "راسي هتنفجر", "صداع مفاجئ",
-                        "صداع شديد جداً", "أسوأ صداع"],
+                        "صداع شديد جداً", "أسوأ صداع", "رقبته متيبسة", "رقبة متيبسة",
+                        "stiff neck", "meningitis", "صداع ورقبته"],
             "added_by_ai": [],
             "priority": 2
         },
@@ -147,6 +153,18 @@ DEFAULT_KEYWORDS = {
         },
         "testicular_pain": {
             "keywords": ["testicular", "خصية", "خصيته", "الخصية بتوجع"],
+            "added_by_ai": [],
+            "priority": 2
+        },
+        "dvt_pe": {
+            "keywords": ["رجله سخنة وحمرا", "متورمة وحمرا", "DVT", "جلطة في الرجل",
+                        "ساقه متورمة", "leg swollen red hot", "pulmonary embolism"],
+            "added_by_ai": [],
+            "priority": 2
+        },
+        "hemoptysis": {
+            "keywords": ["كحة بدم", "بيكح دم", "coughing blood", "hemoptysis",
+                        "دم مع الكحة", "بصق دم"],
             "added_by_ai": [],
             "priority": 2
         }
@@ -257,6 +275,21 @@ DEFAULT_KEYWORDS = {
             "keywords": ["عيني", "عين", "حمرا", "مدمعة", "رمد", "العين"],
             "added_by_ai": [],
             "priority": 4
+        },
+        "dental": {
+            "keywords": ["ضرس", "سنة", "أسنان", "tooth", "dental", "ضرسي بيوجعني"],
+            "added_by_ai": [],
+            "priority": 4
+        },
+        "skin_fungal": {
+            "keywords": ["فطريات", "fungus", "tinea", "فطر"],
+            "added_by_ai": [],
+            "priority": 4
+        },
+        "hiccups": {
+            "keywords": ["زغطة", "hiccups", "فواق"],
+            "added_by_ai": [],
+            "priority": 4
         }
     },
     "level_5": {
@@ -277,12 +310,14 @@ DEFAULT_KEYWORDS = {
             "priority": 5
         },
         "chronic_stable": {
-            "keywords": ["follow up", "متابعة", "كشف", "المتابعة العادية"],
+            "keywords": ["follow up", "متابعة", "كشف", "المتابعة العادية", "نتيجة التحليل",
+                        "أسأل عن نتيجة"],
             "added_by_ai": [],
             "priority": 5
         },
         "minor_complaint": {
-            "keywords": ["check up", "فحص", "اطمن", "عايز اطمن", "حاجة بسيطة"],
+            "keywords": ["check up", "فحص", "اطمن", "عايز اطمن", "حاجة بسيطة", "تطعيم",
+                        "vaccination", "عايز تحليل", "محتاج تحليل"],
             "added_by_ai": [],
             "priority": 5
         }
