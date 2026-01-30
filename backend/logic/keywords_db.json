@@ -1,0 +1,595 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2026-01-30T20:00:49.387864",
+    "total_keywords": 301,
+    "updates_count": 0
+  },
+  "level_1": {
+    "unconscious": {
+      "keywords": [
+        "unconscious",
+        "unresponsive",
+        "فاقد الوعي",
+        "مغمى عليه",
+        "مش بيرد",
+        "مش بيرد عليا",
+        "مش واعي",
+        "فاقد وعي",
+        "مش بيرد خالص"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    },
+    "cardiac_arrest": {
+      "keywords": [
+        "cardiac arrest",
+        "قلبه وقف",
+        "القلب واقف",
+        "قلبه مش شغال",
+        "القلب توقف"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    },
+    "respiratory_arrest": {
+      "keywords": [
+        "not breathing",
+        "مش بيتنفس",
+        "توقف التنفس",
+        "مش قادر يتنفس",
+        "وقف نفسه"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    },
+    "active_seizure": {
+      "keywords": [
+        "seizure",
+        "تشنج",
+        "صرع",
+        "بيترعش",
+        "تشنجات",
+        "نوبة صرع"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    },
+    "choking": {
+      "keywords": [
+        "choking",
+        "شرقان",
+        "حاجة في زوره",
+        "مش قادر يبلع",
+        "شرقت",
+        "شرق",
+        "اختناق",
+        "مش قادرة تاخد نفس",
+        "حاجة واقفة في زوره",
+        "شرق في أكل"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    },
+    "severe_trauma": {
+      "keywords": [
+        "gunshot",
+        "stab",
+        "طعن",
+        "رصاص",
+        "حادثة",
+        "accident",
+        "اتضرب",
+        "حادث سيارة",
+        "اتطعن",
+        "طلق ناري"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    },
+    "anaphylaxis": {
+      "keywords": [
+        "anaphylaxis",
+        "صدمة تحسسية",
+        "حساسية شديدة",
+        "شفايفه ورمت",
+        "وشه ورم",
+        "مش قادر يتنفس من الحساسية"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    },
+    "poisoning_overdose": {
+      "keywords": [
+        "overdose",
+        "poison",
+        "تسمم",
+        "جرعة زيادة",
+        "أخد دوا كتير",
+        "بلع دوا",
+        "شرب دوا",
+        "أخد حبوب كتير",
+        "جرعة زايدة",
+        "شرب مبيد",
+        "أكل سم",
+        "تسمم غذائي"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    },
+    "drowning": {
+      "keywords": [
+        "drowning",
+        "drown",
+        "غرق",
+        "غرقان",
+        "طلعوه من المية",
+        "وقع في المية",
+        "حمام السباحة",
+        "البحر",
+        "النيل",
+        "غرق في"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    },
+    "severe_bleeding": {
+      "keywords": [
+        "severe bleeding",
+        "نزيف شديد",
+        "بينزف جامد",
+        "دم كتير",
+        "نزيف مش بيوقف",
+        "دم كتير جداً"
+      ],
+      "added_by_ai": [],
+      "priority": 1
+    }
+  },
+  "level_2": {
+    "chest_pain_cardiac": {
+      "keywords": [
+        "chest pain",
+        "ألم صدر",
+        "صدري بيوجعني",
+        "قلبي بيوجعني",
+        "ألم في صدري",
+        "صدري",
+        "وجع قلب"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "stroke_symptoms": {
+      "keywords": [
+        "stroke",
+        "جلطة",
+        "شلل",
+        "مش قادر يتكلم",
+        "وشه مايل",
+        "جلطة دماغية",
+        "نص جسمه",
+        "ايده مش بتتحرك"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "respiratory_distress": {
+      "keywords": [
+        "can't breathe",
+        "مش عارف آخد نفسي",
+        "ضيق تنفس",
+        "مش قادرة آخد نفسي",
+        "صعوبة تنفس",
+        "نفسي ضيق",
+        "بيتنهج"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "suicidal_homicidal": {
+      "keywords": [
+        "suicidal",
+        "kill myself",
+        "عايز أموت",
+        "عايز يموت",
+        "يقتل نفسه",
+        "عايز يقتل نفسه",
+        "ينتحر",
+        "عايز ينتحر",
+        "هيأذي نفسه",
+        "مش عايز يعيش",
+        "انتحار"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "obstetric_emergency": {
+      "keywords": [
+        "pregnant bleeding",
+        "حامل بتنزف",
+        "حامل وبتنزف",
+        "حامل في",
+        "حامل ونزيف",
+        "نزيف حمل",
+        "الحمل بينزف",
+        "حامل والمية نزلت",
+        "ولادة مبكرة"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "diabetic_emergency": {
+      "keywords": [
+        "sugar low",
+        "السكر واطي",
+        "السكر عالي",
+        "سكر منخفض",
+        "عنده سكر وبيترعش",
+        "هبوط سكر",
+        "غيبوبة سكر"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "severe_headache": {
+      "keywords": [
+        "worst headache",
+        "صداع شديد",
+        "راسي هتنفجر",
+        "صداع مفاجئ",
+        "صداع شديد جداً",
+        "أسوأ صداع"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "severe_pain": {
+      "keywords": [
+        "severe pain",
+        "ألم شديد",
+        "بيوجعني جدا جدا",
+        "ألم شديد جداً",
+        "وجع مش طبيعي",
+        "ألم رهيب"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "high_fever_toxic": {
+      "keywords": [
+        "سخونية عالية جداً",
+        "حرارة عالية جداً",
+        "معياش جداً",
+        "حرارة 40",
+        "سخن جداً وتعبان"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "altered_mental_status": {
+      "keywords": [
+        "confused",
+        "مش عارف مكانه",
+        "تايه",
+        "مش بيعرفني",
+        "مش فاكر حاجة",
+        "تغير وعي"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    },
+    "testicular_pain": {
+      "keywords": [
+        "testicular",
+        "خصية",
+        "خصيته",
+        "الخصية بتوجع"
+      ],
+      "added_by_ai": [],
+      "priority": 2
+    }
+  },
+  "level_3": {
+    "abdominal_pain_moderate": {
+      "keywords": [
+        "abdominal pain",
+        "stomach pain",
+        "ألم بطن",
+        "بطني بتوجعني",
+        "معدتي",
+        "مغص",
+        "وجع بطن",
+        "ألم في بطني"
+      ],
+      "added_by_ai": [],
+      "priority": 3
+    },
+    "fever_with_symptoms": {
+      "keywords": [
+        "fever",
+        "سخونية",
+        "حرارة",
+        "سخن",
+        "حمى",
+        "جسمه سخن"
+      ],
+      "added_by_ai": [],
+      "priority": 3
+    },
+    "vomiting_dehydration": {
+      "keywords": [
+        "vomiting",
+        "بيرجع",
+        "استفراغ",
+        "ترجيع",
+        "قيء",
+        "رجع كتير"
+      ],
+      "added_by_ai": [],
+      "priority": 3
+    },
+    "moderate_bleeding": {
+      "keywords": [
+        "bleeding",
+        "بينزف",
+        "نزيف",
+        "دم",
+        "جرح بينزف"
+      ],
+      "added_by_ai": [],
+      "priority": 3
+    },
+    "fracture_deformity": {
+      "keywords": [
+        "fracture",
+        "broken",
+        "كسر",
+        "مكسور",
+        "ملوي",
+        "اتكسرت",
+        "شكلها مش طبيعي",
+        "عظم طالع"
+      ],
+      "added_by_ai": [],
+      "priority": 3
+    },
+    "pediatric_distress": {
+      "keywords": [
+        "child sick",
+        "طفل",
+        "ابني",
+        "بنتي",
+        "الطفل تعبان",
+        "البيبي",
+        "رضيع"
+      ],
+      "added_by_ai": [],
+      "priority": 3
+    },
+    "moderate_dyspnea": {
+      "keywords": [
+        "short of breath",
+        "ضيق نفس خفيف",
+        "نفسي تعبني شوية"
+      ],
+      "added_by_ai": [],
+      "priority": 3
+    },
+    "chest_pain_noncardiac": {
+      "keywords": [
+        "chest pain breathing",
+        "صدري بيوجع لما بتنفس",
+        "ألم صدر مع التنفس"
+      ],
+      "added_by_ai": [],
+      "priority": 3
+    }
+  },
+  "level_4": {
+    "minor_trauma": {
+      "keywords": [
+        "fell",
+        "fall",
+        "وقعت",
+        "وقع",
+        "اتخبط",
+        "خبطة",
+        "ضربة",
+        "وارم",
+        "ورم"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "laceration_simple": {
+      "keywords": [
+        "cut",
+        "laceration",
+        "جرح",
+        "قطع",
+        "خياطة",
+        "غرز",
+        "جرح بسيط"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "uri_symptoms": {
+      "keywords": [
+        "cold",
+        "flu",
+        "cough",
+        "برد",
+        "كحة",
+        "زكام",
+        "رشح",
+        "انفلونزا"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "sore_throat": {
+      "keywords": [
+        "sore throat",
+        "زور",
+        "حلق",
+        "بلع",
+        "زوري بيوجعني",
+        "التهاب حلق"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "earache": {
+      "keywords": [
+        "ear pain",
+        "earache",
+        "ودني",
+        "أذني",
+        "ألم أذن"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "uti_symptoms": {
+      "keywords": [
+        "burning urination",
+        "حرقان بول",
+        "التهاب مجرى",
+        "حرقان في البول",
+        "رايح الحمام كتير",
+        "بول كتير",
+        "التهاب بولي"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "mild_allergic": {
+      "keywords": [
+        "rash",
+        "allergy",
+        "حساسية",
+        "طفح",
+        "حكة",
+        "هرش",
+        "جلدي"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "back_pain_chronic": {
+      "keywords": [
+        "back pain",
+        "ظهري",
+        "وجع ضهر",
+        "ألم ظهر",
+        "ضهري بيوجعني"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "mild_gi": {
+      "keywords": [
+        "diarrhea",
+        "إسهال",
+        "مشي",
+        "معدة",
+        "بطني ماشية"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "mild_pain": {
+      "keywords": [
+        "pain",
+        "وجع",
+        "بيوجعني",
+        "ألم"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "headache_mild": {
+      "keywords": [
+        "headache",
+        "صداع",
+        "راسي",
+        "دماغي",
+        "صداع خفيف"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    },
+    "eye_complaint": {
+      "keywords": [
+        "عيني",
+        "عين",
+        "حمرا",
+        "مدمعة",
+        "رمد",
+        "العين"
+      ],
+      "added_by_ai": [],
+      "priority": 4
+    }
+  },
+  "level_5": {
+    "prescription_refill": {
+      "keywords": [
+        "refill",
+        "prescription",
+        "روشتة",
+        "تجديد",
+        "الدوا خلص",
+        "عايز دوا",
+        "أجدد الروشتة"
+      ],
+      "added_by_ai": [],
+      "priority": 5
+    },
+    "medical_certificate": {
+      "keywords": [
+        "certificate",
+        "تقرير",
+        "شهادة",
+        "إجازة مرضية",
+        "تقرير طبي"
+      ],
+      "added_by_ai": [],
+      "priority": 5
+    },
+    "suture_removal": {
+      "keywords": [
+        "remove stitches",
+        "فك غرز",
+        "فك الغرز",
+        "أفك الغرز",
+        "شيل الغرز"
+      ],
+      "added_by_ai": [],
+      "priority": 5
+    },
+    "chronic_stable": {
+      "keywords": [
+        "follow up",
+        "متابعة",
+        "كشف",
+        "المتابعة العادية"
+      ],
+      "added_by_ai": [],
+      "priority": 5
+    },
+    "minor_complaint": {
+      "keywords": [
+        "check up",
+        "فحص",
+        "اطمن",
+        "عايز اطمن",
+        "حاجة بسيطة"
+      ],
+      "added_by_ai": [],
+      "priority": 5
+    }
+  }
+}

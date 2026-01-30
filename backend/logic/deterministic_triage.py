@@ -65,6 +65,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Try to import dynamic keyword database
+try:
+    from logic.keyword_database import get_keyword_database, KeywordDatabase
+    USE_DYNAMIC_KEYWORDS = True
+except ImportError:
+    USE_DYNAMIC_KEYWORDS = False
+
 
 # =============================================================================
 # SYMPTOM CATEGORIES (ESI-Based)
@@ -495,21 +502,39 @@ class AISymptomClassifier:
     def _fallback_keyword_match(self, text: str) -> str:
         """
         Fallback keyword matching when AI is unavailable.
-        Uses simple substring matching for critical keywords.
+        Uses dynamic keyword database if available, otherwise static keywords.
         """
         text_lower = text.lower()
         
+        # Try dynamic keyword database first
+        if USE_DYNAMIC_KEYWORDS:
+            try:
+                db = get_keyword_database()
+                result = db.search_keyword(text_lower)
+                if result:
+                    category, level = result
+                    return category
+            except Exception as e:
+                print(f"Dynamic keyword search error: {e}")
+                # Fall through to static keywords
+        
+        # Static fallback keywords
         # Level 1 keywords (must catch these even without AI)
         level1_keywords = {
-            "unconscious": ["unconscious", "unresponsive", "فاقد الوعي", "مغمى عليه", "مش بيرد"],
-            "cardiac_arrest": ["cardiac arrest", "قلبه وقف", "القلب واقف"],
-            "respiratory_arrest": ["not breathing", "مش بيتنفس", "توقف التنفس"],
-            "active_seizure": ["seizure", "تشنج", "صرع", "بيترعش"],
-            "choking": ["choking", "شرقان", "حاجة في زوره", "مش قادر يبلع"],
-            "severe_trauma": ["gunshot", "stab", "طعن", "رصاص", "حادثة", "accident"],
-            "anaphylaxis": ["anaphylaxis", "صدمة تحسسية", "حساسية شديدة"],
-            "poisoning_overdose": ["overdose", "poison", "تسمم", "جرعة زيادة"],
-            "severe_bleeding": ["severe bleeding", "نزيف شديد", "بينزف جامد"],
+            "unconscious": ["unconscious", "unresponsive", "فاقد الوعي", "مغمى عليه", "مش بيرد", 
+                           "مش بيرد عليا", "مش واعي", "فاقد وعي"],
+            "cardiac_arrest": ["cardiac arrest", "قلبه وقف", "القلب واقف", "قلبه مش شغال"],
+            "respiratory_arrest": ["not breathing", "مش بيتنفس", "توقف التنفس", "مش قادر يتنفس"],
+            "active_seizure": ["seizure", "تشنج", "صرع", "بيترعش", "تشنجات"],
+            "choking": ["choking", "شرقان", "حاجة في زوره", "مش قادر يبلع", "شرقت", "شرق", 
+                       "اختناق", "مش قادرة تاخد نفس", "حاجة واقفة في زوره"],
+            "severe_trauma": ["gunshot", "stab", "طعن", "رصاص", "حادثة", "accident", "اتضرب"],
+            "anaphylaxis": ["anaphylaxis", "صدمة تحسسية", "حساسية شديدة", "شفايفه ورمت"],
+            "poisoning_overdose": ["overdose", "poison", "تسمم", "جرعة زيادة", "أخد دوا كتير", 
+                                  "بلع دوا", "شرب دوا", "أخد حبوب كتير", "جرعة زايدة"],
+            "drowning": ["drowning", "drown", "غرق", "غرقان", "طلعوه من المية", "وقع في المية",
+                        "حمام السباحة", "البحر", "النيل"],
+            "severe_bleeding": ["severe bleeding", "نزيف شديد", "بينزف جامد", "دم كتير"],
         }
         
         for category, keywords in level1_keywords.items():
@@ -521,12 +546,18 @@ class AISymptomClassifier:
         level2_keywords = {
             "chest_pain_cardiac": ["chest pain", "ألم صدر", "صدري بيوجعني", "قلبي بيوجعني"],
             "stroke_symptoms": ["stroke", "جلطة", "شلل", "مش قادر يتكلم", "وشه مايل"],
-            "respiratory_distress": ["can't breathe", "مش عارف آخد نفسي", "ضيق تنفس"],
-            "suicidal_homicidal": ["suicidal", "kill myself", "عايز أموت", "عايز يموت"],
-            "obstetric_emergency": ["pregnant bleeding", "حامل بتنزف", "حامل وبتنزف"],
-            "diabetic_emergency": ["sugar low", "السكر واطي", "السكر عالي"],
-            "severe_headache": ["worst headache", "صداع شديد", "راسي هتنفجر"],
-            "severe_pain": ["severe pain", "ألم شديد", "بيوجعني جدا جدا"],
+            "respiratory_distress": ["can't breathe", "مش عارف آخد نفسي", "ضيق تنفس", 
+                                    "مش قادرة آخد نفسي", "صعوبة تنفس"],
+            "suicidal_homicidal": ["suicidal", "kill myself", "عايز أموت", "عايز يموت",
+                                  "يقتل نفسه", "عايز يقتل نفسه", "ينتحر", "عايز ينتحر",
+                                  "هيأذي نفسه", "مش عايز يعيش"],
+            "obstetric_emergency": ["pregnant bleeding", "حامل بتنزف", "حامل وبتنزف",
+                                   "حامل في", "حامل ونزيف", "نزيف حمل", "الحمل بينزف"],
+            "diabetic_emergency": ["sugar low", "السكر واطي", "السكر عالي", "سكر منخفض",
+                                  "عنده سكر وبيترعش", "هبوط سكر"],
+            "severe_headache": ["worst headache", "صداع شديد", "راسي هتنفجر", "صداع مفاجئ"],
+            "severe_pain": ["severe pain", "ألم شديد", "بيوجعني جدا جدا", "ألم شديد جداً"],
+            "high_fever_toxic": ["سخونية عالية جداً", "حرارة عالية جداً", "معياش جداً"],
         }
         
         for category, keywords in level2_keywords.items():
@@ -557,12 +588,14 @@ class AISymptomClassifier:
             "uri_symptoms": ["cold", "flu", "cough", "برد", "كحة", "زكام", "رشح", "انفلونزا"],
             "sore_throat": ["sore throat", "زور", "حلق", "بلع"],
             "earache": ["ear pain", "earache", "ودني", "أذني"],
-            "uti_symptoms": ["burning urination", "حرقان بول", "التهاب مجرى"],
+            "uti_symptoms": ["burning urination", "حرقان بول", "التهاب مجرى", "حرقان في البول",
+                           "رايح الحمام كتير", "بول كتير", "التهاب بولي"],
             "mild_allergic": ["rash", "allergy", "حساسية", "طفح", "حكة", "هرش"],
             "back_pain_chronic": ["back pain", "ظهري", "وجع ضهر"],
             "mild_gi": ["diarrhea", "إسهال", "مشي", "معدة"],
             "mild_pain": ["pain", "وجع", "بيوجعني", "ألم"],
             "headache_mild": ["headache", "صداع", "راسي", "دماغي"],
+            "eye_complaint": ["عيني", "عين", "حمرا", "مدمعة", "رمد"],
         }
         
         for category, keywords in level4_keywords.items():

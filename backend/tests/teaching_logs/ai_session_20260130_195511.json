@@ -1,0 +1,16 @@
+{
+  "summary": {
+    "total_scenarios": 0,
+    "successful_tests": 0,
+    "correct": 0,
+    "accuracy": 0,
+    "critical_misses": 0,
+    "major_misses": 0,
+    "minor_misses": 0,
+    "new_keywords_learned": 0,
+    "api_calls": 15,
+    "timestamp": "2026-01-30T19:55:11.508327"
+  },
+  "new_keywords": {},
+  "misclassifications": []
+}
