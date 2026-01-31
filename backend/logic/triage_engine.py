@@ -58,53 +58,53 @@ class TriageEngine:
         if vitals.rr is not None:
             if age >= 14:  # Adult
                 if vitals.rr < 8:
-                    reasons.append(f"معدل التنفس خطير: {vitals.rr}/دقيقة (< 8 = فشل تنفسي)")
+                    reasons.append(f"معدل التنفس خطير / Critical RR: {vitals.rr}/min (< 8 = respiratory failure)")
                 elif vitals.rr > 36:
-                    reasons.append(f"معدل التنفس خطير: {vitals.rr}/دقيقة (> 36 = ضيق تنفس شديد)")
+                    reasons.append(f"معدل التنفس خطير / Critical RR: {vitals.rr}/min (> 36 = severe respiratory distress)")
             else:  # Pediatric
                 if vitals.rr < 10:
-                    reasons.append(f"معدل التنفس خطير للطفل: {vitals.rr}/دقيقة")
+                    reasons.append(f"معدل التنفس خطير للطفل / Critical pediatric RR: {vitals.rr}/min")
                 elif age < 1 and vitals.rr > 60:
-                    reasons.append(f"معدل التنفس خطير للرضيع: {vitals.rr}/دقيقة (> 60)")
+                    reasons.append(f"معدل التنفس خطير للرضيع / Critical infant RR: {vitals.rr}/min (> 60)")
                 elif age < 5 and vitals.rr > 50:
-                    reasons.append(f"معدل التنفس خطير للطفل: {vitals.rr}/دقيقة (> 50)")
+                    reasons.append(f"معدل التنفس خطير للطفل / Critical child RR: {vitals.rr}/min (> 50)")
         
         # ===== HEART RATE - CRITICAL =====
         if vitals.hr is not None:
             if age >= 14:  # Adult
                 if vitals.hr < 40:
-                    reasons.append(f"النبض خطير: {vitals.hr}/دقيقة (< 40 = بطء شديد)")
+                    reasons.append(f"النبض خطير / Critical HR: {vitals.hr}/min (< 40 = severe bradycardia)")
                 elif vitals.hr > 150:
-                    reasons.append(f"النبض خطير: {vitals.hr}/دقيقة (> 150 = تسارع غير مستقر)")
+                    reasons.append(f"النبض خطير / Critical HR: {vitals.hr}/min (> 150 = unstable tachycardia)")
             else:  # Pediatric
                 if vitals.hr < 60:
-                    reasons.append(f"النبض خطير للطفل: {vitals.hr}/دقيقة (< 60)")
+                    reasons.append(f"النبض خطير للطفل / Critical pediatric HR: {vitals.hr}/min (< 60)")
                 elif age < 1 and vitals.hr > 180:
-                    reasons.append(f"النبض خطير للرضيع: {vitals.hr}/دقيقة (> 180)")
+                    reasons.append(f"النبض خطير للرضيع / Critical infant HR: {vitals.hr}/min (> 180)")
                 elif age < 5 and vitals.hr > 160:
-                    reasons.append(f"النبض خطير للطفل: {vitals.hr}/دقيقة (> 160)")
+                    reasons.append(f"النبض خطير للطفل / Critical child HR: {vitals.hr}/min (> 160)")
         
         # ===== SpO2 - CRITICAL =====
         if vitals.spo2 is not None and vitals.spo2 < 90:
-            reasons.append(f"نسبة الأكسجين خطيرة: {vitals.spo2}% (< 90% = نقص أكسجين شديد)")
+            reasons.append(f"نسبة الأكسجين خطيرة / Critical SpO2: {vitals.spo2}% (< 90% = severe hypoxia)")
         
         # ===== GCS - CRITICAL =====
         if vitals.gcs is not None and vitals.gcs < 9:
-            reasons.append(f"مستوى الوعي خطير: GCS {vitals.gcs} (< 9 = غيبوبة)")
+            reasons.append(f"مستوى الوعي خطير / Critical GCS: {vitals.gcs} (< 9 = coma)")
         
         # ===== BLOOD PRESSURE - CRITICAL =====
         if vitals.sbp is not None:
             if vitals.sbp < 80:
-                reasons.append(f"ضغط الدم خطير: {vitals.sbp} (< 80 = صدمة)")
+                reasons.append(f"ضغط الدم خطير / Critical BP: {vitals.sbp} (< 80 = shock)")
             elif vitals.sbp > 220:
-                reasons.append(f"ضغط الدم خطير: {vitals.sbp} (> 220 = أزمة ضغط)")
+                reasons.append(f"ضغط الدم خطير / Critical BP: {vitals.sbp} (> 220 = hypertensive crisis)")
         
         # ===== TEMPERATURE - CRITICAL =====
         if vitals.temp is not None:
             if vitals.temp < 35:
-                reasons.append(f"درجة الحرارة خطيرة: {vitals.temp}°C (< 35 = انخفاض حرارة)")
+                reasons.append(f"درجة الحرارة خطيرة / Critical Temp: {vitals.temp}°C (< 35 = hypothermia)")
             elif vitals.temp > 41:
-                reasons.append(f"درجة الحرارة خطيرة: {vitals.temp}°C (> 41 = حمى شديدة)")
+                reasons.append(f"درجة الحرارة خطيرة / Critical Temp: {vitals.temp}°C (> 41 = hyperpyrexia)")
         
         return (len(reasons) > 0, reasons)
         
@@ -238,8 +238,8 @@ class TriageEngine:
         if danger_keywords:
             is_level_1 = True
             keywords_str = ', '.join(danger_keywords[:3])  # Limit to 3 for display
-            reasoning.append(f"كلمات حرجة: {keywords_str}")
-            red_flags.append(f"حالة حرجة: {keywords_str}")
+            reasoning.append(f"كلمات حرجة / Critical keywords: {keywords_str}")
+            red_flags.append(f"حالة حرجة / Critical condition: {keywords_str}")
 
         if is_level_1:
             return TriageResult(
@@ -247,9 +247,9 @@ class TriageEngine:
                 color_code="#ef4444",
                 label_ar="إنعاش (مستوى ١)",
                 label_en="Resuscitation (Level 1)",
-                description="يتطلب تدخل فوري لإنقاذ الحياة",
-                recommended_action="تفعيل فريق الإنعاش فوراً",
-                time_to_physician="فوري",
+                description="يتطلب تدخل فوري لإنقاذ الحياة / Requires immediate life-saving intervention",
+                recommended_action="تفعيل فريق الإنعاش فوراً / Activate resuscitation team immediately",
+                time_to_physician="فوري / Immediate",
                 red_flags=red_flags,
                 reasoning=reasoning
             )
@@ -261,33 +261,33 @@ class TriageEngine:
         # Severe Pain
         if patient.vitals.pain_score and patient.vitals.pain_score >= 7:
             is_level_2 = True
-            reasoning.append(f"ألم شديد: {patient.vitals.pain_score}/10")
+            reasoning.append(f"ألم شديد / Severe pain: {patient.vitals.pain_score}/10")
             
         # Altered mental status (GCS 9-14)
         if patient.vitals.gcs and 9 <= patient.vitals.gcs < 15:
             is_level_2 = True
-            reasoning.append(f"تغير في الوعي: GCS {patient.vitals.gcs}")
+            reasoning.append(f"تغير في الوعي / Altered consciousness: GCS {patient.vitals.gcs}")
             
         # Danger Zone Vitals
         danger_zone, danger_reasons = self._check_vitals_danger_zone(patient.age, patient.vitals)
         if danger_zone:
             is_level_2 = True
             reasoning.extend(danger_reasons)
-            red_flags.append("علامات حيوية غير طبيعية")
+            red_flags.append("علامات حيوية غير طبيعية / Abnormal vital signs")
             
         # High Risk Symptoms
         high_risk_triggers = []
-        if "chest_pain" in symptoms: high_risk_triggers.append("ألم صدر")
-        if "stroke" in symptoms: high_risk_triggers.append("أعراض جلطة")
-        if "psych" in symptoms: high_risk_triggers.append("طوارئ نفسية")
-        if "sob" in symptoms: high_risk_triggers.append("ضيق تنفس")
-        if "cardiac" in symptoms: high_risk_triggers.append("مشكلة قلبية")
-        if "diabetic" in symptoms: high_risk_triggers.append("مشكلة سكري")
-        if "pregnancy" in symptoms: high_risk_triggers.append("حالة حمل")
+        if "chest_pain" in symptoms: high_risk_triggers.append("ألم صدر / Chest pain")
+        if "stroke" in symptoms: high_risk_triggers.append("أعراض جلطة / Stroke symptoms")
+        if "psych" in symptoms: high_risk_triggers.append("طوارئ نفسية / Psychiatric emergency")
+        if "sob" in symptoms: high_risk_triggers.append("ضيق تنفس / Shortness of breath")
+        if "cardiac" in symptoms: high_risk_triggers.append("مشكلة قلبية / Cardiac problem")
+        if "diabetic" in symptoms: high_risk_triggers.append("مشكلة سكري / Diabetic problem")
+        if "pregnancy" in symptoms: high_risk_triggers.append("حالة حمل / Pregnancy")
         
         if high_risk_triggers:
             is_level_2 = True
-            reasoning.append(f"أعراض خطيرة: {', '.join(high_risk_triggers)}")
+            reasoning.append(f"أعراض خطيرة / High-risk symptoms: {', '.join(high_risk_triggers)}")
 
         if is_level_2:
             return TriageResult(
@@ -295,9 +295,9 @@ class TriageEngine:
                 color_code="#f97316",
                 label_ar="طوارئ (مستوى ٢)",
                 label_en="Emergent (Level 2)",
-                description="خطورة عالية، احتمال تدهور سريع",
-                recommended_action="غرفة العناية المركزة، مراقبة مستمرة",
-                time_to_physician="< 15 دقيقة",
+                description="خطورة عالية، احتمال تدهور سريع / High risk, potential for rapid deterioration",
+                recommended_action="غرفة العناية المركزة، مراقبة مستمرة / ICU room, continuous monitoring",
+                time_to_physician="< 15 دقيقة / < 15 minutes",
                 red_flags=red_flags,
                 reasoning=reasoning
             )
@@ -311,11 +311,11 @@ class TriageEngine:
                 color_code="#eab308",
                 label_ar="عاجل (مستوى ٣)",
                 label_en="Urgent (Level 3)",
-                description="مستقر، يحتاج موارد متعددة",
-                recommended_action="غرفة فحص، طلب تحاليل/أشعة",
-                time_to_physician="< 60 دقيقة",
+                description="مستقر، يحتاج موارد متعددة / Stable, needs multiple resources",
+                recommended_action="غرفة فحص، طلب تحاليل/أشعة / Exam room, order labs/imaging",
+                time_to_physician="< 60 دقيقة / < 60 minutes",
                 red_flags=red_flags,
-                reasoning=[f"يحتاج تقريباً {resource_count} موارد"]  
+                reasoning=[f"يحتاج تقريباً {resource_count} موارد / Needs approximately {resource_count} resources"]  
             )
             
         elif resource_count == 1:
@@ -324,11 +324,11 @@ class TriageEngine:
                 color_code="#22c55e",
                 label_ar="أقل إلحاحاً (مستوى ٤)",
                 label_en="Less Urgent (Level 4)",
-                description="مستقر، يحتاج مورد واحد",
-                recommended_action="العيادة السريعة",
-                time_to_physician="يمكن الانتظار",
+                description="مستقر، يحتاج مورد واحد / Stable, needs one resource",
+                recommended_action="العيادة السريعة / Fast-track clinic",
+                time_to_physician="يمكن الانتظار / Can wait",
                 red_flags=red_flags,
-                reasoning=["يحتاج مورد واحد فقط"]
+                reasoning=["يحتاج مورد واحد فقط / Needs only 1 resource"]
             )
             
         else:
@@ -337,9 +337,9 @@ class TriageEngine:
                 color_code="#3b82f6",
                 label_ar="غير عاجل (مستوى ٥)",
                 label_en="Non-Urgent (Level 5)",
-                description="لا يحتاج موارد",
-                recommended_action="إعادة الروشتة أو الطمأنينة",
-                time_to_physician="يمكن الانتظار / تحويل للعيادة",
+                description="لا يحتاج موارد / No resources needed",
+                recommended_action="إعادة الروشتة أو الطمأنينة / Prescription refill or reassurance",
+                time_to_physician="يمكن الانتظار / تحويل للعيادة / Can wait / Clinic referral",
                 red_flags=red_flags,
-                reasoning=["لا يحتاج موارد حادة"]
+                reasoning=["لا يحتاج موارد حادة / No acute resources needed"]
             )
