@@ -242,15 +242,26 @@ class TriageEngine:
             red_flags.append(f"حالة حرجة / Critical condition: {keywords_str}")
 
         if is_level_1:
+            # Split reasoning into AR and EN
+            reasoning_ar = [r.split(' / ')[0] if ' / ' in r else r for r in reasoning]
+            reasoning_en = [r.split(' / ')[1] if ' / ' in r else r for r in reasoning]
             return TriageResult(
                 level=TriageLevel.RESUSCITATION,
                 color_code="#ef4444",
                 label_ar="إنعاش (مستوى ١)",
                 label_en="Resuscitation (Level 1)",
+                description_ar="يتطلب تدخل فوري لإنقاذ الحياة",
+                description_en="Requires immediate life-saving intervention",
                 description="يتطلب تدخل فوري لإنقاذ الحياة / Requires immediate life-saving intervention",
+                action_ar="تفعيل فريق الإنعاش فوراً",
+                action_en="Activate resuscitation team immediately",
                 recommended_action="تفعيل فريق الإنعاش فوراً / Activate resuscitation team immediately",
+                time_ar="فوري",
+                time_en="Immediate",
                 time_to_physician="فوري / Immediate",
                 red_flags=red_flags,
+                reasoning_ar=reasoning_ar,
+                reasoning_en=reasoning_en,
                 reasoning=reasoning
             )
 
@@ -290,15 +301,26 @@ class TriageEngine:
             reasoning.append(f"أعراض خطيرة / High-risk symptoms: {', '.join(high_risk_triggers)}")
 
         if is_level_2:
+            # Split reasoning into AR and EN
+            reasoning_ar = [r.split(' / ')[0] if ' / ' in r else r for r in reasoning]
+            reasoning_en = [r.split(' / ')[1] if ' / ' in r else r for r in reasoning]
             return TriageResult(
                 level=TriageLevel.EMERGENT,
                 color_code="#f97316",
                 label_ar="طوارئ (مستوى ٢)",
                 label_en="Emergent (Level 2)",
+                description_ar="خطورة عالية، احتمال تدهور سريع",
+                description_en="High risk, potential for rapid deterioration",
                 description="خطورة عالية، احتمال تدهور سريع / High risk, potential for rapid deterioration",
+                action_ar="غرفة العناية المركزة، مراقبة مستمرة",
+                action_en="ICU room, continuous monitoring",
                 recommended_action="غرفة العناية المركزة، مراقبة مستمرة / ICU room, continuous monitoring",
+                time_ar="< 15 دقيقة",
+                time_en="< 15 minutes",
                 time_to_physician="< 15 دقيقة / < 15 minutes",
                 red_flags=red_flags,
+                reasoning_ar=reasoning_ar,
+                reasoning_en=reasoning_en,
                 reasoning=reasoning
             )
 
@@ -311,10 +333,18 @@ class TriageEngine:
                 color_code="#eab308",
                 label_ar="عاجل (مستوى ٣)",
                 label_en="Urgent (Level 3)",
+                description_ar="مستقر، يحتاج موارد متعددة",
+                description_en="Stable, needs multiple resources",
                 description="مستقر، يحتاج موارد متعددة / Stable, needs multiple resources",
+                action_ar="غرفة فحص، طلب تحاليل/أشعة",
+                action_en="Exam room, order labs/imaging",
                 recommended_action="غرفة فحص، طلب تحاليل/أشعة / Exam room, order labs/imaging",
+                time_ar="< 60 دقيقة",
+                time_en="< 60 minutes",
                 time_to_physician="< 60 دقيقة / < 60 minutes",
                 red_flags=red_flags,
+                reasoning_ar=[f"يحتاج تقريباً {resource_count} موارد"],
+                reasoning_en=[f"Needs approximately {resource_count} resources"],
                 reasoning=[f"يحتاج تقريباً {resource_count} موارد / Needs approximately {resource_count} resources"]  
             )
             
@@ -324,10 +354,18 @@ class TriageEngine:
                 color_code="#22c55e",
                 label_ar="أقل إلحاحاً (مستوى ٤)",
                 label_en="Less Urgent (Level 4)",
+                description_ar="مستقر، يحتاج مورد واحد",
+                description_en="Stable, needs one resource",
                 description="مستقر، يحتاج مورد واحد / Stable, needs one resource",
+                action_ar="العيادة السريعة",
+                action_en="Fast-track clinic",
                 recommended_action="العيادة السريعة / Fast-track clinic",
+                time_ar="يمكن الانتظار",
+                time_en="Can wait",
                 time_to_physician="يمكن الانتظار / Can wait",
                 red_flags=red_flags,
+                reasoning_ar=["يحتاج مورد واحد فقط"],
+                reasoning_en=["Needs only 1 resource"],
                 reasoning=["يحتاج مورد واحد فقط / Needs only 1 resource"]
             )
             
@@ -337,9 +375,17 @@ class TriageEngine:
                 color_code="#3b82f6",
                 label_ar="غير عاجل (مستوى ٥)",
                 label_en="Non-Urgent (Level 5)",
+                description_ar="لا يحتاج موارد",
+                description_en="No resources needed",
                 description="لا يحتاج موارد / No resources needed",
+                action_ar="إعادة الروشتة أو الطمأنينة",
+                action_en="Prescription refill or reassurance",
                 recommended_action="إعادة الروشتة أو الطمأنينة / Prescription refill or reassurance",
+                time_ar="يمكن الانتظار / تحويل للعيادة",
+                time_en="Can wait / Clinic referral",
                 time_to_physician="يمكن الانتظار / تحويل للعيادة / Can wait / Clinic referral",
                 red_flags=red_flags,
+                reasoning_ar=["لا يحتاج موارد حادة"],
+                reasoning_en=["No acute resources needed"],
                 reasoning=["لا يحتاج موارد حادة / No acute resources needed"]
             )

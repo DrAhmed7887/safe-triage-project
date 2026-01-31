@@ -36,14 +36,24 @@ export default function TriageResult({ result, onReset }) {
                             <div className="flex items-center gap-2 text-slate-500 text-xs uppercase font-bold mb-2">
                                 <Clock className="w-4 h-4" /> Time to Physician
                             </div>
-                            <div className="text-xl font-bold text-slate-800">{result.time_to_physician}</div>
+                            <div className="text-lg font-bold text-slate-800">
+                                {result.time_en || result.time_to_physician?.split(' / ')[1] || result.time_to_physician}
+                            </div>
+                            <div className="text-sm text-slate-600 font-arabic mt-1">
+                                {result.time_ar || result.time_to_physician?.split(' / ')[0]}
+                            </div>
                         </div>
 
                         <div className="p-4 bg-slate-50 rounded-lg border border-slate-100">
                             <div className="flex items-center gap-2 text-slate-500 text-xs uppercase font-bold mb-2">
                                 <Activity className="w-4 h-4" /> Action
                             </div>
-                            <div className="text-lg font-medium text-slate-800 leading-snug">{result.recommended_action}</div>
+                            <div className="text-base font-medium text-slate-800 leading-snug">
+                                {result.action_en || result.recommended_action?.split(' / ')[1] || result.recommended_action}
+                            </div>
+                            <div className="text-sm text-slate-600 font-arabic mt-1">
+                                {result.action_ar || result.recommended_action?.split(' / ')[0]}
+                            </div>
                         </div>
                     </div>
 
@@ -54,10 +64,15 @@ export default function TriageResult({ result, onReset }) {
                             {result.isAI && <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-[10px] uppercase">AI-Generated</span>}
                         </h3>
                         <ul className="space-y-2">
-                            {result.reasoning.map((r, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
-                                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
-                                    {r}
+                            {/* Use separate AR/EN if available, otherwise fall back to combined */}
+                            {(result.reasoning_en || result.reasoning || []).map((r, i) => (
+                                <li key={i} className="flex flex-col gap-1 text-sm text-slate-700 border-l-2 border-blue-500 pl-3 py-1">
+                                    <span className="font-medium">
+                                        {result.reasoning_en ? result.reasoning_en[i] : (r.includes(' / ') ? r.split(' / ')[1] : r)}
+                                    </span>
+                                    <span className="text-slate-500 font-arabic">
+                                        {result.reasoning_ar ? result.reasoning_ar[i] : (r.includes(' / ') ? r.split(' / ')[0] : '')}
+                                    </span>
                                 </li>
                             ))}
 

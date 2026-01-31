@@ -54,9 +54,17 @@ class TriageResult(BaseModel):
     color_code: str
     label_ar: str
     label_en: str
-    description: str
-    recommended_action: str
-    time_to_physician: str
+    description_ar: str = ""
+    description_en: str = ""
+    description: str = ""  # Legacy - combined
+    action_ar: str = ""
+    action_en: str = ""
+    recommended_action: str = ""  # Legacy - combined
+    time_ar: str = ""
+    time_en: str = ""
+    time_to_physician: str = ""  # Legacy - combined
     red_flags: List[str] = []
-    reasoning: List[str] = []
+    reasoning_ar: List[str] = []
+    reasoning_en: List[str] = []
+    reasoning: List[str] = []  # Legacy - combined
     confidence: str = "High"  # High, Medium, Low
