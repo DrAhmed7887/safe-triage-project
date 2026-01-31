@@ -653,6 +653,8 @@ class DeterministicTriageResult:
     news2_score: int
     news2_level: int
     category: str
+    category_ar: str
+    category_en: str
     category_level: int
     modifiers_applied: List[str]
     
@@ -663,6 +665,8 @@ class DeterministicTriageResult:
     
     # Decision Path (for documentation/audit)
     decision_path: str
+    decision_path_ar: str
+    decision_path_en: str
     ai_used: bool
     
     # Time recommendations
@@ -832,10 +836,24 @@ class DeterministicTriageEngine:
         if category_info.requires_immediate_intervention:
             final_level = 1
         
-        # Build decision path string for audit
+        # Build decision path string for audit (bilingual)
         decision_path = (
             f"NEWS2={news2_result.total_score}→L{news2_result.triage_level} | "
             f"Category={category}→L{category_level} | "
+            f"Modifiers→L{modifier_level} | "
+            f"Final=L{final_level}"
+        )
+        
+        decision_path_ar = (
+            f"نيوز2={news2_result.total_score}→م{news2_result.triage_level} | "
+            f"التصنيف={category_info.name_ar}→م{category_level} | "
+            f"المعدلات→م{modifier_level} | "
+            f"النهائي=م{final_level}"
+        )
+        
+        decision_path_en = (
+            f"NEWS2={news2_result.total_score}→L{news2_result.triage_level} | "
+            f"Category={category_info.name_en}→L{category_level} | "
             f"Modifiers→L{modifier_level} | "
             f"Final=L{final_level}"
         )
@@ -859,12 +877,16 @@ class DeterministicTriageEngine:
             news2_score=news2_result.total_score,
             news2_level=news2_result.triage_level,
             category=category,
+            category_ar=category_info.name_ar,
+            category_en=category_info.name_en,
             category_level=category_level,
             modifiers_applied=modifiers,
             alerts_ar=all_alerts_ar,
             alerts_en=all_alerts_en,
             missing_vitals=news2_result.missing_vitals,
             decision_path=decision_path,
+            decision_path_ar=decision_path_ar,
+            decision_path_en=decision_path_en,
             ai_used=(self.ai_classifier.model is not None),
             time_to_physician=level_info["time"],
             recommended_action_ar=level_info["action_ar"],
