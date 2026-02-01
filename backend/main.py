@@ -113,6 +113,24 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
         colors = {1:"#ef4444", 2:"#f97316", 3:"#eab308", 4:"#22c55e", 5:"#3b82f6"}
         labels_en = {1:"Resuscitation", 2:"Emergent", 3:"Urgent", 4:"Less Urgent", 5:"Non-Urgent"}
         labels_ar = {1:"إنعاش", 2:"طوارئ", 3:"عاجل", 4:"أقل إلحاحاً", 5:"غير عاجل"}
+        
+        # ESI v4 time to physician guidelines
+        times_en = {1:"Immediate", 2:"< 15 minutes", 3:"< 30 minutes", 4:"< 60 minutes", 5:"< 120 minutes"}
+        times_ar = {1:"فوري", 2:"< 15 دقيقة", 3:"< 30 دقيقة", 4:"< 60 دقيقة", 5:"< 120 دقيقة"}
+        actions_en = {
+            1: "Resuscitation room immediately",
+            2: "ICU room, continuous monitoring", 
+            3: "Exam room, order labs/imaging",
+            4: "Fast-track clinic",
+            5: "Can wait / Clinic referral"
+        }
+        actions_ar = {
+            1: "غرفة الإنعاش فوراً",
+            2: "غرفة العناية المركزة، مراقبة مستمرة",
+            3: "غرفة فحص، طلب تحاليل/أشعة", 
+            4: "العيادة السريعة",
+            5: "يمكن الانتظار / تحويل للعيادة"
+        }
 
         # Send alert for critical patients (Level 1 or 2)
         send_critical_alert(patient.model_dump(), level)
@@ -122,11 +140,19 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
             "color_code": colors.get(level, "#eab308"),
             "label_en": f"{labels_en.get(level)} (Level {level})",
             "label_ar": f"{labels_ar.get(level)} (مستوى {level})",
-            "description": "AI-Assisted Assessment",
-            "recommended_action": "Review AI suggestions below",
-            "time_to_physician": "Based on acuity",
+            "description": f"{actions_ar.get(level)} / {actions_en.get(level)}",
+            "description_ar": actions_ar.get(level),
+            "description_en": actions_en.get(level),
+            "recommended_action": f"{actions_ar.get(level)} / {actions_en.get(level)}",
+            "action_ar": actions_ar.get(level),
+            "action_en": actions_en.get(level),
+            "time_to_physician": f"{times_ar.get(level)} / {times_en.get(level)}",
+            "time_ar": times_ar.get(level),
+            "time_en": times_en.get(level),
             "red_flags": ai_result.get("red_flags", []),
             "reasoning": [ai_result.get("reasoning")],
+            "reasoning_ar": [ai_result.get("reasoning_ar")] if ai_result.get("reasoning_ar") else [],
+            "reasoning_en": [ai_result.get("reasoning")] if ai_result.get("reasoning") else [],
             "ai_data": {
                 "reasoning_ar": ai_result.get("reasoning_ar"),
                 "followup_question": ai_result.get("followup_question"),
