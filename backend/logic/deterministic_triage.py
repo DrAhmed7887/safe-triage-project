@@ -901,6 +901,108 @@ class DeterministicTriageEngine:
         result = self.triage(patient_data)
         return result.final_level
 
+    def evaluate(self, patient) -> 'TriageResult':
+        """
+        API-compatible method that returns TriageResult format.
+        Converts from DeterministicTriageResult to TriageResult.
+        
+        Args:
+            patient: PatientInput object from API
+            
+        Returns:
+            TriageResult compatible with API response model
+        """
+        # Import here to avoid circular imports
+        try:
+            from ..models import TriageResult, TriageLevel
+        except ImportError:
+            from models import TriageResult, TriageLevel
+        
+        # Convert PatientInput to dict for internal triage method
+        patient_dict = {
+            'age': patient.age,
+            'gender': patient.gender.value if hasattr(patient.gender, 'value') else patient.gender,
+            'chief_complaint_text': patient.chief_complaint_text,
+            'vitals': {
+                'hr': patient.vitals.hr,
+                'rr': patient.vitals.rr,
+                'spo2': patient.vitals.spo2,
+                'sbp': patient.vitals.sbp,
+                'dbp': patient.vitals.dbp,
+                'temp': patient.vitals.temp,
+                'gcs': patient.vitals.gcs,
+                'pain_score': patient.vitals.pain_score
+            } if patient.vitals else {}
+        }
+        
+        # Get internal result
+        internal_result = self.triage(patient_dict)
+        
+        # Build reasoning list (bilingual)
+        reasoning = []
+        reasoning_ar = []
+        reasoning_en = []
+        
+        # Add category info
+        reasoning_ar.append(f"التصنيف: {internal_result.category_ar}")
+        reasoning_en.append(f"Category: {internal_result.category_en}")
+        reasoning.append(f"التصنيف: {internal_result.category_ar} / Category: {internal_result.category_en}")
+        
+        # Add NEWS2 if significant
+        if internal_result.news2_score > 0:
+            reasoning_ar.append(f"نيوز2: {internal_result.news2_score} نقاط")
+            reasoning_en.append(f"NEWS2: {internal_result.news2_score} points")
+            reasoning.append(f"نيوز2: {internal_result.news2_score} نقاط / NEWS2: {internal_result.news2_score} points")
+        
+        # Add modifiers
+        for mod in internal_result.modifiers_applied:
+            reasoning.append(mod)
+            if ' / ' in mod:
+                reasoning_ar.append(mod.split(' / ')[0])
+                reasoning_en.append(mod.split(' / ')[1])
+            else:
+                reasoning_ar.append(mod)
+                reasoning_en.append(mod)
+        
+        # Map level to TriageLevel enum
+        level_map = {
+            1: TriageLevel.RESUSCITATION,
+            2: TriageLevel.EMERGENT,
+            3: TriageLevel.URGENT,
+            4: TriageLevel.LESS_URGENT,
+            5: TriageLevel.NON_URGENT
+        }
+        
+        # Color codes
+        color_map = {
+            1: "#ef4444",  # Red
+            2: "#f97316",  # Orange
+            3: "#eab308",  # Yellow
+            4: "#22c55e",  # Green
+            5: "#3b82f6"   # Blue
+        }
+        
+        return TriageResult(
+            level=level_map.get(internal_result.final_level, TriageLevel.URGENT),
+            color_code=color_map.get(internal_result.final_level, "#eab308"),
+            label_ar=internal_result.label_ar,
+            label_en=internal_result.label_en,
+            description_ar=internal_result.category_ar,
+            description_en=internal_result.category_en,
+            description=f"{internal_result.category_ar} / {internal_result.category_en}",
+            action_ar=internal_result.recommended_action_ar,
+            action_en=internal_result.recommended_action_en,
+            recommended_action=f"{internal_result.recommended_action_ar} / {internal_result.recommended_action_en}",
+            time_ar=internal_result.time_to_physician.split(' / ')[0] if ' / ' in internal_result.time_to_physician else internal_result.time_to_physician,
+            time_en=internal_result.time_to_physician.split(' / ')[1] if ' / ' in internal_result.time_to_physician else internal_result.time_to_physician,
+            time_to_physician=internal_result.time_to_physician,
+            red_flags=internal_result.alerts_en + internal_result.alerts_ar,
+            reasoning_ar=reasoning_ar,
+            reasoning_en=reasoning_en,
+            reasoning=reasoning,
+            confidence="High" if not internal_result.ai_used else "Medium"
+        )
+
 
 
 # =============================================================================

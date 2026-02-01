@@ -8,7 +8,7 @@ import requests
 from datetime import datetime
 
 from .models import PatientInput, TriageResult
-from .logic.triage_engine import TriageEngine
+from .logic.deterministic_triage import DeterministicTriageEngine
 from .database import engine, Base, get_db
 from .sql_models import Patient
 import uvicorn
@@ -29,7 +29,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-engine_logic = TriageEngine()
+# Use the deterministic engine with keyword database
+engine_logic = DeterministicTriageEngine()
 ai_service = AIService()
 
 # ============ TELEGRAM ALERT FUNCTION ============
