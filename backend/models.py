@@ -36,8 +36,8 @@ class PatientInput(BaseModel):
     patient_id: Optional[str] = Field(None, description="Hospital Patient ID / MRN (Medical Record Number)")
     patient_name: Optional[str] = Field(None, description="Patient full name")
     
-    # Demographics
-    age: float = Field(..., description="Age in years (use decimals for months, e.g. 0.25 = 3mo)")
+    # Demographics - Age validated: 0-120 years (oldest verified human was 122)
+    age: float = Field(..., description="Age in years (use decimals for months, e.g. 0.25 = 3mo)", ge=0, le=120)
     gender: Gender = Field(..., description="Patient gender")
     
     # Clinical Info
