@@ -80,8 +80,70 @@ export default function TriageForm({ onResult }) {
         return `TEMP-${dateStr}-${randomPart}`;
     };
 
+    // Validation warnings for unusual values
+    const validateWithConfirmation = () => {
+        const warnings = [];
+        const age = parseFloat(formData.age);
+        const hr = formData.vitals.hr ? parseInt(formData.vitals.hr) : null;
+        const rr = formData.vitals.rr ? parseInt(formData.vitals.rr) : null;
+        const spo2 = formData.vitals.spo2 ? parseFloat(formData.vitals.spo2) : null;
+        const sbp = formData.vitals.sbp ? parseInt(formData.vitals.sbp) : null;
+        const temp = formData.vitals.temp ? parseFloat(formData.vitals.temp) : null;
+
+        // Age validation
+        if (age > 120) {
+            warnings.push(`⚠️ Age ${age} years is above 120 (oldest recorded human was 122). Did you mean ${Math.floor(age / 10)}?`);
+        } else if (age > 100) {
+            warnings.push(`⚠️ Age ${age} years - Please confirm this is correct.`);
+        } else if (age < 0) {
+            warnings.push(`⚠️ Age cannot be negative.`);
+        }
+
+        // Heart Rate validation
+        if (hr !== null) {
+            if (hr > 250) warnings.push(`⚠️ Heart Rate ${hr} bpm is extremely high (>250). Please verify.`);
+            if (hr < 20) warnings.push(`⚠️ Heart Rate ${hr} bpm is extremely low (<20). Please verify.`);
+        }
+
+        // Respiratory Rate validation
+        if (rr !== null) {
+            if (rr > 60) warnings.push(`⚠️ Respiratory Rate ${rr}/min is extremely high (>60). Please verify.`);
+            if (rr < 4) warnings.push(`⚠️ Respiratory Rate ${rr}/min is extremely low (<4). Please verify.`);
+        }
+
+        // SpO2 validation
+        if (spo2 !== null) {
+            if (spo2 > 100) warnings.push(`⚠️ SpO2 ${spo2}% cannot exceed 100%. Please correct.`);
+            if (spo2 < 50) warnings.push(`⚠️ SpO2 ${spo2}% is critically low. Please verify.`);
+        }
+
+        // Blood Pressure validation
+        if (sbp !== null) {
+            if (sbp > 300) warnings.push(`⚠️ Systolic BP ${sbp} mmHg is extremely high (>300). Please verify.`);
+            if (sbp < 40) warnings.push(`⚠️ Systolic BP ${sbp} mmHg is extremely low (<40). Please verify.`);
+        }
+
+        // Temperature validation  
+        if (temp !== null) {
+            if (temp > 45) warnings.push(`⚠️ Temperature ${temp}°C is above survivable range (>45°C). Please verify.`);
+            if (temp < 25) warnings.push(`⚠️ Temperature ${temp}°C is below survivable range (<25°C). Please verify.`);
+        }
+
+        return warnings;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Check for unusual values and ask for confirmation
+        const warnings = validateWithConfirmation();
+        if (warnings.length > 0) {
+            const confirmMessage = warnings.join('\n\n') + '\n\nDo you want to proceed anyway?';
+            if (!window.confirm(confirmMessage)) {
+                return; // User cancelled, don't submit
+            }
+        }
+
         setLoading(true);
         setError(null);
         try {
