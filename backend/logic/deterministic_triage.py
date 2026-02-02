@@ -1454,6 +1454,7 @@ class DeterministicTriageEngine:
             "rr": vitals.rr,
             "spo2": vitals.spo2,
             "sbp": vitals.sbp,
+            "dbp": vitals.dbp,
             "temp_c": vitals.temp,
             "gcs": vitals.gcs,
         }
@@ -1464,6 +1465,9 @@ class DeterministicTriageEngine:
         is_immunocompromised = _get_field("is_immunocompromised", False)
         immunocompromised_reason = _get_field("immunocompromised_reason")
         immunizations_complete = _get_field("immunizations_complete", True)
+        is_pregnant = _get_field("is_pregnant", False)
+        gestational_weeks = _get_field("gestational_weeks")
+        pregnancy_complaint = _get_field("pregnancy_complaint")
 
         # Run ESI v5 evaluation
         result = evaluate_esi_v5(
@@ -1474,6 +1478,11 @@ class DeterministicTriageEngine:
             is_immunocompromised=is_immunocompromised,
             immunocompromised_reason=immunocompromised_reason,
             immunizations_complete=immunizations_complete,
+            is_pregnant=is_pregnant,
+            gestational_weeks=gestational_weeks,
+            pregnancy_complaint=pregnancy_complaint,
+            has_seizure=self._check_for_seizure(patient_input),
+            has_trauma=self._check_for_trauma(patient_input),
         )
 
         # Use minimum (most acute) between current and ESI v5 suggested
@@ -1484,6 +1493,56 @@ class DeterministicTriageEngine:
             final_esi = current_esi
 
         return final_esi, result.get("esi_v5_alerts", [])
+
+    def _check_for_seizure(self, patient_input) -> bool:
+        """Check if chief complaint or history indicates seizure."""
+        seizure_keywords = ["seizure", "تشنج", "صرع", "convulsion", "fitting"]
+        if isinstance(patient_input, dict):
+            complaint = (
+                patient_input.get("chief_complaint_text")
+                or patient_input.get("chief_complaint")
+                or patient_input.get("complaint")
+                or ""
+            )
+        else:
+            complaint = (
+                getattr(patient_input, "chief_complaint_text", None)
+                or getattr(patient_input, "chief_complaint", None)
+                or getattr(patient_input, "complaint", None)
+                or ""
+            )
+        complaint = str(complaint).lower()
+        return any(kw in complaint for kw in seizure_keywords)
+
+    def _check_for_trauma(self, patient_input) -> bool:
+        """Check if chief complaint indicates trauma."""
+        trauma_keywords = [
+            "trauma",
+            "accident",
+            "fall",
+            "حادث",
+            "وقع",
+            "سقوط",
+            "injury",
+            "hit",
+            "اصابة",
+        ]
+        if isinstance(patient_input, dict):
+            complaint = (
+                patient_input.get("chief_complaint_text")
+                or patient_input.get("chief_complaint")
+                or patient_input.get("complaint")
+                or ""
+            )
+        else:
+            complaint = (
+                getattr(patient_input, "chief_complaint_text", None)
+                or getattr(patient_input, "chief_complaint", None)
+                or getattr(patient_input, "complaint", None)
+                or ""
+            )
+        complaint = str(complaint).lower()
+        return any(kw in complaint for kw in trauma_keywords)
     
     def triage(self, patient_data: dict) -> DeterministicTriageResult:
         """
@@ -1800,6 +1859,8 @@ class DeterministicTriageEngine:
             'on_supplemental_o2': getattr(patient, 'on_supplemental_o2', False),
             'is_new_confusion': getattr(patient, 'is_new_confusion', False),
             'is_pregnant': getattr(patient, 'is_pregnant', False),
+            'gestational_weeks': getattr(patient, 'gestational_weeks', None),
+            'pregnancy_complaint': getattr(patient, 'pregnancy_complaint', None),
             # Red flags are direct fields on PatientInput (not nested)
             'history_cardiac': getattr(patient, 'history_cardiac', False),
             'history_stroke': getattr(patient, 'history_stroke', False),

@@ -9,7 +9,7 @@ References:
 - ESI v5 Handbook, Chapter 6: Special Populations
 """
 
-from typing import Optional, Dict, Tuple, List
+from typing import Optional, Dict, Tuple, List, Any
 
 # =============================================================================
 # PEDIATRIC VITAL SIGN THRESHOLDS (ESI v5, Chapter 4, Page 47)
@@ -284,7 +284,7 @@ def check_pediatric_fever_esi_v5(
             alerts.append(f"Pediatric fever: {temp_c}C")
 
     # Incomplete immunizations = higher risk
-    if not immunizations_complete and temp_c is not None and temp_c >= 38.0:
+    if immunizations_complete is False and temp_c is not None and temp_c >= 38.0:
         alerts.append("Fever + incomplete immunizations - increased infection risk")
         suggested_esi = min(suggested_esi, 2)
 
@@ -361,15 +361,149 @@ def check_immunocompromised_fever_esi_v5(
     return 3, alerts
 
 
+def check_pregnancy_esi_v5(
+    is_pregnant: bool = False,
+    gestational_weeks: Optional[int] = None,
+    pregnancy_complaint: Optional[str] = None,
+    sbp: Optional[int] = None,
+    dbp: Optional[int] = None,
+    has_seizure: bool = False,
+    has_trauma: bool = False,
+    chief_complaint: Optional[str] = None,
+) -> Tuple[int, List[str]]:
+    """
+    ESI v5 Pregnancy Triage Rules
+    Reference: ESI Handbook v5, Chapter 4 - Special Populations
+
+    Pregnancy modifies triage acuity for several high-risk conditions.
+    """
+    alerts = []
+    suggested_esi = 5  # Default, will take minimum
+
+    if not is_pregnant:
+        return suggested_esi, alerts
+
+    # === ESI 1: LIFE-THREATENING ===
+
+    # Eclampsia: Pregnant + seizure
+    if has_seizure:
+        alerts.append(
+            "ECLAMPSIA CONCERN: Pregnant patient with seizure -> ESI 1 IMMEDIATE"
+        )
+        return 1, alerts  # Return immediately, highest priority
+
+    # === ESI 2: HIGH-RISK PREGNANCY ===
+
+    # Severe preeclampsia: SBP >=160 or DBP >=110
+    if sbp is not None and sbp >= 160:
+        alerts.append(
+            f"SEVERE PREECLAMPSIA: Pregnant + SBP {sbp} >=160 mmHg -> ESI 2"
+        )
+        suggested_esi = min(suggested_esi, 2)
+
+    if dbp is not None and dbp >= 110:
+        alerts.append(
+            f"SEVERE PREECLAMPSIA: Pregnant + DBP {dbp} >=110 mmHg -> ESI 2"
+        )
+        suggested_esi = min(suggested_esi, 2)
+
+    # Trauma in pregnancy: Always ESI 2
+    if has_trauma:
+        alerts.append(
+            "PREGNANT TRAUMA: Any trauma in pregnancy -> ESI 2 (placental abruption risk)"
+        )
+        suggested_esi = min(suggested_esi, 2)
+
+    # Pregnancy complaint-based rules
+    if pregnancy_complaint:
+        # Vaginal bleeding
+        if pregnancy_complaint == "vaginal_bleeding":
+            if gestational_weeks and gestational_weeks < 20:
+                alerts.append(
+                    f"THREATENED ABORTION/ECTOPIC: Vaginal bleeding at {gestational_weeks} weeks -> ESI 2"
+                )
+            else:
+                alerts.append(
+                    f"ANTEPARTUM HEMORRHAGE: Vaginal bleeding at {gestational_weeks or 'unknown'} weeks -> ESI 2 (placenta previa/abruption)"
+                )
+            suggested_esi = min(suggested_esi, 2)
+
+        # Preterm contractions
+        if pregnancy_complaint == "contractions":
+            if gestational_weeks and gestational_weeks < 37:
+                alerts.append(
+                    f"PRETERM LABOR: Contractions at {gestational_weeks} weeks (<37) -> ESI 2"
+                )
+                suggested_esi = min(suggested_esi, 2)
+            elif gestational_weeks and gestational_weeks >= 37:
+                alerts.append(
+                    f"TERM LABOR: Contractions at {gestational_weeks} weeks -> ESI 3"
+                )
+                suggested_esi = min(suggested_esi, 3)
+
+        # Decreased fetal movement (3rd trimester)
+        if pregnancy_complaint == "decreased_fetal_movement":
+            if gestational_weeks and gestational_weeks >= 28:
+                alerts.append(
+                    f"FETAL DISTRESS CONCERN: Decreased fetal movement at {gestational_weeks} weeks -> ESI 2"
+                )
+                suggested_esi = min(suggested_esi, 2)
+            else:
+                alerts.append(
+                    "Decreased fetal movement reported (early pregnancy) -> ESI 3"
+                )
+                suggested_esi = min(suggested_esi, 3)
+
+        # Leaking fluid (PPROM)
+        if pregnancy_complaint == "leaking_fluid":
+            if gestational_weeks and gestational_weeks < 37:
+                alerts.append(
+                    f"PPROM CONCERN: Leaking fluid at {gestational_weeks} weeks (<37) -> ESI 2"
+                )
+                suggested_esi = min(suggested_esi, 2)
+            else:
+                alerts.append(
+                    f"PROM: Leaking fluid at term ({gestational_weeks} weeks) -> ESI 3"
+                )
+                suggested_esi = min(suggested_esi, 3)
+
+        # Headache + visual changes (preeclampsia warning)
+        if pregnancy_complaint == "headache_visual_changes":
+            alerts.append(
+                "PREECLAMPSIA WARNING: Headache + visual changes in pregnancy -> ESI 2"
+            )
+            suggested_esi = min(suggested_esi, 2)
+
+        # Abdominal pain in pregnancy
+        if pregnancy_complaint == "abdominal_pain":
+            if gestational_weeks and gestational_weeks < 20:
+                alerts.append(
+                    f"ECTOPIC CONCERN: Abdominal pain at {gestational_weeks} weeks -> ESI 2"
+                )
+                suggested_esi = min(suggested_esi, 2)
+            else:
+                alerts.append(
+                    f"ABRUPTION/LABOR CONCERN: Abdominal pain at {gestational_weeks or 'unknown'} weeks -> ESI 2"
+                )
+                suggested_esi = min(suggested_esi, 2)
+
+    return suggested_esi, alerts
+
+
 def evaluate_esi_v5(
     age_years: float,
-    vitals: Dict,
+    vitals: Optional[Dict] = None,
     pain_scale: Optional[int] = None,
     pain_context: Optional[str] = None,
     is_immunocompromised: bool = False,
     immunocompromised_reason: Optional[str] = None,
     immunizations_complete: bool = True,
-) -> Dict:
+    is_pregnant: bool = False,
+    gestational_weeks: Optional[int] = None,
+    pregnancy_complaint: Optional[str] = None,
+    has_seizure: bool = False,
+    has_trauma: bool = False,
+) -> Dict[str, Any]:
     """
     Main ESI v5 evaluation function.
 
@@ -391,10 +525,12 @@ def evaluate_esi_v5(
     all_alerts = []
     suggested_levels = []
 
+    vitals = vitals or {}
     hr = vitals.get("hr")
     rr = vitals.get("rr")
     spo2 = vitals.get("spo2")
     sbp = vitals.get("sbp")
+    dbp = vitals.get("dbp")
     temp_c = vitals.get("temp_c")
     gcs = vitals.get("gcs")
 
@@ -450,6 +586,20 @@ def evaluate_esi_v5(
     all_alerts.extend(immuno_alerts)
     if immuno_esi < 5:
         suggested_levels.append(immuno_esi)
+
+    # 6. Check pregnancy rules
+    pregnancy_esi, pregnancy_alerts = check_pregnancy_esi_v5(
+        is_pregnant=is_pregnant,
+        gestational_weeks=gestational_weeks,
+        pregnancy_complaint=pregnancy_complaint,
+        sbp=sbp,
+        dbp=dbp,
+        has_seizure=has_seizure,
+        has_trauma=has_trauma,
+    )
+    all_alerts.extend(pregnancy_alerts)
+    if pregnancy_esi < 5:
+        suggested_levels.append(pregnancy_esi)
 
     # Final ESI = minimum (most acute) of all suggested levels
     final_esi = min(suggested_levels) if suggested_levels else None

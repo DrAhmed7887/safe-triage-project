@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Literal
 from enum import Enum
 
 class Gender(str, Enum):
@@ -50,24 +50,45 @@ class PatientInput(BaseModel):
     immuno_compromised: bool = False
 
     # ========== ESI v5 COMPLIANCE FIELDS ==========
-    # ESI v5 Pain Assessment
-    pain_scale: Optional[int] = Field(None, ge=0, le=10, description="Pain scale 0-10")
-    pain_context: Optional[str] = Field(
-        None,
-        description="Pain context: renal_colic, cancer_pain, sickle_cell, orthopedic, etc.",
+    # === ESI v5 PAIN ASSESSMENT ===
+    pain_scale: Optional[int] = Field(
+        default=None,
+        ge=0,
+        le=10,
+        description="Pain severity 0-10",
     )
+    pain_context: Optional[
+        Literal[
+            "chest_pain",
+            "abdominal_pain",
+            "renal_colic",
+            "sickle_cell_crisis",
+            "cancer_pain",
+            "orthopedic",
+            "headache",
+            "other",
+        ]
+    ] = Field(default=None, description="Clinical context of pain")
 
-    # ESI v5 Immunocompromised
+    # === ESI v5 IMMUNOCOMPROMISED STATUS ===
     is_immunocompromised: bool = Field(
-        False, description="Is patient immunocompromised?"
+        default=False, description="Patient has compromised immune system"
     )
-    immunocompromised_reason: Optional[str] = Field(
-        None, description="Reason: chemotherapy, transplant, HIV, steroids"
-    )
+    immunocompromised_reason: Optional[
+        Literal[
+            "chemotherapy",
+            "transplant",
+            "hiv_aids",
+            "chronic_steroids",
+            "biologics",
+            "congenital",
+            "other",
+        ]
+    ] = Field(default=None, description="Reason for immunocompromised state")
 
-    # ESI v5 Pediatric
-    immunizations_complete: bool = Field(
-        True, description="Are immunizations up to date? (pediatric)"
+    # === ESI v5 PEDIATRIC IMMUNIZATIONS ===
+    immunizations_complete: Optional[bool] = Field(
+        default=None, description="Are childhood immunizations up to date? None=unknown"
     )
     
     # ========== NEWS2 COMPLIANCE FIELDS (Audit Fix) ==========
@@ -86,7 +107,22 @@ class PatientInput(BaseModel):
     # Reference: ESI v4 Handbook, Chapter 5 - Special Populations
     
     # Pregnancy status for ectopic/obstetric emergency detection
-    is_pregnant: bool = Field(False, description="Patient is pregnant - enables obstetric emergency detection")
+    is_pregnant: bool = Field(False, description="Patient is currently pregnant")
+    gestational_weeks: Optional[int] = Field(
+        default=None, ge=1, le=42, description="Weeks of gestation (1-42)"
+    )
+    pregnancy_complaint: Optional[
+        Literal[
+            "vaginal_bleeding",
+            "abdominal_pain",
+            "contractions",
+            "decreased_fetal_movement",
+            "leaking_fluid",
+            "headache_visual_changes",
+            "swelling",
+            "none",
+        ]
+    ] = Field(default=None, description="Pregnancy-related complaint if any")
     
 class TriageResult(BaseModel):
     level: TriageLevel
