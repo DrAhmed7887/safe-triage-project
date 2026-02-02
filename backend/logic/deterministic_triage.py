@@ -61,7 +61,11 @@ from enum import Enum
 import os
 import json
 from dotenv import load_dotenv
-from logic.esi_v5_compliance import evaluate_esi_v5
+
+try:
+    from .esi_v5_compliance import evaluate_esi_v5
+except ImportError:
+    from logic.esi_v5_compliance import evaluate_esi_v5
 
 load_dotenv()
 
