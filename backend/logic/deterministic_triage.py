@@ -60,10 +60,22 @@ from dataclasses import dataclass
 from enum import Enum
 import os
 import json
-import google.generativeai as genai
 from dotenv import load_dotenv
+from logic.esi_v5_compliance import evaluate_esi_v5
 
 load_dotenv()
+
+# ===== PERFORMANCE FIX: Lazy import of google.generativeai =====
+# This module takes ~500ms to import, so we defer it until first use
+genai = None  # Will be loaded on demand
+
+def _get_genai():
+    """Lazy load google.generativeai module."""
+    global genai
+    if genai is None:
+        import google.generativeai as _genai
+        genai = _genai
+    return genai
 
 # Try to import dynamic keyword database
 try:
@@ -107,6 +119,14 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
     "drowning": SymptomCategory(1, "غرق", "Drowning/Near-drowning", True),
     "severe_bleeding": SymptomCategory(1, "نزيف شديد", "Severe/Uncontrolled Bleeding", True),
     
+    # ========== PHASE 2: NEW LEVEL 1 CATEGORIES (AUDIT FIX) ==========
+    "ectopic_pregnancy": SymptomCategory(1, "حمل خارج الرحم", "Ectopic Pregnancy", True),
+    "aortic_dissection": SymptomCategory(1, "تسلخ الأبهر", "Aortic Dissection", True),
+    "sepsis": SymptomCategory(1, "تعفن دم", "Sepsis/Septic Shock", True),
+    "severe_hypothermia": SymptomCategory(1, "انخفاض حرارة شديد", "Severe Hypothermia", True),
+    # ========== BATCH 2 FIX: NEW LEVEL 1 CATEGORIES ==========
+    "pediatric_critical": SymptomCategory(1, "طفل في حالة حرجة", "Pediatric Critical (Floppy/Unresponsive)", True),
+    
     # =========== LEVEL 2: Emergent ===========
     "chest_pain_cardiac": SymptomCategory(2, "ألم صدر قلبي", "Cardiac Chest Pain"),
     "stroke_symptoms": SymptomCategory(2, "أعراض جلطة دماغية", "Stroke Symptoms (FAST+)"),
@@ -121,6 +141,19 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
     "high_fever_toxic": SymptomCategory(2, "سخونية عالية مع إعياء شديد", "High Fever + Toxic Appearance"),
     "dvt_pe": SymptomCategory(2, "جلطة وريدية/رئوية", "DVT/Pulmonary Embolism"),
     "hemoptysis": SymptomCategory(2, "كحة بدم", "Hemoptysis"),
+    # PHASE 2: New Level 2 category
+    "mesenteric_ischemia": SymptomCategory(2, "نقص تروية الأمعاء", "Mesenteric Ischemia"),
+    # ========== BATCH 2 FIX: NEW LEVEL 2 CATEGORIES ==========
+    "silent_mi": SymptomCategory(2, "ذبحة صامتة", "Silent MI (Atypical Cardiac)"),
+    "gi_bleed": SymptomCategory(2, "نزيف معوي", "GI Bleeding (Hematemesis/Melena)"),
+    "hip_fracture": SymptomCategory(2, "كسر ورك", "Hip Fracture (Elderly Fall)"),
+    "intussusception": SymptomCategory(2, "انغلاف أمعاء", "Intussusception"),
+    "pediatric_meningitis": SymptomCategory(2, "التهاب سحايا أطفال", "Pediatric Meningitis Signs"),
+    "pediatric_dehydration": SymptomCategory(2, "جفاف شديد أطفال", "Severe Pediatric Dehydration"),
+    "pediatric_respiratory": SymptomCategory(2, "ضيق تنفس أطفال", "Pediatric Respiratory Distress"),
+    "febrile_seizure": SymptomCategory(2, "تشنج حراري", "Febrile Seizure"),
+    "pediatric_sepsis": SymptomCategory(2, "تعفن دم أطفال", "Pediatric Sepsis Risk"),
+    "pediatric_emergency": SymptomCategory(2, "طوارئ أطفال", "Pediatric Emergency"),
     
     # =========== LEVEL 3: Urgent ===========
     "abdominal_pain_moderate": SymptomCategory(3, "ألم بطن متوسط", "Moderate Abdominal Pain"),
@@ -132,6 +165,9 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
     "vomiting_dehydration": SymptomCategory(3, "قيء مع جفاف", "Vomiting with Dehydration"),
     "psychiatric_agitated": SymptomCategory(3, "حالة نفسية هائجة", "Psychiatric - Agitated"),
     "pediatric_distress": SymptomCategory(3, "طفل في ضائقة", "Pediatric Distress"),
+    # PHASE 2: New Level 3 categories
+    "asthma_exacerbation": SymptomCategory(3, "نوبة ربو", "Asthma Exacerbation"),
+    "kidney_stone": SymptomCategory(3, "حصوة كلى", "Kidney Stone/Renal Colic"),
     
     # =========== LEVEL 4: Less Urgent ===========
     "minor_trauma": SymptomCategory(4, "إصابة بسيطة", "Minor Trauma"),
@@ -149,6 +185,9 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
     "dental": SymptomCategory(4, "مشكلة أسنان", "Dental Problem"),
     "skin_fungal": SymptomCategory(4, "فطريات جلدية", "Skin Fungal Infection"),
     "hiccups": SymptomCategory(4, "زغطة", "Hiccups"),
+    # PHASE 2: New Level 4 categories
+    "ankle_sprain": SymptomCategory(4, "التواء كاحل", "Ankle Sprain"),
+    "insect_bite": SymptomCategory(4, "قرصة حشرة", "Insect Bite"),
     
     # =========== LEVEL 5: Non-Urgent ===========
     "prescription_refill": SymptomCategory(5, "تجديد روشتة", "Prescription Refill"),
@@ -156,6 +195,9 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
     "chronic_stable": SymptomCategory(5, "حالة مزمنة مستقرة", "Stable Chronic Condition"),
     "suture_removal": SymptomCategory(5, "فك غرز", "Suture Removal"),
     "medical_certificate": SymptomCategory(5, "شهادة طبية", "Medical Certificate Request"),
+    # PHASE 2: New Level 5 categories
+    "wound_check": SymptomCategory(5, "متابعة جرح", "Wound Check"),
+    "rash_minor": SymptomCategory(5, "طفح بسيط", "Minor Rash"),
     
     # =========== DEFAULT: Requires Assessment ===========
     "unclear": SymptomCategory(3, "يحتاج تقييم", "Requires Clinical Assessment"),
@@ -173,6 +215,8 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
 # - 1-4: Low risk → Triage Level 4
 # - 5-6: Medium risk → Triage Level 3
 # - 7+ or 3 in single parameter: High risk → Triage Level 2
+#
+# AUDIT FIX: Added SpO2 Scale 2, Supplemental O2, New Confusion, Pediatric Vitals
 
 @dataclass
 class NEWS2Result:
@@ -186,24 +230,163 @@ class NEWS2Result:
     triage_level: int  # Derived from NEWS2 score
 
 
+# =============================================================================
+# PEDIATRIC VITAL SIGN THRESHOLDS (AUDIT FIX - CRITICAL)
+# =============================================================================
+# Reference: PALS Guidelines, Pediatric Advanced Life Support
+# Using adult thresholds for children is clinically dangerous!
+#
+# Format: (min_age_years, max_age_years): (normal_hr_low, normal_hr_high)
+
+PEDIATRIC_HR_THRESHOLDS = {
+    (0, 0.08): (100, 205),      # 0-1 month (neonate)
+    (0.08, 0.25): (100, 180),   # 1-3 months
+    (0.25, 1): (100, 160),      # 3-12 months (infant)
+    (1, 3): (90, 150),          # 1-3 years (toddler)
+    (3, 6): (80, 140),          # 3-6 years (preschool)
+    (6, 12): (70, 120),         # 6-12 years (school age)
+    (12, 18): (60, 100),        # 12-18 years (adolescent)
+}
+
+PEDIATRIC_RR_THRESHOLDS = {
+    (0, 1): (30, 60),           # 0-12 months
+    (1, 3): (24, 40),           # 1-3 years
+    (3, 6): (22, 34),           # 3-6 years
+    (6, 12): (18, 30),          # 6-12 years
+    (12, 18): (12, 20),         # 12-18 years (near adult)
+}
+
+# Pediatric fever thresholds by age (ESI v4, Chapter 5)
+# Fever in young infants is ALWAYS high-risk
+PEDIATRIC_FEVER_RISK = {
+    (0, 0.08): 2,    # <28 days + fever = Level 2 (sepsis risk)
+    (0.08, 0.25): 2, # 28-90 days + fever ≥38°C = Level 2-3
+    (0.25, 3): 3,    # 3mo-3yr + fever = Level 3 (febrile illness)
+}
+
+
+def get_pediatric_hr_range(age_years: float) -> Tuple[int, int]:
+    """
+    Get normal heart rate range for a pediatric patient.
+    Returns (low, high) or None if adult thresholds should be used.
+    """
+    for (min_age, max_age), (hr_low, hr_high) in PEDIATRIC_HR_THRESHOLDS.items():
+        if min_age <= age_years < max_age:
+            return (hr_low, hr_high)
+    return None  # Use adult thresholds
+
+
+def get_pediatric_rr_range(age_years: float) -> Tuple[int, int]:
+    """
+    Get normal respiratory rate range for a pediatric patient.
+    Returns (low, high) or None if adult thresholds should be used.
+    """
+    for (min_age, max_age), (rr_low, rr_high) in PEDIATRIC_RR_THRESHOLDS.items():
+        if min_age <= age_years < max_age:
+            return (rr_low, rr_high)
+    return None  # Use adult thresholds
+
+
+def score_pediatric_hr(hr: int, age_years: float) -> Tuple[int, bool]:
+    """
+    Score heart rate using pediatric thresholds.
+    Returns (score, is_extreme).
+    
+    Scoring logic:
+    - Within normal range: 0
+    - Mildly abnormal (10-20% outside): 1
+    - Moderately abnormal (20-30% outside): 2
+    - Severely abnormal (>30% outside or critical): 3
+    """
+    normal_range = get_pediatric_hr_range(age_years)
+    if normal_range is None:
+        return None  # Signal to use adult thresholds
+    
+    low, high = normal_range
+    
+    if low <= hr <= high:
+        return 0, False
+    
+    # Calculate deviation percentage
+    if hr < low:
+        deviation = (low - hr) / low
+    else:
+        deviation = (hr - high) / high
+    
+    # Critical bradycardia in pediatrics
+    if hr < 60 and age_years < 1:
+        return 3, True  # Bradycardia in infant is emergency
+    if hr < 50 and age_years < 6:
+        return 3, True  # Bradycardia in young child
+    
+    # Score based on deviation
+    if deviation > 0.30:
+        return 3, True
+    elif deviation > 0.20:
+        return 2, False
+    elif deviation > 0.10:
+        return 1, False
+    else:
+        return 1, False  # Just outside normal
+
+
+def score_pediatric_rr(rr: int, age_years: float) -> Tuple[int, bool]:
+    """
+    Score respiratory rate using pediatric thresholds.
+    Returns (score, is_extreme).
+    """
+    normal_range = get_pediatric_rr_range(age_years)
+    if normal_range is None:
+        return None  # Signal to use adult thresholds
+    
+    low, high = normal_range
+    
+    if low <= rr <= high:
+        return 0, False
+    
+    # Critical values
+    if rr < 10:
+        return 3, True  # Respiratory depression
+    if rr > high * 1.5:
+        return 3, True  # Severe tachypnea
+    
+    # Calculate deviation
+    if rr < low:
+        deviation = (low - rr) / low
+    else:
+        deviation = (rr - high) / high
+    
+    if deviation > 0.30:
+        return 3, True
+    elif deviation > 0.20:
+        return 2, False
+    else:
+        return 1, False
+
+
 class NEWS2Calculator:
     """
     NEWS2 (National Early Warning Score 2) Calculator
     
     Reference: Royal College of Physicians, 2017
     
-    Parameters scored:
-    - Respiratory rate (RR)
-    - Oxygen saturation (SpO2) - Scale 1 for most patients
-    - Systolic blood pressure (SBP)
-    - Heart rate (HR)
-    - Level of consciousness (AVPU/GCS)
-    - Temperature
+    AUDIT FIXES IMPLEMENTED:
+    1. SpO2 Scale 2 for COPD/hypercapnic patients (target 88-92%)
+    2. +2 points for supplemental oxygen
+    3. New confusion (ACVPU 'C') scores 3 points
+    4. Pediatric vital sign thresholds
     
-    Each parameter scores 0-3 points based on deviation from normal.
+    Parameters scored:
+    - Respiratory rate (RR) - with pediatric thresholds
+    - Oxygen saturation (SpO2) - Scale 1 or Scale 2
+    - Systolic blood pressure (SBP)
+    - Heart rate (HR) - with pediatric thresholds
+    - Level of consciousness (ACVPU including new confusion)
+    - Temperature
+    - Supplemental oxygen (+2 if on O2)
     """
     
-    # NEWS2 Scoring thresholds (Scale 1 for SpO2 - most patients)
+    # NEWS2 Scoring thresholds - ADULT (Scale 1 for SpO2)
     # Format: list of (min_value, max_value, score)
     
     RR_THRESHOLDS = [
@@ -214,11 +397,24 @@ class NEWS2Calculator:
         (25, None, 3),     # ≥25
     ]
     
+    # SpO2 Scale 1 - Most patients (target ≥96%)
     SPO2_SCALE1_THRESHOLDS = [
         (None, 91, 3),     # ≤91
         (92, 93, 2),       # 92-93
         (94, 95, 1),       # 94-95
         (96, None, 0),     # ≥96 (Normal)
+    ]
+    
+    # SpO2 Scale 2 - COPD/Hypercapnic patients (target 88-92%)
+    # AUDIT FIX: This was missing entirely
+    SPO2_SCALE2_THRESHOLDS = [
+        (None, 83, 3),     # ≤83 - Critical hypoxia
+        (84, 85, 2),       # 84-85
+        (86, 87, 1),       # 86-87
+        (88, 92, 0),       # 88-92 (Target range for COPD)
+        (93, 94, 1),       # 93-94 on O2 (above target)
+        (95, 96, 2),       # 95-96 on O2 (significantly above)
+        (97, None, 3),     # ≥97 on O2 (dangerous hyperoxia for COPD)
     ]
     
     SBP_THRESHOLDS = [
@@ -267,29 +463,60 @@ class NEWS2Calculator:
         return 0, False  # Default if no range matched
     
     @staticmethod
-    def _score_consciousness(gcs: Optional[int]) -> Tuple[int, bool]:
+    def _score_consciousness(gcs: Optional[int], is_new_confusion: bool = False) -> Tuple[int, bool]:
         """
-        Score consciousness using GCS → AVPU conversion
-        GCS 15 = Alert (A) = 0 points
-        GCS 14 = Voice responsive (V) = 0 points (per NEWS2, only CVPU scores 3)
-        GCS 9-13 = Pain responsive (P) = 0 points
-        GCS ≤8 = Unresponsive (U) = 3 points
+        Score consciousness using ACVPU scale (AUDIT FIX).
         
-        Note: NEWS2 only gives 3 points for new confusion or unresponsive.
-        For simplicity, we score GCS ≤8 as 3 (comatose/unresponsive)
+        NEWS2 ACVPU Scale:
+        - A = Alert (0 points)
+        - C = New Confusion (3 points) ← AUDIT FIX: Was missing!
+        - V = Voice responsive (3 points)
+        - P = Pain responsive (3 points)
+        - U = Unresponsive (3 points)
+        
+        Args:
+            gcs: Glasgow Coma Scale score
+            is_new_confusion: True if patient has NEW onset confusion
+            
+        Returns:
+            (score, is_extreme)
         """
+        # AUDIT FIX: New confusion scores 3 even with GCS 15
+        if is_new_confusion:
+            return 3, True
+        
         if gcs is None:
             return 0, False
+        
+        # GCS ≤8 = Unresponsive (U)
         if gcs <= 8:
             return 3, True
+        
+        # GCS 9-13 roughly correlates to V/P on AVPU
+        # Per NEWS2, V and P also score 3
+        if gcs <= 13:
+            return 3, True
+        
+        # GCS 14-15 = Alert (A)
         return 0, False
     
-    def calculate(self, vitals) -> NEWS2Result:
+    def calculate(self, vitals, age: float = 30, is_copd: bool = False, 
+                  on_supplemental_o2: bool = False, is_new_confusion: bool = False) -> NEWS2Result:
         """
         Calculate NEWS2 score from vital signs.
         
+        AUDIT FIXES:
+        - Uses pediatric thresholds for patients <18 years
+        - Uses SpO2 Scale 2 for COPD patients
+        - Adds +2 for supplemental oxygen
+        - Scores new confusion as 3 points
+        
         Args:
             vitals: Vitals object with hr, rr, spo2, sbp, temp, gcs
+            age: Patient age in years (for pediatric thresholds)
+            is_copd: Use SpO2 Scale 2 (target 88-92%)
+            on_supplemental_o2: Add +2 points
+            is_new_confusion: New onset confusion (ACVPU 'C')
             
         Returns:
             NEWS2Result with scores, alerts, and derived triage level
@@ -299,32 +526,72 @@ class NEWS2Calculator:
         alerts_en = []
         missing = []
         has_extreme = False
+        is_pediatric = age < 18
         
-        # Respiratory Rate
+        # ===== Respiratory Rate (with pediatric thresholds) =====
         if vitals.rr is not None:
-            score, extreme = self._score_value(vitals.rr, self.RR_THRESHOLDS)
-            scores['rr'] = score
-            has_extreme = has_extreme or extreme
-            if score >= 2:
-                alerts_ar.append(f"معدل التنفس غير طبيعي: {vitals.rr}/دقيقة")
-                alerts_en.append(f"Abnormal RR: {vitals.rr}/min")
+            # Try pediatric scoring first
+            if is_pediatric:
+                peds_result = score_pediatric_rr(vitals.rr, age)
+                if peds_result is not None:
+                    score, extreme = peds_result
+                    scores['rr'] = score
+                    has_extreme = has_extreme or extreme
+                    if score >= 2:
+                        normal_range = get_pediatric_rr_range(age)
+                        alerts_ar.append(f"معدل التنفس غير طبيعي للطفل: {vitals.rr}/دقيقة (الطبيعي: {normal_range[0]}-{normal_range[1]})")
+                        alerts_en.append(f"Abnormal pediatric RR: {vitals.rr}/min (normal: {normal_range[0]}-{normal_range[1]})")
+                else:
+                    # Use adult thresholds
+                    score, extreme = self._score_value(vitals.rr, self.RR_THRESHOLDS)
+                    scores['rr'] = score
+                    has_extreme = has_extreme or extreme
+                    if score >= 2:
+                        alerts_ar.append(f"معدل التنفس غير طبيعي: {vitals.rr}/دقيقة")
+                        alerts_en.append(f"Abnormal RR: {vitals.rr}/min")
+            else:
+                score, extreme = self._score_value(vitals.rr, self.RR_THRESHOLDS)
+                scores['rr'] = score
+                has_extreme = has_extreme or extreme
+                if score >= 2:
+                    alerts_ar.append(f"معدل التنفس غير طبيعي: {vitals.rr}/دقيقة")
+                    alerts_en.append(f"Abnormal RR: {vitals.rr}/min")
         else:
             scores['rr'] = 0
             missing.append("RR (معدل التنفس)")
         
-        # Oxygen Saturation (Scale 1)
+        # ===== Oxygen Saturation (Scale 1 or Scale 2) =====
+        # AUDIT FIX: Added Scale 2 for COPD patients
         if vitals.spo2 is not None:
-            score, extreme = self._score_value(vitals.spo2, self.SPO2_SCALE1_THRESHOLDS)
-            scores['spo2'] = score
-            has_extreme = has_extreme or extreme
-            if score >= 2:
-                alerts_ar.append(f"نسبة الأكسجين منخفضة: {vitals.spo2}%")
-                alerts_en.append(f"Low SpO2: {vitals.spo2}%")
+            if is_copd:
+                # Use Scale 2 for COPD (target 88-92%)
+                score, extreme = self._score_value(vitals.spo2, self.SPO2_SCALE2_THRESHOLDS)
+                scores['spo2'] = score
+                has_extreme = has_extreme or extreme
+                if score >= 2:
+                    alerts_ar.append(f"⚠️ نسبة الأكسجين (مقياس COPD): {vitals.spo2}% (الهدف: 88-92%)")
+                    alerts_en.append(f"⚠️ SpO2 (COPD Scale 2): {vitals.spo2}% (target: 88-92%)")
+            else:
+                # Use Scale 1 (standard)
+                score, extreme = self._score_value(vitals.spo2, self.SPO2_SCALE1_THRESHOLDS)
+                scores['spo2'] = score
+                has_extreme = has_extreme or extreme
+                if score >= 2:
+                    alerts_ar.append(f"نسبة الأكسجين منخفضة: {vitals.spo2}%")
+                    alerts_en.append(f"Low SpO2: {vitals.spo2}%")
         else:
             scores['spo2'] = 0
             missing.append("SpO2 (نسبة الأكسجين)")
         
-        # Systolic Blood Pressure
+        # ===== Supplemental Oxygen (AUDIT FIX: +2 points) =====
+        if on_supplemental_o2:
+            scores['supplemental_o2'] = 2
+            alerts_ar.append("⚠️ المريض على أكسجين إضافي (+2 نقاط)")
+            alerts_en.append("⚠️ Patient on supplemental O2 (+2 points)")
+        else:
+            scores['supplemental_o2'] = 0
+        
+        # ===== Systolic Blood Pressure =====
         if vitals.sbp is not None:
             score, extreme = self._score_value(vitals.sbp, self.SBP_THRESHOLDS)
             scores['sbp'] = score
@@ -336,19 +603,38 @@ class NEWS2Calculator:
             scores['sbp'] = 0
             missing.append("SBP (ضغط الدم)")
         
-        # Heart Rate
+        # ===== Heart Rate (with pediatric thresholds) =====
         if vitals.hr is not None:
-            score, extreme = self._score_value(vitals.hr, self.HR_THRESHOLDS)
-            scores['hr'] = score
-            has_extreme = has_extreme or extreme
-            if score >= 2:
-                alerts_ar.append(f"النبض غير طبيعي: {vitals.hr}/دقيقة")
-                alerts_en.append(f"Abnormal HR: {vitals.hr}/min")
+            # Try pediatric scoring first
+            if is_pediatric:
+                peds_result = score_pediatric_hr(vitals.hr, age)
+                if peds_result is not None:
+                    score, extreme = peds_result
+                    scores['hr'] = score
+                    has_extreme = has_extreme or extreme
+                    if score >= 2:
+                        normal_range = get_pediatric_hr_range(age)
+                        alerts_ar.append(f"النبض غير طبيعي للطفل: {vitals.hr}/دقيقة (الطبيعي: {normal_range[0]}-{normal_range[1]})")
+                        alerts_en.append(f"Abnormal pediatric HR: {vitals.hr}/min (normal: {normal_range[0]}-{normal_range[1]})")
+                else:
+                    score, extreme = self._score_value(vitals.hr, self.HR_THRESHOLDS)
+                    scores['hr'] = score
+                    has_extreme = has_extreme or extreme
+                    if score >= 2:
+                        alerts_ar.append(f"النبض غير طبيعي: {vitals.hr}/دقيقة")
+                        alerts_en.append(f"Abnormal HR: {vitals.hr}/min")
+            else:
+                score, extreme = self._score_value(vitals.hr, self.HR_THRESHOLDS)
+                scores['hr'] = score
+                has_extreme = has_extreme or extreme
+                if score >= 2:
+                    alerts_ar.append(f"النبض غير طبيعي: {vitals.hr}/دقيقة")
+                    alerts_en.append(f"Abnormal HR: {vitals.hr}/min")
         else:
             scores['hr'] = 0
             missing.append("HR (النبض)")
         
-        # Temperature
+        # ===== Temperature =====
         if vitals.temp is not None:
             score, extreme = self._score_value(vitals.temp, self.TEMP_THRESHOLDS)
             scores['temp'] = score
@@ -356,23 +642,35 @@ class NEWS2Calculator:
             if score >= 2:
                 alerts_ar.append(f"درجة الحرارة غير طبيعية: {vitals.temp}°C")
                 alerts_en.append(f"Abnormal Temp: {vitals.temp}°C")
+            
+            # PEDIATRIC FEVER ALERT (ESI v4 Chapter 5)
+            if is_pediatric and vitals.temp >= 38.0:
+                for (min_age, max_age), risk_level in PEDIATRIC_FEVER_RISK.items():
+                    if min_age <= age < max_age:
+                        if risk_level == 2:
+                            has_extreme = True
+                            alerts_ar.append(f"🚨 سخونية في طفل صغير جداً - خطر عدوى خطيرة!")
+                            alerts_en.append(f"🚨 Fever in young infant - HIGH sepsis risk!")
+                        break
         else:
             scores['temp'] = 0
             missing.append("Temp (الحرارة)")
         
-        # Consciousness (GCS)
-        if vitals.gcs is not None:
-            score, extreme = self._score_consciousness(vitals.gcs)
-            scores['consciousness'] = score
-            has_extreme = has_extreme or extreme
-            if score == 3:
-                alerts_ar.append(f"مستوى الوعي منخفض: GCS {vitals.gcs}")
-                alerts_en.append(f"Reduced consciousness: GCS {vitals.gcs}")
-        else:
-            scores['consciousness'] = 0
-            missing.append("GCS (مستوى الوعي)")
+        # ===== Consciousness (ACVPU with new confusion) =====
+        # AUDIT FIX: Now includes new confusion scoring
+        gcs_value = vitals.gcs if vitals.gcs is not None else 15
+        score, extreme = self._score_consciousness(gcs_value, is_new_confusion)
+        scores['consciousness'] = score
+        has_extreme = has_extreme or extreme
         
-        # Calculate total
+        if is_new_confusion:
+            alerts_ar.append("🚨 تشوش ذهني جديد (ACVPU: C) - 3 نقاط")
+            alerts_en.append("🚨 NEW confusion (ACVPU: C) - 3 points")
+        elif score == 3:
+            alerts_ar.append(f"مستوى الوعي منخفض: GCS {gcs_value}")
+            alerts_en.append(f"Reduced consciousness: GCS {gcs_value}")
+        
+        # ===== Calculate Total Score =====
         total_score = sum(scores.values())
         
         # Add warning for missing vitals
@@ -380,9 +678,12 @@ class NEWS2Calculator:
             alerts_ar.append(f"⚠️ تحذير: {len(missing)} علامات حيوية غير مسجلة")
             alerts_en.append(f"⚠️ Warning: {len(missing)} vital signs not recorded")
         
-        # Derive triage level from NEWS2 score
+        # ===== Derive Triage Level from NEWS2 Score =====
         # Reference: NEWS2 Clinical Response Thresholds (RCP 2017)
-        if total_score >= 7 or has_extreme:
+        # AUDIT FIX: "3 in single parameter" also triggers Level 3 minimum
+        if total_score >= 10:
+            triage_level = 1  # Moderate-high score for L1 Resuscitation (user preference)
+        elif total_score >= 7 or has_extreme:
             triage_level = 2  # High clinical risk - Emergent
         elif total_score >= 5:
             triage_level = 3  # Medium clinical risk - Urgent
@@ -431,9 +732,13 @@ class AISymptomClassifier:
         if not api_key:
             print("Warning: GEMINI_API_KEY not found. AI classifier disabled.")
             self.model = None
+            self._genai_loaded = False
         else:
-            genai.configure(api_key=api_key)
-            self.model = genai.GenerativeModel('gemini-2.0-flash')
+            # ===== PERFORMANCE FIX: Lazy load genai =====
+            # Don't initialize until first actual use
+            self._api_key = api_key
+            self.model = "deferred"  # Marker for deferred initialization
+            self._genai_loaded = False
         
         # Build category list for prompt
         self.category_list = list(SYMPTOM_CATEGORIES.keys())
@@ -441,6 +746,49 @@ class AISymptomClassifier:
             k: f"{v.name_ar} / {v.name_en}" 
             for k, v in SYMPTOM_CATEGORIES.items()
         }
+        
+        # ===== PERFORMANCE FIX: Circuit Breaker Pattern =====
+        # After N consecutive failures, stop trying AI for a cooldown period
+        self._failure_count = 0
+        self._failure_threshold = 3  # After 3 failures, circuit opens
+        self._circuit_open_until = 0  # Unix timestamp when circuit can close
+        self._cooldown_seconds = 60  # Wait 60 seconds before retrying AI
+    
+    def _ensure_model_loaded(self):
+        """Lazy load the generative AI model on first use."""
+        if self.model == "deferred" and not self._genai_loaded:
+            try:
+                genai = _get_genai()
+                genai.configure(api_key=self._api_key)
+                self.model = genai.GenerativeModel('gemini-2.0-flash')
+                self._genai_loaded = True
+                print("[AI] Gemini model loaded on first use")
+            except Exception as e:
+                print(f"[AI] Failed to load Gemini model: {e}")
+                self.model = None
+                self._genai_loaded = True
+    
+    def _is_circuit_open(self) -> bool:
+        """Check if circuit breaker is open (AI calls disabled temporarily)."""
+        import time
+        if self._failure_count >= self._failure_threshold:
+            if time.time() < self._circuit_open_until:
+                return True
+            # Cooldown expired, allow one retry (half-open state)
+            self._failure_count = self._failure_threshold - 1
+        return False
+    
+    def _record_failure(self):
+        """Record an AI failure and potentially open the circuit."""
+        import time
+        self._failure_count += 1
+        if self._failure_count >= self._failure_threshold:
+            self._circuit_open_until = time.time() + self._cooldown_seconds
+            print(f"[Circuit Breaker] AI disabled for {self._cooldown_seconds}s after {self._failure_count} failures")
+    
+    def _record_success(self):
+        """Record a successful AI call and reset the failure counter."""
+        self._failure_count = 0
     
     def classify(self, complaint_text: str, age: float = 30, gender: str = "male") -> str:
         """
@@ -455,7 +803,14 @@ class AISymptomClassifier:
             Category ID string (e.g., "chest_pain_cardiac", "minor_trauma")
             Returns "unclear" if classification fails or is uncertain
         """
-        if not self.model:
+        # ===== PERFORMANCE FIX: Lazy load model on first use =====
+        self._ensure_model_loaded()
+        
+        if not self.model or self.model == "deferred":
+            return self._fallback_keyword_match(complaint_text)
+        
+        # ===== PERFORMANCE FIX: Check circuit breaker =====
+        if self._is_circuit_open():
             return self._fallback_keyword_match(complaint_text)
         
         # Build the classification prompt
@@ -490,11 +845,13 @@ class AISymptomClassifier:
             
             # Validate against known categories
             if category in self.category_list:
+                self._record_success()  # Reset circuit breaker on success
                 return category
             
             # Try fuzzy matching for close matches
             for known_cat in self.category_list:
                 if known_cat in category or category in known_cat:
+                    self._record_success()  # Reset circuit breaker on success
                     return known_cat
             
             # Default to unclear if no match
@@ -503,6 +860,7 @@ class AISymptomClassifier:
             
         except Exception as e:
             print(f"AI Classification Error: {e}")
+            self._record_failure()  # Record failure for circuit breaker
             return self._fallback_keyword_match(complaint_text)
     
     def _fallback_keyword_match(self, text: str) -> str:
@@ -633,12 +991,14 @@ class AISymptomClassifier:
 # =============================================================================
 # Main engine combining NEWS2 + ESI with constrained AI classification
 #
-# Decision Flow:
-# 1. Calculate NEWS2 score from vitals (fully deterministic)
-# 2. Classify complaint using AI (constrained to predefined categories)
-# 3. Get ESI level from category (deterministic lookup)
-# 4. Apply clinical modifiers (deterministic rules)
-# 5. Final level = min(NEWS2_level, ESI_level, modifier_level)
+# Decision Flow (PHASE 2 AUDIT FIX - ESI v4 Compliant):
+# 1. Check for Level 1 (Resuscitation) - Immediate life-saving intervention
+# 2. Check for Level 2 (Emergent) - High risk, altered mental status, severe pain
+# 3. Calculate NEWS2 score from vitals
+# 4. Classify complaint using AI (constrained to predefined categories)
+# 5. Estimate resources needed (ESI Decision Points C-E)
+# 6. Apply clinical modifiers
+# 7. Final level based on resource prediction for Levels 3-5
 
 @dataclass
 class DeterministicTriageResult:
@@ -673,6 +1033,332 @@ class DeterministicTriageResult:
     time_to_physician: str
     recommended_action_ar: str
     recommended_action_en: str
+    
+    # PHASE 2: Resource prediction info
+    estimated_resources: int = 0
+    resource_details: List[str] = None
+
+
+# =============================================================================
+# ESI RESOURCE PREDICTION (PHASE 2 AUDIT FIX)
+# =============================================================================
+# Reference: ESI v4 Handbook, AHRQ 2011, Chapter 4: ESI Decision Points C-E
+#
+# ESI distinguishes Levels 3, 4, 5 by expected resource utilization:
+# - Level 3: ≥2 resources expected
+# - Level 4: 1 resource expected
+# - Level 5: 0 resources expected
+#
+# Resources include: Labs, ECG, X-ray/CT/US, IV fluids, IM/IV meds,
+# Specialty consults, Simple procedures (suturing, splinting)
+
+# Categories that typically need multiple resources (Level 3)
+MULTI_RESOURCE_CATEGORIES = {
+    "abdominal_pain_moderate": {
+        "resources": ["labs", "imaging", "iv_fluids"],
+        "count": 3,
+        "rationale": "Likely needs CBC, CMP, CT/US, IV hydration"
+    },
+    "chest_pain_noncardiac": {
+        "resources": ["ecg", "labs", "imaging"],
+        "count": 3,
+        "rationale": "Needs ECG, troponin, possible CXR"
+    },
+    "moderate_dyspnea": {
+        "resources": ["labs", "imaging", "nebulizer"],
+        "count": 3,
+        "rationale": "Needs ABG/labs, CXR, respiratory treatment"
+    },
+    "fever_with_symptoms": {
+        "resources": ["labs", "imaging"],
+        "count": 2,
+        "rationale": "Needs CBC, possible CXR/UA"
+    },
+    "vomiting_dehydration": {
+        "resources": ["labs", "iv_fluids"],
+        "count": 2,
+        "rationale": "Needs electrolytes, IV rehydration"
+    },
+    "fracture_deformity": {
+        "resources": ["xray", "splinting", "orthopedic_consult"],
+        "count": 3,
+        "rationale": "Needs X-ray, reduction/splinting, possible consult"
+    },
+    "moderate_bleeding": {
+        "resources": ["laceration_repair", "labs"],
+        "count": 2,
+        "rationale": "Complex laceration repair, possible CBC"
+    },
+    "pediatric_distress": {
+        "resources": ["labs", "imaging", "iv_fluids"],
+        "count": 3,
+        "rationale": "Pediatric workup typically comprehensive"
+    },
+    "asthma_exacerbation": {
+        "resources": ["nebulizer", "steroids", "labs"],
+        "count": 3,
+        "rationale": "Multiple nebulizers, steroids, possible ABG"
+    },
+    "kidney_stone": {
+        "resources": ["labs", "imaging", "iv_fluids", "pain_meds_iv"],
+        "count": 4,
+        "rationale": "UA, CT, IV fluids, IV pain control"
+    },
+}
+
+# Categories that typically need one resource (Level 4)
+SINGLE_RESOURCE_CATEGORIES = {
+    "minor_trauma": {
+        "resources": ["xray"],
+        "count": 1,
+        "rationale": "Usually just needs X-ray to rule out fracture"
+    },
+    "laceration_simple": {
+        "resources": ["suture_kit"],
+        "count": 1,
+        "rationale": "Simple laceration repair"
+    },
+    "sore_throat": {
+        "resources": ["strep_test"],
+        "count": 1,
+        "rationale": "Rapid strep test"
+    },
+    "earache": {
+        "resources": ["exam_only"],
+        "count": 1,
+        "rationale": "Otoscopic exam, oral antibiotics"
+    },
+    "uti_symptoms": {
+        "resources": ["urinalysis"],
+        "count": 1,
+        "rationale": "UA/dipstick, oral antibiotics"
+    },
+    "mild_allergic": {
+        "resources": ["antihistamine_im"],
+        "count": 1,
+        "rationale": "IM/oral antihistamine"
+    },
+    "ankle_sprain": {
+        "resources": ["xray"],
+        "count": 1,
+        "rationale": "X-ray per Ottawa rules"
+    },
+    "back_pain_chronic": {
+        "resources": ["pain_meds_oral"],
+        "count": 1,
+        "rationale": "Oral pain management"
+    },
+    "headache_mild": {
+        "resources": ["pain_meds_oral"],
+        "count": 1,
+        "rationale": "Oral pain management"
+    },
+    "dental": {
+        "resources": ["pain_meds_oral"],
+        "count": 1,
+        "rationale": "Oral pain meds, dental referral"
+    },
+    "eye_complaint": {
+        "resources": ["eye_exam"],
+        "count": 1,
+        "rationale": "Slit lamp exam or visual acuity"
+    },
+}
+
+# Categories that typically need zero resources (Level 5)
+ZERO_RESOURCE_CATEGORIES = {
+    "prescription_refill": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Prescription only"
+    },
+    "medical_certificate": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Documentation only"
+    },
+    "suture_removal": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Simple procedure, no workup"
+    },
+    "chronic_stable": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Follow-up, no acute intervention"
+    },
+    "minor_complaint": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Reassurance, oral meds only"
+    },
+    "wound_check": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Visual inspection only"
+    },
+    "rash_minor": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Topical treatment or reassurance"
+    },
+    "uri_symptoms": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Supportive care, oral meds"
+    },
+    "mild_gi": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Oral rehydration, diet advice"
+    },
+    "skin_fungal": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Topical antifungal"
+    },
+    "hiccups": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Reassurance, simple maneuvers"
+    },
+    "insect_bite": {
+        "resources": [],
+        "count": 0,
+        "rationale": "Topical treatment"
+    },
+}
+
+
+class ESIResourcePredictor:
+    """
+    ESI v4 Resource Prediction Engine
+    
+    Reference: ESI v4 Handbook, AHRQ 2011
+    
+    Estimates the number of ED resources a patient will need to reach
+    a disposition (admission, discharge, transfer).
+    
+    Resources counted:
+    - Labs (blood, urine)
+    - ECG
+    - Imaging (X-ray, CT, US, MRI)
+    - IV fluids
+    - IV/IM medications (beyond oral meds)
+    - Specialty consults
+    - Simple procedures (suturing, splinting, I&D)
+    
+    NOT counted as resources:
+    - History and physical exam
+    - Point-of-care tests (fingerstick glucose)
+    - Saline lock (without IV fluids)
+    - Oral medications
+    - Tetanus immunization
+    - Prescription refills
+    - Simple wound care (bandaging)
+    - Crutches, slings
+    """
+    
+    def estimate_resources(self, category: str, chief_complaint: str = "",
+                          vitals: dict = None, age: float = 30) -> dict:
+        """
+        Estimate number of ED resources needed.
+        
+        Args:
+            category: Classified symptom category
+            chief_complaint: Original complaint text (for additional hints)
+            vitals: Vital signs dict (may influence resource needs)
+            age: Patient age (pediatric/geriatric may need more workup)
+            
+        Returns:
+            dict with:
+            - count: int (number of resources)
+            - resources: list of expected resources
+            - rationale: explanation
+            - esi_level: suggested ESI level (3, 4, or 5)
+        """
+        # Check multi-resource categories first
+        if category in MULTI_RESOURCE_CATEGORIES:
+            info = MULTI_RESOURCE_CATEGORIES[category]
+            return {
+                "count": info["count"],
+                "resources": info["resources"],
+                "rationale": info["rationale"],
+                "esi_level": 3
+            }
+        
+        # Check single-resource categories
+        if category in SINGLE_RESOURCE_CATEGORIES:
+            info = SINGLE_RESOURCE_CATEGORIES[category]
+            return {
+                "count": info["count"],
+                "resources": info["resources"],
+                "rationale": info["rationale"],
+                "esi_level": 4
+            }
+        
+        # Check zero-resource categories
+        if category in ZERO_RESOURCE_CATEGORIES:
+            info = ZERO_RESOURCE_CATEGORIES[category]
+            return {
+                "count": info["count"],
+                "resources": info["resources"],
+                "rationale": info["rationale"],
+                "esi_level": 5
+            }
+        
+        # Age-based adjustments for uncategorized complaints
+        base_resources = 1  # Default assumption
+        resources = ["evaluation"]
+        rationale = "Uncategorized complaint, standard workup"
+        
+        # Pediatric patients often need more workup
+        if age < 2:
+            base_resources = 2
+            resources = ["labs", "possible_imaging"]
+            rationale = "Young pediatric patient - comprehensive workup likely"
+        
+        # Elderly patients often need more workup
+        elif age >= 65:
+            base_resources = 2
+            resources = ["labs", "ecg"]
+            rationale = "Geriatric patient - broader workup likely"
+        
+        # Check complaint text for resource hints
+        complaint_lower = chief_complaint.lower()
+        
+        # Keywords suggesting labs needed
+        if any(word in complaint_lower for word in ["سخونية", "fever", "infection", "حرارة"]):
+            if "labs" not in resources:
+                resources.append("labs")
+                base_resources += 1
+        
+        # Keywords suggesting imaging needed
+        if any(word in complaint_lower for word in ["سقط", "وقع", "fell", "trauma", "حادث"]):
+            if "imaging" not in resources:
+                resources.append("imaging")
+                base_resources += 1
+        
+        # Keywords suggesting IV needed
+        if any(word in complaint_lower for word in ["جفاف", "dehydration", "بيرجع", "vomiting"]):
+            if "iv_fluids" not in resources:
+                resources.append("iv_fluids")
+                base_resources += 1
+        
+        # Determine ESI level based on resource count
+        if base_resources >= 2:
+            esi_level = 3
+        elif base_resources == 1:
+            esi_level = 4
+        else:
+            esi_level = 5
+        
+        return {
+            "count": base_resources,
+            "resources": resources,
+            "rationale": rationale,
+            "esi_level": esi_level
+        }
 
 
 class DeterministicTriageEngine:
@@ -737,13 +1423,76 @@ class DeterministicTriageEngine:
         }
     }
     
-    def __init__(self):
+    def __init__(self, use_ai: bool = False):
+        """
+        Initialize the deterministic triage engine.
+        
+        Args:
+            use_ai: If False (default), only use keyword matching (FAST).
+                   If True, attempt AI classification with fallback.
+        """
+        self.use_ai = use_ai
         self.news2_calculator = NEWS2Calculator()
         self.ai_classifier = AISymptomClassifier()
+        # PHASE 2: Add ESI Resource Predictor
+        self.resource_predictor = ESIResourcePredictor()
+
+    def apply_esi_v5_compliance(
+        self, patient_input, vitals, current_esi: int
+    ) -> Tuple[int, List[str]]:
+        """
+        Apply ESI v5 compliance checks and return adjusted ESI level.
+        """
+        def _get_field(field: str, default=None):
+            if isinstance(patient_input, dict):
+                return patient_input.get(field, default)
+            return getattr(patient_input, field, default)
+
+        # Build vitals dict
+        vitals_dict = {
+            "hr": vitals.hr,
+            "rr": vitals.rr,
+            "spo2": vitals.spo2,
+            "sbp": vitals.sbp,
+            "temp_c": vitals.temp,
+            "gcs": vitals.gcs,
+        }
+
+        # Get optional fields from patient_input
+        pain_scale = _get_field("pain_scale")
+        pain_context = _get_field("pain_context")
+        is_immunocompromised = _get_field("is_immunocompromised", False)
+        immunocompromised_reason = _get_field("immunocompromised_reason")
+        immunizations_complete = _get_field("immunizations_complete", True)
+
+        # Run ESI v5 evaluation
+        result = evaluate_esi_v5(
+            age_years=_get_field("age", 0),
+            vitals=vitals_dict,
+            pain_scale=pain_scale,
+            pain_context=pain_context,
+            is_immunocompromised=is_immunocompromised,
+            immunocompromised_reason=immunocompromised_reason,
+            immunizations_complete=immunizations_complete,
+        )
+
+        # Use minimum (most acute) between current and ESI v5 suggested
+        esi_v5 = result.get("esi_v5_suggested")
+        if esi_v5 is not None:
+            final_esi = min(current_esi, esi_v5)
+        else:
+            final_esi = current_esi
+
+        return final_esi, result.get("esi_v5_alerts", [])
     
     def triage(self, patient_data: dict) -> DeterministicTriageResult:
         """
         Perform deterministic triage on patient data.
+        
+        AUDIT FIXES IMPLEMENTED:
+        - Passes new NEWS2 parameters (is_copd, on_supplemental_o2, is_new_confusion)
+        - Uses pediatric vital sign thresholds
+        - Enhanced pregnancy detection for ectopic risk
         
         Args:
             patient_data: dict with keys:
@@ -753,6 +1502,10 @@ class DeterministicTriageEngine:
                 - vitals: dict or Vitals object
                 - history_cardiac: bool (optional)
                 - history_stroke: bool (optional)
+                - is_copd: bool (optional) - Use SpO2 Scale 2
+                - on_supplemental_o2: bool (optional) - Add +2 NEWS2 points
+                - is_new_confusion: bool (optional) - ACVPU 'C' = 3 points
+                - is_pregnant: bool (optional) - Enable obstetric emergency detection
                 
         Returns:
             DeterministicTriageResult with complete decision audit trail
@@ -764,6 +1517,12 @@ class DeterministicTriageEngine:
             gender = gender.value
         complaint = patient_data.get('chief_complaint_text', '')
         vitals = patient_data.get('vitals', {})
+        
+        # AUDIT FIX: Extract new NEWS2 compliance fields
+        is_copd = patient_data.get('is_copd', False)
+        on_supplemental_o2 = patient_data.get('on_supplemental_o2', False)
+        is_new_confusion = patient_data.get('is_new_confusion', False)
+        is_pregnant = patient_data.get('is_pregnant', False)
         
         # Convert vitals dict to object-like access
         class VitalsWrapper:
@@ -780,11 +1539,22 @@ class DeterministicTriageEngine:
         if isinstance(vitals, dict):
             vitals = VitalsWrapper(vitals)
         
-        # Step 1: Calculate NEWS2 (Deterministic)
-        news2_result = self.news2_calculator.calculate(vitals)
+        # Step 1: Calculate NEWS2 (Deterministic) - AUDIT FIX: Pass new parameters
+        news2_result = self.news2_calculator.calculate(
+            vitals,
+            age=age,
+            is_copd=is_copd,
+            on_supplemental_o2=on_supplemental_o2,
+            is_new_confusion=is_new_confusion
+        )
         
-        # Step 2: Classify complaint (AI - Constrained)
-        category = self.ai_classifier.classify(complaint, age, gender)
+        # Step 2: Classify complaint
+        # PERFORMANCE FIX: Only use AI when explicitly enabled
+        if self.use_ai:
+            category = self.ai_classifier.classify(complaint, age, gender)
+        else:
+            # Standard mode: Use ONLY keyword matching (fast, deterministic)
+            category = self.ai_classifier._fallback_keyword_match(complaint)
         category_info = SYMPTOM_CATEGORIES.get(category, SYMPTOM_CATEGORIES["unclear"])
         category_level = category_info.esi_level
         
@@ -792,41 +1562,82 @@ class DeterministicTriageEngine:
         modifiers = []
         modifier_level = 5  # Start with lowest urgency
         
-        # Age modifiers
+        # ===== PEDIATRIC MODIFIERS (AUDIT FIX - CRITICAL) =====
+        # ESI v4 Chapter 5: Pediatric Considerations
+        
+        # Infant (<28 days) with fever = HIGH sepsis risk
+        if age < 0.08 and vitals.temp and vitals.temp >= 38.0:  # <28 days
+            modifier_level = min(modifier_level, 2)
+            modifiers.append("🚨 رضيع <28 يوم مع حمى - خطر تعفن دم / Neonate <28 days with fever - SEPSIS RISK")
+        
+        # Young infant (28-90 days) with fever
+        elif age < 0.25 and vitals.temp and vitals.temp >= 38.0:  # 28-90 days
+            modifier_level = min(modifier_level, 2)
+            modifiers.append("⚠️ رضيع صغير مع حمى - يحتاج تقييم عاجل / Young infant with fever - urgent evaluation")
+        
+        # Infant with abnormal vitals (existing rule, kept)
         if age < 2 and news2_result.total_score >= 2:
             modifier_level = min(modifier_level, 2)
             modifiers.append("طفل رضيع مع علامات حيوية غير طبيعية / Infant with abnormal vitals")
         
+        # ===== ELDERLY MODIFIERS =====
         if age >= 65 and category in ["chest_pain_cardiac", "chest_pain_noncardiac"]:
             modifier_level = min(modifier_level, 2)
             modifiers.append("مسن مع ألم صدر / Elderly with chest pain")
         
-        # High pain score
+        # ===== PAIN SCORE MODIFIER =====
         if vitals.pain_score and vitals.pain_score >= 8:
             modifier_level = min(modifier_level, 2)
             modifiers.append(f"ألم شديد {vitals.pain_score}/10 / Severe pain")
         
-        # Cardiac history + relevant complaint
+        # ===== CARDIAC HISTORY MODIFIER =====
         if patient_data.get('history_cardiac') and category in [
             "chest_pain_cardiac", "chest_pain_noncardiac", "respiratory_distress"
         ]:
             modifier_level = min(modifier_level, 2)
             modifiers.append("تاريخ قلبي مع شكوى ذات صلة / Cardiac history + relevant complaint")
         
-        # Pregnancy
-        if patient_data.get('is_pregnant') and category not in ["chronic_stable", "prescription_refill"]:
-            modifier_level = min(modifier_level, 3)
-            modifiers.append("حامل / Pregnant")
+        # ===== PREGNANCY MODIFIERS (AUDIT FIX - Enhanced) =====
+        if is_pregnant:
+            # Pregnant with abdominal pain = Ectopic risk (Level 2)
+            if category in ["abdominal_pain_moderate", "severe_pain"]:
+                modifier_level = min(modifier_level, 2)
+                modifiers.append("🚨 حامل مع ألم بطن - خطر حمل خارج الرحم / Pregnant + abdominal pain - ECTOPIC RISK")
+            # Pregnant with bleeding = Obstetric emergency
+            elif category in ["moderate_bleeding", "severe_bleeding"]:
+                modifier_level = min(modifier_level, 1)
+                modifiers.append("🚨 حامل مع نزيف - طوارئ ولادة / Pregnant + bleeding - OBSTETRIC EMERGENCY")
+            # Any other complaint while pregnant
+            elif category not in ["chronic_stable", "prescription_refill"]:
+                modifier_level = min(modifier_level, 3)
+                modifiers.append("حامل / Pregnant")
         
-        # Immunocompromised
+        # ===== IMMUNOCOMPROMISED MODIFIER =====
         if patient_data.get('immuno_compromised') and category in [
             "fever_with_symptoms", "high_fever_toxic"
         ]:
             modifier_level = min(modifier_level, 2)
             modifiers.append("نقص مناعة مع حمى / Immunocompromised with fever")
         
-        # Step 4: Calculate final level (most urgent wins)
-        final_level = min(
+        # ===== NEW CONFUSION MODIFIER (AUDIT FIX) =====
+        if is_new_confusion:
+            modifier_level = min(modifier_level, 2)
+            modifiers.append("🚨 تشوش ذهني جديد - يحتاج تقييم عاجل / NEW confusion - urgent evaluation needed")
+        
+        # =================================================================
+        # PHASE 2: ESI RESOURCE PREDICTION FOR LEVELS 3-5
+        # =================================================================
+        # Reference: ESI v4 Handbook, Decision Points D & E
+        # 
+        # After checking for Level 1 (resuscitation) and Level 2 (high risk),
+        # we use resource prediction to determine final level:
+        # - ≥2 resources = Level 3
+        # - 1 resource = Level 4
+        # - 0 resources = Level 5
+        # =================================================================
+        
+        # Step 4: Determine preliminary level from NEWS2, category, and modifiers
+        preliminary_level = min(
             news2_result.triage_level,
             category_level,
             modifier_level
@@ -835,6 +1646,55 @@ class DeterministicTriageEngine:
         # Level 1 override: Immediate life-threat categories
         if category_info.requires_immediate_intervention:
             final_level = 1
+        # Level 2 already determined by high-risk modifiers or NEWS2
+        elif preliminary_level <= 2:
+            final_level = preliminary_level
+        else:
+            # For levels 3-5, use ESI resource prediction
+            # This is the key Phase 2 fix: resource count determines final level
+            vitals_dict = {
+                'hr': vitals.hr,
+                'rr': vitals.rr,
+                'spo2': vitals.spo2,
+                'sbp': vitals.sbp,
+                'temp': vitals.temp,
+                'gcs': vitals.gcs
+            }
+            
+            resource_result = self.resource_predictor.estimate_resources(
+                category=category,
+                chief_complaint=complaint,
+                vitals=vitals_dict,
+                age=age
+            )
+            
+            resource_count = resource_result["count"]
+            
+            # ESI Decision Points D & E
+            if resource_count >= 2:
+                final_level = 3  # Urgent - multiple resources needed
+                modifiers.append(f"موارد متعددة: {resource_count} / Multiple resources: {resource_count}")
+            elif resource_count == 1:
+                # SPECIAL CASE: 'unclear' category should default to Level 3 even with 1 resource
+                # to align with "Ambiguous defaults to L3" principle
+                if category == "unclear":
+                    final_level = 3
+                    modifiers.append("حالة غير واضحة - اختيار المستوى 3 كإجراء وقائي / Ambiguous - defaulting to Level 3")
+                else:
+                    final_level = 4  # Less urgent - one resource
+                    modifiers.append(f"مورد واحد: {resource_result['resources']} / One resource: {resource_result['resources']}")
+            else:
+                # Final safeguard for unclear cases with 0 resources
+                if category == "unclear":
+                    final_level = 3
+                else:
+                    final_level = 5  # Non-urgent - no resources
+                modifiers.append("بدون موارد طوارئ / No ED resources needed")
+
+        # Apply ESI v5 compliance
+        final_level, esi_v5_alerts = self.apply_esi_v5_compliance(
+            patient_data, vitals, final_level
+        )
         
         # Build decision path string for audit (bilingual)
         decision_path = (
@@ -864,6 +1724,7 @@ class DeterministicTriageEngine:
         # Combine alerts
         all_alerts_ar = news2_result.alerts_ar.copy()
         all_alerts_en = news2_result.alerts_en.copy()
+        all_alerts_en.extend(esi_v5_alerts)
         
         if category_info.esi_level <= 2:
             all_alerts_ar.append(f"⚠️ {category_info.name_ar}")
@@ -919,6 +1780,7 @@ class DeterministicTriageEngine:
             from models import TriageResult, TriageLevel
         
         # Convert PatientInput to dict for internal triage method
+        # PHASE 2 FIX: Include clinical risk factors for NEWS2 compliance
         patient_dict = {
             'age': patient.age,
             'gender': patient.gender.value if hasattr(patient.gender, 'value') else patient.gender,
@@ -932,7 +1794,22 @@ class DeterministicTriageEngine:
                 'temp': patient.vitals.temp,
                 'gcs': patient.vitals.gcs,
                 'pain_score': patient.vitals.pain_score
-            } if patient.vitals else {}
+            } if patient.vitals else {},
+            # ===== PHASE 2: Clinical Risk Factors =====
+            'is_copd': getattr(patient, 'is_copd', False),
+            'on_supplemental_o2': getattr(patient, 'on_supplemental_o2', False),
+            'is_new_confusion': getattr(patient, 'is_new_confusion', False),
+            'is_pregnant': getattr(patient, 'is_pregnant', False),
+            # Red flags are direct fields on PatientInput (not nested)
+            'history_cardiac': getattr(patient, 'history_cardiac', False),
+            'history_stroke': getattr(patient, 'history_stroke', False),
+            'immuno_compromised': getattr(patient, 'immuno_compromised', False),
+            # ===== ESI v5 Compliance Fields =====
+            'pain_scale': getattr(patient, 'pain_scale', None),
+            'pain_context': getattr(patient, 'pain_context', None),
+            'is_immunocompromised': getattr(patient, 'is_immunocompromised', False),
+            'immunocompromised_reason': getattr(patient, 'immunocompromised_reason', None),
+            'immunizations_complete': getattr(patient, 'immunizations_complete', True),
         }
         
         # Get internal result

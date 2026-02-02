@@ -48,6 +48,45 @@ class PatientInput(BaseModel):
     history_cardiac: bool = False
     history_stroke: bool = False
     immuno_compromised: bool = False
+
+    # ========== ESI v5 COMPLIANCE FIELDS ==========
+    # ESI v5 Pain Assessment
+    pain_scale: Optional[int] = Field(None, ge=0, le=10, description="Pain scale 0-10")
+    pain_context: Optional[str] = Field(
+        None,
+        description="Pain context: renal_colic, cancer_pain, sickle_cell, orthopedic, etc.",
+    )
+
+    # ESI v5 Immunocompromised
+    is_immunocompromised: bool = Field(
+        False, description="Is patient immunocompromised?"
+    )
+    immunocompromised_reason: Optional[str] = Field(
+        None, description="Reason: chemotherapy, transplant, HIV, steroids"
+    )
+
+    # ESI v5 Pediatric
+    immunizations_complete: bool = Field(
+        True, description="Are immunizations up to date? (pediatric)"
+    )
+    
+    # ========== NEWS2 COMPLIANCE FIELDS (Audit Fix) ==========
+    # Reference: Royal College of Physicians NEWS2, 2017
+    
+    # Supplemental Oxygen - NEWS2 adds +2 points if patient on O2
+    on_supplemental_o2: bool = Field(False, description="Patient receiving supplemental oxygen (NEWS2: +2 points)")
+    
+    # COPD/Hypercapnic - Use SpO2 Scale 2 (target 88-92%)
+    is_copd: bool = Field(False, description="COPD/Hypercapnic respiratory failure - use SpO2 Scale 2 (target 88-92%)")
+    
+    # New Confusion - NEWS2 ACVPU 'C' scores 3 points even with GCS 15
+    is_new_confusion: bool = Field(False, description="New onset confusion (NEWS2 ACVPU 'C' = 3 points)")
+    
+    # ========== OBSTETRIC SAFETY FIELDS (Audit Fix) ==========
+    # Reference: ESI v4 Handbook, Chapter 5 - Special Populations
+    
+    # Pregnancy status for ectopic/obstetric emergency detection
+    is_pregnant: bool = Field(False, description="Patient is pregnant - enables obstetric emergency detection")
     
 class TriageResult(BaseModel):
     level: TriageLevel
