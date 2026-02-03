@@ -1512,7 +1512,7 @@ class DeterministicTriageEngine:
                 if value:
                     comorb_list = [value]
         if comorb_list:
-            query = f"{query} {' '.join(comorb_list)}\"
+            query = f"{query} {' '.join(comorb_list)}"
         try:
             results = rag_retrieve(query=query, k=k, source_filter=source_filter)
         except Exception:
