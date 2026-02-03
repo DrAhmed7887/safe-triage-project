@@ -48,6 +48,10 @@ class PatientInput(BaseModel):
     history_cardiac: bool = False
     history_stroke: bool = False
     immuno_compromised: bool = False
+    comorbidities: Optional[List[str]] = Field(
+        default=None,
+        description="List of comorbid conditions (e.g., diabetes, CKD)",
+    )
 
     # ========== ESI v5 COMPLIANCE FIELDS ==========
     # === ESI v5 PAIN ASSESSMENT ===

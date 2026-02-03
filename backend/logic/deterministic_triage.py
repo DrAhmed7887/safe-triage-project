@@ -1512,6 +1512,7 @@ class DeterministicTriageEngine:
     def _build_rag_context(
         self,
         complaint_text: str,
+        comorbidities: Optional[List[str]] = None,
         k: int = 3,
         source_filter: Optional[str] = None,
     ) -> Optional[Dict[str, Any]]:
@@ -1520,8 +1521,19 @@ class DeterministicTriageEngine:
             return None
         if not complaint_text or not str(complaint_text).strip():
             return None
+        query = str(complaint_text).strip()
+        comorb_list = []
+        if comorbidities:
+            if isinstance(comorbidities, (list, tuple, set)):
+                comorb_list = [str(c).strip() for c in comorbidities if str(c).strip()]
+            else:
+                value = str(comorbidities).strip()
+                if value:
+                    comorb_list = [value]
+        if comorb_list:
+            query = f\"{query} {' '.join(comorb_list)}\"
         try:
-            results = rag_retrieve(query=str(complaint_text), k=k, source_filter=source_filter)
+            results = rag_retrieve(query=query, k=k, source_filter=source_filter)
         except Exception:
             return None
         if not results:
@@ -1840,7 +1852,11 @@ class DeterministicTriageEngine:
             all_alerts_ar.append(f"⚠️ {category_info.name_ar}")
             all_alerts_en.append(f"⚠️ {category_info.name_en}")
         
-        rag_context = self._build_rag_context(complaint_text=complaint, k=3)
+        rag_context = self._build_rag_context(
+            complaint_text=complaint,
+            comorbidities=patient_data.get('comorbidities'),
+            k=3
+        )
 
         return DeterministicTriageResult(
             final_level=final_level,
@@ -1919,6 +1935,7 @@ class DeterministicTriageEngine:
             'history_cardiac': getattr(patient, 'history_cardiac', False),
             'history_stroke': getattr(patient, 'history_stroke', False),
             'immuno_compromised': getattr(patient, 'immuno_compromised', False),
+            'comorbidities': getattr(patient, 'comorbidities', None),
             # ===== ESI v5 Compliance Fields =====
             'pain_scale': getattr(patient, 'pain_scale', None),
             'pain_context': getattr(patient, 'pain_context', None),
