@@ -4,7 +4,10 @@
     "last_updated": "2026-02-01T20:08:07.865291",
     "total_keywords": 1544,
     "updates_count": 0,
-    "audit_compliance": "ESI v4 + NEWS2"
+    "audit_compliance": "ESI v4 + NEWS2",
+    "icd10_compliant": true,
+    "icd10_version": "ICD-10-CM 2024",
+    "gahar_compliant": true
   },
   "level_1": {
     "unconscious": {
@@ -34,7 +37,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "R40.20",
+      "icd10_description": "Unspecified coma",
+      "icd10_category": "Symptoms involving cognition"
     },
     "cardiac_arrest": {
       "keywords": [
@@ -66,7 +72,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "I46.9",
+      "icd10_description": "Cardiac arrest, cause unspecified",
+      "icd10_category": "Cardiac arrest"
     },
     "respiratory_arrest": {
       "keywords": [
@@ -105,7 +114,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "R09.2",
+      "icd10_description": "Respiratory arrest",
+      "icd10_category": "Respiratory symptoms"
     },
     "active_seizure": {
       "keywords": [
@@ -127,7 +139,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "R56.9",
+      "icd10_description": "Unspecified convulsions",
+      "icd10_category": "Convulsions"
     },
     "choking": {
       "keywords": [
@@ -163,7 +178,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "T17.9",
+      "icd10_description": "Foreign body in respiratory tract, part unspecified",
+      "icd10_category": "Foreign body airway"
     },
     "severe_trauma": {
       "keywords": [
@@ -231,7 +249,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "T07",
+      "icd10_description": "Unspecified multiple injuries",
+      "icd10_category": "Multiple trauma"
     },
     "anaphylaxis": {
       "keywords": [
@@ -262,7 +283,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "T78.2",
+      "icd10_description": "Anaphylactic shock, unspecified",
+      "icd10_category": "Anaphylaxis"
     },
     "poisoning_overdose": {
       "keywords": [
@@ -318,7 +342,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "T65.9",
+      "icd10_description": "Toxic effect of unspecified substance",
+      "icd10_category": "Poisoning/Overdose"
     },
     "drowning": {
       "keywords": [
@@ -340,7 +367,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "T75.1",
+      "icd10_description": "Drowning and nonfatal submersion",
+      "icd10_category": "Drowning"
     },
     "severe_bleeding": {
       "keywords": [
@@ -374,7 +404,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "R58",
+      "icd10_description": "Hemorrhage, not elsewhere classified",
+      "icd10_category": "Hemorrhage"
     },
     "ectopic_pregnancy": {
       "keywords": [
@@ -399,7 +432,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "O00.9",
+      "icd10_description": "Ectopic pregnancy, unspecified",
+      "icd10_category": "Ectopic pregnancy"
     },
     "aortic_dissection": {
       "keywords": [
@@ -429,7 +465,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "I71.0",
+      "icd10_description": "Dissection of aorta",
+      "icd10_category": "Aortic dissection"
     },
     "sepsis": {
       "keywords": [
@@ -503,7 +542,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "A41.9",
+      "icd10_description": "Sepsis, unspecified organism",
+      "icd10_category": "Sepsis"
     },
     "severe_hypothermia": {
       "keywords": [
@@ -526,7 +568,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "T68",
+      "icd10_description": "Hypothermia",
+      "icd10_category": "Hypothermia"
     },
     "pediatric_critical": {
       "keywords": [
@@ -566,7 +611,10 @@
       ],
       "added_by_ai": [],
       "priority": 1,
-      "requires_immediate_intervention": true
+      "requires_immediate_intervention": true,
+      "icd10_code": "R68.89",
+      "icd10_description": "Other general symptoms and signs",
+      "icd10_category": "Pediatric emergency"
     }
   },
   "level_2": {
@@ -641,7 +689,10 @@
         "زي الكهربا في صدري"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "R07.9",
+      "icd10_description": "Chest pain, unspecified",
+      "icd10_category": "Chest pain"
     },
     "silent_mi": {
       "keywords": [
@@ -724,7 +775,10 @@
         "تعبان جداً ومش قادر اقف على رجلي"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "I21.9",
+      "icd10_description": "Acute myocardial infarction, unspecified",
+      "icd10_category": "Myocardial infarction"
     },
     "gi_bleed": {
       "keywords": [
@@ -762,7 +816,10 @@
         "براز اسود"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "K92.2",
+      "icd10_description": "Gastrointestinal hemorrhage, unspecified",
+      "icd10_category": "GI bleeding"
     },
     "hip_fracture": {
       "keywords": [
@@ -792,7 +849,10 @@
         "ملفوفة لبرا"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "S72.9",
+      "icd10_description": "Unspecified fracture of femur",
+      "icd10_category": "Hip fracture"
     },
     "stroke_symptoms": {
       "keywords": [
@@ -899,7 +959,10 @@
         "مش قادر يبلع ريقه"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "I64",
+      "icd10_description": "Stroke, not specified as hemorrhage or infarction",
+      "icd10_category": "Stroke"
     },
     "respiratory_distress": {
       "keywords": [
@@ -965,7 +1028,10 @@
         "بيزم لما باخد نفس"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "R06.0",
+      "icd10_description": "Dyspnea",
+      "icd10_category": "Respiratory distress"
     },
     "suicidal_homicidal": {
       "keywords": [
@@ -1017,7 +1083,10 @@
         "ناوي يقتل حد"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "R45.851",
+      "icd10_description": "Suicidal ideations",
+      "icd10_category": "Psychiatric emergency"
     },
     "obstetric_emergency": {
       "keywords": [
@@ -1054,7 +1123,10 @@
         "طلق بدري"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "O75.9",
+      "icd10_description": "Complication of labor and delivery, unspecified",
+      "icd10_category": "Obstetric emergency"
     },
     "diabetic_emergency": {
       "keywords": [
@@ -1119,7 +1191,10 @@
         "نفسه تقيل"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "E10.65",
+      "icd10_description": "Type 1 diabetes mellitus with hyperglycemia",
+      "icd10_category": "Diabetic emergency"
     },
     "pediatric_emergency": {
       "keywords": [
@@ -1160,7 +1235,10 @@
         "بيترعش وسخن جداً"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "R68.89",
+      "icd10_description": "Other general symptoms and signs",
+      "icd10_category": "Pediatric emergency"
     },
     "severe_headache": {
       "keywords": [
@@ -1246,7 +1324,10 @@
         "متحجرين"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "R51.9",
+      "icd10_description": "Headache, unspecified",
+      "icd10_category": "Headache"
     },
     "severe_pain": {
       "keywords": [
@@ -1270,7 +1351,10 @@
         "الألم 10 من 10"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "R52",
+      "icd10_description": "Pain, unspecified",
+      "icd10_category": "Pain"
     },
     "high_fever_toxic": {
       "keywords": [
@@ -1290,7 +1374,10 @@
         "منهك"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "R50.9",
+      "icd10_description": "Fever, unspecified",
+      "icd10_category": "Fever"
     },
     "altered_mental_status": {
       "keywords": [
@@ -1328,7 +1415,10 @@
         "تشوش مفاجئ"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "R41.82",
+      "icd10_description": "Altered mental status, unspecified",
+      "icd10_category": "Altered mental status"
     },
     "allergic_reaction": {
       "keywords": [
@@ -1356,7 +1446,10 @@
         "مش قادر يتنفس من الحساسية"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "T78.40",
+      "icd10_description": "Allergy, unspecified",
+      "icd10_category": "Allergic reaction"
     },
     "testicular_pain": {
       "keywords": [
@@ -1372,7 +1465,10 @@
         "خصيته ورمت"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "N50.8",
+      "icd10_description": "Other specified disorders of male genital organs",
+      "icd10_category": "Testicular pain"
     },
     "dvt_pe": {
       "keywords": [
@@ -1393,7 +1489,10 @@
         "صدري ورجلي"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "I26.9",
+      "icd10_description": "Pulmonary embolism without acute cor pulmonale",
+      "icd10_category": "DVT/PE"
     },
     "hemoptysis": {
       "keywords": [
@@ -1417,7 +1516,10 @@
         "كحة دم كتير"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "R04.2",
+      "icd10_description": "Hemoptysis",
+      "icd10_category": "Hemoptysis"
     },
     "mesenteric_ischemia": {
       "keywords": [
@@ -1435,7 +1537,10 @@
         "عنده رفرفة وبطنه بتوجعه"
       ],
       "added_by_ai": [],
-      "priority": 2
+      "priority": 2,
+      "icd10_code": "K55.0",
+      "icd10_description": "Acute vascular disorders of intestine",
+      "icd10_category": "Mesenteric ischemia"
     }
   },
   "level_3": {
@@ -1463,7 +1568,10 @@
         "imaging",
         "iv_fluids"
       ],
-      "resource_count": 3
+      "resource_count": 3,
+      "icd10_code": "R10.9",
+      "icd10_description": "Unspecified abdominal pain",
+      "icd10_category": "Abdominal pain"
     },
     "fever_with_symptoms": {
       "keywords": [
@@ -1485,7 +1593,10 @@
         "labs",
         "imaging"
       ],
-      "resource_count": 2
+      "resource_count": 2,
+      "icd10_code": "R50.9",
+      "icd10_description": "Fever, unspecified",
+      "icd10_category": "Fever"
     },
     "vomiting_dehydration": {
       "keywords": [
@@ -1508,7 +1619,10 @@
         "labs",
         "iv_fluids"
       ],
-      "resource_count": 2
+      "resource_count": 2,
+      "icd10_code": "R11.10",
+      "icd10_description": "Vomiting, unspecified",
+      "icd10_category": "Vomiting"
     },
     "moderate_bleeding": {
       "keywords": [
@@ -1528,7 +1642,10 @@
         "laceration_repair",
         "labs"
       ],
-      "resource_count": 2
+      "resource_count": 2,
+      "icd10_code": "R58",
+      "icd10_description": "Hemorrhage, not elsewhere classified",
+      "icd10_category": "Hemorrhage"
     },
     "fracture_deformity": {
       "keywords": [
@@ -1551,7 +1668,10 @@
         "splinting",
         "orthopedic_consult"
       ],
-      "resource_count": 3
+      "resource_count": 3,
+      "icd10_code": "T14.8",
+      "icd10_description": "Other injury of unspecified body region",
+      "icd10_category": "Fracture"
     },
     "pediatric_distress": {
       "keywords": [
@@ -1575,7 +1695,10 @@
         "imaging",
         "iv_fluids"
       ],
-      "resource_count": 3
+      "resource_count": 3,
+      "icd10_code": "R68.89",
+      "icd10_description": "Other general symptoms and signs",
+      "icd10_category": "Pediatric distress"
     },
     "moderate_dyspnea": {
       "keywords": [
@@ -1594,7 +1717,10 @@
         "imaging",
         "nebulizer"
       ],
-      "resource_count": 3
+      "resource_count": 3,
+      "icd10_code": "R06.0",
+      "icd10_description": "Dyspnea",
+      "icd10_category": "Dyspnea"
     },
     "chest_pain_noncardiac": {
       "keywords": [
@@ -1613,7 +1739,10 @@
         "labs",
         "imaging"
       ],
-      "resource_count": 3
+      "resource_count": 3,
+      "icd10_code": "R07.89",
+      "icd10_description": "Other chest pain",
+      "icd10_category": "Chest pain"
     },
     "asthma_exacerbation": {
       "keywords": [
@@ -1632,7 +1761,10 @@
         "steroids",
         "labs"
       ],
-      "resource_count": 3
+      "resource_count": 3,
+      "icd10_code": "J45.901",
+      "icd10_description": "Unspecified asthma with (acute) exacerbation",
+      "icd10_category": "Asthma"
     },
     "kidney_stone": {
       "keywords": [
@@ -1656,7 +1788,10 @@
         "iv_fluids",
         "pain_meds"
       ],
-      "resource_count": 4
+      "resource_count": 4,
+      "icd10_code": "N20.0",
+      "icd10_description": "Calculus of kidney",
+      "icd10_category": "Renal colic"
     },
     "psychiatric_agitated": {
       "keywords": [
@@ -1676,7 +1811,10 @@
         "security",
         "psych_consult"
       ],
-      "resource_count": 3
+      "resource_count": 3,
+      "icd10_code": "R45.1",
+      "icd10_description": "Restlessness and agitation",
+      "icd10_category": "Psychiatric"
     }
   },
   "level_4": {
@@ -1701,7 +1839,10 @@
       "expected_resources": [
         "xray"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "T14.90",
+      "icd10_description": "Injury, unspecified",
+      "icd10_category": "Minor trauma"
     },
     "laceration_simple": {
       "keywords": [
@@ -1721,7 +1862,10 @@
       "expected_resources": [
         "suture_kit"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "T14.1",
+      "icd10_description": "Open wound of unspecified body region",
+      "icd10_category": "Laceration"
     },
     "uri_symptoms": {
       "keywords": [
@@ -1741,7 +1885,10 @@
       "added_by_ai": [],
       "priority": 4,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "J06.9",
+      "icd10_description": "Acute upper respiratory infection, unspecified",
+      "icd10_category": "URI"
     },
     "sore_throat": {
       "keywords": [
@@ -1761,7 +1908,10 @@
       "expected_resources": [
         "strep_test"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "J02.9",
+      "icd10_description": "Acute pharyngitis, unspecified",
+      "icd10_category": "Pharyngitis"
     },
     "earache": {
       "keywords": [
@@ -1779,7 +1929,10 @@
       "expected_resources": [
         "exam_only"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "H92.0",
+      "icd10_description": "Otalgia",
+      "icd10_category": "Ear pain"
     },
     "uti_symptoms": {
       "keywords": [
@@ -1799,7 +1952,10 @@
       "expected_resources": [
         "urinalysis"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "N39.0",
+      "icd10_description": "Urinary tract infection, site not specified",
+      "icd10_category": "UTI"
     },
     "mild_allergic": {
       "keywords": [
@@ -1820,7 +1976,10 @@
       "expected_resources": [
         "antihistamine"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "T78.40",
+      "icd10_description": "Allergy, unspecified",
+      "icd10_category": "Allergy"
     },
     "back_pain_chronic": {
       "keywords": [
@@ -1839,7 +1998,10 @@
       "expected_resources": [
         "pain_meds_oral"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "M54.5",
+      "icd10_description": "Low back pain",
+      "icd10_category": "Back pain"
     },
     "mild_gi": {
       "keywords": [
@@ -1855,7 +2017,10 @@
       "added_by_ai": [],
       "priority": 4,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "K30",
+      "icd10_description": "Functional dyspepsia",
+      "icd10_category": "Dyspepsia"
     },
     "mild_pain": {
       "keywords": [
@@ -1871,7 +2036,10 @@
       "expected_resources": [
         "pain_meds_oral"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "R52",
+      "icd10_description": "Pain, unspecified",
+      "icd10_category": "Pain"
     },
     "headache_mild": {
       "keywords": [
@@ -1889,7 +2057,10 @@
       "expected_resources": [
         "pain_meds_oral"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "R51.9",
+      "icd10_description": "Headache, unspecified",
+      "icd10_category": "Headache"
     },
     "eye_complaint": {
       "keywords": [
@@ -1908,7 +2079,10 @@
       "expected_resources": [
         "eye_exam"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "H57.9",
+      "icd10_description": "Unspecified disorder of eye and adnexa",
+      "icd10_category": "Eye complaint"
     },
     "dental": {
       "keywords": [
@@ -1927,7 +2101,10 @@
       "expected_resources": [
         "pain_meds_oral"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "K08.9",
+      "icd10_description": "Disorder of teeth and supporting structures, unspecified",
+      "icd10_category": "Dental"
     },
     "skin_fungal": {
       "keywords": [
@@ -1942,7 +2119,10 @@
       "added_by_ai": [],
       "priority": 4,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "B35.9",
+      "icd10_description": "Dermatophytosis, unspecified",
+      "icd10_category": "Fungal infection"
     },
     "hiccups": {
       "keywords": [
@@ -1954,7 +2134,10 @@
       "added_by_ai": [],
       "priority": 4,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "R06.6",
+      "icd10_description": "Hiccough",
+      "icd10_category": "Hiccups"
     },
     "ankle_sprain": {
       "keywords": [
@@ -1971,7 +2154,10 @@
       "expected_resources": [
         "xray"
       ],
-      "resource_count": 1
+      "resource_count": 1,
+      "icd10_code": "S93.40",
+      "icd10_description": "Sprain of unspecified ligament of ankle",
+      "icd10_category": "Ankle sprain"
     },
     "insect_bite": {
       "keywords": [
@@ -1987,7 +2173,10 @@
       "added_by_ai": [],
       "priority": 4,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "T63.4",
+      "icd10_description": "Toxic effect of venom of other arthropods",
+      "icd10_category": "Insect bite"
     }
   },
   "level_5": {
@@ -2008,7 +2197,10 @@
       "added_by_ai": [],
       "priority": 5,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "Z76.0",
+      "icd10_description": "Encounter for issue of repeat prescription",
+      "icd10_category": "Prescription refill"
     },
     "medical_certificate": {
       "keywords": [
@@ -2028,7 +2220,10 @@
       "added_by_ai": [],
       "priority": 5,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "Z02.79",
+      "icd10_description": "Encounter for issue of other medical certificate",
+      "icd10_category": "Medical certificate"
     },
     "suture_removal": {
       "keywords": [
@@ -2043,7 +2238,10 @@
       "added_by_ai": [],
       "priority": 5,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "Z48.02",
+      "icd10_description": "Encounter for removal of sutures",
+      "icd10_category": "Suture removal"
     },
     "chronic_stable": {
       "keywords": [
@@ -2067,7 +2265,10 @@
       "added_by_ai": [],
       "priority": 5,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "Z87.89",
+      "icd10_description": "Personal history of other specified conditions",
+      "icd10_category": "Chronic stable"
     },
     "minor_complaint": {
       "keywords": [
@@ -2092,7 +2293,10 @@
       "added_by_ai": [],
       "priority": 5,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "R68.89",
+      "icd10_description": "Other general symptoms and signs",
+      "icd10_category": "Minor complaint"
     },
     "wound_check": {
       "keywords": [
@@ -2107,7 +2311,10 @@
       "added_by_ai": [],
       "priority": 5,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "Z48.00",
+      "icd10_description": "Encounter for change or removal of dressing",
+      "icd10_category": "Wound check"
     },
     "rash_minor": {
       "keywords": [
@@ -2122,7 +2329,10 @@
       "added_by_ai": [],
       "priority": 5,
       "expected_resources": [],
-      "resource_count": 0
+      "resource_count": 0,
+      "icd10_code": "R21",
+      "icd10_description": "Rash and other nonspecific skin eruption",
+      "icd10_category": "Rash"
     }
   }
 }

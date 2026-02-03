@@ -5,7 +5,7 @@ uvicorn
 sqlalchemy
 pydantic
 python-dotenv
-google-generativeai
+google-genai
 python-multipart
 requests
 gradio_client

@@ -62,6 +62,9 @@ import os
 import json
 from dotenv import load_dotenv
 
+# ICD-10 coding for GAHAR compliance (Egyptian hospitals)
+from .icd10_mapping import ICD10_MAPPING
+
 try:
     from .esi_v5_compliance import evaluate_esi_v5
 except ImportError:
@@ -1030,6 +1033,11 @@ class DeterministicTriageResult:
 
     # RAG context (citations)
     rag_context: Optional[Dict[str, Any]] = None
+    
+    # ICD-10 Coding for GAHAR Compliance (Egyptian hospitals)
+    icd10_code: str = ""
+    icd10_description: str = ""
+    icd10_category: str = ""
 
 
 # =============================================================================
@@ -1871,7 +1879,11 @@ class DeterministicTriageEngine:
             time_to_physician=level_info["time"],
             recommended_action_ar=level_info["action_ar"],
             recommended_action_en=level_info["action_en"],
-            rag_context=rag_context
+            rag_context=rag_context,
+            # ICD-10 coding for GAHAR compliance
+            icd10_code=ICD10_MAPPING.get(category, {}).get("code", "R69"),
+            icd10_description=ICD10_MAPPING.get(category, {}).get("description", "Illness, unspecified"),
+            icd10_category=ICD10_MAPPING.get(category, {}).get("category", "Unspecified")
         )
     
     def get_triage_level(self, patient_data: dict) -> int:
@@ -2000,7 +2012,11 @@ class DeterministicTriageEngine:
             reasoning_en=reasoning_en,
             reasoning=reasoning,
             confidence="High" if not internal_result.ai_used else "Medium",
-            rag_context=internal_result.rag_context
+            rag_context=internal_result.rag_context,
+            # ICD-10 coding for GAHAR compliance
+            icd10_code=internal_result.icd10_code,
+            icd10_description=internal_result.icd10_description,
+            icd10_category=internal_result.icd10_category
         )
 
 

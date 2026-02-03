@@ -1,6 +1,7 @@
 import os
 import json
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,10 +11,10 @@ class AIService:
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             print("Warning: GEMINI_API_KEY not found in environment variables.")
-            self.model = None
+            self.client = None
         else:
-            genai.configure(api_key=api_key)
-            self.model = genai.GenerativeModel('gemini-2.5-flash')
+            self.client = genai.Client(api_key=api_key)
+            print("[Gemini] AI Service initialized with new SDK")
 
     def analyze_triage(self, patient_data: dict):
         """
@@ -23,7 +24,7 @@ class AIService:
         Instead returns a flag to force deterministic engine fallback.
         This prevents dangerous under-triage of actual emergencies.
         """
-        if not self.model:
+        if not self.client:
             # AUDIT FIX: Return fallback flag, NOT hardcoded level
             return {
                 "error": "AI_UNAVAILABLE",
@@ -75,7 +76,10 @@ class AIService:
         """
 
         try:
-            response = self.model.generate_content(prompt)
+            response = self.client.models.generate_content(
+                model='gemini-2.0-flash',
+                contents=prompt
+            )
             # Clean response if it contains markdown code blocks
             text = response.text.replace("```json", "").replace("```", "").strip()
             return json.loads(text)

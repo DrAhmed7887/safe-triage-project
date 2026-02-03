@@ -1,33 +1,45 @@
-import google.generativeai as genai
+from google import genai
 import os
 
-# Configure API key at module load
+# Configure client at module load
 api_key = os.getenv("GEMINI_API_KEY")
+client = None
+
 if api_key:
-    genai.configure(api_key=api_key)
+    client = genai.Client(api_key=api_key)
     print("[Gemini] API configured")
 else:
     print("[Gemini] WARNING: No API key found")
 
 class MedASRService:
     def __init__(self):
-        self.available = True
-        self.model = genai.GenerativeModel('gemini-3-flash-preview')
+        self.available = client is not None
         print("[Gemini] Transcription service ready")
     
     def transcribe(self, audio_path: str) -> dict:
+        if not client:
+            return {"success": False, "error": "Gemini API not configured"}
+            
         try:
             print(f"[Gemini] Transcribing: {audio_path}")
             
-            # Upload file to Gemini
-            audio_file = genai.upload_file(audio_path, mime_type="audio/wav")
-            print(f"[Gemini] File uploaded: {audio_file.name}")
+            # Upload file to Gemini using new SDK
+            with open(audio_path, 'rb') as f:
+                audio_data = f.read()
             
-            # Generate transcription
-            response = self.model.generate_content([
-                audio_file,
-                "Transcribe this audio exactly. If Arabic, write Arabic. If English, write English. Return ONLY the transcription."
-            ])
+            # Generate transcription using new SDK
+            response = client.models.generate_content(
+                model='gemini-2.0-flash',
+                contents=[
+                    {
+                        "inline_data": {
+                            "mime_type": "audio/wav",
+                            "data": audio_data
+                        }
+                    },
+                    "Transcribe this audio exactly. If Arabic, write Arabic. If English, write English. Return ONLY the transcription."
+                ]
+            )
             
             transcription = response.text.strip()
             print(f"[Gemini] Result: {transcription}")
