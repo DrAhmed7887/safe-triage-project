@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends, UploadFile, File
+from validators import validate_gender_complaint
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import List
@@ -88,6 +89,11 @@ async def transcribe_audio(audio: UploadFile = File(...)):
 
 @app.post("/triage", response_model=TriageResult)
 def triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
+    # Gender-complaint validation
+    gender_check = validate_gender_complaint(patient.gender, patient.chief_complaint_text)
+    if not gender_check["valid"]:
+        raise HTTPException(status_code=400, detail=gender_check)
+
     try:
         result = engine_logic.evaluate(patient)
         
@@ -118,6 +124,11 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
     When AI fails, uses deterministic engine instead of hardcoded Level 3.
     """
     try:
+        # Gender-complaint validation
+        gender_check = validate_gender_complaint(patient.gender, patient.chief_complaint_text)
+        if not gender_check["valid"]:
+            raise HTTPException(status_code=400, detail=gender_check)
+
         ai_result = ai_service.analyze_triage(patient.model_dump())
         
         # AUDIT FIX: Check for fallback flag (not just "error" key)

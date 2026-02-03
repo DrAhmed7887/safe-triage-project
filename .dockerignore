@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.venv
+venv
+env
+
+# Frontend (not needed for backend deployment)
+frontend/
+*.md
+
+# IDE
+.vscode
+.idea
+
+# Tests
+backend/tests/
+
+# Local env files
+.env.local
+*.local

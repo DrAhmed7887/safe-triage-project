@@ -90,6 +90,6 @@ class AIService:
             return {
                 "error": "AI_FAILED",
                 "fallback": True,
-                "message": f"AI Analysis Failed: {str(e)}. System will use deterministic triage.",
+                "message": f"AI temporarily unavailable - using deterministic triage",
                 "message_ar": "فشل تحليل الذكاء الاصطناعي. سيستخدم النظام الفرز الحتمي."
             }
