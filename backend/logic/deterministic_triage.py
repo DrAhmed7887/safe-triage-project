@@ -55,7 +55,7 @@ Author: Ahmed Zayed
 Project: SAFE-Triage AI (Egyptian Emergency Department Triage System)
 """
 
-from typing import Optional, List, Tuple, Dict
+from typing import Optional, List, Tuple, Dict, Any
 from dataclasses import dataclass
 from enum import Enum
 import os
@@ -66,6 +66,14 @@ try:
     from .esi_v5_compliance import evaluate_esi_v5
 except ImportError:
     from logic.esi_v5_compliance import evaluate_esi_v5
+
+try:
+    from ..rag.retriever import retrieve as rag_retrieve
+except ImportError:
+    try:
+        from rag.retriever import retrieve as rag_retrieve
+    except ImportError:
+        rag_retrieve = None
 
 load_dotenv()
 
@@ -1042,6 +1050,9 @@ class DeterministicTriageResult:
     estimated_resources: int = 0
     resource_details: List[str] = None
 
+    # RAG context (citations)
+    rag_context: Optional[Dict[str, Any]] = None
+
 
 # =============================================================================
 # ESI RESOURCE PREDICTION (PHASE 2 AUDIT FIX)
@@ -1498,6 +1509,38 @@ class DeterministicTriageEngine:
 
         return final_esi, result.get("esi_v5_alerts", [])
 
+    def _build_rag_context(
+        self,
+        complaint_text: str,
+        k: int = 3,
+        source_filter: Optional[str] = None,
+    ) -> Optional[Dict[str, Any]]:
+        """Retrieve RAG chunks and format response."""
+        if rag_retrieve is None:
+            return None
+        if not complaint_text or not str(complaint_text).strip():
+            return None
+        try:
+            results = rag_retrieve(query=str(complaint_text), k=k, source_filter=source_filter)
+        except Exception:
+            return None
+        if not results:
+            return None
+        sources = sorted({r.get("source", "unknown") for r in results})
+        citations = []
+        for r in results:
+            citations.append(
+                {
+                    "source": r.get("source", "unknown"),
+                    "text": r.get("text", ""),
+                    "relevance": r.get("score"),
+                }
+            )
+        return {
+            "sources_used": sources,
+            "citations": citations,
+        }
+
     def _check_for_seizure(self, patient_input) -> bool:
         """Check if chief complaint or history indicates seizure."""
         seizure_keywords = ["seizure", "تشنج", "صرع", "convulsion", "fitting"]
@@ -1578,7 +1621,11 @@ class DeterministicTriageEngine:
         gender = patient_data.get('gender', 'male')
         if hasattr(gender, 'value'):
             gender = gender.value
-        complaint = patient_data.get('chief_complaint_text', '')
+        complaint = (
+            patient_data.get('chief_complaint_text')
+            or patient_data.get('chief_complaint')
+            or patient_data.get('complaint', '')
+        )
         vitals = patient_data.get('vitals', {})
         
         # AUDIT FIX: Extract new NEWS2 compliance fields
@@ -1793,6 +1840,8 @@ class DeterministicTriageEngine:
             all_alerts_ar.append(f"⚠️ {category_info.name_ar}")
             all_alerts_en.append(f"⚠️ {category_info.name_en}")
         
+        rag_context = self._build_rag_context(complaint_text=complaint, k=3)
+
         return DeterministicTriageResult(
             final_level=final_level,
             color_code=level_info["color"],
@@ -1814,7 +1863,8 @@ class DeterministicTriageEngine:
             ai_used=(self.ai_classifier.model is not None),
             time_to_physician=level_info["time"],
             recommended_action_ar=level_info["action_ar"],
-            recommended_action_en=level_info["action_en"]
+            recommended_action_en=level_info["action_en"],
+            rag_context=rag_context
         )
     
     def get_triage_level(self, patient_data: dict) -> int:
@@ -1942,7 +1992,8 @@ class DeterministicTriageEngine:
             reasoning_ar=reasoning_ar,
             reasoning_en=reasoning_en,
             reasoning=reasoning,
-            confidence="High" if not internal_result.ai_used else "Medium"
+            confidence="High" if not internal_result.ai_used else "Medium",
+            rag_context=internal_result.rag_context
         )
 
 

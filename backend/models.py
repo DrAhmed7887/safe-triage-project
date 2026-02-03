@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List, Dict, Literal
+from typing import Optional, List, Dict, Literal, Any
 from enum import Enum
 
 class Gender(str, Enum):
@@ -143,3 +143,4 @@ class TriageResult(BaseModel):
     reasoning_en: List[str] = []
     reasoning: List[str] = []  # Legacy - combined
     confidence: str = "High"  # High, Medium, Low
+    rag_context: Optional[Dict[str, Any]] = None
