@@ -28,7 +28,6 @@ class Vitals(BaseModel):
     temp: Optional[float] = Field(None, description="Temperature (C)")
     sbp: Optional[int] = Field(None, description="Systolic Blood Pressure (mmHg)")
     dbp: Optional[int] = Field(None, description="Diastolic Blood Pressure (mmHg)")
-    gcs: Optional[int] = Field(15, description="Glasgow Coma Scale", ge=3, le=15)
     pain_score: Optional[int] = Field(0, description="Pain Scale 0-10", ge=0, le=10)
 
 class PatientInput(BaseModel):
@@ -104,8 +103,11 @@ class PatientInput(BaseModel):
     # COPD/Hypercapnic - Use SpO2 Scale 2 (target 88-92%)
     is_copd: bool = Field(False, description="COPD/Hypercapnic respiratory failure - use SpO2 Scale 2 (target 88-92%)")
     
-    # New Confusion - NEWS2 ACVPU 'C' scores 3 points even with GCS 15
-    is_new_confusion: bool = Field(False, description="New onset confusion (NEWS2 ACVPU 'C' = 3 points)")
+    # Consciousness (ACVPU) - NEWS2 uses this instead of GCS
+    consciousness: Literal["A", "C", "V", "P", "U"] = Field(
+        "A",
+        description="Consciousness level using ACVPU: A, C, V, P, U"
+    )
     
     # ========== OBSTETRIC SAFETY FIELDS (Audit Fix) ==========
     # Reference: ESI v4 Handbook, Chapter 5 - Special Populations

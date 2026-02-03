@@ -11,12 +11,11 @@ export default function TriageForm({ onResult }) {
         age: '',
         gender: 'male',
         chief_complaint_text: '',
-        vitals: { hr: '', rr: '', spo2: '', temp: '', sbp: '', dbp: '', gcs: 15, pain_score: 0 },
+        vitals: { hr: '', rr: '', spo2: '', temp: '', sbp: '', dbp: '' },
         red_flags: { history_cardiac: false, history_stroke: false, immuno_compromised: false },
         // ===== PHASE 2: Clinical Risk Factors for NEWS2 Compliance =====
         is_copd: false,           // Use SpO2 Scale 2 (target 88-92%)
         on_supplemental_o2: false, // Add +2 NEWS2 points
-        is_new_confusion: false,   // ACVPU 'C' = 3 points
         is_pregnant: false,        // Enable obstetric emergency detection
         // ===== ESI v5 Fields =====
         pain_scale: null,
@@ -28,6 +27,7 @@ export default function TriageForm({ onResult }) {
         pregnancy_complaint: ''
     });
 
+    const [consciousness, setConsciousness] = useState("A");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [useAI, setUseAI] = useState(false);
@@ -206,7 +206,7 @@ export default function TriageForm({ onResult }) {
                 // Clinical Risk Factors (NEWS2 compliance)
                 is_copd: formData.is_copd,
                 on_supplemental_o2: formData.on_supplemental_o2,
-                is_new_confusion: formData.is_new_confusion,
+                consciousness: consciousness,
                 // ESI v5 fields
                 pain_scale: formData.pain_scale,
                 pain_context: formData.pain_context || null,
@@ -338,8 +338,19 @@ export default function TriageForm({ onResult }) {
                         <div><label className="block text-xs text-slate-500">Temp (C)</label><input type="number" name="temp" value={formData.vitals.temp} onChange={handleVitalChange} className="w-full rounded border-slate-300 border py-1.5 px-2 text-sm" placeholder="--" /></div>
                         <div><label className="block text-xs text-slate-500">SBP</label><input type="number" name="sbp" value={formData.vitals.sbp} onChange={handleVitalChange} className="w-full rounded border-slate-300 border py-1.5 px-2 text-sm" placeholder="--" /></div>
                         <div><label className="block text-xs text-slate-500">DBP</label><input type="number" name="dbp" value={formData.vitals.dbp} onChange={handleVitalChange} className="w-full rounded border-slate-300 border py-1.5 px-2 text-sm" placeholder="--" /></div>
-                        <div><label className="block text-xs text-slate-500">GCS (3-15)</label><input type="number" name="gcs" value={formData.vitals.gcs} onChange={handleVitalChange} className="w-full rounded border-slate-300 border py-1.5 px-2 text-sm" max="15" min="3" /></div>
-                        <div><label className="block text-xs text-slate-500">Pain (0-10)</label><input type="number" name="pain_score" value={formData.vitals.pain_score} onChange={handleVitalChange} className="w-full rounded border-slate-300 border py-1.5 px-2 text-sm" max="10" min="0" /></div>
+                    </div>
+                    <div className="form-group">
+                        <label>Consciousness (ACVPU) | مستوى الوعي</label>
+                        <select
+                            value={consciousness}
+                            onChange={(e) => setConsciousness(e.target.value)}
+                        >
+                            <option value="A">A - Alert | واعي تماماً</option>
+                            <option value="C">C - New Confusion | تشوش ذهني جديد</option>
+                            <option value="V">V - Responds to Voice | يستجيب للصوت</option>
+                            <option value="P">P - Responds to Pain | يستجيب للألم</option>
+                            <option value="U">U - Unresponsive | غير مستجيب</option>
+                        </select>
                     </div>
                 </div>
 
@@ -564,29 +575,10 @@ export default function TriageForm({ onResult }) {
                                 </div>
                             </label>
 
-                            {/* New Onset Confusion */}
-                            <label className="flex items-start gap-3 p-3 bg-white rounded-lg border border-red-100 hover:border-red-300 cursor-pointer transition-colors">
-                                <input 
-                                    type="checkbox" 
-                                    name="is_new_confusion"
-                                    checked={formData.is_new_confusion}
-                                    onChange={handleRiskFactorChange}
-                                    className="mt-0.5 w-4 h-4 text-red-600 border-slate-300 rounded focus:ring-red-500"
-                                />
-                                <div>
-                                    <span className="text-sm font-medium text-slate-700 block">
-                                        🚨 New Onset Confusion
-                                    </span>
-                                    <span className="text-xs text-slate-500">
-                                        ACVPU 'C' = 3 points (critical)
-                                    </span>
-                                </div>
-                            </label>
-
                         </div>
 
                         {/* Active Risk Factor Indicators */}
-                        {(formData.is_copd || formData.on_supplemental_o2 || formData.is_new_confusion) && (
+                        {(formData.is_copd || formData.on_supplemental_o2) && (
                             <div className="mt-4 p-3 bg-amber-100 rounded-lg border border-amber-300">
                                 <p className="text-xs font-semibold text-amber-800 mb-2">Active Risk Factors:</p>
                                 <div className="flex flex-wrap gap-2">
@@ -598,11 +590,6 @@ export default function TriageForm({ onResult }) {
                                     {formData.on_supplemental_o2 && (
                                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
                                             O₂ Supplementation (+2)
-                                        </span>
-                                    )}
-                                    {formData.is_new_confusion && (
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-200 text-red-800">
-                                            🚨 New Confusion
                                         </span>
                                     )}
                                 </div>

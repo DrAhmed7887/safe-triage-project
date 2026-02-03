@@ -385,7 +385,7 @@ class NEWS2Calculator:
     AUDIT FIXES IMPLEMENTED:
     1. SpO2 Scale 2 for COPD/hypercapnic patients (target 88-92%)
     2. +2 points for supplemental oxygen
-    3. New confusion (ACVPU 'C') scores 3 points
+    3. ACVPU consciousness scoring (A=0, C/V/P/U=3)
     4. Pediatric vital sign thresholds
     
     Parameters scored:
@@ -393,7 +393,7 @@ class NEWS2Calculator:
     - Oxygen saturation (SpO2) - Scale 1 or Scale 2
     - Systolic blood pressure (SBP)
     - Heart rate (HR) - with pediatric thresholds
-    - Level of consciousness (ACVPU including new confusion)
+    - Level of consciousness (ACVPU)
     - Temperature
     - Supplemental oxygen (+2 if on O2)
     """
@@ -475,45 +475,26 @@ class NEWS2Calculator:
         return 0, False  # Default if no range matched
     
     @staticmethod
-    def _score_consciousness(gcs: Optional[int], is_new_confusion: bool = False) -> Tuple[int, bool]:
+    def calculate_news2_consciousness(consciousness: str) -> int:
         """
-        Score consciousness using ACVPU scale (AUDIT FIX).
-        
-        NEWS2 ACVPU Scale:
-        - A = Alert (0 points)
-        - C = New Confusion (3 points) ← AUDIT FIX: Was missing!
-        - V = Voice responsive (3 points)
-        - P = Pain responsive (3 points)
-        - U = Unresponsive (3 points)
-        
-        Args:
-            gcs: Glasgow Coma Scale score
-            is_new_confusion: True if patient has NEW onset confusion
-            
-        Returns:
-            (score, is_extreme)
+        NEWS2 consciousness scoring using ACVPU scale.
+        Reference: NEWS2 Guidelines, Royal College of Physicians
+
+        A (Alert) = 0 points
+        C, V, P, U = 3 points each
         """
-        # AUDIT FIX: New confusion scores 3 even with GCS 15
-        if is_new_confusion:
-            return 3, True
-        
-        if gcs is None:
-            return 0, False
-        
-        # GCS ≤8 = Unresponsive (U)
-        if gcs <= 8:
-            return 3, True
-        
-        # GCS 9-13 roughly correlates to V/P on AVPU
-        # Per NEWS2, V and P also score 3
-        if gcs <= 13:
-            return 3, True
-        
-        # GCS 14-15 = Alert (A)
-        return 0, False
+        if consciousness == "A":
+            return 0
+        return 3
     
-    def calculate(self, vitals, age: float = 30, is_copd: bool = False, 
-                  on_supplemental_o2: bool = False, is_new_confusion: bool = False) -> NEWS2Result:
+    def calculate(
+        self,
+        vitals,
+        age: float = 30,
+        is_copd: bool = False,
+        on_supplemental_o2: bool = False,
+        consciousness: str = "A",
+    ) -> NEWS2Result:
         """
         Calculate NEWS2 score from vital signs.
         
@@ -521,14 +502,14 @@ class NEWS2Calculator:
         - Uses pediatric thresholds for patients <18 years
         - Uses SpO2 Scale 2 for COPD patients
         - Adds +2 for supplemental oxygen
-        - Scores new confusion as 3 points
+        - Scores ACVPU consciousness (A=0, C/V/P/U=3)
         
         Args:
-            vitals: Vitals object with hr, rr, spo2, sbp, temp, gcs
+            vitals: Vitals object with hr, rr, spo2, sbp, temp
             age: Patient age in years (for pediatric thresholds)
             is_copd: Use SpO2 Scale 2 (target 88-92%)
             on_supplemental_o2: Add +2 points
-            is_new_confusion: New onset confusion (ACVPU 'C')
+            consciousness: ACVPU level (A, C, V, P, U)
             
         Returns:
             NEWS2Result with scores, alerts, and derived triage level
@@ -668,19 +649,16 @@ class NEWS2Calculator:
             scores['temp'] = 0
             missing.append("Temp (الحرارة)")
         
-        # ===== Consciousness (ACVPU with new confusion) =====
-        # AUDIT FIX: Now includes new confusion scoring
-        gcs_value = vitals.gcs if vitals.gcs is not None else 15
-        score, extreme = self._score_consciousness(gcs_value, is_new_confusion)
+        # ===== Consciousness (ACVPU) =====
+        acvpu = str(consciousness or "A").upper()
+        if acvpu not in ["A", "C", "V", "P", "U"]:
+            acvpu = "A"
+        score = self.calculate_news2_consciousness(acvpu)
         scores['consciousness'] = score
-        has_extreme = has_extreme or extreme
-        
-        if is_new_confusion:
-            alerts_ar.append("🚨 تشوش ذهني جديد (ACVPU: C) - 3 نقاط")
-            alerts_en.append("🚨 NEW confusion (ACVPU: C) - 3 points")
-        elif score == 3:
-            alerts_ar.append(f"مستوى الوعي منخفض: GCS {gcs_value}")
-            alerts_en.append(f"Reduced consciousness: GCS {gcs_value}")
+        if score == 3:
+            has_extreme = True
+            alerts_ar.append(f"مستوى الوعي منخفض: ACVPU {acvpu}")
+            alerts_en.append(f"Reduced consciousness: ACVPU {acvpu}")
         
         # ===== Calculate Total Score =====
         total_score = sum(scores.values())
@@ -1463,6 +1441,9 @@ class DeterministicTriageEngine:
                 return patient_input.get(field, default)
             return getattr(patient_input, field, default)
 
+        consciousness = _get_field("consciousness", "A")
+        gcs_value = self._acvpu_to_gcs(consciousness)
+
         # Build vitals dict
         vitals_dict = {
             "hr": vitals.hr,
@@ -1471,7 +1452,7 @@ class DeterministicTriageEngine:
             "sbp": vitals.sbp,
             "dbp": vitals.dbp,
             "temp_c": vitals.temp,
-            "gcs": vitals.gcs,
+            "gcs": gcs_value,
         }
 
         # Get optional fields from patient_input
@@ -1602,13 +1583,25 @@ class DeterministicTriageEngine:
             )
         complaint = str(complaint).lower()
         return any(kw in complaint for kw in trauma_keywords)
+
+    def _acvpu_to_gcs(self, consciousness: str) -> int:
+        """Approximate GCS from ACVPU for internal use (ESI v5 level-1 override)."""
+        mapping = {
+            "A": 15,
+            "C": 14,
+            "V": 12,
+            "P": 8,
+            "U": 3,
+        }
+        key = str(consciousness or "A").upper()
+        return mapping.get(key, 15)
     
     def triage(self, patient_data: dict) -> DeterministicTriageResult:
         """
         Perform deterministic triage on patient data.
         
         AUDIT FIXES IMPLEMENTED:
-        - Passes new NEWS2 parameters (is_copd, on_supplemental_o2, is_new_confusion)
+        - Passes new NEWS2 parameters (is_copd, on_supplemental_o2, consciousness)
         - Uses pediatric vital sign thresholds
         - Enhanced pregnancy detection for ectopic risk
         
@@ -1622,7 +1615,7 @@ class DeterministicTriageEngine:
                 - history_stroke: bool (optional)
                 - is_copd: bool (optional) - Use SpO2 Scale 2
                 - on_supplemental_o2: bool (optional) - Add +2 NEWS2 points
-                - is_new_confusion: bool (optional) - ACVPU 'C' = 3 points
+                - consciousness: str (optional) - ACVPU scale (A, C, V, P, U)
                 - is_pregnant: bool (optional) - Enable obstetric emergency detection
                 
         Returns:
@@ -1643,7 +1636,7 @@ class DeterministicTriageEngine:
         # AUDIT FIX: Extract new NEWS2 compliance fields
         is_copd = patient_data.get('is_copd', False)
         on_supplemental_o2 = patient_data.get('on_supplemental_o2', False)
-        is_new_confusion = patient_data.get('is_new_confusion', False)
+        consciousness = patient_data.get('consciousness', 'A')
         is_pregnant = patient_data.get('is_pregnant', False)
         
         # Convert vitals dict to object-like access
@@ -1655,7 +1648,6 @@ class DeterministicTriageEngine:
                 self.sbp = d.get('sbp')
                 self.dbp = d.get('dbp')
                 self.temp = d.get('temp')
-                self.gcs = d.get('gcs', 15)
                 self.pain_score = d.get('pain_score', 0)
         
         if isinstance(vitals, dict):
@@ -1667,7 +1659,7 @@ class DeterministicTriageEngine:
             age=age,
             is_copd=is_copd,
             on_supplemental_o2=on_supplemental_o2,
-            is_new_confusion=is_new_confusion
+            consciousness=consciousness
         )
         
         # Step 2: Classify complaint
@@ -1741,10 +1733,10 @@ class DeterministicTriageEngine:
             modifier_level = min(modifier_level, 2)
             modifiers.append("نقص مناعة مع حمى / Immunocompromised with fever")
         
-        # ===== NEW CONFUSION MODIFIER (AUDIT FIX) =====
-        if is_new_confusion:
+        # ===== REDUCED CONSCIOUSNESS MODIFIER =====
+        if consciousness and str(consciousness).upper() != "A":
             modifier_level = min(modifier_level, 2)
-            modifiers.append("🚨 تشوش ذهني جديد - يحتاج تقييم عاجل / NEW confusion - urgent evaluation needed")
+            modifiers.append("🚨 مستوى وعي منخفض - يحتاج تقييم عاجل / Reduced consciousness - urgent evaluation needed")
         
         # =================================================================
         # PHASE 2: ESI RESOURCE PREDICTION FOR LEVELS 3-5
@@ -1780,7 +1772,6 @@ class DeterministicTriageEngine:
                 'spo2': vitals.spo2,
                 'sbp': vitals.sbp,
                 'temp': vitals.temp,
-                'gcs': vitals.gcs
             }
             
             resource_result = self.resource_predictor.estimate_resources(
@@ -1921,13 +1912,12 @@ class DeterministicTriageEngine:
                 'sbp': patient.vitals.sbp,
                 'dbp': patient.vitals.dbp,
                 'temp': patient.vitals.temp,
-                'gcs': patient.vitals.gcs,
                 'pain_score': patient.vitals.pain_score
             } if patient.vitals else {},
             # ===== PHASE 2: Clinical Risk Factors =====
             'is_copd': getattr(patient, 'is_copd', False),
             'on_supplemental_o2': getattr(patient, 'on_supplemental_o2', False),
-            'is_new_confusion': getattr(patient, 'is_new_confusion', False),
+            'consciousness': getattr(patient, 'consciousness', 'A'),
             'is_pregnant': getattr(patient, 'is_pregnant', False),
             'gestational_weeks': getattr(patient, 'gestational_weeks', None),
             'pregnancy_complaint': getattr(patient, 'pregnancy_complaint', None),
@@ -2033,7 +2023,7 @@ def quick_triage(
     spo2: float = None,
     sbp: int = None,
     temp: float = None,
-    gcs: int = 15,
+    consciousness: str = "A",
     pain_score: int = 0
 ) -> DeterministicTriageResult:
     """
@@ -2059,9 +2049,9 @@ def quick_triage(
             'spo2': spo2,
             'sbp': sbp,
             'temp': temp,
-            'gcs': gcs,
             'pain_score': pain_score
-        }
+        },
+        'consciousness': consciousness
     })
 
 
@@ -2085,7 +2075,8 @@ if __name__ == "__main__":
                 "age": 45,
                 "gender": "male",
                 "chief_complaint_text": "فاقد الوعي",
-                "vitals": {"gcs": 6}
+                "vitals": {},
+                "consciousness": "U"
             },
             "expected": 1
         },
