@@ -69,6 +69,9 @@ PEDIATRIC_VITALS_ESI_V5 = {
 
 # Pain contexts that indicate systemic disruption (ESI v5, Chapter 3)
 SYSTEMIC_PAIN_CONTEXTS = [
+    "systemic",
+    "chest_pain",
+    "abdominal_pain",
     "renal_colic",
     "kidney_stone",
     "cancer_pain",

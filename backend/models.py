@@ -62,6 +62,7 @@ class PatientInput(BaseModel):
     )
     pain_context: Optional[
         Literal[
+            "systemic",
             "chest_pain",
             "abdominal_pain",
             "renal_colic",

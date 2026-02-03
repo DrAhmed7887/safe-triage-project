@@ -247,66 +247,61 @@ export default function TriageForm({ onResult }) {
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            <form onSubmit={handleSubmit} className="p-6">
                 {error && <div className="p-4 bg-red-50 text-red-700 rounded-lg flex items-center gap-2"><AlertCircle className="w-5 h-5" /> {error}</div>}
 
                 {/* Patient Identification Section */}
-                <div className="space-y-4 pb-4 border-b border-slate-200">
-                    <h3 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        Patient Identification
-                    </h3>
+                <div className="form-section">
+                    <div className="section-title">Patient Information | بيانات المريض</div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-slate-700 mb-1">
                                 Patient ID / MRN
                                 <span className="text-xs text-slate-400 font-normal ml-1">(auto-generated if empty)</span>
                             </label>
-                            <input 
-                                type="text" 
-                                value={formData.patient_id} 
-                                onChange={e => setFormData({ ...formData, patient_id: e.target.value })} 
-                                className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border" 
-                                placeholder="Leave empty for auto-ID" 
+                            <input
+                                type="text"
+                                value={formData.patient_id}
+                                onChange={e => setFormData({ ...formData, patient_id: e.target.value })}
+                                className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border"
+                                placeholder="Leave empty for auto-ID"
                             />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-slate-700 mb-1">Patient Name</label>
-                            <input 
-                                type="text" 
-                                value={formData.patient_name} 
-                                onChange={e => setFormData({ ...formData, patient_name: e.target.value })} 
-                                className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border" 
-                                placeholder="Full Name" 
+                            <input
+                                type="text"
+                                value={formData.patient_name}
+                                onChange={e => setFormData({ ...formData, patient_name: e.target.value })}
+                                className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border"
+                                placeholder="Full Name"
                                 dir="auto"
                             />
                         </div>
                     </div>
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Age</label>
+                            <input required type="number" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border" placeholder="Years" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Gender</label>
+                            <select value={formData.gender} onChange={e => setFormData({ ...formData, gender: e.target.value })} className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Age</label>
-                        <input required type="number" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border" placeholder="Years" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Gender</label>
-                        <select value={formData.gender} onChange={e => setFormData({ ...formData, gender: e.target.value })} className="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 py-2 px-3 border">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
+                {/* === CHIEF COMPLAINT === */}
+                <div className="form-section">
+                    <div className="section-title">Chief Complaint | الشكوى الرئيسية</div>
                     <label className="block text-sm font-medium text-slate-700 mb-1 flex justify-between items-center">
                         <span>Chief Complaint</span>
                         <button type="button" onClick={isRecording ? stopRecording : startRecording} disabled={isTranscribing}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                                isRecording ? 'bg-red-500 text-white animate-pulse' 
+                                isRecording ? 'bg-red-500 text-white animate-pulse'
                                 : isTranscribing ? 'bg-yellow-100 text-yellow-700'
                                 : 'bg-green-100 text-green-700 hover:bg-green-200'
                             }`}>
@@ -327,10 +322,9 @@ export default function TriageForm({ onResult }) {
                     <p className="text-xs text-slate-500 mt-1">Voice transcription powered by Gemini AI (Arabic + English)</p>
                 </div>
 
-                <div className="space-y-4 border-t pt-4">
-                    <h3 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
-                        <Activity className="w-4 h-4 text-blue-600" /> Vital Signs
-                    </h3>
+                {/* === VITAL SIGNS === */}
+                <div className="form-section">
+                    <div className="section-title">Vital Signs | العلامات الحيوية</div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div><label className="block text-xs text-slate-500">HR (bpm)</label><input type="number" name="hr" value={formData.vitals.hr} onChange={handleVitalChange} className="w-full rounded border-slate-300 border py-1.5 px-2 text-sm" placeholder="--" /></div>
                         <div><label className="block text-xs text-slate-500">RR (bpm)</label><input type="number" name="rr" value={formData.vitals.rr} onChange={handleVitalChange} className="w-full rounded border-slate-300 border py-1.5 px-2 text-sm" placeholder="--" /></div>
@@ -339,7 +333,7 @@ export default function TriageForm({ onResult }) {
                         <div><label className="block text-xs text-slate-500">SBP</label><input type="number" name="sbp" value={formData.vitals.sbp} onChange={handleVitalChange} className="w-full rounded border-slate-300 border py-1.5 px-2 text-sm" placeholder="--" /></div>
                         <div><label className="block text-xs text-slate-500">DBP</label><input type="number" name="dbp" value={formData.vitals.dbp} onChange={handleVitalChange} className="w-full rounded border-slate-300 border py-1.5 px-2 text-sm" placeholder="--" /></div>
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mt-4">
                         <label>Consciousness (ACVPU) | مستوى الوعي</label>
                         <select
                             value={consciousness}
@@ -356,7 +350,7 @@ export default function TriageForm({ onResult }) {
 
                 {/* === PAIN ASSESSMENT === */}
                 <div className="form-section">
-                    <h3>Pain Assessment | تقييم الألم</h3>
+                    <div className="section-title">Pain Assessment | تقييم الألم</div>
                     <div className="form-group">
                         <label>Pain Level (0-10) | مستوى الألم</label>
                         <input
@@ -377,20 +371,14 @@ export default function TriageForm({ onResult }) {
                     </div>
                     {painScaleValue > 0 && (
                         <div className="form-group">
-                            <label>Pain Type | نوع الألم</label>
+                            <label>Pain Context | سياق الألم</label>
                             <select
                                 value={formData.pain_context}
                                 onChange={(e) => setFormData(prev => ({ ...prev, pain_context: e.target.value }))}
                             >
                                 <option value="">Select... | اختر...</option>
-                                <option value="chest_pain">Chest Pain | ألم الصدر</option>
-                                <option value="abdominal_pain">Abdominal Pain | ألم البطن</option>
-                                <option value="renal_colic">Renal Colic | مغص كلوي</option>
-                                <option value="sickle_cell_crisis">Sickle Cell Crisis | أزمة أنيميا منجلية</option>
-                                <option value="cancer_pain">Cancer Pain | ألم السرطان</option>
-                                <option value="orthopedic">Orthopedic/Injury | عظام/إصابة</option>
-                                <option value="headache">Headache | صداع</option>
-                                <option value="other">Other | أخرى</option>
+                                <option value="systemic">Systemic (chest, abdominal) | ألم عام (صدر/بطن)</option>
+                                <option value="orthopedic">Localized/Orthopedic (injury, joint) | ألم موضعي/عظام (إصابة/مفصل)</option>
                             </select>
                         </div>
                     )}
@@ -398,7 +386,7 @@ export default function TriageForm({ onResult }) {
 
                 {/* === IMMUNOCOMPROMISED STATUS === */}
                 <div className="form-section">
-                    <h3>Immune Status | حالة المناعة</h3>
+                    <div className="section-title">Immune Status | حالة المناعة</div>
                     <div className="form-group checkbox-group">
                         <label>
                             <input
@@ -439,7 +427,7 @@ export default function TriageForm({ onResult }) {
                 {/* === PEDIATRIC IMMUNIZATIONS === */}
                 {isPediatric && (
                     <div className="form-section">
-                        <h3>Pediatric | الأطفال</h3>
+                        <div className="section-title">Pediatric | الأطفال</div>
                         <div className="form-group">
                             <label>Immunizations | التطعيمات</label>
                             <select
@@ -469,7 +457,7 @@ export default function TriageForm({ onResult }) {
                 {/* === PREGNANCY STATUS === */}
                 {isPregnancyEligible && (
                     <div className="form-section">
-                        <h3>Pregnancy Status | حالة الحمل</h3>
+                        <div className="section-title">Pregnancy Status | حالة الحمل</div>
                         <div className="form-group checkbox-group">
                             <label>
                                 <input
@@ -525,79 +513,71 @@ export default function TriageForm({ onResult }) {
                     </div>
                 )}
 
-                {/* ===== PHASE 2: Clinical Risk Factors & NEWS2 Section ===== */}
-                <div className="space-y-4 border-t pt-4">
-                    <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
-                        <h3 className="text-sm font-semibold text-amber-800 flex items-center gap-2 mb-3">
-                            <AlertTriangle className="w-4 h-4 text-amber-600" />
-                            ⚠️ Clinical Risk Factors & NEWS2
-                        </h3>
-                        <p className="text-xs text-amber-700 mb-4">
-                            These factors affect NEWS2 scoring and triage level. Please check all that apply.
-                        </p>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {/* COPD / CO2 Retainer */}
-                            <label className="flex items-start gap-3 p-3 bg-white rounded-lg border border-amber-100 hover:border-amber-300 cursor-pointer transition-colors">
-                                <input 
-                                    type="checkbox" 
-                                    name="is_copd"
-                                    checked={formData.is_copd}
-                                    onChange={handleRiskFactorChange}
-                                    className="mt-0.5 w-4 h-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500"
-                                />
-                                <div>
-                                    <span className="text-sm font-medium text-slate-700 block">
-                                        COPD / CO₂ Retainer
-                                    </span>
-                                    <span className="text-xs text-slate-500">
-                                        Uses SpO₂ Scale 2 (target 88-92%)
-                                    </span>
-                                </div>
-                            </label>
+                {/* === Clinical Risk Factors & NEWS2 === */}
+                <div className="form-section">
+                    <div className="section-title">Clinical Risk Factors & NEWS2 | عوامل الخطورة و NEWS2</div>
+                    <p className="text-sm text-slate-600 mb-4">
+                        These factors affect NEWS2 scoring and triage level. Please check all that apply.
+                    </p>
 
-                            {/* On Supplemental Oxygen */}
-                            <label className="flex items-start gap-3 p-3 bg-white rounded-lg border border-amber-100 hover:border-amber-300 cursor-pointer transition-colors">
-                                <input 
-                                    type="checkbox" 
-                                    name="on_supplemental_o2"
-                                    checked={formData.on_supplemental_o2}
-                                    onChange={handleRiskFactorChange}
-                                    className="mt-0.5 w-4 h-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500"
-                                />
-                                <div>
-                                    <span className="text-sm font-medium text-slate-700 block">
-                                        On Supplemental O₂
-                                    </span>
-                                    <span className="text-xs text-slate-500">
-                                        Adds +2 points to NEWS2 score
-                                    </span>
-                                </div>
-                            </label>
-
-                        </div>
-
-                        {/* Active Risk Factor Indicators */}
-                        {(formData.is_copd || formData.on_supplemental_o2) && (
-                            <div className="mt-4 p-3 bg-amber-100 rounded-lg border border-amber-300">
-                                <p className="text-xs font-semibold text-amber-800 mb-2">Active Risk Factors:</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {formData.is_copd && (
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-200 text-amber-800">
-                                            COPD (Scale 2)
-                                        </span>
-                                    )}
-                                    {formData.on_supplemental_o2 && (
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
-                                            O₂ Supplementation (+2)
-                                        </span>
-                                    )}
-                                </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {/* COPD / CO2 Retainer */}
+                        <label className="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 hover:border-slate-300 cursor-pointer transition-colors">
+                            <input
+                                type="checkbox"
+                                name="is_copd"
+                                checked={formData.is_copd}
+                                onChange={handleRiskFactorChange}
+                                className="mt-0.5 w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500"
+                            />
+                            <div>
+                                <span className="text-sm font-medium text-slate-700 block">
+                                    COPD / CO₂ Retainer
+                                </span>
+                                <span className="text-xs text-slate-500">
+                                    Uses SpO₂ Scale 2 (target 88-92%)
+                                </span>
                             </div>
-                        )}
+                        </label>
+
+                        {/* On Supplemental Oxygen */}
+                        <label className="flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 hover:border-slate-300 cursor-pointer transition-colors">
+                            <input
+                                type="checkbox"
+                                name="on_supplemental_o2"
+                                checked={formData.on_supplemental_o2}
+                                onChange={handleRiskFactorChange}
+                                className="mt-0.5 w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500"
+                            />
+                            <div>
+                                <span className="text-sm font-medium text-slate-700 block">
+                                    On Supplemental O₂
+                                </span>
+                                <span className="text-xs text-slate-500">
+                                    Adds +2 points to NEWS2 score
+                                </span>
+                            </div>
+                        </label>
                     </div>
+
+                    {(formData.is_copd || formData.on_supplemental_o2) && (
+                        <div className="mt-4 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                            <p className="text-xs font-semibold text-emerald-800 mb-2">Active Risk Factors:</p>
+                            <div className="flex flex-wrap gap-2">
+                                {formData.is_copd && (
+                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-200 text-emerald-800">
+                                        COPD (Scale 2)
+                                    </span>
+                                )}
+                                {formData.on_supplemental_o2 && (
+                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
+                                        O₂ Supplementation (+2)
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
-                {/* ===== END PHASE 2 ===== */}
 
                 <button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 disabled:opacity-70">
                     {loading ? 'Processing...' : 'Run Triage Assessment'}
