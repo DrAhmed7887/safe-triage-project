@@ -7,3 +7,9 @@ google-generativeai
 python-multipart
 requests
 gradio_client
+chromadb
+PyPDF2
+langchain
+langchain-google-genai
+sentence-transformers
+pydantic-settings
