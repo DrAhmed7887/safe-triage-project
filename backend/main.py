@@ -14,6 +14,7 @@ from .sql_models import Patient
 import uvicorn
 from .ai_service import AIService
 from .medasr_service import medasr_service
+from .logic.icd10_integration import enrich_triage_with_icd10, check_silent_mi_pattern, format_icd10_for_hospital_record
 
 # Create Tables
 Base.metadata.create_all(bind=engine)
@@ -30,7 +31,12 @@ app.add_middleware(
 )
 
 # Use the deterministic engine with keyword database
-engine_logic = DeterministicTriageEngine()
+# STANDARD MODE: No AI, only keyword matching (fast)
+engine_logic = DeterministicTriageEngine(use_ai=False)
+
+# AI-ENHANCED MODE: Uses AI classification with fallback
+engine_logic_ai = DeterministicTriageEngine(use_ai=True)
+
 ai_service = AIService()
 
 # ============ TELEGRAM ALERT FUNCTION ============
@@ -84,6 +90,19 @@ async def transcribe_audio(audio: UploadFile = File(...)):
 def triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
     try:
         result = engine_logic.evaluate(patient)
+        
+        # Add ICD-10 coding for GAHAR compliance
+        result_dict = result.model_dump() if hasattr(result, 'model_dump') else vars(result)
+        result_dict["chief_complaint"] = patient.chief_complaint_text
+        result_dict["category"] = getattr(result, 'category', 'general')
+        enriched = enrich_triage_with_icd10(result_dict)
+        
+        # Check Silent MI pattern for diabetic patients
+        patient_data = patient.model_dump()
+        silent_mi = check_silent_mi_pattern(patient_data)
+        if silent_mi["pattern_detected"]:
+            enriched["silent_mi_alert"] = silent_mi
+        
         # Send alert for critical patients
         send_critical_alert(patient.model_dump(), result.level)
         return result
@@ -92,22 +111,54 @@ def triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
 
 @app.post("/ai-triage")
 def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
+    """
+    AI-enhanced triage endpoint.
+    
+    AUDIT FIX: Properly handles AI fallback flag.
+    When AI fails, uses deterministic engine instead of hardcoded Level 3.
+    """
     try:
         ai_result = ai_service.analyze_triage(patient.model_dump())
         
-        if "error" in ai_result:
-             std_result = engine_logic.evaluate(patient)
-             # Send alert for critical patients
-             send_critical_alert(patient.model_dump(), std_result.level)
-             return {
-                 "level": std_result.level,
-                 "color_code": std_result.color_code,
-                 "label_en": std_result.label_en,
-                 "label_ar": std_result.label_ar,
-                 "reasoning": [ai_result.get("reasoning"), "Fallback to Standard Protocol"],
-                 "red_flags": std_result.red_flags,
-                 "ai_data": None
-             }
+        # AUDIT FIX: Check for fallback flag (not just "error" key)
+        # This ensures deterministic engine handles failures safely
+        if ai_result.get("fallback") or "error" in ai_result:
+            # Use AI-enabled engine for fallback (it will use keyword matching)
+            std_result = engine_logic_ai.evaluate(patient)
+            # Send alert for critical patients
+            send_critical_alert(patient.model_dump(), std_result.level.value if hasattr(std_result.level, 'value') else std_result.level)
+            
+            # Build informative response showing deterministic fallback was used
+            fallback_reason = ai_result.get("message", ai_result.get("error", "AI unavailable"))
+            
+            # Add ICD-10 coding for GAHAR compliance
+            fallback_dict = {
+                "level": std_result.level.value if hasattr(std_result.level, 'value') else std_result.level,
+                "category": getattr(std_result, 'category', 'general'),
+                "chief_complaint": patient.chief_complaint_text
+            }
+            enriched = enrich_triage_with_icd10(fallback_dict)
+            icd10_coding = enriched.get("icd10_coding", {})
+            
+            return {
+                "level": std_result.level.value if hasattr(std_result.level, 'value') else std_result.level,
+                "color_code": std_result.color_code,
+                "label_en": std_result.label_en,
+                "label_ar": std_result.label_ar,
+                "description_ar": std_result.description_ar,
+                "description_en": std_result.description_en,
+                "action_ar": std_result.action_ar,
+                "action_en": std_result.action_en,
+                "time_ar": std_result.time_ar,
+                "time_en": std_result.time_en,
+                "reasoning": std_result.reasoning + [f"⚠️ {fallback_reason}"],
+                "reasoning_ar": std_result.reasoning_ar + [ai_result.get("message_ar", "تم استخدام الفرز الحتمي")],
+                "reasoning_en": std_result.reasoning_en + [fallback_reason],
+                "red_flags": std_result.red_flags,
+                "ai_data": None,
+                "confidence": "Deterministic (AI Fallback)",
+                "icd10_coding": icd10_coding
+            }
 
         level = ai_result.get("triage_level", 3)
         colors = {1:"#ef4444", 2:"#f97316", 3:"#eab308", 4:"#22c55e", 5:"#3b82f6"}
@@ -134,6 +185,19 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
 
         # Send alert for critical patients (Level 1 or 2)
         send_critical_alert(patient.model_dump(), level)
+        
+        # Add ICD-10 coding for GAHAR compliance
+        response_dict = {
+            "level": level,
+            "category": ai_result.get("category", "general"),
+            "chief_complaint": patient.chief_complaint_text
+        }
+        enriched = enrich_triage_with_icd10(response_dict)
+        icd10_coding = enriched.get("icd10_coding", {})
+        
+        # Check Silent MI pattern
+        patient_data = patient.model_dump()
+        silent_mi = check_silent_mi_pattern(patient_data)
 
         return {
             "level": level,
@@ -159,7 +223,9 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
                 "followup_question_ar": ai_result.get("followup_question_ar"),
                 "severity": ai_result.get("severity")
             },
-            "confidence": "AI-Generated"
+            "confidence": "AI-Generated",
+            "icd10_coding": icd10_coding,
+            "silent_mi_alert": silent_mi if silent_mi["pattern_detected"] else None
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -16,13 +16,20 @@ class AIService:
             self.model = genai.GenerativeModel('gemini-2.5-flash')
 
     def analyze_triage(self, patient_data: dict):
+        """
+        Analyze patient data using AI.
+        
+        AUDIT FIX: No longer returns hardcoded Level 3 on failure.
+        Instead returns a flag to force deterministic engine fallback.
+        This prevents dangerous under-triage of actual emergencies.
+        """
         if not self.model:
+            # AUDIT FIX: Return fallback flag, NOT hardcoded level
             return {
-                "error": "AI Service not configured (Missing API Key). Using Standard Protocol.",
-                "triage_level": 3, # Default fallback
-                "reasoning": "AI unavailable.",
-                "reasoning_ar": "الذكاء الاصطناعي غير متوفر.",
-                "red_flags": []
+                "error": "AI_UNAVAILABLE",
+                "fallback": True,
+                "message": "AI Service not configured (Missing API Key). System will use deterministic triage.",
+                "message_ar": "خدمة الذكاء الاصطناعي غير متاحة. سيستخدم النظام الفرز الحتمي."
             }
 
         # Helper to format vitals
@@ -74,8 +81,11 @@ class AIService:
             return json.loads(text)
         except Exception as e:
             print(f"AI Error: {e}")
+            # AUDIT FIX: Return fallback flag, NOT hardcoded level
+            # This ensures the deterministic engine handles the patient safely
             return {
-                "error": "AI Analysis Failed",
-                "reasoning": "AI Service error. Please use standard protocol.",
-                 "reasoning_ar": "خطأ في خدمة الذكاء الاصطناعي."
+                "error": "AI_FAILED",
+                "fallback": True,
+                "message": f"AI Analysis Failed: {str(e)}. System will use deterministic triage.",
+                "message_ar": "فشل تحليل الذكاء الاصطناعي. سيستخدم النظام الفرز الحتمي."
             }

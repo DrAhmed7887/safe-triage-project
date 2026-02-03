@@ -1,0 +1,656 @@
+{
+  "total_failures": 80,
+  "critical_failures": 68,
+  "by_category": {
+    "chest_pain_cardiac": [
+      {
+        "text": "قلبي بيخبط جامد ومخنوق",
+        "translation": "Heart pounding hard and suffocating",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "سيدري بيغلي من جوا",
+        "translation": "My chest is boiling from inside",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "فيه حاجة بتعصر قلبي",
+        "translation": "Something squeezing my heart",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "قلبي بيوقف ويمشي",
+        "translation": "Heart stops and starts",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 5,
+        "detected_as": "Mild GI Symptoms"
+      },
+      {
+        "text": "صدري تقيل وبيوجعني لما امشي",
+        "translation": "Heavy chest hurts when walking",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild-Moderate Pain (4-6/10)"
+      },
+      {
+        "text": "بطلع روحي لما اطلع السلم",
+        "translation": "Dying going up stairs",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "قلبي بينقط وبيوجعني",
+        "translation": "Heart dripping and hurting",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild-Moderate Pain (4-6/10)"
+      },
+      {
+        "text": "حاسس بثقل على قلبي",
+        "translation": "Heaviness on my heart",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "دراعي الشمال بيتنمل مع وجع الصدر",
+        "translation": "Left arm tingling with chest pain",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild-Moderate Pain (4-6/10)"
+      },
+      {
+        "text": "قلبي بيرفرف ومش مرتاح",
+        "translation": "Heart fluttering and uncomfortable",
+        "expected_category": "chest_pain_cardiac",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      }
+    ],
+    "respiratory_distress": [
+      {
+        "text": "مش قادر اخد نفسي خالص",
+        "translation": "Can't catch my breath at all",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "كابس على نفسي من امبارح",
+        "translation": "Pressing on my breath since yesterday",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "بتنهج زي الكلب",
+        "translation": "Panting like a dog",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "نفسي واقف ومش عارف اتنفس",
+        "translation": "Breath stuck can't breathe",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "حاسس اني هاتخنق",
+        "translation": "Feeling I will suffocate",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "مش لاقي هوا",
+        "translation": "Can't find air",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "بلهث من أقل مجهود",
+        "translation": "Gasping from slightest effort",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "نفسي قصير جداً",
+        "translation": "Very short breath",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "صحيت من النوم مش قادر اتنفس",
+        "translation": "Woke up can't breathe",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "زي ما يكون فيه حاجة قافلة مجرى الهوا",
+        "translation": "Like something blocking airway",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "بشهق وباخد نفس عميق ومش بيكفي",
+        "translation": "Gasping deep breath not enough",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "الربو جالي وماعييش البخاخ",
+        "translation": "Asthma came, inhaler not working",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "بحس بضيق في الصدر ومش قادر اتنفس",
+        "translation": "Tightness in chest can't breathe",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "نفسي بيقطع لما انام",
+        "translation": "Breath cuts when sleeping",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Simple Laceration"
+      },
+      {
+        "text": "مش قادر اتكلم من قلة النفس",
+        "translation": "Can't talk from lack of breath",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "حاسس ان رئتي مقفولة",
+        "translation": "Feel my lungs are closed",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "بتنفس بصعوبة شديدة",
+        "translation": "Breathing with great difficulty",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "الهوا مش داخل بسهولة",
+        "translation": "Air not entering easily",
+        "expected_category": "respiratory_distress",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      }
+    ],
+    "stroke_symptoms": [
+      {
+        "text": "ايدي الشمال مش بتتحرك فجأة",
+        "translation": "Left hand suddenly not moving",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "وشي اتلوى ومش طبيعي",
+        "translation": "Face twisted not normal",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "لساني تقيل ومش قادر اتكلم صح",
+        "translation": "Tongue heavy can't speak right",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "رجلي بقت تقيلة ومش قادر امشي",
+        "translation": "Leg became heavy can't walk",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 5,
+        "detected_as": "Mild GI Symptoms"
+      },
+      {
+        "text": "بقيت بتكلم غلط ومش فاهم نفسي",
+        "translation": "Speaking wrong not understanding myself",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "حاسس الدنيا بتلف بيا",
+        "translation": "World spinning around me",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "نص جسمي مش حاسس بيه",
+        "translation": "Half my body numb",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "بقيت برغي كلام مش مفهوم",
+        "translation": "Talking gibberish not understood",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "ايدي واقعة مني ومش قادر ارفعها",
+        "translation": "Arm falling can't lift it",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "فجأة مش قادر ابلع",
+        "translation": "Suddenly can't swallow",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Sore Throat"
+      },
+      {
+        "text": "شفايفي بتتكلم لوحدها",
+        "translation": "Lips moving on their own",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "حاسس برعشة في نص وشي",
+        "translation": "Tremor in half my face",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "الكلام بيطلع غلط من بقي",
+        "translation": "Words coming out wrong from mouth",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "مش قادر امسك حاجة في ايدي",
+        "translation": "Can't hold things in hand",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "حاسس بتنميل في نص جسمي الشمال",
+        "translation": "Tingling in left half of body",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "صحيت لقيت وشي معوج",
+        "translation": "Woke up found face crooked",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "بشوف دوبل ومش متزن",
+        "translation": "Seeing double and unbalanced",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "رجلي بتسحب وانا ماشي",
+        "translation": "Leg dragging when walking",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "مش فاكر اسمي فجأة",
+        "translation": "Suddenly forgot my name",
+        "expected_category": "stroke_symptoms",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      }
+    ],
+    "sepsis": [
+      {
+        "text": "جسمي ولع نار وبرد عليا",
+        "translation": "Body on fire and feeling cold",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 5,
+        "detected_as": "URI/Flu Symptoms"
+      },
+      {
+        "text": "حرارتي فوق الأربعين وقلبي بيخبط",
+        "translation": "Temp over 40 and heart racing",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Eye Complaint"
+      },
+      {
+        "text": "جسمي كله بيوجعني وسخن",
+        "translation": "Whole body hurts and hot",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild-Moderate Pain (4-6/10)"
+      },
+      {
+        "text": "نايم من يومين وسخونيتي مش بتنزل",
+        "translation": "Bedridden 2 days fever not going down",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "بتعرق بس حاسس بقشعريرة",
+        "translation": "Sweating but feeling chills",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "حرارتي عالية ومش بعرف مين حواليا",
+        "translation": "High temp don't recognize people around",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "مش قادر اقوم من السرير وسخونيتي نار",
+        "translation": "Can't get up from bed fever is fire",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "حرارتي مش بتنزل بالادوية",
+        "translation": "Fever not going down with meds",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "سخن وحاسس اني هاموت",
+        "translation": "Hot and feel like dying",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "سخونية وضغطي واطي",
+        "translation": "Fever and low blood pressure",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "جسمي بيتكسر وسخن من امبارح",
+        "translation": "Body breaking and hot since yesterday",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "حاسس بسم في جسمي وسخن",
+        "translation": "Feel poison in body and hot",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "سناني بتخبط من البرد بس انا سخن",
+        "translation": "Teeth chattering from cold but I'm hot",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "بقالي كام يوم سخن ومش بتحسن",
+        "translation": "Hot for days not improving",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "سخونية ونبضي سريع جداً",
+        "translation": "Fever and pulse very fast",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "جسمي بيتهز من السخونية",
+        "translation": "Body shaking from fever",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "سخن وبول غامق ومش كتير",
+        "translation": "Hot dark urine and not much",
+        "expected_category": "sepsis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      }
+    ],
+    "meningitis": [
+      {
+        "text": "رقبتي متيبسة ومش قادر احركها",
+        "translation": "Neck stiff can't move it",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "راسي هايتفجر والنور بيحرقني",
+        "translation": "Head exploding light burning me",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild Headache"
+      },
+      {
+        "text": "مش طايق اشوف النور وراسي بيوجعني",
+        "translation": "Can't stand light head hurting",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild-Moderate Pain (4-6/10)"
+      },
+      {
+        "text": "صداع من ورا وزي ما حد بيشد رقبتي",
+        "translation": "Headache from back like someone pulling neck",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild Headache"
+      },
+      {
+        "text": "مش قادر اطأطأ راسي",
+        "translation": "Can't lower my head",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild Headache"
+      },
+      {
+        "text": "عيني بتوجعني من النور",
+        "translation": "Eyes hurt from light",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Eye Complaint"
+      },
+      {
+        "text": "صداع مع قيء وحساسية من الضوء",
+        "translation": "Headache with vomiting light sensitivity",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild Allergic Reaction"
+      },
+      {
+        "text": "راسي بيدق وعيني مش طايقة النور",
+        "translation": "Head pounding eyes can't take light",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild Headache"
+      },
+      {
+        "text": "رقبتي بتأزني لما احركها",
+        "translation": "Neck screams when I move it",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "حاسس بطعن في راسي من ورا",
+        "translation": "Stabbing in back of head",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild Headache"
+      },
+      {
+        "text": "سخن وصداع ورقبتي مش بتلف",
+        "translation": "Hot headache neck won't turn",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild Headache"
+      },
+      {
+        "text": "النور بيخليني اتقيأ",
+        "translation": "Light makes me vomit",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Requires Clinical Assessment"
+      },
+      {
+        "text": "راسي ورقبتي متحجرين",
+        "translation": "Head and neck petrified/stiff",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 4,
+        "detected_as": "Mild Headache"
+      },
+      {
+        "text": "رقبتي واجعاني وسخن",
+        "translation": "Neck hurts and hot",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "سخونية وراسي بينفجر",
+        "translation": "Fever and head exploding",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      },
+      {
+        "text": "سخن ورقبتي يابسة",
+        "translation": "Hot and neck dry/stiff",
+        "expected_category": "meningitis",
+        "expected_level": 2,
+        "actual_level": 3,
+        "detected_as": "Fever + Associated Symptoms"
+      }
+    ]
+  }
+}

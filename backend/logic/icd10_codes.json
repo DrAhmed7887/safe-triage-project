@@ -1,0 +1,340 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "description": "ICD-10-CM codes for SAFE-Triage complaint categories",
+    "source": "WHO ICD-10 2019 / CMS ICD-10-CM 2024",
+    "note": "Chapter R (R00-R99) = Symptoms and Signs - primary codes for ED triage",
+    "gahar_compliance": true,
+    "created": "2026-02-03"
+  },
+  
+  "category_to_icd10": {
+    
+    "level_1_codes": {
+      "unconscious": {
+        "icd10": "R40.20",
+        "description_en": "Unspecified coma",
+        "description_ar": "غيبوبة غير محددة"
+      },
+      "cardiac_arrest": {
+        "icd10": "I46.9",
+        "description_en": "Cardiac arrest, unspecified",
+        "description_ar": "توقف القلب"
+      },
+      "respiratory_arrest": {
+        "icd10": "R09.2",
+        "description_en": "Respiratory arrest",
+        "description_ar": "توقف التنفس"
+      },
+      "severe_respiratory_distress": {
+        "icd10": "R06.00",
+        "description_en": "Dyspnea, unspecified",
+        "description_ar": "ضيق تنفس شديد"
+      },
+      "anaphylaxis": {
+        "icd10": "T78.2",
+        "description_en": "Anaphylactic shock, unspecified",
+        "description_ar": "صدمة تأقية"
+      },
+      "active_seizure": {
+        "icd10": "R56.9",
+        "description_en": "Unspecified convulsions",
+        "description_ar": "تشنجات"
+      },
+      "stroke_symptoms": {
+        "icd10": "I64",
+        "description_en": "Stroke, not specified as hemorrhage or infarction",
+        "description_ar": "سكتة دماغية"
+      },
+      "severe_trauma": {
+        "icd10": "T07",
+        "description_en": "Multiple injuries, unspecified",
+        "description_ar": "إصابات متعددة"
+      },
+      "active_hemorrhage": {
+        "icd10": "R58",
+        "description_en": "Hemorrhage, NEC",
+        "description_ar": "نزيف حاد"
+      }
+    },
+    
+    "level_2_codes": {
+      "chest_pain": {
+        "icd10": "R07.9",
+        "description_en": "Chest pain, unspecified",
+        "description_ar": "ألم في الصدر"
+      },
+      "chest_pain_cardiac": {
+        "icd10": "R07.9",
+        "description_en": "Chest pain, unspecified",
+        "description_ar": "ألم صدري قلبي"
+      },
+      "difficulty_breathing": {
+        "icd10": "R06.02",
+        "description_en": "Shortness of breath",
+        "description_ar": "صعوبة في التنفس"
+      },
+      "altered_mental_status": {
+        "icd10": "R41.82",
+        "description_en": "Altered mental status, unspecified",
+        "description_ar": "تغير في الحالة العقلية"
+      },
+      "syncope": {
+        "icd10": "R55",
+        "description_en": "Syncope and collapse",
+        "description_ar": "إغماء"
+      },
+      "severe_pain": {
+        "icd10": "R52",
+        "description_en": "Pain, unspecified",
+        "description_ar": "ألم شديد"
+      },
+      "high_risk_mechanism": {
+        "icd10": "T14.90",
+        "description_en": "Injury, unspecified",
+        "description_ar": "إصابة عالية الخطورة"
+      },
+      "overdose": {
+        "icd10": "T50.9",
+        "description_en": "Poisoning by unspecified drugs",
+        "description_ar": "جرعة زائدة"
+      },
+      "suicidal": {
+        "icd10": "R45.851",
+        "description_en": "Suicidal ideations",
+        "description_ar": "أفكار انتحارية"
+      },
+      "palpitations": {
+        "icd10": "R00.2",
+        "description_en": "Palpitations",
+        "description_ar": "خفقان"
+      },
+      "hemoptysis": {
+        "icd10": "R04.2",
+        "description_en": "Hemoptysis",
+        "description_ar": "نفث الدم"
+      },
+      "hematemesis": {
+        "icd10": "K92.0",
+        "description_en": "Hematemesis",
+        "description_ar": "قيء دموي"
+      },
+      "severe_headache": {
+        "icd10": "R51.9",
+        "description_en": "Headache, unspecified",
+        "description_ar": "صداع شديد"
+      },
+      "diabetic_emergency": {
+        "icd10": "E16.2",
+        "description_en": "Hypoglycemia, unspecified",
+        "description_ar": "طوارئ السكري"
+      },
+      "severe_allergic_reaction": {
+        "icd10": "T78.40",
+        "description_en": "Allergy, unspecified",
+        "description_ar": "تفاعل تحسسي شديد"
+      }
+    },
+    
+    "level_3_codes": {
+      "abdominal_pain": {
+        "icd10": "R10.9",
+        "description_en": "Unspecified abdominal pain",
+        "description_ar": "ألم بطني"
+      },
+      "fever": {
+        "icd10": "R50.9",
+        "description_en": "Fever, unspecified",
+        "description_ar": "حمى"
+      },
+      "vomiting": {
+        "icd10": "R11.10",
+        "description_en": "Vomiting, unspecified",
+        "description_ar": "قيء"
+      },
+      "diarrhea": {
+        "icd10": "R19.7",
+        "description_en": "Diarrhea, unspecified",
+        "description_ar": "إسهال"
+      },
+      "cough": {
+        "icd10": "R05.9",
+        "description_en": "Cough, unspecified",
+        "description_ar": "سعال"
+      },
+      "dizziness": {
+        "icd10": "R42",
+        "description_en": "Dizziness and giddiness",
+        "description_ar": "دوخة"
+      },
+      "back_pain": {
+        "icd10": "M54.9",
+        "description_en": "Dorsalgia, unspecified",
+        "description_ar": "ألم الظهر"
+      },
+      "urinary_symptoms": {
+        "icd10": "R30.0",
+        "description_en": "Dysuria",
+        "description_ar": "أعراض بولية"
+      },
+      "headache": {
+        "icd10": "R51.9",
+        "description_en": "Headache, unspecified",
+        "description_ar": "صداع"
+      },
+      "weakness": {
+        "icd10": "R53.1",
+        "description_en": "Weakness",
+        "description_ar": "ضعف"
+      },
+      "nausea": {
+        "icd10": "R11.0",
+        "description_en": "Nausea",
+        "description_ar": "غثيان"
+      },
+      "rash": {
+        "icd10": "R21",
+        "description_en": "Rash and other nonspecific skin eruption",
+        "description_ar": "طفح جلدي"
+      },
+      "sore_throat": {
+        "icd10": "R07.0",
+        "description_en": "Pain in throat",
+        "description_ar": "التهاب الحلق"
+      },
+      "eye_pain": {
+        "icd10": "H57.10",
+        "description_en": "Ocular pain, unspecified eye",
+        "description_ar": "ألم العين"
+      },
+      "ear_pain": {
+        "icd10": "H92.0",
+        "description_en": "Otalgia",
+        "description_ar": "ألم الأذن"
+      },
+      "joint_pain": {
+        "icd10": "M25.50",
+        "description_en": "Pain in unspecified joint",
+        "description_ar": "ألم المفاصل"
+      },
+      "pregnancy_complaint": {
+        "icd10": "O26.90",
+        "description_en": "Pregnancy related condition, unspecified",
+        "description_ar": "شكوى متعلقة بالحمل"
+      }
+    },
+    
+    "level_4_codes": {
+      "minor_injury": {
+        "icd10": "T14.90",
+        "description_en": "Injury, unspecified",
+        "description_ar": "إصابة طفيفة"
+      },
+      "mild_pain": {
+        "icd10": "R52",
+        "description_en": "Pain, unspecified",
+        "description_ar": "ألم خفيف"
+      },
+      "cold_symptoms": {
+        "icd10": "J06.9",
+        "description_en": "Acute upper respiratory infection, unspecified",
+        "description_ar": "أعراض البرد"
+      },
+      "constipation": {
+        "icd10": "K59.00",
+        "description_en": "Constipation, unspecified",
+        "description_ar": "إمساك"
+      },
+      "chronic_complaint": {
+        "icd10": "R69",
+        "description_en": "Illness, unspecified",
+        "description_ar": "شكوى مزمنة"
+      },
+      "medication_refill": {
+        "icd10": "Z76.0",
+        "description_en": "Encounter for issue of repeat prescription",
+        "description_ar": "تجديد الأدوية"
+      }
+    },
+    
+    "level_5_codes": {
+      "non_urgent": {
+        "icd10": "Z71.1",
+        "description_en": "Person with feared health complaint",
+        "description_ar": "غير طارئ"
+      },
+      "prescription_request": {
+        "icd10": "Z76.0",
+        "description_en": "Encounter for issue of repeat prescription",
+        "description_ar": "طلب وصفة طبية"
+      },
+      "medical_clearance": {
+        "icd10": "Z02.9",
+        "description_en": "Encounter for administrative examination, unspecified",
+        "description_ar": "فحص طبي"
+      }
+    },
+    
+    "special_patterns": {
+      "silent_mi_diabetic": {
+        "icd10": "R07.89",
+        "description_en": "Other chest pain (atypical presentation)",
+        "description_ar": "احتشاء صامت - مريض سكري",
+        "upgrade_to_level": 2,
+        "red_flags": ["diabetic", "male >50", "nausea", "fatigue", "diaphoresis"]
+      },
+      "sepsis_concern": {
+        "icd10": "R65.20",
+        "description_en": "Severe sepsis without septic shock",
+        "description_ar": "اشتباه إنتان",
+        "upgrade_to_level": 2,
+        "red_flags": ["fever", "tachycardia", "altered mental status", "hypotension"]
+      },
+      "pe_concern": {
+        "icd10": "R06.02",
+        "description_en": "Shortness of breath",
+        "description_ar": "اشتباه انسداد رئوي",
+        "upgrade_to_level": 2,
+        "red_flags": ["sudden dyspnea", "pleuritic chest pain", "recent immobility", "DVT history"]
+      }
+    }
+  },
+  
+  "arabic_symptoms_to_icd10": {
+    "صدري بيوجعني": "R07.9",
+    "قلبي بيخبط": "R00.2",
+    "مخنوق": "R06.00",
+    "مش قادر اتنفس": "R06.02",
+    "بطني بيوجعني": "R10.9",
+    "معدتي بتوجعني": "R10.13",
+    "صداع": "R51.9",
+    "دوخة": "R42",
+    "إغماء": "R55",
+    "حرارة": "R50.9",
+    "سخونية": "R50.9",
+    "قيء": "R11.10",
+    "استفراغ": "R11.10",
+    "إسهال": "R19.7",
+    "كحة": "R05.9",
+    "سعال": "R05.9",
+    "تعب": "R53.83",
+    "إرهاق": "R53.81",
+    "هبطان": "R53.1",
+    "ضعف": "R53.1",
+    "غثيان": "R11.0",
+    "حرقان في البول": "R30.0",
+    "ألم في الظهر": "M54.9",
+    "وجع في الضهر": "M54.9",
+    "تنميل": "R20.2",
+    "خدر": "R20.0",
+    "رجلي ورمت": "R60.0",
+    "تورم": "R60.9",
+    "طفح": "R21",
+    "حكة": "L29.9",
+    "عيني بتوجعني": "H57.10",
+    "ودني بتوجعني": "H92.0",
+    "زور بيوجعني": "R07.0",
+    "حامل وعندي ألم": "O26.90",
+    "نزيف": "R58"
+  }
+}

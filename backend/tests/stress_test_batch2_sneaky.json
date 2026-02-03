@@ -1,0 +1,352 @@
+[
+  {
+    "text": "هبطان ومعدتي مقلوبة من الصبح",
+    "translation": "Fatigued and stomach upset since morning",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Silent MI - atypical presentation in diabetics/elderly"
+  },
+  {
+    "text": "عرقان تلج وحاسس اني هاموت",
+    "translation": "Sweating ice cold and feel like dying",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Diaphoresis + sense of doom = MI until proven otherwise"
+  },
+  {
+    "text": "تعبان جداً ومش قادر اقف على رجلي",
+    "translation": "Very tired and can't stand on my feet",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Sudden profound weakness in elderly = silent MI"
+  },
+  {
+    "text": "جسمي مكسر وبرجع من امبارح",
+    "translation": "Body broken and vomiting since yesterday",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Nausea/vomiting + malaise in diabetic = atypical MI"
+  },
+  {
+    "text": "حاسس بغثيان شديد وعرق بارد",
+    "translation": "Severe nausea and cold sweat",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Cold diaphoresis + nausea = vagal response to MI"
+  },
+  {
+    "text": "مفيش طاقة خالص وبحس بدوخة",
+    "translation": "No energy at all and feeling dizzy",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Fatigue + lightheadedness = possible cardiogenic shock"
+  },
+  {
+    "text": "حاسس ان روحي بتتسحب مني",
+    "translation": "Feel like my soul is being pulled out",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Sense of impending doom - classic MI sign"
+  },
+  {
+    "text": "معدتي واجعاني وبعرق كتير",
+    "translation": "Stomach hurts and sweating a lot",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Epigastric pain + diaphoresis = inferior MI"
+  },
+  {
+    "text": "باباي السكري تعبان جداً وبيرجع",
+    "translation": "My diabetic father very sick and vomiting",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Diabetic + vomiting + malaise = silent MI"
+  },
+  {
+    "text": "جدي عرقان ولونه اصفر وهبطان",
+    "translation": "Grandpa sweating, yellow, and weak",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Elderly + diaphoresis + pallor = cardiogenic shock"
+  },
+  {
+    "text": "حاسس بثقل في كتفي ومعدتي بتقلب",
+    "translation": "Heaviness in shoulder and stomach turning",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Shoulder pain + nausea = referred cardiac pain"
+  },
+  {
+    "text": "فجأة حسيت بإرهاق شديد وعرق",
+    "translation": "Suddenly felt extreme fatigue and sweat",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Sudden onset fatigue + diaphoresis in elderly"
+  },
+  {
+    "text": "ماما السكر عندها بترجع وهبطانة",
+    "translation": "Mom with diabetes vomiting and weak",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Female diabetic + GI symptoms = atypical MI"
+  },
+  {
+    "text": "حاسس بوجع في فكي ومعدتي",
+    "translation": "Pain in my jaw and stomach",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Jaw pain + epigastric = atypical angina"
+  },
+  {
+    "text": "عرق بارد وحاسس بضعف شديد فجأة",
+    "translation": "Cold sweat and sudden severe weakness",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Diaphoresis + acute weakness = cardiogenic"
+  },
+  {
+    "text": "الواد طري خالص ومش بيتحرك",
+    "translation": "The boy is very floppy and not moving",
+    "category": "pediatric_sepsis",
+    "expected_level": 1,
+    "clinical_note": "Floppy infant = sepsis/meningitis until proven otherwise"
+  },
+  {
+    "text": "البيبي مش بيعيط حتى",
+    "translation": "The baby isn't even crying",
+    "category": "pediatric_sepsis",
+    "expected_level": 2,
+    "clinical_note": "Inconsolable OR not crying = serious illness"
+  },
+  {
+    "text": "ابني مش بيرضع ونايم طول الوقت",
+    "translation": "My son not breastfeeding and sleeping all time",
+    "category": "pediatric_sepsis",
+    "expected_level": 2,
+    "clinical_note": "Poor feeding + lethargy = sepsis workup"
+  },
+  {
+    "text": "البنت سخنة ورقبتها مش بتلف",
+    "translation": "Girl has fever and neck won't turn",
+    "category": "pediatric_meningitis",
+    "expected_level": 2,
+    "clinical_note": "Fever + neck stiffness in child = meningitis"
+  },
+  {
+    "text": "الواد بيعيط عياط غريب ومش بيسكت",
+    "translation": "Boy crying strange cry and won't stop",
+    "category": "pediatric_meningitis",
+    "expected_level": 2,
+    "clinical_note": "High-pitched cry = meningeal irritation"
+  },
+  {
+    "text": "برازه زي الجيلي الأحمر",
+    "translation": "His stool is like red jelly",
+    "category": "intussusception",
+    "expected_level": 2,
+    "clinical_note": "Currant jelly stool = intussusception emergency"
+  },
+  {
+    "text": "الطفل بيعيط فجأة وبيسحب رجليه على بطنه",
+    "translation": "Child suddenly crying pulling legs to belly",
+    "category": "intussusception",
+    "expected_level": 2,
+    "clinical_note": "Colicky pain + legs drawn up = intussusception"
+  },
+  {
+    "text": "البيبي اليافوخ بتاعه منفوخ",
+    "translation": "Baby's fontanelle is bulging",
+    "category": "pediatric_meningitis",
+    "expected_level": 2,
+    "clinical_note": "Bulging fontanelle = increased ICP/meningitis"
+  },
+  {
+    "text": "ابني مش بيشرب ولسانه ناشف",
+    "translation": "Son not drinking and tongue is dry",
+    "category": "pediatric_dehydration",
+    "expected_level": 2,
+    "clinical_note": "Severe dehydration - dry mucosa + poor intake"
+  },
+  {
+    "text": "البنت عينيها غايرة جوا",
+    "translation": "Girl's eyes are sunken in",
+    "category": "pediatric_dehydration",
+    "expected_level": 2,
+    "clinical_note": "Sunken eyes = severe dehydration"
+  },
+  {
+    "text": "الواد قاطع أكل خالص ونايم طول اليوم",
+    "translation": "Boy stopped eating completely sleeping all day",
+    "category": "pediatric_sepsis",
+    "expected_level": 2,
+    "clinical_note": "Anorexia + excessive sleep = serious illness"
+  },
+  {
+    "text": "البيبي جلده بقى زي الورق",
+    "translation": "Baby's skin became like paper",
+    "category": "pediatric_dehydration",
+    "expected_level": 2,
+    "clinical_note": "Poor skin turgor = severe dehydration"
+  },
+  {
+    "text": "ابني بقاله يوم مش بيعمل حمام",
+    "translation": "Son hasn't urinated for a day",
+    "category": "pediatric_dehydration",
+    "expected_level": 2,
+    "clinical_note": "No urine output 24h = severe dehydration/AKI"
+  },
+  {
+    "text": "البنت بتترعش وسخنة جداً",
+    "translation": "Girl shaking and very hot",
+    "category": "febrile_seizure",
+    "expected_level": 2,
+    "clinical_note": "Febrile seizure - needs immediate evaluation"
+  },
+  {
+    "text": "الواد لونه ازرق حوالين بقه",
+    "translation": "Boy is blue around his mouth",
+    "category": "pediatric_respiratory",
+    "expected_level": 1,
+    "clinical_note": "Perioral cyanosis = respiratory failure"
+  },
+  {
+    "text": "نفسه عالي جداً وعطشان موت",
+    "translation": "Breathing very high and dying of thirst",
+    "category": "dka",
+    "expected_level": 2,
+    "clinical_note": "Kussmaul breathing + polydipsia = DKA"
+  },
+  {
+    "text": "ريحة بقه زي التفاح المعفن",
+    "translation": "Mouth smells like rotten apples",
+    "category": "dka",
+    "expected_level": 2,
+    "clinical_note": "Fruity breath = ketoacidosis"
+  },
+  {
+    "text": "السكر عنده وبطنه بتوجعه وبيتنفس بسرعة",
+    "translation": "Has diabetes, stomach hurts, breathing fast",
+    "category": "dka",
+    "expected_level": 2,
+    "clinical_note": "Diabetic + abdominal pain + tachypnea = DKA"
+  },
+  {
+    "text": "بيشرب مية كتير جداً وبيتبول كل شوية",
+    "translation": "Drinking lots of water and urinating constantly",
+    "category": "dka",
+    "expected_level": 2,
+    "clinical_note": "Polyuria + polydipsia = hyperglycemic emergency"
+  },
+  {
+    "text": "ابني السكري تعبان وبيتنفس غريب",
+    "translation": "My diabetic son sick breathing weird",
+    "category": "dka",
+    "expected_level": 2,
+    "clinical_note": "Known diabetic + respiratory changes = DKA"
+  },
+  {
+    "text": "عنده سكر ومش واعي كويس",
+    "translation": "Has diabetes and not fully conscious",
+    "category": "dka",
+    "expected_level": 2,
+    "clinical_note": "Diabetic + AMS = DKA or hypoglycemia"
+  },
+  {
+    "text": "بطني بتوجعني وباخد نفس عميق",
+    "translation": "Stomach hurts taking deep breaths",
+    "category": "dka",
+    "expected_level": 2,
+    "clinical_note": "Abdominal pain + Kussmaul = metabolic acidosis"
+  },
+  {
+    "text": "السكر بتاعه عالي جداً وبيرجع",
+    "translation": "His sugar very high and vomiting",
+    "category": "dka",
+    "expected_level": 2,
+    "clinical_note": "Hyperglycemia + vomiting = DKA"
+  },
+  {
+    "text": "نفسه بيطلع من بطنه وريحته وحشة",
+    "translation": "Breathing from belly and smells bad",
+    "category": "dka",
+    "expected_level": 2,
+    "clinical_note": "Deep abdominal breathing + odor = severe DKA"
+  },
+  {
+    "text": "مريض سكر وضغطه واطي ومش فايق",
+    "translation": "Diabetic, low BP, and not alert",
+    "category": "dka",
+    "expected_level": 1,
+    "clinical_note": "DKA with hemodynamic instability = critical"
+  },
+  {
+    "text": "جدتي وقعت ومش قادرة تقوم",
+    "translation": "Grandma fell and can't get up",
+    "category": "hip_fracture_elderly",
+    "expected_level": 2,
+    "clinical_note": "Elderly fall + inability to ambulate = hip fracture"
+  },
+  {
+    "text": "ست كبيرة ورجلها ملفوفة لبرا",
+    "translation": "Old woman and leg rotated outward",
+    "category": "hip_fracture_elderly",
+    "expected_level": 2,
+    "clinical_note": "Shortened/externally rotated leg = hip fracture"
+  },
+  {
+    "text": "جدي اتلخبط فجأة ومش عارف مكانه",
+    "translation": "Grandpa suddenly confused doesn't know where he is",
+    "category": "altered_mental_elderly",
+    "expected_level": 2,
+    "clinical_note": "Acute confusion in elderly = infection/stroke/metabolic"
+  },
+  {
+    "text": "ابويا بقى يتكلم كلام مش مفهوم فجأة",
+    "translation": "Dad suddenly speaking nonsense",
+    "category": "stroke_symptoms",
+    "expected_level": 2,
+    "clinical_note": "Acute onset aphasia = stroke"
+  },
+  {
+    "text": "ماما حاسة برجفة جوا جسمها ومش مرتاحة",
+    "translation": "Mom feels trembling inside her body uncomfortable",
+    "category": "silent_mi",
+    "expected_level": 2,
+    "clinical_note": "Internal tremor + unease = possible cardiac"
+  },
+  {
+    "text": "الراجل الكبير مش عارف يبلع الأكل",
+    "translation": "Old man can't swallow food",
+    "category": "stroke_symptoms",
+    "expected_level": 2,
+    "clinical_note": "New onset dysphagia = stroke until proven otherwise"
+  },
+  {
+    "text": "ست عجوزة بتترجع دم أسود",
+    "translation": "Old woman vomiting black blood",
+    "category": "gi_bleed",
+    "expected_level": 1,
+    "clinical_note": "Coffee ground emesis = upper GI bleed"
+  },
+  {
+    "text": "برازه أسود زي الزفت",
+    "translation": "Stool black like tar",
+    "category": "gi_bleed",
+    "expected_level": 2,
+    "clinical_note": "Melena = upper GI bleeding"
+  },
+  {
+    "text": "الواد بيتنفس بصوت زي الصفارة",
+    "translation": "Boy breathing with whistle sound",
+    "category": "pediatric_respiratory",
+    "expected_level": 2,
+    "clinical_note": "Stridor/wheeze in child = airway compromise"
+  },
+  {
+    "text": "البنت صدرها بينسحب جوا لما بتتنفس",
+    "translation": "Girl's chest pulling in when breathing",
+    "category": "pediatric_respiratory",
+    "expected_level": 2,
+    "clinical_note": "Intercostal retractions = respiratory distress"
+  }
+]
