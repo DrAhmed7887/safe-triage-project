@@ -1,133 +1,158 @@
 """
-Vector Store for SAFE-Triage RAG
-Builds and queries Chroma DB with sentence-transformer embeddings.
+Simple Vector Store using numpy + sentence-transformers
+No ChromaDB dependency - works with Python 3.14
 """
 
 import os
-from typing import List, Dict, Optional, Tuple, Any, TYPE_CHECKING
+import json
+from typing import List, Dict, Optional
 
+import numpy as np
 from sentence_transformers import SentenceTransformer
 
 from .document_processor import process_all_documents
 
-if TYPE_CHECKING:
-    import chromadb
-    from chromadb.config import Settings
-
-DEFAULT_COLLECTION = "safe_triage_guidelines"
-DEFAULT_PERSIST_DIR = os.path.join(os.path.dirname(__file__), "chroma")
-DEFAULT_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-
-_EMBEDDER = None
-_EMBEDDER_NAME = None
+# Multilingual model (Arabic + English)
+DEFAULT_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+DEFAULT_PERSIST_DIR = os.path.join(os.path.dirname(__file__), "vector_data")
 
 
-def get_embedder(model_name: str = DEFAULT_EMBEDDING_MODEL) -> SentenceTransformer:
-    """Lazy-load and return embedding model."""
-    global _EMBEDDER, _EMBEDDER_NAME
-    if _EMBEDDER is None or _EMBEDDER_NAME != model_name:
-        _EMBEDDER = SentenceTransformer(model_name)
-        _EMBEDDER_NAME = model_name
-    return _EMBEDDER
+class SimpleVectorStore:
+    def __init__(self, persist_dir: str = DEFAULT_PERSIST_DIR, model_name: str = DEFAULT_MODEL):
+        self.persist_dir = persist_dir
+        os.makedirs(persist_dir, exist_ok=True)
 
+        self.embeddings_file = os.path.join(persist_dir, "embeddings.npy")
+        self.documents_file = os.path.join(persist_dir, "documents.json")
 
-def embed_texts(texts: List[str], model_name: str = DEFAULT_EMBEDDING_MODEL) -> List[List[float]]:
-    """Generate embeddings for a list of texts."""
-    model = get_embedder(model_name)
-    vectors = model.encode(texts, show_progress_bar=False, convert_to_numpy=True)
-    return vectors.tolist()
+        print(f"Loading embedding model: {model_name}")
+        self.model = SentenceTransformer(model_name)
+        print("Model loaded")
 
+        self.embeddings = None
+        self.documents = []
+        self._load()
 
-def _load_chromadb():
-    """Load ChromaDB with a compatibility shim for pydantic v2."""
-    try:
-        import pydantic
-        if not hasattr(pydantic, "BaseSettings"):
-            try:
-                from pydantic_settings import BaseSettings as _BaseSettings
-                pydantic.BaseSettings = _BaseSettings
-            except Exception as exc:  # pragma: no cover - env specific
-                raise ImportError(
-                    "pydantic-settings is required for chromadb with pydantic v2"
-                ) from exc
-        import chromadb
-        from chromadb.config import Settings
-        return chromadb, Settings
-    except Exception:
-        raise
+    def _load(self):
+        """Load existing embeddings if available."""
+        if os.path.exists(self.embeddings_file) and os.path.exists(self.documents_file):
+            self.embeddings = np.load(self.embeddings_file)
+            with open(self.documents_file, "r", encoding="utf-8") as f:
+                self.documents = json.load(f)
+            print(f"Loaded {len(self.documents)} existing chunks")
 
+    def _save(self):
+        """Persist embeddings to disk."""
+        np.save(self.embeddings_file, self.embeddings)
+        with open(self.documents_file, "w", encoding="utf-8") as f:
+            json.dump(self.documents, f, ensure_ascii=False, indent=2)
+        print(f"Saved {len(self.documents)} chunks to {self.persist_dir}")
 
-def get_collection(
-    persist_dir: str = DEFAULT_PERSIST_DIR,
-    collection_name: str = DEFAULT_COLLECTION,
-) -> Tuple[Any, Any]:
-    """Get or create a Chroma collection."""
-    chromadb, Settings = _load_chromadb()
-    client = chromadb.PersistentClient(
-        path=persist_dir,
-        settings=Settings(anonymized_telemetry=False),
-    )
-    collection = client.get_or_create_collection(
-        name=collection_name,
-        metadata={"hnsw:space": "cosine"},
-    )
-    return client, collection
+    def add_documents(self, documents: List[Dict]):
+        """Add documents with text, source, chunk_id."""
+        if not documents:
+            return
 
+        texts = [doc["text"] for doc in documents]
 
-def add_chunks_to_collection(
-    collection: Any,
-    chunks: List[Dict],
-    batch_size: int = 64,
-    model_name: str = DEFAULT_EMBEDDING_MODEL,
-) -> int:
-    """Add chunked documents to a collection in batches."""
-    total_added = 0
-    for start in range(0, len(chunks), batch_size):
-        batch = chunks[start:start + batch_size]
-        documents = [c["text"] for c in batch]
-        ids = [c["chunk_id"] for c in batch]
-        metadatas = [{"source": c["source"]} for c in batch]
-        embeddings = embed_texts(documents, model_name=model_name)
-        collection.add(
-            documents=documents,
-            embeddings=embeddings,
-            ids=ids,
-            metadatas=metadatas,
-        )
-        total_added += len(batch)
-    return total_added
+        print(f"Generating embeddings for {len(texts)} chunks...")
+        new_embeddings = self.model.encode(texts, show_progress_bar=True)
 
+        if self.embeddings is None:
+            self.embeddings = new_embeddings
+        else:
+            self.embeddings = np.vstack([self.embeddings, new_embeddings])
 
-def build_vector_store(
-    documents_dir: str,
-    persist_dir: str = DEFAULT_PERSIST_DIR,
-    collection_name: str = DEFAULT_COLLECTION,
-    model_name: str = DEFAULT_EMBEDDING_MODEL,
-    force_rebuild: bool = False,
-) -> Tuple[Any, Any]:
-    """
-    Build or load the vector store from documents.
+        self.documents.extend(documents)
+        self._save()
 
-    If force_rebuild is False and collection has data, it returns existing store.
-    """
-    client, collection = get_collection(persist_dir, collection_name)
+    def search(self, query: str, k: int = 5, source_filter: Optional[str] = None) -> List[Dict]:
+        """Search for similar documents."""
+        if self.embeddings is None or len(self.documents) == 0:
+            return []
 
-    if not force_rebuild and collection.count() > 0:
-        return client, collection
+        query_embedding = self.model.encode([query])[0]
 
-    if force_rebuild and collection.count() > 0:
-        client.delete_collection(collection_name)
-        collection = client.get_or_create_collection(
-            name=collection_name,
-            metadata={"hnsw:space": "cosine"},
+        # Cosine similarity
+        similarities = np.dot(self.embeddings, query_embedding) / (
+            np.linalg.norm(self.embeddings, axis=1) * np.linalg.norm(query_embedding)
         )
 
+        # Get top-k indices
+        top_indices = np.argsort(similarities)[::-1]
+
+        results = []
+        for idx in top_indices:
+            doc = self.documents[idx]
+            if source_filter and doc.get("source") != source_filter:
+                continue
+            results.append({
+                "text": doc["text"],
+                "source": doc.get("source", "unknown"),
+                "chunk_id": doc.get("chunk_id", str(idx)),
+                "score": float(similarities[idx]),
+            })
+            if len(results) >= k:
+                break
+
+        return results
+
+    def count(self) -> int:
+        return len(self.documents)
+
+
+def build_vector_store(documents_dir: str = None, force_rebuild: bool = False) -> SimpleVectorStore:
+    """Build or load the vector store."""
+    if documents_dir is None:
+        documents_dir = os.path.join(os.path.dirname(__file__), "documents")
+
+    store = SimpleVectorStore()
+
+    if store.count() > 0 and not force_rebuild:
+        print(f"Vector store already has {store.count()} chunks. Skipping rebuild.")
+        return store
+
+    # Clear existing
+    store.embeddings = None
+    store.documents = []
+
+    # Process and add documents
     chunks = process_all_documents(documents_dir)
-    add_chunks_to_collection(collection, chunks, model_name=model_name)
-    return client, collection
+    store.add_documents(chunks)
+
+    return store
+
+
+def retrieve(query: str, k: int = 5, source_filter: Optional[str] = None) -> List[Dict]:
+    """Retrieve relevant chunks for a query."""
+    store = SimpleVectorStore()
+    return store.search(query, k=k, source_filter=source_filter)
 
 
 if __name__ == "__main__":
     docs_dir = os.path.join(os.path.dirname(__file__), "documents")
-    _, collection = build_vector_store(docs_dir, force_rebuild=False)
-    print(f"Vector store ready: {collection.count()} chunks")
+
+    print("=" * 50)
+    print("BUILDING VECTOR STORE")
+    print("=" * 50)
+
+    store = build_vector_store(docs_dir, force_rebuild=True)
+
+    print("\n" + "=" * 50)
+    print("TEST SEARCHES")
+    print("=" * 50)
+
+    tests = [
+        ("chest pain diabetic", None),
+        ("ESI level 1 immediate", "ESI_v5"),
+        ("NEWS2 score 7", "NEWS2"),
+        ("توثيق الطوارئ", "GAHAR"),
+    ]
+
+    for query, source in tests:
+        suffix = f" [filter: {source}]" if source else ""
+        print(f"\nQuery: '{query}'{suffix}")
+        results = store.search(query, k=2, source_filter=source)
+        for result in results:
+            print(f"  [{result['source']}] score={result['score']:.3f}")
+            print(f"  {result['text'][:120]}...")
