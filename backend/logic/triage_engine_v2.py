@@ -68,7 +68,7 @@ from typing import Dict, List, Optional, Tuple
 from enum import IntEnum
 import json
 import os
-import google.generativeai as genai
+# import google.generativeai as genai  # REMOVED - using Vertex AI
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -440,12 +440,19 @@ class SymptomClassifier:
     
     def __init__(self):
         api_key = os.getenv("GEMINI_API_KEY")
-        if api_key:
+        genai = None
+        try:
+            import google.generativeai as _genai
+            genai = _genai
+        except Exception as e:
+            print(f"Warning: google.generativeai not available: {e}")
+        if api_key and genai:
             genai.configure(api_key=api_key)
             self.model = genai.GenerativeModel('gemini-2.0-flash')
         else:
             self.model = None
-            print("Warning: GEMINI_API_KEY not found. AI classification disabled.")
+            if not api_key:
+                print("Warning: GEMINI_API_KEY not found. AI classification disabled.")
     
     def classify(self, chief_complaint: str, age: int = 30) -> Tuple[str, str]:
         """

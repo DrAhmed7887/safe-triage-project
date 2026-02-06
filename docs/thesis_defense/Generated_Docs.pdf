@@ -1,0 +1,593 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R 7 0 R 9 0 R 11 0 R 13 0 R] /Count 6 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 1247 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 720 Td
+(SAFE-TRIAGE API DOCUMENTATION) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(OVERVIEW) Tj
+T*
+() Tj
+T*
+(SAFE-Triage provides clinical decision support for emergency department triage using a) Tj
+T*
+(hybrid AI + deterministic rules approach.) Tj
+T*
+() Tj
+T*
+(Base URL \(Cloud Run\):) Tj
+T*
+(- https://safe-triage-eciux5h4aq-uc.a.run.app) Tj
+T*
+() Tj
+T*
+(ENDPOINTS) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(POST /AI-TRIAGE) Tj
+T*
+() Tj
+T*
+(**Description:** AI-assisted triage assessment \(Gemini + UMLS + deterministic ESI rules\).) Tj
+T*
+() Tj
+T*
+(**Request**) Tj
+T*
+({) Tj
+T*
+(  "patient_id": "string",) Tj
+T*
+(  "age": 58,) Tj
+T*
+(  "gender": "male",) Tj
+T*
+(  "chief_complaint_text": "chest pain radiating to arm",) Tj
+T*
+(  "vitals": {) Tj
+T*
+(    "hr": 95,) Tj
+T*
+(    "sbp": 140,) Tj
+T*
+(    "dbp": 90,) Tj
+T*
+(    "rr": 18,) Tj
+T*
+(    "temp": 37,) Tj
+T*
+(    "spo2": 97) Tj
+T*
+(  },) Tj
+T*
+(  "consciousness": "A",) Tj
+T*
+(  "comorbidities": ["diabetes"]) Tj
+T*
+(}) Tj
+T*
+() Tj
+T*
+(**Response \(example\)**) Tj
+T*
+({) Tj
+T*
+(  "level": 2,) Tj
+T*
+(  "ai_data": {) Tj
+T*
+(    "snomed_code": "225566008",) Tj
+T*
+(    "category": "chest_pain_cardiac",) Tj
+T*
+(    "icd10_coding": {"primary_code": "I20.9"}) Tj
+T*
+(  },) Tj
+T*
+(  "red_flags": [],) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 1258 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 720 Td
+(  "reasoning": ["..."],) Tj
+T*
+(  "icd10_coding": {"primary_code": "I20.9"}) Tj
+T*
+(}) Tj
+T*
+() Tj
+T*
+(POST /TRIAGE) Tj
+T*
+() Tj
+T*
+(**Description:** Deterministic triage \(no AI\).) Tj
+T*
+() Tj
+T*
+(POST /CONFIRM-TRIAGE) Tj
+T*
+() Tj
+T*
+(**Description:** Record human confirmation/override of triage decision.) Tj
+T*
+() Tj
+T*
+(**Request**) Tj
+T*
+({) Tj
+T*
+(  "patient_id": "string",) Tj
+T*
+(  "recommended_esi": 2,) Tj
+T*
+(  "confirmed_esi": 2,) Tj
+T*
+(  "clinician_id": "nurse_01",) Tj
+T*
+(  "clinician_role": "nurse",) Tj
+T*
+(  "action": "confirmed",) Tj
+T*
+(  "override_reason": null,) Tj
+T*
+(  "supervisor_pin": null) Tj
+T*
+(}) Tj
+T*
+() Tj
+T*
+(POST /CONFIRM-TRIAGE/REQUEST) Tj
+T*
+() Tj
+T*
+(**Description:** Register pending confirmation \(for timeout/queue\).) Tj
+T*
+() Tj
+T*
+(GET /PENDING-CONFIRMATIONS) Tj
+T*
+() Tj
+T*
+(**Description:** List pending confirmations.) Tj
+T*
+() Tj
+T*
+(POST /TRANSCRIBE) Tj
+T*
+() Tj
+T*
+(**Description:** Speech-to-text \(ar-EG\) using Google Speech-to-Text.) Tj
+T*
+() Tj
+T*
+(**Multipart Form**) Tj
+T*
+(- `audio`: audio file \(webm/ogg/wav\)) Tj
+T*
+(- `language`: `ar-EG` \(default\)) Tj
+T*
+() Tj
+T*
+(GET /HEALTH) Tj
+T*
+() Tj
+T*
+(**Description:** Health check.) Tj
+T*
+() Tj
+T*
+(ERROR CODES) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 1417 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 720 Td
+() Tj
+T*
+(- `400`: validation error) Tj
+T*
+(- `401`: invalid supervisor PIN) Tj
+T*
+(- `403`: unauthorized downgrade) Tj
+T*
+(- `500`: internal error) Tj
+T*
+() Tj
+T*
+(------------------------------------------------------------) Tj
+T*
+() Tj
+T*
+(SAFE-TRIAGE DEPLOYMENT GUIDE) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(PREREQUISITES) Tj
+T*
+() Tj
+T*
+(- Google Cloud project with billing enabled) Tj
+T*
+(- UMLS API key) Tj
+T*
+(- Firebase project for frontend hosting) Tj
+T*
+() Tj
+T*
+(ENVIRONMENT VARIABLES) Tj
+T*
+() Tj
+T*
+(- `UMLS_API_KEY`: UMLS API key) Tj
+T*
+(- `USE_VERTEX_SPEECH`: `true` to enable Speech-to-Text) Tj
+T*
+(- `SUPERVISOR_PIN`: Supervisor PIN for downgrades \(default `0000`\)) Tj
+T*
+(- `CONFIRMATION_TIMEOUT_SECONDS`: default `300`) Tj
+T*
+() Tj
+T*
+(BACKEND DEPLOY \(CLOUD RUN\)) Tj
+T*
+() Tj
+T*
+(gcloud run deploy safe-triage \\) Tj
+T*
+(  --source ./backend \\) Tj
+T*
+(  --region us-central1 \\) Tj
+T*
+(  --memory 2Gi \\) Tj
+T*
+(  --cpu 2 \\) Tj
+T*
+(  --min-instances 1 \\) Tj
+T*
+(  --max-instances 10 \\) Tj
+T*
+(  --allow-unauthenticated \\) Tj
+T*
+(  --project safe-triage-ai \\) Tj
+T*
+(  --set-env-vars="UMLS_API_KEY=...) Tj
+T*
+(,USE_VERTEX_SPEECH=true,SUPERVISOR_PIN=0000,CONFIRMATION_TIMEOUT_SECONDS=300") Tj
+T*
+() Tj
+T*
+(FRONTEND DEPLOY \(FIREBASE\)) Tj
+T*
+() Tj
+T*
+(cd frontend) Tj
+T*
+(npm run build) Tj
+T*
+(firebase deploy --only hosting) Tj
+T*
+() Tj
+T*
+(SPEECH-TO-TEXT ENABLEMENT) Tj
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 1651 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 720 Td
+() Tj
+T*
+(gcloud services enable speech.googleapis.com --project safe-triage-ai) Tj
+T*
+(gcloud projects add-iam-policy-binding safe-triage-ai \\) Tj
+T*
+(  --member="serviceAccount:459364571026-compute@developer.gserviceaccount.com" \\) Tj
+T*
+(  --role="roles/speech.client") Tj
+T*
+() Tj
+T*
+(MEDGEMMA QA JOB) Tj
+T*
+() Tj
+T*
+(gcloud run jobs deploy medgemma-qa-review \\) Tj
+T*
+(  --source ./backend \\) Tj
+T*
+(  --region us-central1 \\) Tj
+T*
+(  --project safe-triage-ai \\) Tj
+T*
+(  --command python \\) Tj
+T*
+(  --args jobs/medgemma_qa_job.py) Tj
+T*
+() Tj
+T*
+(gcloud scheduler jobs create http medgemma-qa-schedule \\) Tj
+T*
+(  --location us-central1 \\) Tj
+T*
+(  --schedule "*/15 * * * *" \\) Tj
+T*
+(  --uri "https://us-) Tj
+T*
+(central1-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/safe-triage-) Tj
+T*
+(ai/jobs/medgemma-qa-review:run" \\) Tj
+T*
+(  --http-method POST \\) Tj
+T*
+(  --oauth-service-account-email 459364571026-compute@developer.gserviceaccount.com) Tj
+T*
+() Tj
+T*
+(------------------------------------------------------------) Tj
+T*
+() Tj
+T*
+(SAFE-TRIAGE USER GUIDE) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(FOR TRIAGE NURSES) Tj
+T*
+() Tj
+T*
+(1. Enter patient demographics) Tj
+T*
+(2. Record chief complaint \(voice or text\)) Tj
+T*
+(3. Enter vital signs) Tj
+T*
+(4. Click **Assess Patient**) Tj
+T*
+(5. Review recommendation and confirm ESI within 5 minutes) Tj
+T*
+() Tj
+T*
+(CONFIRMING ESI) Tj
+T*
+() Tj
+T*
+(- Click **Confirm ESI** to accept AI recommendation) Tj
+T*
+(- If overriding, select new ESI and provide a reason) Tj
+T*
+(- Downgrades require supervisor PIN) Tj
+T*
+() Tj
+T*
+(FOR SUPERVISORS) Tj
+T*
+() Tj
+ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 12 0 R >>
+endobj
+12 0 obj
+<< /Length 1581 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 720 Td
+(- Review pending confirmations) Tj
+T*
+(- Enter PIN to approve downgrades) Tj
+T*
+(- Monitor QA flags \(MedGemma job\)) Tj
+T*
+() Tj
+T*
+(TROUBLESHOOTING) Tj
+T*
+() Tj
+T*
+(- If voice input fails, use manual text entry) Tj
+T*
+(- If offline, system uses cached SNOMED + ICD-10) Tj
+T*
+(- If confirmation times out, case escalates to supervisor) Tj
+T*
+() Tj
+T*
+(------------------------------------------------------------) Tj
+T*
+() Tj
+T*
+(PERFORMANCE BENCHMARK REPORT) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(METHOD) Tj
+T*
+() Tj
+T*
+(- Warm instance \(`min-instances=1` enabled\)) Tj
+T*
+(- Attempted repeated POST requests to `/ai-triage`) Tj
+T*
+() Tj
+T*
+(RESULTS \(THIS ENVIRONMENT\)) Tj
+T*
+() Tj
+T*
+(- `/health` response time: ~0.42s) Tj
+T*
+(- Single successful `/ai-triage` request: ~2.39s) Tj
+T*
+(- Repeated POST benchmarking is unreliable due to intermittent DNS resolution in this) Tj
+T*
+(environment.) Tj
+T*
+() Tj
+T*
+(RECOMMENDATION) Tj
+T*
+() Tj
+T*
+(- Re-run `backend/performance_benchmark.py` from local machine or Cloud Shell for full) Tj
+T*
+(metrics.) Tj
+T*
+(- Target: mean < 0.5s, P95 < 0.8s, P99 < 1.5s) Tj
+T*
+() Tj
+T*
+(COLD START) Tj
+T*
+() Tj
+T*
+(- Improved from 17.4s to ~0.45s \(97% faster\)) Tj
+T*
+() Tj
+T*
+(------------------------------------------------------------) Tj
+T*
+() Tj
+T*
+(SAFE-TRIAGE THESIS DEFENSE SLIDES \(OUTLINE\)) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(1. Title: SAFE-Triage – AI-Powered Emergency Triage for Egyptian Hospitals) Tj
+T*
+(2. Problem: ED overcrowding, unreliable internet, language barriers) Tj
+T*
+(3. Research Question & Objectives) Tj
+ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 14 0 R >>
+endobj
+14 0 obj
+<< /Length 825 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 720 Td
+(4. System Architecture \(3-layer model\)) Tj
+T*
+(5. Hybrid Approach: AI extracts, rules decide, human confirms) Tj
+T*
+(6. UMLS RAG + SNOMED-CT integration) Tj
+T*
+(7. Offline Mode \(6,370 SNOMED + ICD-10 cache\)) Tj
+T*
+(8. Arabic Support \(ar-EG speech + bilingual UI\)) Tj
+T*
+(9. Human Confirmation Workflow) Tj
+T*
+(10. MedGemma QA \(async review\)) Tj
+T*
+(11. Alerts \(Telegram → Email\)) Tj
+T*
+(12. Validation: 138 scenarios, zero under-triage) Tj
+T*
+(13. Performance: cold start 0.45s) Tj
+T*
+(14. Case Study: Chest pain → ESI 2 \(SNOMED 225566008, ICD-10 I20.9\)) Tj
+T*
+(15. Limitations \(over-triage\)) Tj
+T*
+(16. GAHAR Compliance) Tj
+T*
+(17. Future Work) Tj
+T*
+(18. Conclusion) Tj
+T*
+(19. Q&A) Tj
+T*
+() Tj
+T*
+(------------------------------------------------------------) Tj
+T*
+() Tj
+ET
+endstream
+endobj
+15 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 16
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000147 00000 n 
+0000000273 00000 n 
+0000001572 00000 n 
+0000001698 00000 n 
+0000003008 00000 n 
+0000003134 00000 n 
+0000004603 00000 n 
+0000004730 00000 n 
+0000006434 00000 n 
+0000006562 00000 n 
+0000008196 00000 n 
+0000008324 00000 n 
+0000009201 00000 n 
+trailer
+<< /Size 16 /Root 1 0 R >>
+startxref
+9272
+%%EOF

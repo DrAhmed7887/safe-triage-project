@@ -1,0 +1,219 @@
+
+======================================================================
+SAFE-Triage v2.0 - Complete Test Suite
+NEWS2 + ESI Hybrid Engine with Constrained AI
+======================================================================
+
+============================================================
+TEST 1: NEWS2 Scoring (Deterministic)
+============================================================
+✅ Normal vitals
+   Score: 0 (expected 0)
+   Risk: LOW (expected LOW)
+❌ Multiple abnormal
+   Score: 9 (expected 8)
+   Risk: HIGH (expected HIGH)
+   Missing: ['consciousness']
+✅ Single extreme (HR=35)
+   Score: 3 (expected 3)
+   Risk: HIGH (expected HIGH)
+   Missing: ['consciousness']
+✅ All vitals missing
+   Score: 0 (expected 0)
+   Risk: LOW (expected LOW)
+   Missing: ['rr', 'spo2', 'sbp', 'hr', 'consciousness', 'temp']
+✅ Medium risk
+   Score: 5 (expected 5)
+   Risk: MEDIUM (expected MEDIUM)
+   Missing: ['consciousness']
+
+NEWS2 Tests: 4/5 passed
+
+============================================================
+TEST 2: Category Completeness
+============================================================
+✅ Level 1: 8 categories
+      - cardiac_arrest
+      - respiratory_arrest
+      - unconscious_unresponsive
+      ... and 5 more
+✅ Level 2: 10 categories
+      - chest_pain_cardiac
+      - stroke_symptoms
+      - respiratory_distress
+      ... and 7 more
+✅ Level 3: 8 categories
+      - abdominal_pain_moderate
+      - moderate_trauma
+      - headache_severe
+      ... and 5 more
+✅ Level 4: 7 categories
+      - minor_trauma
+      - fever_simple
+      - mild_pain
+      ... and 4 more
+✅ Level 5: 3 categories
+      - chronic_refill
+      - minor_complaint
+      - medical_certificate
+
+Total categories: 36
+
+============================================================
+TEST 3: Triage Scenarios (Egyptian Arabic)
+============================================================
+Warning: GEMINI_API_KEY not found. AI classification disabled.
+🟡 Unconscious
+   Complaint: فاقد الوعي...
+   Expected: L1 | Got: L2
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=6→L2, Final=L2
+🟡 Not breathing
+   Complaint: مش بيتنفس...
+   Expected: L1 | Got: L2
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=3→L2, Final=L2
+❌ Overdose
+   Complaint: بلع حبوب كتير...
+   Expected: L1 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+🟡 Severe trauma
+   Complaint: حادثة عربية ودماغه بتنزف...
+   Expected: L1 | Got: L2
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=3→L2, Final=L2
+🟡 Chest pain cardiac
+   Complaint: ألم في صدري وذراعي الشمال...
+   Expected: L2 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=1→L4, Final=L3
+🟡 Stroke
+   Complaint: وشي اتلوى ومش عارف اتكلم...
+   Expected: L2 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+✅ Respiratory distress
+   Complaint: مش عارف آخد نفسي...
+   Expected: L2 | Got: L2
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=6→L2, Final=L2
+🟡 Suicidal
+   Complaint: عايز أموت...
+   Expected: L2 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+🟡 Obstetric emergency
+   Complaint: حامل وبنزف دم كتير...
+   Expected: L2 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=3→L4, Final=L3
+🟡 Diabetic emergency
+   Complaint: السكر وقع عندي ومرتعش...
+   Expected: L2 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+✅ Abdo pain + fever
+   Complaint: بطني بتوجعني وعندي سخونية...
+   Expected: L3 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=2→L4, Final=L3
+✅ Severe headache
+   Complaint: صداع شديد من امبارح...
+   Expected: L3 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+✅ Pediatric vomiting
+   Complaint: الواد بيرجع من امبارح ومش بياكل...
+   Expected: L3 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=2→L4, Final=L3
+🟡 Cold symptoms
+   Complaint: عندي برد وزور...
+   Expected: L4 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+🟡 Minor laceration
+   Complaint: ايدي اتجرحت وعايز غرز...
+   Expected: L4 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+🟡 Ear pain
+   Complaint: ودني بتوجعني...
+   Expected: L4 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+❌ Med refill
+   Complaint: عايز أجدد علاج الضغط...
+   Expected: L5 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+❌ Medical certificate
+   Complaint: عايز تقرير طبي للشغل...
+   Expected: L5 | Got: L3
+   Category: unclear_needs_evaluation
+   Path: Category=unclear_needs_evaluation→L3, NEWS2=0→L4, Final=L3
+
+Scenarios: 9/18 passed
+
+Failed cases:
+  - Overdose: expected L1, got L3
+  - Med refill: expected L5, got L3
+  - Medical certificate: expected L5, got L3
+
+============================================================
+TEST 4: Missing Vitals Handling
+============================================================
+Warning: GEMINI_API_KEY not found. AI classification disabled.
+Complaint: ألم صدر شديد (chest pain)
+Vitals provided: None
+Triage Level: 3
+Missing vitals: ['rr', 'spo2', 'sbp', 'hr', 'consciousness', 'temp']
+Alerts (AR): ['⚠️ تحذير: بيانات الحيوية ناقصة - التقييم غير مكتمل', '⚠️ معدل التنفس غير مسجل', '⚠️ نسبة الأكسجين غير مسجلة', '⚠️ ضغط الدم غير مسجل', '⚠️ النبض غير مسجل', '⚠️ درجة الحرارة غير مسجلة']
+
+❌ High-risk complaint gets appropriate level despite missing vitals
+✅ System warns about missing vitals
+
+============================================================
+TEST 5: NEWS2 Vital Thresholds
+============================================================
+✅ RR=8 → Score 3 (got 3)
+✅ RR=9 → Score 1 (got 1)
+✅ RR=12 → Score 0 (got 0)
+✅ RR=24 → Score 2 (got 2)
+✅ RR=25 → Score 3 (got 3)
+✅ HR=40 → Score 3 (got 3)
+✅ HR=41 → Score 1 (got 1)
+✅ HR=51 → Score 0 (got 0)
+✅ HR=91 → Score 1 (got 1)
+✅ HR=131 → Score 3 (got 3)
+✅ SpO2=91 → Score 3 (got 3)
+✅ SpO2=92 → Score 2 (got 2)
+✅ SpO2=94 → Score 1 (got 1)
+✅ SpO2=96 → Score 0 (got 0)
+✅ SBP=90 → Score 3 (got 3)
+✅ SBP=91 → Score 2 (got 2)
+✅ SBP=111 → Score 0 (got 0)
+✅ SBP=220 → Score 3 (got 3)
+
+Threshold tests: 18/18 passed
+
+============================================================
+TEST 6: Determinism Check
+============================================================
+Warning: GEMINI_API_KEY not found. AI classification disabled.
+Results over 5 runs: [3, 3, 3, 3, 3]
+✅ All results identical: True
+
+======================================================================
+SUMMARY
+======================================================================
+  ❌ FAIL | NEWS2 Scoring
+  ✅ PASS | Category Completeness
+  ❌ FAIL | Triage Scenarios
+  ❌ FAIL | Missing Vitals
+  ✅ PASS | NEWS2 Thresholds
+  ✅ PASS | Determinism
+
+Overall: 3/6 test groups passed
+======================================================================

@@ -1,0 +1,157 @@
+======================================================================
+SAFE-Triage AI - Scenario Testing (اختبار السيناريوهات)
+======================================================================
+✅ PASS | Unconscious patient
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Unresponsive patient
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Cardiac arrest
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Not breathing
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Active seizure
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Gunshot wound
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Stab wound
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Choking
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Overdose
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Anaphylaxis
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Severe bradycardia (HR < 40)
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Respiratory failure (RR < 8)
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Severe hypoxia (SpO2 < 90)
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Severe tachycardia (HR > 150)
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Shock (SBP < 80)
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Arabic - فاقد الوعي
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Arabic - مغمى عليه
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Arabic - مش بيتنفس
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Arabic - تشنجات
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Arabic - طعن
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Arabic - جرعة زيادة
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Arabic - شرقان
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Arabic - ضربة شمس
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Arabic - نزيف شديد
+       Expected: Level 1 | Got: Level 1
+
+✅ PASS | Chest pain - adult
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Stroke symptoms
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Difficulty breathing (stable SpO2)
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Severe abdominal pain
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Suicidal ideation
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | High pain score (>=7)
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Altered mental status (GCS 12)
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Arabic - ألم صدر شديد
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Arabic - مش عارف آخد نفسي
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Arabic - جلطة
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Arabic - عايز يموت
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Arabic - حامل وبتنزف
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Arabic - السكر واطي
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Arabic - قلبي بيدق جامد
+       Expected: Level 2 | Got: Level 2
+
+✅ PASS | Abdominal pain with fever
+       Expected: Level 3 | Got: Level 3
+
+✅ PASS | Minor trauma with pain
+       Expected: Level 3 | Got: Level 3
+
+✅ PASS | Arabic - وجع بطن ومغص
+       Expected: Level 3 | Got: Level 3
+
+✅ PASS | Arabic - وقعت وايدي وارمة
+       Expected: Level 3 | Got: Level 3
+
+✅ PASS | Simple laceration
+       Expected: Level 4 | Got: Level 4
+
+✅ PASS | Mild fever
+       Expected: Level 4 | Got: Level 4
+
+✅ PASS | Arabic - جرح محتاج غرز
+       Expected: Level 4 | Got: Level 4
+
+✅ PASS | Arabic - سخونية
+       Expected: Level 4 | Got: Level 4
+
+✅ PASS | Prescription refill
+       Expected: Level 5 | Got: Level 5
+
+✅ PASS | Minor complaint
+       Expected: Level 5 | Got: Level 5
+
+✅ PASS | Arabic - عايز روشتة
+       Expected: Level 5 | Got: Level 5
+
+✅ PASS | Arabic - برد خفيف
+       Expected: Level 5 | Got: Level 5
+
+======================================================================
+RESULTS: 50 passed, 0 failed out of 50 tests
+النتائج: 50 نجح، 0 فشل من 50 اختبار
+======================================================================

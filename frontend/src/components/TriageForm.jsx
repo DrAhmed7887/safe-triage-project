@@ -88,6 +88,7 @@ export default function TriageForm({ onResult }) {
     // Voice Recording State
     const [isRecording, setIsRecording] = useState(false);
     const [isTranscribing, setIsTranscribing] = useState(false);
+    const [voiceLanguage, setVoiceLanguage] = useState('auto');
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
 
@@ -158,7 +159,7 @@ export default function TriageForm({ onResult }) {
             mediaRecorderRef.current.start();
             setIsRecording(true);
         } catch (err) {
-            setError('Microphone access denied. Please allow microphone permission.');
+            setError('Microphone access denied. Please allow microphone permission. | تم رفض صلاحية الميكروفون. يرجى السماح بالوصول.');
         }
     };
 
@@ -181,6 +182,7 @@ export default function TriageForm({ onResult }) {
         try {
             const formDataUpload = new FormData();
             formDataUpload.append('audio', audioBlob, 'recording.webm');
+            formDataUpload.append('language', voiceLanguage || 'auto');
             
             const response = await axios.post(`${API_URL}/transcribe`, formDataUpload);
             
@@ -193,7 +195,7 @@ export default function TriageForm({ onResult }) {
                 }));
             }
         } catch (err) {
-            setError('Transcription failed. Ensure backend is running.');
+            setError('Transcription failed. Ensure backend is running. | فشل التفريغ الصوتي. تأكد من تشغيل الخادم.');
         } finally {
             setIsTranscribing(false);
         }
@@ -364,7 +366,23 @@ export default function TriageForm({ onResult }) {
             onResult({ result: { ...res.data, isAI: useAI }, input: payload });
             
         } catch (err) {
-            setError("Failed to process triage request. Ensure backend is running.");
+            // Parse structured error from backend validation
+            if (err.response?.data?.detail) {
+                const detail = err.response.data.detail;
+                if (typeof detail === 'object' && detail.error) {
+                    setError({
+                        title: detail.error,
+                        titleAr: detail.error_ar,
+                        suggestion: detail.suggestion
+                    });
+                } else {
+                    setError({ title: typeof detail === 'string' ? detail : JSON.stringify(detail) });
+                }
+            } else if (err.response?.status === 422) {
+                setError({ title: "Invalid input data. Please check all required fields." });
+            } else {
+                setError({ title: "Failed to process triage request. Ensure backend is running." });
+            }
         } finally {
             setLoading(false);
         }
@@ -409,9 +427,23 @@ export default function TriageForm({ onResult }) {
                 
                 {/* Error Display */}
                 {error && (
-                    <div className="mb-5 p-4 bg-red-50 text-red-700 rounded-lg flex items-center gap-3 border border-red-200">
-                        <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                        <span>{error}</span>
+                    <div className="mb-5 p-4 bg-red-50 rounded-lg border border-red-200">
+                        <div className="flex items-start gap-3">
+                            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                            <div className="flex-1">
+                                <p className="font-semibold text-red-800">
+                                    {typeof error === 'string' ? error : error.title}
+                                </p>
+                                {error.titleAr && (
+                                    <p className="text-red-700 text-sm mt-1" dir="rtl">{error.titleAr}</p>
+                                )}
+                                {error.suggestion && (
+                                    <p className="text-red-600 text-sm mt-2 bg-red-100 p-2 rounded">
+                                        💡 {error.suggestion}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 )}
 
@@ -487,13 +519,26 @@ export default function TriageForm({ onResult }) {
                             }`}
                         >
                             {isTranscribing ? (
-                                <><Loader2 className="w-3.5 h-3.5 animate-spin" />Transcribing...</>
+                                <><Loader2 className="w-3.5 h-3.5 animate-spin" />Transcribing... | جاري التفريغ...</>
                             ) : isRecording ? (
-                                <><MicOff className="w-3.5 h-3.5" />Stop</>
+                                <><MicOff className="w-3.5 h-3.5" />Stop | إيقاف</>
                             ) : (
-                                <><Mic className="w-3.5 h-3.5" />Voice Input</>
+                                <><Mic className="w-3.5 h-3.5" />Voice Input | إدخال صوتي</>
                             )}
                         </button>
+                    </div>
+
+                    <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-600">
+                        <span className="font-medium">Voice Language | لغة الصوت:</span>
+                        <select
+                            value={voiceLanguage}
+                            onChange={(e) => setVoiceLanguage(e.target.value)}
+                            className="px-2 py-1 rounded-md border border-slate-200 bg-white text-xs"
+                        >
+                            <option value="auto">🌐 Auto | تلقائي</option>
+                            <option value="ar-EG">🇪🇬 Arabic | عربي</option>
+                            <option value="en-US">🇬🇧 English | إنجليزي</option>
+                        </select>
                     </div>
                     
                     {/* Recording Indicator */}
@@ -513,7 +558,7 @@ export default function TriageForm({ onResult }) {
                         dir="auto"
                     />
                     <p className="text-xs text-slate-500 mt-2">
-                        🎤 Voice transcription powered by Gemini AI (Arabic + English)
+                        🎤 Voice transcription (Auto Arabic/English) | تفريغ صوتي تلقائي (عربي/إنجليزي)
                     </p>
                 </SectionCard>
 
@@ -640,18 +685,23 @@ export default function TriageForm({ onResult }) {
 
                         {/* Pain Context - only show if pain > 0 */}
                         {painScaleValue > 0 && (
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                                    Pain Context | <span className="text-slate-400 font-normal">سياق الألم</span>
-                                </label>
-                                <textarea
-                                    value={formData.pain_context}
-                                    onChange={(e) => setFormData({ ...formData, pain_context: e.target.value })}
-                                    placeholder="Location, duration, character... | الموقع، المدة، الطبيعة..."
-                                    className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 min-h-[80px] text-slate-800 placeholder-slate-400"
-                                    dir="auto"
-                                />
-                            </div>
+                            <SelectField
+                                label="Pain Context"
+                                labelAr="سياق الألم"
+                                value={formData.pain_context}
+                                onChange={(e) => setFormData({ ...formData, pain_context: e.target.value })}
+                            >
+                                <option value="">Select context... | اختر السياق...</option>
+                                <option value="systemic">Systemic / Generalized | ألم عام</option>
+                                <option value="chest_pain">Chest Pain | ألم الصدر</option>
+                                <option value="abdominal_pain">Abdominal Pain | ألم البطن</option>
+                                <option value="renal_colic">Renal Colic | مغص كلوي</option>
+                                <option value="sickle_cell_crisis">Sickle Cell Crisis | أزمة منجلية</option>
+                                <option value="cancer_pain">Cancer Pain | ألم السرطان</option>
+                                <option value="orthopedic">Musculoskeletal / Ortho | ألم عضلي هيكلي</option>
+                                <option value="headache">Headache | صداع</option>
+                                <option value="other">Other / غير ذلك</option>
+                            </SelectField>
                         )}
                     </div>
                 </SectionCard>
@@ -833,9 +883,21 @@ export default function TriageForm({ onResult }) {
                 {error && (
                     <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
                         <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                        <div>
-                            <p className="font-semibold text-red-800">Triage Error</p>
-                            <p className="text-sm text-red-700">{error}</p>
+                        <div className="flex-1">
+                            <p className="font-semibold text-red-800">
+                                {typeof error === 'string' ? 'Triage Error' : 'Validation Error | خطأ في التحقق'}
+                            </p>
+                            <p className="text-sm text-red-700 mt-1">
+                                {typeof error === 'string' ? error : error.title}
+                            </p>
+                            {error.titleAr && (
+                                <p className="text-sm text-red-600 mt-1" dir="rtl">{error.titleAr}</p>
+                            )}
+                            {error.suggestion && (
+                                <p className="text-sm text-red-600 mt-2 bg-red-100 p-2 rounded">
+                                    💡 {error.suggestion}
+                                </p>
+                            )}
                         </div>
                     </div>
                 )}

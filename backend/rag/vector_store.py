@@ -10,7 +10,7 @@ from typing import List, Dict, Optional
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-from .document_processor import process_all_documents
+from rag.document_processor import process_all_documents
 
 # Multilingual model (Arabic + English)
 DEFAULT_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"

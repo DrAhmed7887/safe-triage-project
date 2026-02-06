@@ -2,22 +2,50 @@ import React, { useState } from 'react';
 import TriageForm from '../components/TriageForm';
 import TriageResult from '../components/TriageResult';
 import PatientList from '../components/PatientList';
-import { Activity, ClipboardList, LogOut } from 'lucide-react';
+import TriageStats from '../components/TriageStats';
+import { Activity, ClipboardList, LogOut, Download } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { getIdToken } from '../lib/firebaseClient';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export default function Dashboard() {
     const [currentResult, setCurrentResult] = useState(null);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const { user, logout } = useAuth();
 
+    const handleExportReport = async () => {
+        try {
+            const token = await getIdToken();
+            if (!token) throw new Error('Missing auth token');
+            const response = await fetch(`${API_URL}/reports/daily-summary`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) throw new Error('Failed to export report');
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `SAFE_Triage_Daily_Report_${new Date().toISOString().slice(0, 10)}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     // Handle data from TriageForm (contains { result, input })
     const handleResult = (data) => {
         // Determine structure
         const result = data.result || data;
         const input = data.input || {};
+        const mergedResult = { ...result, patient_id: input.patient_id || result.patient_id };
 
         // 1. Update UI
-        setCurrentResult(result);
+        setCurrentResult(mergedResult);
 
         // 2. Save to LocalStorage if input data is present
         if (data.input) {
@@ -62,11 +90,18 @@ export default function Dashboard() {
                         <div>
                             <h1 className="text-xl font-bold text-slate-900">SAFE-Triage AI</h1>
                             <p className="text-xs text-slate-500">
-                                Logged in as: <span className="font-semibold">{user?.name} ({user?.role})</span>
+                                Hello Dr. <span className="font-semibold">{user?.name || 'Clinician'}</span>
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
+                        <button
+                            onClick={handleExportReport}
+                            className="text-sm font-medium text-white bg-[#1a5f7a] hover:bg-[#164d63] px-3 py-1.5 rounded-md flex items-center gap-1"
+                        >
+                            <Download className="w-4 h-4" />
+                            Export Daily Report | تصدير التقرير اليومي
+                        </button>
                         <button
                             onClick={() => window.location.reload()}
                             className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
@@ -101,6 +136,11 @@ export default function Dashboard() {
                     <div className="lg:col-span-1">
                         <PatientList refreshTrigger={refreshTrigger} />
                     </div>
+                </div>
+
+                {/* Statistics Dashboard */}
+                <div className="mt-8">
+                    <TriageStats />
                 </div>
             </main>
 

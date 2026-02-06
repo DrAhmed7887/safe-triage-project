@@ -11,6 +11,9 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
+# Ensure tests run offline (no AI calls)
+os.environ.setdefault("GEMINI_API_KEY", "")
+
 from backend.logic.triage_engine_v2 import (
     DeterministicTriageEngine,
     NEWS2Calculator,

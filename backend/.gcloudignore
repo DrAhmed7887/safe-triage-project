@@ -1,0 +1,20 @@
+# Include database
+!umls_cache.db
+!*.db
+
+# Exclude unnecessary files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.venv/
+venv/
+tests/
+*.log

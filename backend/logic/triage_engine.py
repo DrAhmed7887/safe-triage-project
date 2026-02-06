@@ -3,8 +3,8 @@ SAFE-Triage AI - Triage Engine
 Based on ESI (Emergency Severity Index) v5
 Vital signs thresholds follow international standards (used in Egyptian hospitals)
 """
-from ..models import PatientInput, TriageResult, TriageLevel, Vitals
-from ..nlp.processor import NLPProcessor
+from models import PatientInput, TriageResult, TriageLevel, Vitals
+from nlp.processor import NLPProcessor
 from typing import List, Tuple
 
 class TriageEngine:
@@ -89,8 +89,9 @@ class TriageEngine:
             reasons.append(f"نسبة الأكسجين خطيرة / Critical SpO2: {vitals.spo2}% (< 90% = severe hypoxia)")
         
         # ===== GCS - CRITICAL =====
-        if vitals.gcs is not None and vitals.gcs < 9:
-            reasons.append(f"مستوى الوعي خطير / Critical GCS: {vitals.gcs} (< 9 = coma)")
+        gcs_value = getattr(vitals, "gcs", None)
+        if gcs_value is not None and gcs_value < 9:
+            reasons.append(f"مستوى الوعي خطير / Critical GCS: {gcs_value} (< 9 = coma)")
         
         # ===== BLOOD PRESSURE - CRITICAL =====
         if vitals.sbp is not None:
@@ -275,9 +276,10 @@ class TriageEngine:
             reasoning.append(f"ألم شديد / Severe pain: {patient.vitals.pain_score}/10")
             
         # Altered mental status (GCS 9-14)
-        if patient.vitals.gcs and 9 <= patient.vitals.gcs < 15:
+        gcs_value = getattr(patient.vitals, "gcs", None)
+        if gcs_value and 9 <= gcs_value < 15:
             is_level_2 = True
-            reasoning.append(f"تغير في الوعي / Altered consciousness: GCS {patient.vitals.gcs}")
+            reasoning.append(f"تغير في الوعي / Altered consciousness: GCS {gcs_value}")
             
         # Danger Zone Vitals
         danger_zone, danger_reasons = self._check_vitals_danger_zone(patient.age, patient.vitals)
@@ -312,9 +314,9 @@ class TriageEngine:
                 description_ar="خطورة عالية، احتمال تدهور سريع",
                 description_en="High risk, potential for rapid deterioration",
                 description="خطورة عالية، احتمال تدهور سريع / High risk, potential for rapid deterioration",
-                action_ar="غرفة العناية المركزة، مراقبة مستمرة",
-                action_en="ICU room, continuous monitoring",
-                recommended_action="غرفة العناية المركزة، مراقبة مستمرة / ICU room, continuous monitoring",
+                action_ar="منطقة الرعاية الحادة، طبيب خلال 15 دقيقة",
+                action_en="Acute care area, physician within 15 min",
+                recommended_action="منطقة الرعاية الحادة، طبيب خلال 15 دقيقة / Acute care area, physician within 15 min",
                 time_ar="< 15 دقيقة",
                 time_en="< 15 minutes",
                 time_to_physician="< 15 دقيقة / < 15 minutes",
