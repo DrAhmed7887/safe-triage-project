@@ -148,6 +148,8 @@ def _normalize_category(category: str) -> str:
         return "trauma_fracture"
     if normalized == "dyspnea":
         return "respiratory_distress"
+    if "sepsis" in normalized or "infection" in normalized:
+        return "sepsis_concern"
     if "allerg" in normalized or "anaphyl" in normalized:
         return "allergic_reaction"
     if "psych" in normalized or "suicid" in normalized or "agitation" in normalized:
@@ -367,8 +369,15 @@ def confirm_triage(confirmation: TriageConfirmationRequest):
 
 @app.post("/triage", response_model=TriageResult)
 def triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
+    complaint_text = (patient.chief_complaint_text or "").strip()
+    if not complaint_text:
+        raise HTTPException(
+            status_code=400,
+            detail="Chief complaint cannot be empty | لا يمكن أن تكون الشكوى فارغة",
+        )
+
     # Gender-complaint validation
-    gender_check = validate_gender_complaint(patient.gender, patient.chief_complaint_text)
+    gender_check = validate_gender_complaint(patient.gender, complaint_text)
     if not gender_check["valid"]:
         raise HTTPException(status_code=400, detail=gender_check)
 
@@ -435,8 +444,15 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
         print(f"   ai_service.mode = {getattr(ai_service, 'mode', 'unknown')}", flush=True)
         print("=" * 50, flush=True)
 
+        complaint_text = (patient.chief_complaint_text or "").strip()
+        if not complaint_text:
+            raise HTTPException(
+                status_code=400,
+                detail="Chief complaint cannot be empty | لا يمكن أن تكون الشكوى فارغة",
+            )
+
         # Gender-complaint validation
-        gender_check = validate_gender_complaint(patient.gender, patient.chief_complaint_text)
+        gender_check = validate_gender_complaint(patient.gender, complaint_text)
         if not gender_check["valid"]:
             raise HTTPException(status_code=400, detail=gender_check)
 
@@ -513,6 +529,8 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
                 "snomed_term": "",
                 "resource_plan": get_resources_for_workup(ai_result.get("recommended_workup") or []) if ai_result else [],
                 "alerts_sent": alerts_sent,
+                "requires_review": getattr(std_result, "requires_review", False),
+                "review_message": getattr(std_result, "review_message", ""),
                 "gahar_notice": GAHAR_NOTICE
             }
 
@@ -535,9 +553,12 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
         # ESI v4 time to physician guidelines
         times_en = {1:"Immediate", 2:"< 15 minutes", 3:"< 30 minutes", 4:"< 60 minutes", 5:"< 120 minutes"}
         times_ar = {1:"فوري", 2:"< 15 دقيقة", 3:"< 30 دقيقة", 4:"< 60 دقيقة", 5:"< 120 دقيقة"}
+        action_category = ai_result.get("category") or det_result.category
+        if (action_category or "").strip().lower() in {"", "unclear", "unclear_needs_evaluation", "general", "other"}:
+            action_category = det_result.category or action_category
         selected_action = _action_text_for_level_and_category(
             level,
-            det_result.category or ai_result.get("category"),
+            action_category,
             complaint_text=patient.chief_complaint_text,
             extracted_symptoms=ai_result.get("extracted_symptoms"),
         )
@@ -558,6 +579,22 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
                 "description_en": ai_icd10.get("description_en", icd10_coding.get("description_en")),
                 "gahar_compliant": True
             }
+        category_for_icd = (ai_result.get("category") or det_result.category or "").strip().lower()
+        primary_code = (icd10_coding.get("primary_code") or "").strip().upper()
+        if primary_code in {"", "R69"}:
+            category_icd_fallback = {
+                "chest_pain_cardiac": ("I20.9", "Angina pectoris, unspecified"),
+                "stroke_symptoms": ("I63.9", "Cerebral infarction, unspecified"),
+                "respiratory_distress": ("R06.0", "Dyspnea"),
+            }
+            if category_for_icd in category_icd_fallback:
+                code, desc = category_icd_fallback[category_for_icd]
+                icd10_coding = {
+                    **icd10_coding,
+                    "primary_code": code,
+                    "description_en": desc,
+                    "gahar_compliant": True,
+                }
 
         alerts_sent = None
         if level <= 2:
@@ -648,6 +685,8 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
             "resource_plan": merged_resources,
             "silent_mi_alert": silent_mi if silent_mi["pattern_detected"] else None,
             "alerts_sent": alerts_sent,
+            "requires_review": det_result.requires_review,
+            "review_message": det_result.review_message,
             "gahar_notice": GAHAR_NOTICE
         }
     except Exception as e:

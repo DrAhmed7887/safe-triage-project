@@ -260,12 +260,24 @@ Return this exact JSON structure:
         print(f"🔍 SNOMED: {best.concept_id} - {best.category}", flush=True)
         print(f"📋 ICD-10: {icd10.code}", flush=True)
         
+        resolved_category = "stroke_symptoms" if has_stroke_signal else best.category
+        resolved_category = self._refine_internal_category(
+            complaint=complaint,
+            internal_category=resolved_category,
+            snomed_code=str(best.concept_id),
+            snomed_term=best.term,
+            has_acute_stroke_signal=has_stroke_signal,
+        )
+        resolved_red_flag = True if has_stroke_signal else bool(best.red_flag)
+        if resolved_category in {"sepsis_concern", "chest_pain_cardiac", "respiratory_distress"}:
+            resolved_red_flag = True
+
         return {
             "snomed_code": best.concept_id,
             "snomed_term": best.term,
-            "category": "stroke_symptoms" if has_stroke_signal else best.category,
+            "category": resolved_category,
             "esi_default": 1 if has_stroke_signal else best.esi_default,
-            "red_flag": True if has_stroke_signal else best.red_flag,
+            "red_flag": resolved_red_flag,
             "icd10_coding": {
                 "primary_code": icd10.code,
                 "description_en": icd10.description,
@@ -317,6 +329,51 @@ Return this exact JSON structure:
             "other": "unclear_needs_evaluation",
         }
         return mapping.get((primary_category or "").strip().lower(), "unclear_needs_evaluation")
+
+    def _refine_internal_category(
+        self,
+        complaint: str,
+        internal_category: str,
+        snomed_code: str,
+        snomed_term: str,
+        has_acute_stroke_signal: bool,
+    ) -> str:
+        text = (complaint or "").replace("أ", "ا").lower()
+        term_l = (snomed_term or "").replace("أ", "ا").lower()
+        code = str(snomed_code or "").strip()
+
+        sepsis_signals = [
+            "fever", "chills", "infection", "sepsis",
+            "حراره", "حرارة", "رعشه", "رعشة", "عدوى", "تعفن",
+        ]
+        gi_signals = [
+            "indigestion", "heartburn", "dyspepsia", "epigastric", "abdominal pain",
+            "سوء هضم", "حرقان", "حموضة", "الم بطن", "ألم بطن",
+        ]
+        minor_wound_signals = [
+            "cut", "laceration", "wound", "abrasion",
+            "جرح", "قطع", "خدش",
+        ]
+        headache_signals = ["headache", "صداع", "cephalalgia"]
+        acute_neuro_headache_signals = ["worst headache", "worst of my life", "thunderclap", "صداع مفاجئ شديد"]
+
+        if any(s in text for s in sepsis_signals):
+            return "sepsis_concern"
+        if any(s in text for s in gi_signals):
+            return "abdominal_pain"
+        if any(s in text for s in headache_signals) and not has_acute_stroke_signal:
+            # Guard against overcalling stroke on non-acute headache complaints.
+            if not any(s in text for s in acute_neuro_headache_signals):
+                return "headache_mild"
+        if code == "250555004" and not has_acute_stroke_signal:
+            return "headache_mild"
+        if code == "709240003" or any(s in text for s in minor_wound_signals) or any(
+            s in term_l for s in ["laceration", "wound", "cut"]
+        ):
+            return "minor_trauma"
+        if internal_category == "stroke_symptoms" and not has_acute_stroke_signal and code == "250555004":
+            return "headache_mild"
+        return internal_category
 
     def _extract_snomed_with_prompt(self, complaint: str) -> Optional[Dict[str, Any]]:
         if not complaint or not self.client:
@@ -388,7 +445,16 @@ Return this exact JSON structure:
                 best = stroke_candidate or {"code": "230690007", "term": "Stroke", "confidence": 0.99}
             icd10 = self.umls_rag.get_icd10(best["code"])
             internal_category = self._map_primary_to_internal(primary_category)
+            internal_category = self._refine_internal_category(
+                complaint=complaint,
+                internal_category=internal_category,
+                snomed_code=best["code"],
+                snomed_term=best["term"],
+                has_acute_stroke_signal=has_acute_stroke_signal,
+            )
             red_flag = internal_category in {"stroke_symptoms", "chest_pain_cardiac", "respiratory_distress"}
+            if internal_category == "sepsis_concern":
+                red_flag = True
             esi_default = 2 if red_flag else 3
 
             return {

@@ -1,30 +1,37 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import OfflineIndicator from './components/OfflineIndicator';
 import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import LandingPage from './pages/LandingPage';
+import { useAuth } from './context/AuthContext';
+
+function AppRoutes() {
+  const { user } = useAuth();
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <LandingPage />} />
+        <Route path="/signin" element={user ? <Navigate to="/dashboard" replace /> : <SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+}
 
 function App() {
   return (
     <AuthProvider>
       <OfflineIndicator />
-      <div className="bg-[#1e8449] text-white text-xs text-center py-1">
-        🏥 According to GAHAR Standards | وفقاً لمعايير الجهار
-      </div>
-      <Router>
-        <Routes>
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-
-          {/* Protected Routes */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Dashboard />} />
-          </Route>
-        </Routes>
-      </Router>
+      <AppRoutes />
     </AuthProvider>
   );
 }
