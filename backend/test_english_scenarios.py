@@ -9,6 +9,9 @@ import sys
 import os
 sys.path.append(os.path.join(os.getcwd(), 'backend'))
 
+# Ensure offline tests do not pull HuggingFace models
+os.environ.setdefault("DISABLE_RAG", "true")
+
 from logic.deterministic_triage import DeterministicTriageEngine
 from models import PatientInput, Vitals, Gender
 import json

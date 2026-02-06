@@ -1,0 +1,382 @@
+======================================================================
+SAFE-Triage English Clinical Scenarios Test Suite
+Started: 2026-02-05 13:40:00
+Total Scenarios: 88
+======================================================================
+
+----------------------------------------------------------------------
+[  1/88] [92m✅ PASS[0m: Cardiac arrest - witnessed collapse
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[  2/88] [92m✅ PASS[0m: Cardiac arrest - found down
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[  3/88] [92m✅ PASS[0m: Complete airway obstruction
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[  4/88] [92m✅ PASS[0m: Respiratory arrest
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[  5/88] [92m✅ PASS[0m: Severe anaphylaxis
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[  6/88] [92m✅ PASS[0m: Unresponsive - unknown cause
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[  7/88] [92m✅ PASS[0m: GCS 3
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[  8/88] [92m✅ PASS[0m: Major trauma - MVA ejection
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[  9/88] [92m✅ PASS[0m: Gunshot wound chest
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[ 10/88] [92m✅ PASS[0m: Stab wound abdomen
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[ 11/88] [92m✅ PASS[0m: Massive GI bleed
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[ 12/88] [92m✅ PASS[0m: Ruptured AAA
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[ 13/88] [92m✅ PASS[0m: Opioid overdose - apneic
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[ 14/88] [92m✅ PASS[0m: Caustic ingestion
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[ 15/88] [92m✅ PASS[0m: Status epilepticus
+         Expected: L1 | Got: L1 | Category: Resuscitation
+----------------------------------------------------------------------
+[ 16/88] [92m✅ PASS[0m: STEMI - classic presentation
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 17/88] [92m✅ PASS[0m: STEMI - diabetic atypical
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 18/88] [92m✅ PASS[0m: Unstable angina
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 19/88] [92m✅ PASS[0m: Chest pain with syncope
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 20/88] [92m✅ PASS[0m: Acute stroke - facial droop
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 21/88] [93m⬆️ OVER-TRIAGE[0m: Stroke - wake up deficit
+         Expected: L2 | Got: L1 | Category: Resuscitation
+         Complaint: "Woke up unable to move right side, can't speak clearly"
+----------------------------------------------------------------------
+[ 22/88] [92m✅ PASS[0m: TIA - resolved symptoms
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 23/88] [92m✅ PASS[0m: Severe asthma exacerbation
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 24/88] [92m✅ PASS[0m: COPD exacerbation - severe
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 25/88] [92m✅ PASS[0m: Pulmonary embolism suspected
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 26/88] [92m✅ PASS[0m: New confusion - elderly
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 27/88] [92m✅ PASS[0m: Altered consciousness post-fall
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 28/88] [92m✅ PASS[0m: Worst headache of life
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 29/88] [92m✅ PASS[0m: Headache with neck stiffness
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 30/88] [92m✅ PASS[0m: DKA - known diabetic
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 31/88] [92m✅ PASS[0m: Hypoglycemia - altered
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 32/88] [92m✅ PASS[0m: Active suicidal ideation with plan
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 33/88] [92m✅ PASS[0m: Suicide attempt - recent
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 34/88] [92m✅ PASS[0m: Possible ectopic pregnancy
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 35/88] [92m✅ PASS[0m: Vaginal bleeding in pregnancy - heavy
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 36/88] [92m✅ PASS[0m: Testicular torsion suspected
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 37/88] [92m✅ PASS[0m: Sepsis - fever with hypotension
+         Expected: L2 | Got: L2 | Category: Emergent
+----------------------------------------------------------------------
+[ 38/88] [93m⬆️ OVER-TRIAGE[0m: Allergic reaction - progressing
+         Expected: L2 | Got: L1 | Category: Resuscitation
+         Complaint: "Allergic reaction, hives spreading, starting to feel throat ..."
+----------------------------------------------------------------------
+[ 39/88] [92m✅ PASS[0m: Appendicitis suspected
+         Expected: L3 | Got: L3 | Category: Urgent
+----------------------------------------------------------------------
+[ 40/88] [92m✅ PASS[0m: Abdominal pain with vomiting
+         Expected: L3 | Got: L3 | Category: Urgent
+----------------------------------------------------------------------
+[ 41/88] [93m❌ MISMATCH[0m: Gallbladder pain
+         Expected: L3 | Got: L4 | Category: Less Urgent
+         Complaint: "Right upper quadrant pain after eating fatty food, radiates ..."
+----------------------------------------------------------------------
+[ 42/88] [92m✅ PASS[0m: Kidney stone - moderate pain
+         Expected: L3 | Got: L3 | Category: Urgent
+----------------------------------------------------------------------
+[ 43/88] [92m✅ PASS[0m: Diverticulitis suspected
+         Expected: L3 | Got: L3 | Category: Urgent
+----------------------------------------------------------------------
+[ 44/88] [92m✅ PASS[0m: Pneumonia - stable
+         Expected: L3 | Got: L3 | Category: Urgent
+----------------------------------------------------------------------
+[ 45/88] [92m✅ PASS[0m: Cellulitis - spreading
+         Expected: L3 | Got: L3 | Category: Urgent
+----------------------------------------------------------------------
+[ 46/88] [93m❌ MISMATCH[0m: UTI with fever - pyelonephritis
+         Expected: L3 | Got: L4 | Category: Less Urgent
+         Complaint: "Burning with urination, back pain, fever and chills"
+----------------------------------------------------------------------
+[ 47/88] [92m✅ PASS[0m: Dehydration - moderate
+         Expected: L3 | Got: L3 | Category: Urgent
+----------------------------------------------------------------------
+[ 48/88] [93m⬆️ OVER-TRIAGE[0m: GI bleed - stable
+         Expected: L3 | Got: L2 | Category: Emergent
+         Complaint: "Black tarry stools for 2 days, feels weak"
+----------------------------------------------------------------------
+[ 49/88] [92m✅ PASS[0m: Ankle fracture - obvious deformity
+         Expected: L3 | Got: L3 | Category: Urgent
+----------------------------------------------------------------------
+[ 50/88] [93m❌ MISMATCH[0m: Wrist fracture - fall on outstretched hand
+         Expected: L3 | Got: L4 | Category: Less Urgent
+         Complaint: "Fell on hand, wrist is swollen and deformed, very painful"
+----------------------------------------------------------------------
+[ 51/88] [93m❌ MISMATCH[0m: Hip fracture - elderly fall
+         Expected: L3 | Got: L4 | Category: Less Urgent
+         Complaint: "Fell at home, can't move hip, leg is shortened and rotated o..."
+----------------------------------------------------------------------
+[ 52/88] [92m✅ PASS[0m: Asthma exacerbation - moderate
+         Expected: L3 | Got: L3 | Category: Urgent
+----------------------------------------------------------------------
+[ 53/88] [93m❌ MISMATCH[0m: Laceration - needs sutures
+         Expected: L3 | Got: L4 | Category: Less Urgent
+         Complaint: "Cut hand on glass, deep laceration, bleeding controlled with..."
+----------------------------------------------------------------------
+[ 54/88] [93m❌ MISMATCH[0m: Facial laceration
+         Expected: L3 | Got: L4 | Category: Less Urgent
+         Complaint: "Hit face on table, laceration on forehead, will need stitche..."
+----------------------------------------------------------------------
+[ 55/88] [93m❌ MISMATCH[0m: Concussion - stable
+         Expected: L3 | Got: L4 | Category: Less Urgent
+         Complaint: "Hit head playing football, brief loss of consciousness, now ..."
+----------------------------------------------------------------------
+[ 56/88] [92m✅ PASS[0m: Common cold
+         Expected: L4 | Got: L4 | Category: Less Urgent
+----------------------------------------------------------------------
+[ 57/88] [93m⬆️ OVER-TRIAGE[0m: Flu-like illness
+         Expected: L4 | Got: L3 | Category: Urgent
+         Complaint: "Body aches, fever, cough, fatigue for 2 days"
+----------------------------------------------------------------------
+[ 58/88] [92m✅ PASS[0m: Sore throat - simple
+         Expected: L4 | Got: L4 | Category: Less Urgent
+----------------------------------------------------------------------
+[ 59/88] [93m❌ MISMATCH[0m: Sinus congestion
+         Expected: L4 | Got: L5 | Category: Non-Urgent
+         Complaint: "Sinus pressure and congestion for a week"
+----------------------------------------------------------------------
+[ 60/88] [93m⬆️ OVER-TRIAGE[0m: UTI - uncomplicated
+         Expected: L4 | Got: L3 | Category: Urgent
+         Complaint: "Burning when I pee, having to go frequently, no fever"
+----------------------------------------------------------------------
+[ 61/88] [92m✅ PASS[0m: Sprained ankle
+         Expected: L4 | Got: L4 | Category: Less Urgent
+----------------------------------------------------------------------
+[ 62/88] [92m✅ PASS[0m: Minor laceration
+         Expected: L4 | Got: L4 | Category: Less Urgent
+----------------------------------------------------------------------
+[ 63/88] [93m⬆️ OVER-TRIAGE[0m: Finger injury - jammed
+         Expected: L4 | Got: L3 | Category: Urgent
+         Complaint: "Jammed finger playing basketball, swollen, can still move it"
+----------------------------------------------------------------------
+[ 64/88] [92m✅ PASS[0m: Ear pain - otitis
+         Expected: L4 | Got: L4 | Category: Less Urgent
+----------------------------------------------------------------------
+[ 65/88] [93m⬆️ OVER-TRIAGE[0m: Pink eye
+         Expected: L4 | Got: L3 | Category: Urgent
+         Complaint: "Red eye with yellow discharge, started this morning"
+----------------------------------------------------------------------
+[ 66/88] [93m⬆️ OVER-TRIAGE[0m: Foreign body in eye
+         Expected: L4 | Got: L3 | Category: Urgent
+         Complaint: "Something flew into my eye at work, feels like something sti..."
+----------------------------------------------------------------------
+[ 67/88] [92m✅ PASS[0m: Rash - mild allergic
+         Expected: L4 | Got: L4 | Category: Less Urgent
+----------------------------------------------------------------------
+[ 68/88] [93m⬆️ OVER-TRIAGE[0m: Insect bite - local reaction
+         Expected: L4 | Got: L3 | Category: Urgent
+         Complaint: "Spider bite on leg, red and swollen around the bite, no spre..."
+----------------------------------------------------------------------
+[ 69/88] [93m⬆️ OVER-TRIAGE[0m: Minor burn
+         Expected: L4 | Got: L1 | Category: Resuscitation
+         Complaint: "Burned hand on stove, small area, red and painful, no bliste..."
+----------------------------------------------------------------------
+[ 70/88] [93m❌ MISMATCH[0m: Back pain - chronic
+         Expected: L4 | Got: L5 | Category: Non-Urgent
+         Complaint: "Lower back pain, had it for years, worse this week, ran out ..."
+----------------------------------------------------------------------
+[ 71/88] [92m✅ PASS[0m: Headache - tension type
+         Expected: L4 | Got: L4 | Category: Less Urgent
+----------------------------------------------------------------------
+[ 72/88] [92m✅ PASS[0m: Knee pain - chronic
+         Expected: L4 | Got: L4 | Category: Less Urgent
+----------------------------------------------------------------------
+[ 73/88] [93m⬆️ OVER-TRIAGE[0m: Constipation
+         Expected: L4 | Got: L3 | Category: Urgent
+         Complaint: "Haven't had a bowel movement in 5 days, uncomfortable"
+----------------------------------------------------------------------
+[ 74/88] [93m❌ MISMATCH[0m: Mild diarrhea
+         Expected: L4 | Got: L5 | Category: Non-Urgent
+         Complaint: "Loose stools since yesterday, no blood, drinking fluids"
+----------------------------------------------------------------------
+[ 75/88] [93m❌ MISMATCH[0m: Heartburn
+         Expected: L4 | Got: L5 | Category: Non-Urgent
+         Complaint: "Burning in chest after eating, happens a lot, need refill of..."
+----------------------------------------------------------------------
+[ 76/88] [93m❌ MISMATCH[0m: Child with cold
+         Expected: L4 | Got: L5 | Category: Non-Urgent
+         Complaint: "Runny nose and cough for 3 days, eating and drinking okay"
+----------------------------------------------------------------------
+[ 77/88] [93m⬆️ OVER-TRIAGE[0m: Child with fever - well appearing
+         Expected: L4 | Got: L3 | Category: Urgent
+         Complaint: "Fever since yesterday, still playing, eating less"
+----------------------------------------------------------------------
+[ 78/88] [92m✅ PASS[0m: Medication refill - BP meds
+         Expected: L5 | Got: L5 | Category: Non-Urgent
+----------------------------------------------------------------------
+[ 79/88] [92m✅ PASS[0m: Medication refill - inhaler
+         Expected: L5 | Got: L5 | Category: Non-Urgent
+----------------------------------------------------------------------
+[ 80/88] [93m⬆️ OVER-TRIAGE[0m: Suture removal
+         Expected: L5 | Got: L3 | Category: Urgent
+         Complaint: "Here to get my stitches out, been 10 days"
+----------------------------------------------------------------------
+[ 81/88] [93m⬆️ OVER-TRIAGE[0m: Wound check
+         Expected: L5 | Got: L3 | Category: Urgent
+         Complaint: "Following up on wound from last week, looks good, no concern..."
+----------------------------------------------------------------------
+[ 82/88] [92m✅ PASS[0m: Dressing change
+         Expected: L5 | Got: L5 | Category: Non-Urgent
+----------------------------------------------------------------------
+[ 83/88] [92m✅ PASS[0m: Work note needed
+         Expected: L5 | Got: L5 | Category: Non-Urgent
+----------------------------------------------------------------------
+[ 84/88] [93m⬆️ OVER-TRIAGE[0m: Sports physical
+         Expected: L5 | Got: L3 | Category: Urgent
+         Complaint: "Need a physical for soccer team"
+----------------------------------------------------------------------
+[ 85/88] [93m⬆️ OVER-TRIAGE[0m: Routine BP check
+         Expected: L5 | Got: L3 | Category: Urgent
+         Complaint: "Just want to check my blood pressure, feeling fine"
+----------------------------------------------------------------------
+[ 86/88] [92m✅ PASS[0m: Diabetes check - stable
+         Expected: L5 | Got: L5 | Category: Non-Urgent
+----------------------------------------------------------------------
+[ 87/88] [93m⬆️ OVER-TRIAGE[0m: Insomnia
+         Expected: L5 | Got: L3 | Category: Urgent
+         Complaint: "Having trouble sleeping for the past month"
+----------------------------------------------------------------------
+[ 88/88] [93m⬆️ OVER-TRIAGE[0m: Mild dandruff
+         Expected: L5 | Got: L3 | Category: Urgent
+         Complaint: "Flaky scalp, need a recommendation for shampoo"
+----------------------------------------------------------------------
+
+======================================================================
+SUMMARY
+======================================================================
+
+[96mOverall Results:[0m
+  Total Tests:           88
+  [92mPassed:                58 (65.9%)[0m
+  [93mFailed:                30 (34.1%)[0m
+  [91mCritical Under-triage: 0[0m
+  [93mOver-triage:           18[0m
+
+[96mResults by ESI Level:[0m
+  Level    Pass     Fail     Rate    
+  --------------------------------
+  Level 1   15       0        100%    
+  Level 2   21       2        91%     
+  Level 3   9        8        53%     
+  Level 4   8        14       36%     
+  Level 5   5        6        45%     
+
+[93m======================================================================
+OVER-TRIAGE CASES (Review if too conservative)
+======================================================================[0m
+  • Stroke - wake up deficit
+    Expected: L2 → Got: L1
+
+  • Allergic reaction - progressing
+    Expected: L2 → Got: L1
+
+  • GI bleed - stable
+    Expected: L3 → Got: L2
+
+  • Flu-like illness
+    Expected: L4 → Got: L3
+
+  • UTI - uncomplicated
+    Expected: L4 → Got: L3
+
+  • Finger injury - jammed
+    Expected: L4 → Got: L3
+
+  • Pink eye
+    Expected: L4 → Got: L3
+
+  • Foreign body in eye
+    Expected: L4 → Got: L3
+
+  • Insect bite - local reaction
+    Expected: L4 → Got: L3
+
+  • Minor burn
+    Expected: L4 → Got: L1
+
+  • Constipation
+    Expected: L4 → Got: L3
+
+  • Child with fever - well appearing
+    Expected: L4 → Got: L3
+
+  • Suture removal
+    Expected: L5 → Got: L3
+
+  • Wound check
+    Expected: L5 → Got: L3
+
+  • Sports physical
+    Expected: L5 → Got: L3
+
+  • Routine BP check
+    Expected: L5 → Got: L3
+
+  • Insomnia
+    Expected: L5 → Got: L3
+
+  • Mild dandruff
+    Expected: L5 → Got: L3
+
+
+[93m⚠️  30 tests failed but no critical under-triage.[0m
+Review over-triage cases if system is too conservative.

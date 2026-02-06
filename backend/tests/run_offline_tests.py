@@ -19,6 +19,9 @@ import json
 from datetime import datetime
 from typing import List, Dict
 
+# Ensure offline tests do not pull HuggingFace models
+os.environ.setdefault("DISABLE_RAG", "true")
+
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

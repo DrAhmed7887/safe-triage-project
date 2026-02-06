@@ -63,20 +63,23 @@ import json
 from dotenv import load_dotenv
 
 # ICD-10 coding for GAHAR compliance (Egyptian hospitals)
-from .icd10_mapping import ICD10_MAPPING
+from logic.icd10_mapping import ICD10_MAPPING
 
 try:
-    from .esi_v5_compliance import evaluate_esi_v5
+    from logic.esi_v5_compliance import evaluate_esi_v5
 except ImportError:
     from logic.esi_v5_compliance import evaluate_esi_v5
 
-try:
-    from ..rag.retriever import retrieve as rag_retrieve
-except ImportError:
+if os.getenv("DISABLE_RAG", "").lower() in {"1", "true", "yes"}:
+    rag_retrieve = None
+else:
     try:
         from rag.retriever import retrieve as rag_retrieve
     except ImportError:
-        rag_retrieve = None
+        try:
+            from rag.retriever import retrieve as rag_retrieve
+        except ImportError:
+            rag_retrieve = None
 
 load_dotenv()
 
@@ -88,7 +91,7 @@ def _get_genai():
     """Lazy load google.generativeai module."""
     global genai
     if genai is None:
-        import google.generativeai as _genai
+        # import google.generativeai as _genai  # REMOVED
         genai = _genai
     return genai
 
@@ -1053,6 +1056,50 @@ class DeterministicTriageResult:
 # Resources include: Labs, ECG, X-ray/CT/US, IV fluids, IM/IV meds,
 # Specialty consults, Simple procedures (suturing, splinting)
 
+RESOURCE_LABELS = {
+    "labs": {"en": "Lab tests", "ar": "تحاليل معملية"},
+    "imaging": {"en": "Imaging", "ar": "تصوير طبي"},
+    "possible_imaging": {"en": "Possible imaging", "ar": "قد يحتاج تصوير"},
+    "ecg": {"en": "ECG", "ar": "رسم قلب"},
+    "xray": {"en": "X-ray", "ar": "أشعة سينية"},
+    "iv_fluids": {"en": "IV fluids", "ar": "سوائل وريدية"},
+    "pain_meds_iv": {"en": "IV pain meds", "ar": "مسكنات وريدية"},
+    "pain_meds_oral": {"en": "Oral pain meds", "ar": "مسكنات فموية"},
+    "pain_meds": {"en": "Pain meds", "ar": "مسكنات"},
+    "laceration_repair": {"en": "Laceration repair", "ar": "خياطة جرح"},
+    "suture_kit": {"en": "Suture kit", "ar": "أدوات خياطة"},
+    "splinting": {"en": "Splinting", "ar": "تجبير"},
+    "orthopedic_consult": {"en": "Orthopedic consult", "ar": "استشارة عظام"},
+    "nebulizer": {"en": "Nebulizer", "ar": "جلسة بخار"},
+    "steroids": {"en": "Steroids", "ar": "ستيرويدات"},
+    "strep_test": {"en": "Rapid strep test", "ar": "اختبار السترب السريع"},
+    "exam_only": {"en": "Clinical exam only", "ar": "فحص سريري فقط"},
+    "urinalysis": {"en": "Urinalysis", "ar": "تحليل بول"},
+    "antihistamine_im": {"en": "IM antihistamine", "ar": "مضاد حساسية عضلي"},
+    "antihistamine": {"en": "Antihistamine", "ar": "مضاد حساسية"},
+    "eye_exam": {"en": "Eye exam", "ar": "فحص عين"},
+    "evaluation": {"en": "Clinical evaluation", "ar": "تقييم سريري"},
+    "sedation": {"en": "Sedation", "ar": "مهدئ"},
+    "security": {"en": "Security", "ar": "أمن"},
+    "psych_consult": {"en": "Psych consult", "ar": "استشارة نفسية"},
+}
+
+
+def format_resource_list(resources: List[str]) -> Tuple[str, str]:
+    labels_en = []
+    labels_ar = []
+    for resource in resources or []:
+        label = RESOURCE_LABELS.get(resource)
+        if label:
+            labels_en.append(label["en"])
+            labels_ar.append(label["ar"])
+        else:
+            # Fallback: prettify unknown resource codes
+            pretty = resource.replace("_", " ")
+            labels_en.append(pretty.title())
+            labels_ar.append(pretty)
+    return ", ".join(labels_ar), ", ".join(labels_en)
+
 # Categories that typically need multiple resources (Level 3)
 MULTI_RESOURCE_CATEGORIES = {
     "abdominal_pain_moderate": {
@@ -1670,13 +1717,17 @@ class DeterministicTriageEngine:
             consciousness=consciousness
         )
         
-        # Step 2: Classify complaint
-        # PERFORMANCE FIX: Only use AI when explicitly enabled
-        if self.use_ai:
-            category = self.ai_classifier.classify(complaint, age, gender)
+        # Step 2: Classify complaint (allow explicit override from upstream AI/RAG)
+        category_override = patient_data.get("category_override")
+        if category_override in SYMPTOM_CATEGORIES:
+            category = category_override
         else:
-            # Standard mode: Use ONLY keyword matching (fast, deterministic)
-            category = self.ai_classifier._fallback_keyword_match(complaint)
+            # PERFORMANCE FIX: Only use AI when explicitly enabled
+            if self.use_ai:
+                category = self.ai_classifier.classify(complaint, age, gender)
+            else:
+                # Standard mode: Use ONLY keyword matching (fast, deterministic)
+                category = self.ai_classifier._fallback_keyword_match(complaint)
         category_info = SYMPTOM_CATEGORIES.get(category, SYMPTOM_CATEGORIES["unclear"])
         category_level = category_info.esi_level
         
@@ -1793,8 +1844,12 @@ class DeterministicTriageEngine:
             
             # ESI Decision Points D & E
             if resource_count >= 2:
+                resources_ar, resources_en = format_resource_list(resource_result["resources"])
                 final_level = 3  # Urgent - multiple resources needed
-                modifiers.append(f"موارد متعددة: {resource_count} / Multiple resources: {resource_count}")
+                if resources_en:
+                    modifiers.append(f"موارد متعددة ({resources_ar}) / Multiple resources ({resources_en})")
+                else:
+                    modifiers.append(f"موارد متعددة: {resource_count} / Multiple resources: {resource_count}")
             elif resource_count == 1:
                 # SPECIAL CASE: 'unclear' category should default to Level 3 even with 1 resource
                 # to align with "Ambiguous defaults to L3" principle
@@ -1803,7 +1858,11 @@ class DeterministicTriageEngine:
                     modifiers.append("حالة غير واضحة - اختيار المستوى 3 كإجراء وقائي / Ambiguous - defaulting to Level 3")
                 else:
                     final_level = 4  # Less urgent - one resource
-                    modifiers.append(f"مورد واحد: {resource_result['resources']} / One resource: {resource_result['resources']}")
+                    resources_ar, resources_en = format_resource_list(resource_result["resources"])
+                    if resources_en:
+                        modifiers.append(f"مورد واحد: {resources_ar} / One resource: {resources_en}")
+                    else:
+                        modifiers.append("مورد واحد / One resource")
             else:
                 # Final safeguard for unclear cases with 0 resources
                 if category == "unclear":
@@ -1907,7 +1966,7 @@ class DeterministicTriageEngine:
         """
         # Import here to avoid circular imports
         try:
-            from ..models import TriageResult, TriageLevel
+            from models import TriageResult, TriageLevel
         except ImportError:
             from models import TriageResult, TriageLevel
         

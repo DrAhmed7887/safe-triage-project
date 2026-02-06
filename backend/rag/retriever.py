@@ -9,7 +9,7 @@ from typing import List, Dict, Optional
 __all__ = ["retrieve"]
 
 # Disable RAG to save memory on constrained environments (Render free tier)
-DISABLE_RAG = os.getenv("DISABLE_RAG", "false").lower() == "true"
+DISABLE_RAG = os.getenv("DISABLE_RAG", "false").lower() in {"true", "1", "yes"}
 
 _STORE = None
 
@@ -19,7 +19,7 @@ def _get_store():
     if DISABLE_RAG:
         return None
     if _STORE is None:
-        from .vector_store import SimpleVectorStore
+        from rag.vector_store import SimpleVectorStore
         _STORE = SimpleVectorStore()
     return _STORE
 

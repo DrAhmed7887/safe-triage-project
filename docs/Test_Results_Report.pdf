@@ -1,0 +1,75 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 814 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 720 Td
+(SAFE-Triage Test Results Report) Tj
+T*
+(Generated: 2026-02-05 02:06 UTC) Tj
+T*
+() Tj
+T*
+(Suite A: test_triage_scenarios.py) Tj
+T*
+(  Total: 50 | Passed: 50 | Failed: 0) Tj
+T*
+(Suite B: test_english_scenarios.py) Tj
+T*
+(  Total: 88 | Passed: 58 | Failed: 30) Tj
+T*
+(  Critical under-triage: NO) Tj
+T*
+() Tj
+T*
+(Scenario Summary \(A+B\)) Tj
+T*
+(  Total: 138 | Passed: 108 | Failed: 30 | Pass Rate: 78.3%) Tj
+T*
+(  Note: English suite lists 88 scenarios \(not 100\).) Tj
+T*
+() Tj
+T*
+(Supplement: test_triage_v2.py) Tj
+T*
+(  Groups passed: 3/6 \(AI disabled for offline run\)) Tj
+T*
+() Tj
+T*
+(Environment Notes) Tj
+T*
+(  - DISABLE_RAG=1 for English tests \(offline run\)) Tj
+T*
+(  - GEMINI_API_KEY cleared for v2 tests) Tj
+T*
+(  - No critical under-triage detected in English suite) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001106 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1176
+%%EOF

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Literal, Any
+from datetime import datetime
 from enum import Enum
 
 class Gender(str, Enum):
@@ -29,6 +30,7 @@ class Vitals(BaseModel):
     sbp: Optional[int] = Field(None, description="Systolic Blood Pressure (mmHg)")
     dbp: Optional[int] = Field(None, description="Diastolic Blood Pressure (mmHg)")
     pain_score: Optional[int] = Field(0, description="Pain Scale 0-10", ge=0, le=10)
+    gcs: Optional[int] = Field(None, description="Glasgow Coma Scale (3-15)", ge=3, le=15)
 
 class PatientInput(BaseModel):
     # Patient Identification
@@ -146,6 +148,7 @@ class TriageResult(BaseModel):
     time_en: str = ""
     time_to_physician: str = ""  # Legacy - combined
     red_flags: List[str] = []
+    red_flag_summary: List[str] = []
     reasoning_ar: List[str] = []
     reasoning_en: List[str] = []
     reasoning: List[str] = []  # Legacy - combined
@@ -156,3 +159,27 @@ class TriageResult(BaseModel):
     icd10_code: str = ""
     icd10_description: str = ""
     icd10_category: str = ""
+
+
+class TriageConfirmationRequest(BaseModel):
+    patient_id: str
+    recommended_esi: int = Field(..., ge=1, le=5)
+    confirmed_esi: int = Field(..., ge=1, le=5)
+    clinician_id: str
+    clinician_role: Literal["nurse", "physician", "supervisor", "other"] = "nurse"
+    action: Literal["confirmed", "overridden"] = "confirmed"
+    override_reason: Optional[str] = None
+    supervisor_pin: Optional[str] = None
+    timestamp: Optional[datetime] = None
+
+
+class TriageConfirmationStart(BaseModel):
+    patient_id: str
+    recommended_esi: int = Field(..., ge=1, le=5)
+
+
+class TriageConfirmationPending(BaseModel):
+    patient_id: str
+    recommended_esi: int = Field(..., ge=1, le=5)
+    created_at: datetime
+    expires_at: datetime
