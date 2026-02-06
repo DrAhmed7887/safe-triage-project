@@ -154,6 +154,8 @@ class TriageResult(BaseModel):
     reasoning: List[str] = []  # Legacy - combined
     confidence: str = "High"  # High, Medium, Low
     rag_context: Optional[Dict[str, Any]] = None
+    requires_review: bool = False
+    review_message: str = ""
     
     # ICD-10 Coding for GAHAR Compliance (Egyptian hospitals)
     icd10_code: str = ""

@@ -1033,6 +1033,8 @@ class DeterministicTriageResult:
     # PHASE 2: Resource prediction info
     estimated_resources: int = 0
     resource_details: List[str] = None
+    requires_review: bool = False
+    review_message: str = ""
 
     # RAG context (citations)
     rag_context: Optional[Dict[str, Any]] = None
@@ -1426,6 +1428,11 @@ class DeterministicTriageEngine:
     - ESI category → level mapping
     - Clinical modifier rules (age, history, etc.)
     """
+
+    UNKNOWN_COMPLAINT_REVIEW_MESSAGE = (
+        "Complaint not recognized — conservative default applied. Manual assessment required | "
+        "الشكوى غير معروفة — تم تطبيق التصنيف الاحتياطي. يحتاج تقييم يدوي"
+    )
     
     # Triage level metadata
     LEVEL_INFO = {
@@ -1875,6 +1882,34 @@ class DeterministicTriageEngine:
         final_level, esi_v5_alerts = self.apply_esi_v5_compliance(
             patient_data, vitals, final_level
         )
+
+        # Offline fallback safety policy for unrecognized complaints.
+        requires_review = False
+        review_message = ""
+        complaint_text = (complaint or "").strip()
+        if category == "unclear" and complaint_text:
+            requires_review = True
+            review_message = self.UNKNOWN_COMPLAINT_REVIEW_MESSAGE
+            extreme_component_count = sum(
+                1 for score in (news2_result.component_scores or {}).values() if score == 3
+            )
+            if news2_result.total_score >= 7 or extreme_component_count >= 2:
+                # Ultimate safety net for unknown complaints with high NEWS2.
+                final_level = 1
+                modifiers.append(
+                    "شكوى غير معروفة + نيوز2 خطير (>=7 أو معياران شديدان) → إنعاش فوري / "
+                    "Unrecognized complaint + critical NEWS2 (>=7 or >=2 extreme components) -> immediate resuscitation"
+                )
+            elif news2_result.total_score >= 5:
+                # Maintain at least urgent/emergent response for physiologic risk.
+                final_level = min(final_level, 3)
+            elif final_level > 3:
+                # Conservative default for unknown complaints should never be ESI 4/5.
+                final_level = 3
+                modifiers.append(
+                    "شكوى غير معروفة - تصنيف احتياطي محافظ مستوى 3 / "
+                    "Unrecognized complaint - conservative fallback Level 3"
+                )
         
         # Build decision path string for audit (bilingual)
         decision_path = (
@@ -1942,7 +1977,9 @@ class DeterministicTriageEngine:
             # ICD-10 coding for GAHAR compliance
             icd10_code=ICD10_MAPPING.get(category, {}).get("code", "R69"),
             icd10_description=ICD10_MAPPING.get(category, {}).get("description", "Illness, unspecified"),
-            icd10_category=ICD10_MAPPING.get(category, {}).get("category", "Unspecified")
+            icd10_category=ICD10_MAPPING.get(category, {}).get("category", "Unspecified"),
+            requires_review=requires_review,
+            review_message=review_message,
         )
     
     def get_triage_level(self, patient_data: dict) -> int:
@@ -2072,6 +2109,8 @@ class DeterministicTriageEngine:
             reasoning=reasoning,
             confidence="High" if not internal_result.ai_used else "Medium",
             rag_context=internal_result.rag_context,
+            requires_review=internal_result.requires_review,
+            review_message=internal_result.review_message,
             # ICD-10 coding for GAHAR compliance
             icd10_code=internal_result.icd10_code,
             icd10_description=internal_result.icd10_description,

@@ -15,7 +15,7 @@ export default function SignIn() {
         setError('');
         const result = await loginWithGoogle(role, rememberMe);
         if (result.success) {
-            navigate('/');
+            navigate('/dashboard');
         } else {
             setError(result.message);
         }

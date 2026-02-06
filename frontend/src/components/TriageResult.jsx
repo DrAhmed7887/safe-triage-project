@@ -154,7 +154,7 @@ export default function TriageResult({ result, onReset }) {
         setToast({
             levelTag,
             message,
-            gahar: '🏥 According to GAHAR Standards | وفقاً لمعايير الجهار',
+            gahar: '🏥 Designed to Align with GAHAR Safety Requirements | مصمم وفقاً لمتطلبات سلامة الجهار',
             type: queued ? 'warning' : 'success',
         });
 
@@ -256,7 +256,7 @@ export default function TriageResult({ result, onReset }) {
                             </div>
                         </div>
                         <div className="text-[10px] text-slate-500 mt-2">
-                            🏥 According to GAHAR Standards | وفقاً لمعايير الجهار
+                            🏥 Designed to Align with GAHAR Safety Requirements | مصمم وفقاً لمتطلبات سلامة الجهار
                         </div>
                     </div>
 
@@ -279,7 +279,7 @@ export default function TriageResult({ result, onReset }) {
                             </div>
                         )}
                         <div className="text-[10px] text-slate-500 mt-2">
-                            🏥 According to GAHAR Standards | وفقاً لمعايير الجهار
+                            🏥 Designed to Align with GAHAR Safety Requirements | مصمم وفقاً لمتطلبات سلامة الجهار
                         </div>
                     </div>
 
@@ -396,7 +396,7 @@ export default function TriageResult({ result, onReset }) {
                 </div>
 
                 <div className="px-6 py-3 bg-green-50 border-t border-green-200 text-green-800 text-xs font-semibold text-center">
-                    🏥 According to GAHAR Standards | وفقاً لمعايير الجهار
+                    🏥 Designed to Align with GAHAR Safety Requirements | مصمم وفقاً لمتطلبات سلامة الجهار
                 </div>
 
                 <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400">

@@ -82,6 +82,37 @@ def fetch_recent_cases(client: bigquery.Client) -> List[Dict[str, Any]]:
 
 
 def analyze_case(model: GenerativeModel, case: Dict[str, Any]) -> Dict[str, Any]:
+    age = int(case.get("age") or 0)
+    assigned_esi = int(case.get("final_esi") or 0)
+    complaint = str(case.get("chief_complaint") or "").replace("أ", "ا").lower()
+    extracted_raw = case.get("extracted_features")
+    extracted_text = ""
+    if extracted_raw:
+        if isinstance(extracted_raw, str):
+            try:
+                parsed = json.loads(extracted_raw)
+                if isinstance(parsed, list):
+                    extracted_text = " ".join(str(x) for x in parsed)
+                else:
+                    extracted_text = str(parsed)
+            except Exception:
+                extracted_text = extracted_raw
+        else:
+            extracted_text = str(extracted_raw)
+    full_text = f"{complaint} {extracted_text}".replace("أ", "ا").lower()
+    gi_silent_mi_signals = [
+        "indigestion", "heartburn", "epigastric", "dyspepsia",
+        "سوء هضم", "حموضه", "حموضة", "حرقان", "الم معده", "ألم معدة",
+    ]
+    has_silent_mi_pattern = age >= 50 and assigned_esi >= 3 and any(sig in full_text for sig in gi_silent_mi_signals)
+    if has_silent_mi_pattern:
+        return {
+            "appropriate": False,
+            "concern": "Possible silent MI risk in older patient with atypical GI presentation",
+            "recommendation": "ESI 2",
+            "reasoning": "Atypical ACS can present as GI symptoms in older adults and should be upgraded for urgent cardiac reassessment.",
+        }
+
     prompt = f"""
 You are a senior emergency physician reviewing a triage decision.
 

@@ -146,7 +146,6 @@ export default function Dashboard() {
 
             <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-slate-400 text-sm">
                 <p>Clinical Decision Support Tool - Not a substitute for professional medical judgment.</p>
-                <p>Emergency: 123 (Ambulance)</p>
             </footer>
         </div>
     );
