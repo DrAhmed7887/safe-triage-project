@@ -31,7 +31,8 @@ import {
     CheckboxCard 
 } from './ui/FormComponents';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_API_URL || 'http://localhost:8000';
+const MONITOR_POLL_MS = 10000;
 
 export default function TriageForm({ onResult }) {
     // ==================== STATE MANAGEMENT ====================
@@ -84,6 +85,13 @@ export default function TriageForm({ onResult }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [useAI, setUseAI] = useState(false);
+    const [vitalsSource, setVitalsSource] = useState('manual');
+    const [vitalsTimestamp, setVitalsTimestamp] = useState(null);
+    const [monitorDevice, setMonitorDevice] = useState(null);
+    const [monitorBed, setMonitorBed] = useState(null);
+    const [monitorNews2Score, setMonitorNews2Score] = useState(null);
+    const [loadingVitals, setLoadingVitals] = useState(false);
+    const [manualVitalsUnlocked, setManualVitalsUnlocked] = useState(false);
     
     // Voice Recording State
     const [isRecording, setIsRecording] = useState(false);
@@ -119,6 +127,81 @@ export default function TriageForm({ onResult }) {
             }));
         }
     }, [formData.gender, formData.age, isPregnancyEligible, formData.is_pregnant]);
+
+    /**
+     * Auto-load vitals from bedside monitor cache when a patient ID is available.
+     * Falls back to manual entry when monitor cache is unavailable.
+     */
+    useEffect(() => {
+        const patientId = (formData.patient_id || '').trim();
+        if (!patientId) {
+            setLoadingVitals(false);
+            setVitalsSource('manual');
+            setVitalsTimestamp(null);
+            setMonitorDevice(null);
+            setMonitorBed(null);
+            setMonitorNews2Score(null);
+            setManualVitalsUnlocked(false);
+            return undefined;
+        }
+
+        let cancelled = false;
+
+        const fetchMonitorVitals = async () => {
+            setLoadingVitals(true);
+            try {
+                const response = await fetch(`${API_URL}/monitor/vitals/${encodeURIComponent(patientId)}`);
+                if (!response.ok) {
+                    if (!cancelled) {
+                        setVitalsSource('manual');
+                    }
+                    return;
+                }
+
+                const data = await response.json();
+                if (cancelled) return;
+
+                setFormData((prev) => ({
+                    ...prev,
+                    vitals: {
+                        ...prev.vitals,
+                        hr: data?.vitals?.hr ?? '',
+                        sbp: data?.vitals?.sbp ?? '',
+                        dbp: data?.vitals?.dbp ?? '',
+                        rr: data?.vitals?.rr ?? '',
+                        spo2: data?.vitals?.spo2 ?? '',
+                        temp: data?.vitals?.temp ?? '',
+                    },
+                }));
+
+                setConsciousness(data?.vitals?.consciousness || 'A');
+                setVitalsSource('monitor');
+                setVitalsTimestamp(data?.timestamp ? new Date(data.timestamp) : null);
+                setMonitorDevice(data?.device || null);
+                setMonitorBed(data?.bed || null);
+                setMonitorNews2Score(
+                    typeof data?.news2?.total_score === 'number' ? data.news2.total_score : null
+                );
+                setManualVitalsUnlocked(false);
+            } catch (_err) {
+                if (!cancelled) {
+                    setVitalsSource('manual');
+                    setMonitorNews2Score(null);
+                }
+            } finally {
+                if (!cancelled) {
+                    setLoadingVitals(false);
+                }
+            }
+        };
+
+        fetchMonitorVitals();
+        const intervalId = window.setInterval(fetchMonitorVitals, MONITOR_POLL_MS);
+        return () => {
+            cancelled = true;
+            window.clearInterval(intervalId);
+        };
+    }, [formData.patient_id]);
 
     // ==================== EVENT HANDLERS ====================
     
@@ -204,6 +287,7 @@ export default function TriageForm({ onResult }) {
 
     // Computed pain value with default for slider
     const painScaleValue = formData.pain_scale ?? 0;
+    const monitorLocked = vitalsSource === 'monitor' && !manualVitalsUnlocked;
 
     // ==================== RISK FACTOR HANDLERS ====================
     
@@ -364,6 +448,10 @@ export default function TriageForm({ onResult }) {
             
             // Send result to parent component
             onResult({ result: { ...res.data, isAI: useAI }, input: payload });
+
+            if (vitalsSource === 'monitor' && payload.patient_id) {
+                axios.delete(`${API_URL}/monitor/vitals/${encodeURIComponent(payload.patient_id)}`).catch(() => {});
+            }
             
         } catch (err) {
             // Parse structured error from backend validation
@@ -569,14 +657,53 @@ export default function TriageForm({ onResult }) {
                     titleAr="العلامات الحيوية"
                     accentColor="rose"
                 >
+                    {loadingVitals && (
+                        <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
+                            Checking for monitor vitals... | جاري فحص اتصال المونيتور...
+                        </div>
+                    )}
+
+                    {!loadingVitals && vitalsSource === 'monitor' && (
+                        <div className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800">
+                            <div className="font-semibold">Vitals auto-loaded from bedside monitor | تم تحميل العلامات الحيوية من المونيتور</div>
+                            <div className="mt-1 text-xs text-emerald-700">
+                                Device: {monitorDevice || 'Unknown'} | Bed: {monitorBed || 'N/A'} | Time:{' '}
+                                {vitalsTimestamp ? vitalsTimestamp.toLocaleTimeString('ar-EG') : 'N/A'}
+                            </div>
+                            {monitorNews2Score !== null && (
+                                <div className="mt-1 text-xs font-semibold text-emerald-800">
+                                    NEWS2: {monitorNews2Score}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {!loadingVitals && vitalsSource === 'manual' && (
+                        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                            No monitor vitals found. Please enter manually. | لا توجد علامات حيوية من المونيتور، يرجى الإدخال اليدوي.
+                        </div>
+                    )}
+
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <VitalInput icon={Heart} label="HR" unit="bpm" name="hr" value={formData.vitals.hr} onChange={handleVitalChange} />
-                        <VitalInput icon={Wind} label="RR" unit="/min" name="rr" value={formData.vitals.rr} onChange={handleVitalChange} />
-                        <VitalInput icon={Droplets} label="SpO2" unit="%" name="spo2" value={formData.vitals.spo2} onChange={handleVitalChange} />
-                        <VitalInput icon={Thermometer} label="Temp" unit="°C" name="temp" value={formData.vitals.temp} onChange={handleVitalChange} />
-                        <VitalInput icon={Activity} label="SBP" unit="mmHg" name="sbp" value={formData.vitals.sbp} onChange={handleVitalChange} />
-                        <VitalInput icon={Activity} label="DBP" unit="mmHg" name="dbp" value={formData.vitals.dbp} onChange={handleVitalChange} />
+                        <VitalInput icon={Heart} label="HR" unit="bpm" name="hr" value={formData.vitals.hr} onChange={handleVitalChange} disabled={monitorLocked} />
+                        <VitalInput icon={Wind} label="RR" unit="/min" name="rr" value={formData.vitals.rr} onChange={handleVitalChange} disabled={monitorLocked} />
+                        <VitalInput icon={Droplets} label="SpO2" unit="%" name="spo2" value={formData.vitals.spo2} onChange={handleVitalChange} disabled={monitorLocked} />
+                        <VitalInput icon={Thermometer} label="Temp" unit="°C" name="temp" value={formData.vitals.temp} onChange={handleVitalChange} disabled={monitorLocked} />
+                        <VitalInput icon={Activity} label="SBP" unit="mmHg" name="sbp" value={formData.vitals.sbp} onChange={handleVitalChange} disabled={monitorLocked} />
+                        <VitalInput icon={Activity} label="DBP" unit="mmHg" name="dbp" value={formData.vitals.dbp} onChange={handleVitalChange} disabled={monitorLocked} />
                     </div>
+
+                    {monitorLocked && (
+                        <div className="mt-3">
+                            <button
+                                type="button"
+                                onClick={() => setManualVitalsUnlocked(true)}
+                                className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100"
+                            >
+                                Unlock for manual override | فتح الإدخال اليدوي
+                            </button>
+                        </div>
+                    )}
                     
                     {/* Consciousness Level (ACVPU) */}
                     <div className="mt-4 pt-4 border-t border-slate-200">
@@ -585,6 +712,7 @@ export default function TriageForm({ onResult }) {
                             labelAr="مستوى الوعي"
                             value={consciousness}
                             onChange={(e) => setConsciousness(e.target.value)}
+                            disabled={monitorLocked}
                         >
                             <option value="A">A - Alert | واعي تماماً</option>
                             <option value="C">C - New Confusion | تشوش ذهني جديد</option>

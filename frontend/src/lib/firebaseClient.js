@@ -48,7 +48,17 @@ const signInWithGoogle = async ({ rememberMe = true } = {}) => {
         ? authModule.browserLocalPersistence
         : authModule.browserSessionPersistence;
     await authModule.setPersistence(auth, persistence);
-    return authModule.signInWithPopup(auth, googleProvider);
+    try {
+        const popupResult = await authModule.signInWithPopup(auth, googleProvider);
+        return { mode: 'popup', user: popupResult.user };
+    } catch (error) {
+        const code = error?.code || '';
+        if (code === 'auth/popup-blocked' || code === 'auth/cancelled-popup-request') {
+            await authModule.signInWithRedirect(auth, googleProvider);
+            return { mode: 'redirect', redirected: true };
+        }
+        throw error;
+    }
 };
 
 const signOutUser = async () => {

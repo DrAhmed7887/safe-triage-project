@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Activity, LogIn } from 'lucide-react';
+import { Activity } from 'lucide-react';
+import './SignIn.css';
 
 export default function SignIn() {
     const [role, setRole] = useState('Nurse');
@@ -14,82 +15,100 @@ export default function SignIn() {
         e.preventDefault();
         setError('');
         const result = await loginWithGoogle(role, rememberMe);
-        if (result.success) {
+        if (result.success && !result.redirected) {
             navigate('/dashboard');
+            return;
+        }
+        if (result.redirected) {
+            setError('Redirecting to Google sign-in...');
+            return;
         } else {
             setError(result.message);
         }
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
-                <div className="text-center">
-                    <div className="mx-auto h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <Activity className="h-8 w-8 text-white" />
+        <div className="si-page">
+            <div className="si-orb si-orb-1" aria-hidden="true" />
+            <div className="si-orb si-orb-2" aria-hidden="true" />
+            <div className="si-orb si-orb-3" aria-hidden="true" />
+
+            <div className="si-card">
+                <div className="si-top">
+                    <div className="si-icon-wrap">
+                        <Activity className="si-icon" />
                     </div>
-                    <h2 className="mt-6 text-3xl font-extrabold text-slate-900">
-                        Sign in to SAFE-Triage AI
-                    </h2>
-                    <p className="mt-2 text-sm text-slate-600">
-                        Use your hospital Google account to continue.
-                    </p>
+                    <h1 className="si-title">Sign in to SAFE-Triage AI</h1>
+                    <p className="si-subtitle">Use your hospital Google account to continue</p>
+                    <p className="si-subtitle si-ar">استخدم حساب المستشفى على جوجل للمتابعة</p>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={handleGoogleSignIn}>
+
+                <form className="si-form" onSubmit={handleGoogleSignIn}>
                     {(error || authError) && (
-                        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+                        <div className="si-alert si-alert-error">
                             {error || authError}
                         </div>
                     )}
                     {!isFirebaseConfigured && (
-                        <div className="bg-amber-50 border border-amber-200 text-amber-700 px-4 py-3 rounded-md text-sm">
+                        <div className="si-alert si-alert-warn">
                             Firebase configuration missing. Add the web app config to enable sign-in.
                         </div>
                     )}
-                    <div className="rounded-md shadow-sm">
-                        <label htmlFor="role" className="sr-only">
-                            Role
+
+                    <div className="si-field">
+                        <label htmlFor="role" className="si-label">
+                            Select Your Role | اختر دورك
                         </label>
                         <select
                             id="role"
                             name="role"
-                            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-slate-300 text-slate-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                            className="si-select"
                             value={role}
                             onChange={(e) => setRole(e.target.value)}
                         >
-                            <option value="Doctor">Doctor</option>
-                            <option value="Nurse">Nurse</option>
-                            <option value="Supervisor">Supervisor</option>
+                            <option value="Doctor">Doctor | طبيب/ة</option>
+                            <option value="Nurse">Nurse | ممرض/ة</option>
+                            <option value="Supervisor">Supervisor | مشرف/ة</option>
+                            <option value="Admin">Admin | مسؤول/ة</option>
                         </select>
                     </div>
 
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
+                    <div className="si-check-row">
+                        <label htmlFor="remember-me" className="si-check-wrap">
                             <input
                                 id="remember-me"
                                 name="remember-me"
                                 type="checkbox"
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded"
+                                className="si-checkbox"
                                 checked={rememberMe}
                                 onChange={(e) => setRememberMe(e.target.checked)}
                             />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-900">
-                                Remember me
-                            </label>
-                        </div>
+                            <span>Remember me</span>
+                        </label>
                     </div>
 
-                    <div>
-                        <button
-                            type="submit"
-                            disabled={!isFirebaseConfigured}
-                            className="group relative w-full flex items-center justify-center gap-2 py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
-                        >
-                            <LogIn className="w-4 h-4" />
-                            Sign in with Google
-                        </button>
-                    </div>
+                    <button
+                        type="submit"
+                        disabled={!isFirebaseConfigured}
+                        className="si-google-btn"
+                    >
+                        Sign in with Google <span aria-hidden="true">→</span>
+                    </button>
                 </form>
+
+                <button className="si-back-link" type="button" onClick={() => navigate('/')}>
+                    ← Back to Home
+                </button>
+
+                <div className="si-badges">
+                    <span className="si-badge">🔒 HIPAA Compliant</span>
+                    <span className="si-badge">🏥 GAHAR-Aligned</span>
+                    <span className="si-badge">☁️ Google Cloud</span>
+                </div>
+            </div>
+
+            <div className="si-disclaimer">
+                Research prototype for academic purposes only. Not a certified medical device.
             </div>
         </div>
     );

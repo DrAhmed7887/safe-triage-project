@@ -9,6 +9,7 @@ import {
 const AuthContext = createContext(null);
 
 const ROLE_STORAGE_KEY = 'triageRoles';
+const PENDING_ROLE_STORAGE_KEY = 'triagePendingRole';
 
 const getRoleForUid = (uid) => {
     if (!uid) return null;
@@ -21,6 +22,24 @@ const setRoleForUid = (uid, role) => {
     const roles = JSON.parse(localStorage.getItem(ROLE_STORAGE_KEY) || '{}');
     roles[uid] = role;
     localStorage.setItem(ROLE_STORAGE_KEY, JSON.stringify(roles));
+};
+
+const getPendingRole = () => localStorage.getItem(PENDING_ROLE_STORAGE_KEY);
+const setPendingRole = (role) => {
+    if (!role) return;
+    localStorage.setItem(PENDING_ROLE_STORAGE_KEY, role);
+};
+const clearPendingRole = () => localStorage.removeItem(PENDING_ROLE_STORAGE_KEY);
+
+const formatAuthError = (error) => {
+    const code = error?.code || '';
+    if (code === 'auth/popup-blocked') {
+        return 'Popup was blocked. We switched to secure redirect sign-in.';
+    }
+    if (code === 'auth/popup-closed-by-user') {
+        return 'Sign-in was cancelled before completion.';
+    }
+    return error?.message || 'Google sign-in failed';
 };
 
 export const AuthProvider = ({ children }) => {
@@ -37,7 +56,12 @@ export const AuthProvider = ({ children }) => {
         let unsubscribe = null;
         subscribeToAuthChanges((firebaseUser) => {
             if (firebaseUser) {
-                const role = getRoleForUid(firebaseUser.uid) || 'nurse';
+                let role = getRoleForUid(firebaseUser.uid);
+                if (!role) {
+                    role = getPendingRole() || 'nurse';
+                    setRoleForUid(firebaseUser.uid, role);
+                }
+                clearPendingRole();
                 setUser({
                     uid: firebaseUser.uid,
                     name: firebaseUser.displayName || firebaseUser.email || 'Clinician',
@@ -72,10 +96,15 @@ export const AuthProvider = ({ children }) => {
             return { success: false, message };
         }
         try {
+            setPendingRole(role || 'nurse');
             const result = await signInWithGoogle({ rememberMe });
+            if (result?.mode === 'redirect') {
+                return { success: true, redirected: true };
+            }
             const firebaseUser = result.user;
             const assignedRole = role || getRoleForUid(firebaseUser.uid) || 'nurse';
             setRoleForUid(firebaseUser.uid, assignedRole);
+            clearPendingRole();
             setUser({
                 uid: firebaseUser.uid,
                 name: firebaseUser.displayName || firebaseUser.email || 'Clinician',
@@ -86,7 +115,7 @@ export const AuthProvider = ({ children }) => {
             });
             return { success: true };
         } catch (error) {
-            const message = error?.message || 'Google sign-in failed';
+            const message = formatAuthError(error);
             setAuthError(message);
             return { success: false, message };
         }

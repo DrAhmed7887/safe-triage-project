@@ -38,6 +38,9 @@ from logic.icd10_integration import enrich_triage_with_icd10, check_silent_mi_pa
 from qa_agent import qa_agent
 from report_service import generate_daily_report
 from resource_labels import get_resources_for_category, get_resources_for_workup
+from monitor_service import register_monitor_service
+from analytics_service import register_analytics_service
+from medgemma_hourly_job import run_hourly_job
 
 # Create Tables
 Base.metadata.create_all(bind=engine)
@@ -52,6 +55,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+register_monitor_service(app)
+register_analytics_service(app)
 
 # Use the deterministic engine with keyword database
 # STANDARD MODE: No AI, only keyword matching (fast)
@@ -776,97 +782,51 @@ def health_check():
     return status
 
 
-@app.post("/medgemma/review-now")
-def medgemma_review_now():
-    """Run MedGemma QA review on-demand for demos/testing."""
+@app.post("/medgemma/hourly-review", tags=["MedGemma QA"])
+async def trigger_medgemma_hourly():
+    """Manually trigger hourly MedGemma batch QA (Cloud Scheduler target)."""
     try:
-        from google.cloud import bigquery
-        import vertexai
-        try:
-            from vertexai.generative_models import GenerativeModel
-        except Exception:  # pragma: no cover
-            from vertexai.preview.generative_models import GenerativeModel
-
-        from jobs.medgemma_qa_job import (
-            PROJECT_ID,
-            MODEL_NAME,
-            ensure_tables,
-            fetch_recent_cases,
-            analyze_case,
-            log_review,
-            log_flag,
-        )
-
-        bq_location = os.getenv("BQ_LOCATION", "me-west1")
-        client = bigquery.Client(project=PROJECT_ID, location=bq_location)
-        ensure_tables(client)
-        vertexai.init(project=PROJECT_ID, location=os.getenv("VERTEX_REGION", "us-central1"))
-        model = GenerativeModel(MODEL_NAME)
-
-        cases = fetch_recent_cases(client)
-        flags = []
-        for case in cases:
-            analysis = analyze_case(model, case)
-            log_review(client, case, analysis)
-            if not analysis.get("appropriate", True):
-                log_flag(client, case, analysis)
-                flags.append({
-                    "patient_id": case.get("patient_id"),
-                    "concern": analysis.get("concern"),
-                    "recommended_esi": analysis.get("recommendation"),
-                    "reasoning": analysis.get("reasoning"),
-                })
-
-        return {
-            "cases_reviewed": len(cases),
-            "flags_raised": len(flags),
-            "details": flags,
-            "gahar_notice": GAHAR_NOTICE,
-            "bq_location": bq_location,
-        }
-    except Exception as e:
-        return {
-            "error": str(e),
-            "gahar_notice": GAHAR_NOTICE,
-        }
-
-
-@app.get("/medgemma/status")
-def medgemma_status():
-    """Return MedGemma QA system status and recent activity."""
-    try:
-        from google.cloud import bigquery
-        from jobs.medgemma_qa_job import PROJECT_ID, DATASET_ID, QA_REVIEWS_TABLE, QA_FLAGS_TABLE, ensure_tables
-
-        bq_location = os.getenv("BQ_LOCATION", "me-west1")
-        client = bigquery.Client(project=PROJECT_ID, location=bq_location)
-        ensure_tables(client)
-        reviews_table = f"{PROJECT_ID}.{DATASET_ID}.{QA_REVIEWS_TABLE}"
-        flags_table = f"{PROJECT_ID}.{DATASET_ID}.{QA_FLAGS_TABLE}"
-
-        query = f"""
-            SELECT
-                (SELECT COUNT(*) FROM `{reviews_table}`
-                 WHERE reviewed_at > TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 24 HOUR)) AS reviews_24h,
-                (SELECT COUNT(*) FROM `{flags_table}`
-                 WHERE flagged_at > TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 24 HOUR)) AS flags_24h,
-                (SELECT MAX(reviewed_at) FROM `{reviews_table}`) AS last_review_time
-        """
-        result = client.query(query, location=bq_location).result()
-        row = list(result)[0]
-
-        return {
-            "status": "ok",
-            "last_review_time": row.last_review_time.isoformat() if row.last_review_time else None,
-            "cases_reviewed_24h": row.reviews_24h,
-            "flags_raised_24h": row.flags_24h,
-            "gahar_notice": GAHAR_NOTICE,
-            "bq_location": bq_location,
-        }
-    except Exception as e:
+        result = await run_hourly_job()
+        result["gahar_notice"] = GAHAR_NOTICE
+        return result
+    except Exception as exc:
         return {
             "status": "error",
-            "error": str(e),
+            "error": str(exc),
+            "gahar_notice": GAHAR_NOTICE,
+        }
+
+
+@app.post("/medgemma/review-now")
+async def medgemma_review_now():
+    """Backward-compatible alias for immediate manual MedGemma review."""
+    return await trigger_medgemma_hourly()
+
+
+@app.get("/medgemma/status", tags=["MedGemma QA"])
+def medgemma_status():
+    """Health check for Hugging Face MedGemma service."""
+    try:
+        from medgemma_client import MedGemmaClient
+
+        client = MedGemmaClient()
+        healthy = client.test_connection()
+        return {
+            "service": "MedGemma QA",
+            "model": "medgemma-2b",
+            "provider": "Hugging Face",
+            "status": "operational" if healthy else "degraded",
+            "api_accessible": healthy,
+            "gahar_notice": GAHAR_NOTICE,
+        }
+    except Exception as exc:
+        return {
+            "service": "MedGemma QA",
+            "model": "medgemma-2b",
+            "provider": "Hugging Face",
+            "status": "error",
+            "api_accessible": False,
+            "error": str(exc),
             "gahar_notice": GAHAR_NOTICE,
         }
 

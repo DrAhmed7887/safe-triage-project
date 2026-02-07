@@ -3,39 +3,17 @@ import TriageForm from '../components/TriageForm';
 import TriageResult from '../components/TriageResult';
 import PatientList from '../components/PatientList';
 import TriageStats from '../components/TriageStats';
-import { Activity, ClipboardList, LogOut, Download } from 'lucide-react';
+import { Activity, ClipboardList, LogOut, BarChart3 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { getIdToken } from '../lib/firebaseClient';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
     const [currentResult, setCurrentResult] = useState(null);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const { user, logout } = useAuth();
-
-    const handleExportReport = async () => {
-        try {
-            const token = await getIdToken();
-            if (!token) throw new Error('Missing auth token');
-            const response = await fetch(`${API_URL}/reports/daily-summary`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            if (!response.ok) throw new Error('Failed to export report');
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `SAFE_Triage_Daily_Report_${new Date().toISOString().slice(0, 10)}.pdf`;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            window.URL.revokeObjectURL(url);
-        } catch (e) {
-            console.error(e);
-        }
-    };
+    const navigate = useNavigate();
+    const normalizedRole = (user?.role || '').toString().toLowerCase();
+    const isSupervisor = normalizedRole === 'supervisor' || normalizedRole === 'admin';
 
     // Handle data from TriageForm (contains { result, input })
     const handleResult = (data) => {
@@ -96,11 +74,17 @@ export default function Dashboard() {
                     </div>
                     <div className="flex items-center gap-4">
                         <button
-                            onClick={handleExportReport}
-                            className="text-sm font-medium text-white bg-[#1a5f7a] hover:bg-[#164d63] px-3 py-1.5 rounded-md flex items-center gap-1"
+                            onClick={() => navigate('/analytics/dashboard')}
+                            disabled={!isSupervisor}
+                            className={`text-sm font-medium px-3 py-1.5 rounded-md flex items-center gap-1 ${
+                                isSupervisor
+                                    ? 'text-white bg-[#1a5f7a] hover:bg-[#164d63]'
+                                    : 'text-slate-500 bg-slate-200 cursor-not-allowed'
+                            }`}
+                            title={isSupervisor ? 'View analytics dashboard' : 'Supervisor role required'}
                         >
-                            <Download className="w-4 h-4" />
-                            Export Daily Report | تصدير التقرير اليومي
+                            <BarChart3 className="w-4 h-4" />
+                            View Analytics Dashboard | عرض لوحة التحليلات
                         </button>
                         <button
                             onClick={() => window.location.reload()}
@@ -119,6 +103,11 @@ export default function Dashboard() {
                         </button>
                     </div>
                 </div>
+                {!isSupervisor && (
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-2 text-xs text-slate-500">
+                        Analytics access restricted to supervisors | الوصول إلى التحليلات متاح للمشرفين فقط
+                    </div>
+                )}
             </header>
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
