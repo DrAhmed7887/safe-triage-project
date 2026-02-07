@@ -117,7 +117,7 @@ export const SelectField = ({ label, labelAr, children, className = "", ...props
  * VitalInput - Compact input for vital signs with icon and unit
  * Used in the Vital Signs section for a clean, uniform layout
  */
-export const VitalInput = ({ icon: Icon, label, unit, name, value, onChange }) => (
+export const VitalInput = ({ icon: Icon, label, unit, name, value, onChange, disabled = false }) => (
     <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
         <label className="flex items-center gap-1.5 text-xs font-medium text-slate-500 mb-2">
             <Icon className="w-3.5 h-3.5" /> {label}
@@ -128,8 +128,11 @@ export const VitalInput = ({ icon: Icon, label, unit, name, value, onChange }) =
                 name={name}
                 value={value}
                 onChange={onChange}
+                disabled={disabled}
                 placeholder="--"
-                className="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-lg font-semibold text-slate-800 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className={`w-full border border-slate-300 rounded px-2 py-1.5 text-lg font-semibold focus:ring-2 focus:ring-teal-500 focus:border-teal-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                    disabled ? 'bg-slate-100 text-slate-500 cursor-not-allowed' : 'bg-white text-slate-800'
+                }`}
             />
             <span className="text-xs text-slate-400 whitespace-nowrap">{unit}</span>
         </div>

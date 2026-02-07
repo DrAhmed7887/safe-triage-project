@@ -7,11 +7,25 @@ const GAHAR_TEXT = 'Designed to Align with GAHAR Safety Requirements | مصمم 
 
 export default function LandingPage() {
     const navigate = useNavigate();
-    const { user, loginWithGoogle, isFirebaseConfigured } = useAuth();
+    const { user } = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [authBusy, setAuthBusy] = useState(false);
-    const [authError, setAuthError] = useState('');
+    const transformationSlides = useMemo(
+        () => [
+            {
+                src: '/images/before-after-1.png',
+                alt: 'Before and after SAFE-Triage workflow comparison in an Egyptian emergency department',
+            },
+            {
+                src: '/images/before-after-3.png',
+                alt: 'Before and after emergency department flow with SAFE-Triage transformation',
+            },
+        ],
+        []
+    );
+    const [activeSlide, setActiveSlide] = useState(0);
+    const [touchStartX, setTouchStartX] = useState(null);
+    const [touchEndX, setTouchEndX] = useState(null);
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20);
@@ -19,6 +33,13 @@ export default function LandingPage() {
         window.addEventListener('scroll', onScroll);
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
+
+    useEffect(() => {
+        const intervalId = window.setInterval(() => {
+            setActiveSlide((prev) => (prev + 1) % transformationSlides.length);
+        }, 5000);
+        return () => window.clearInterval(intervalId);
+    }, [transformationSlides.length]);
 
     const navLinks = useMemo(
         () => [
@@ -36,24 +57,39 @@ export default function LandingPage() {
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
-    const handleLogin = async () => {
-        setAuthError('');
+    const goToSlide = (index) => {
+        const total = transformationSlides.length;
+        setActiveSlide((index + total) % total);
+    };
+
+    const nextSlide = () => goToSlide(activeSlide + 1);
+    const prevSlide = () => goToSlide(activeSlide - 1);
+
+    const onTouchStart = (event) => {
+        setTouchEndX(null);
+        setTouchStartX(event.targetTouches[0].clientX);
+    };
+
+    const onTouchMove = (event) => {
+        setTouchEndX(event.targetTouches[0].clientX);
+    };
+
+    const onTouchEnd = () => {
+        if (touchStartX === null || touchEndX === null) return;
+        const delta = touchStartX - touchEndX;
+        if (delta > 50) {
+            nextSlide();
+        } else if (delta < -50) {
+            prevSlide();
+        }
+    };
+
+    const handleLogin = () => {
         if (user) {
             navigate('/dashboard');
             return;
         }
-        if (!isFirebaseConfigured) {
-            setAuthError('Firebase configuration is missing. Please use the configured environment.');
-            return;
-        }
-        setAuthBusy(true);
-        const result = await loginWithGoogle('Nurse', true);
-        setAuthBusy(false);
-        if (result.success) {
-            navigate('/dashboard');
-            return;
-        }
-        setAuthError(result.message || 'Google sign-in failed');
+        window.location.href = 'https://safe-triage-ai.web.app/signin';
     };
 
     return (
@@ -74,7 +110,7 @@ export default function LandingPage() {
 
                     <div className="st-nav-right">
                         <button className="st-login-btn" onClick={handleLogin}>
-                            {user ? 'Dashboard | لوحة التحكم' : authBusy ? 'Connecting...' : 'Login | تسجيل الدخول'}
+                            {user ? 'Dashboard | لوحة التحكم' : 'Login | تسجيل الدخول'}
                         </button>
                     </div>
 
@@ -94,7 +130,7 @@ export default function LandingPage() {
                         </button>
                     ))}
                     <button className="st-login-btn" onClick={handleLogin}>
-                        {user ? 'Dashboard | لوحة التحكم' : authBusy ? 'Connecting...' : 'Login | تسجيل الدخول'}
+                        {user ? 'Dashboard | لوحة التحكم' : 'Login | تسجيل الدخول'}
                     </button>
                 </div>
             </header>
@@ -125,7 +161,7 @@ export default function LandingPage() {
                             </div>
 
                             <button className="st-mobile-login" onClick={handleLogin}>
-                                {user ? 'Dashboard | لوحة التحكم' : authBusy ? 'Connecting...' : 'Login | تسجيل الدخول'}
+                                {user ? 'Dashboard | لوحة التحكم' : 'Login | تسجيل الدخول'}
                             </button>
 
                             <div className="st-compliance-strip">
@@ -209,6 +245,72 @@ export default function LandingPage() {
                                 <div className="st-card-desc">Health facilities in Egypt (2020), where standardized digital triage is still limited.</div>
                                 <div className="st-source"><a className="st-cite" href="https://beta.sis.gov.eg/en/egypt/society/health-care/indicators-about-the-health-sector-in-egypt/" target="_blank" rel="noreferrer">Egypt Info and Decision Support Center</a></div>
                             </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="st-section st-section-transform" id="transformation">
+                    <div className="st-container">
+                        <div className="st-section-label teal">The Transformation | التحول</div>
+                        <h2 className="st-section-title">The Transformation | التحول</h2>
+                        <p className="st-section-desc st-transform-subtitle">
+                            From paper chaos to intelligent triage - see the difference.
+                        </p>
+                        <p className="st-section-desc st-transform-subtitle-ar st-ar">
+                            من فوضى الورق إلى الفرز الذكي - شاهد الفرق
+                        </p>
+
+                        <div
+                            className="st-transform-carousel"
+                            onTouchStart={onTouchStart}
+                            onTouchMove={onTouchMove}
+                            onTouchEnd={onTouchEnd}
+                        >
+                            <div className="st-transform-track">
+                                {transformationSlides.map((slide, index) => (
+                                    <figure
+                                        key={slide.src}
+                                        className={`st-transform-slide ${index === activeSlide ? 'active' : ''}`}
+                                        aria-hidden={index !== activeSlide}
+                                    >
+                                        <img src={slide.src} alt={slide.alt} loading="lazy" />
+                                    </figure>
+                                ))}
+                            </div>
+
+                            <button
+                                className="st-transform-arrow st-transform-arrow-left"
+                                onClick={prevSlide}
+                                aria-label="Previous image"
+                                type="button"
+                            >
+                                ‹
+                            </button>
+                            <button
+                                className="st-transform-arrow st-transform-arrow-right"
+                                onClick={nextSlide}
+                                aria-label="Next image"
+                                type="button"
+                            >
+                                ›
+                            </button>
+
+                            <div className="st-transform-dots" role="tablist" aria-label="Transformation images">
+                                {transformationSlides.map((slide, index) => (
+                                    <button
+                                        key={`${slide.src}-dot`}
+                                        type="button"
+                                        className={`st-transform-dot ${index === activeSlide ? 'active' : ''}`}
+                                        onClick={() => goToSlide(index)}
+                                        aria-label={`Go to image ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="st-transform-caption">
+                            <p>AI-generated visualization of SAFE-Triage impact on Egyptian emergency departments</p>
+                            <p className="st-ar">تصور مولد بالذكاء الاصطناعي لتأثير نظام SAFE-Triage على أقسام الطوارئ المصرية</p>
                         </div>
                     </div>
                 </section>
@@ -316,7 +418,7 @@ export default function LandingPage() {
 
                 <section className="st-section st-section-safe-staff" id="safe-staff">
                     <div className="st-container">
-                        <div className="st-section-label warm">Happy Patients, Safe Doctors</div>
+                        <div className="st-section-label warm">Happy Patients, Safer Care Teams</div>
                         <h2 className="st-section-title">Shorter Wait = Safer Staff | انتظار أقل = طاقم طبي أكثر أماناً</h2>
                         <p className="st-section-desc st-safe-staff-subtitle">
                             In Egyptian EDs, frustrated patients do not just leave. Better triage protects everyone.
@@ -370,12 +472,12 @@ export default function LandingPage() {
                                 <p>
                                     <strong>The connection is clear:</strong> Long waits to frustrated families to violence against staff.
                                     SAFE-Triage cuts wait time by 72%, directly addressing the #1 reported trigger of ED violence in Egypt.
-                                    Better triage does not just save patients. It protects doctors and nurses as well.
+                                    Better triage does not just save patients. It protects the whole care team.
                                 </p>
                                 <p className="st-ar">
                                     <strong>العلاقة واضحة:</strong> انتظار طويل إلى عائلات محبطة إلى عنف ضد الطاقم الطبي.
                                     نظام SAFE-Triage يقلل وقت الانتظار بنسبة 72% ويعالج السبب الأول للعنف في طوارئ مصر.
-                                    الفرز الأفضل لا ينقذ المرضى فقط، بل يحمي الأطباء والممرضين أيضاً.
+                                    الفرز الأفضل لا ينقذ المرضى فقط، بل يحمي فريق الرعاية بالكامل.
                                 </p>
                             </div>
                         </div>
@@ -455,13 +557,12 @@ export default function LandingPage() {
                                 <p className="st-auth-sub">Use Google Authentication to access the triage dashboard and full clinical workflow.</p>
                                 <div className="st-auth-actions">
                                     <button className="st-btn st-btn-primary" onClick={handleLogin}>
-                                        {user ? 'Open Dashboard | فتح لوحة التحكم' : authBusy ? 'Connecting...' : 'Login with Google | تسجيل الدخول عبر جوجل'}
+                                        {user ? 'Open Dashboard | فتح لوحة التحكم' : 'Sign in | تسجيل الدخول'}
                                     </button>
                                     <button className="st-btn st-btn-secondary" onClick={() => navigate('/signin')}>
                                         Advanced Sign-In | خيارات متقدمة
                                     </button>
                                 </div>
-                                {authError && <div className="st-auth-error">{authError}</div>}
                             </div>
                         </div>
                     </div>
@@ -483,10 +584,13 @@ export default function LandingPage() {
 
             <div className="st-edu-disclaimer">
                 <div>
-                    {'⚠️ Educational Project Disclaimer: SAFE-Triage is a capstone research project developed at The American University in Cairo for educational and research purposes only. It is not a certified medical device and has not received regulatory approval for clinical use. All clinical decisions must be made by licensed healthcare professionals. Research statistics cited are from published peer-reviewed studies and are presented for academic context. The system is not formally accredited by GAHAR, HIPAA, or any regulatory body — compliance references indicate design alignment with published standards only.'}
+                    {'SAFE-Triage is an independent academic research and capstone-level project developed for educational and research purposes only. It is not a certified medical device and has not received regulatory approval for clinical use. All clinical decisions must be made by licensed healthcare professionals. Any research statistics cited are derived from published peer-reviewed studies and are presented for academic context only. The system is not formally accredited or certified by GAHAR, HIPAA, or any regulatory authority; references to these standards indicate conceptual and design alignment only.'}
                 </div>
-                <div className="st-ar" style={{ marginTop: 6 }}>
-                    {'⚠️ إخلاء مسؤولية: نظام SAFE-Triage هو مشروع بحثي أكاديمي تم تطويره في الجامعة الأمريكية بالقاهرة لأغراض تعليمية وبحثية فقط. النظام ليس جهازاً طبياً معتمداً ولم يحصل على موافقة تنظيمية للاستخدام السريري. جميع القرارات السريرية يجب أن يتخذها متخصصون طبيون مرخصون.'}
+                <div className="st-edu-disclaimer-ar" style={{ marginTop: 6 }}>
+                    <div>⚠️ إخلاء مسؤولية تعليمية وبحثية</div>
+                    <div>
+                        {'نظام SAFE-Triage هو مشروع بحثي أكاديمي مستقل تم تطويره لأغراض تعليمية وبحثية فقط. النظام ليس جهازًا طبيًا معتمدًا ولم يحصل على أي موافقة تنظيمية للاستخدام السريري. جميع القرارات السريرية يجب أن يتخذها مختصون طبيون مرخصون. أي إحصاءات بحثية مذكورة مستمدة من دراسات علمية محكّمة ومنشورة، وتُعرض في سياق أكاديمي فقط. النظام غير معتمد رسميًا من قبل الهيئة العامة للاعتماد والرقابة الصحية (GAHAR) أو HIPAA أو أي جهة تنظيمية أخرى، وأي إشارات لهذه المعايير تعكس توافقًا تصميميًا ومفاهيميًا فقط.'}
+                    </div>
                 </div>
             </div>
 
