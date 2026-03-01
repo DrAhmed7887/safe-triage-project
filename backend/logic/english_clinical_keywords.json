@@ -1,0 +1,4781 @@
+[
+  {
+    "keyword_text": "aaa",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 97.25,
+    "sample_size": 182
+  },
+  {
+    "keyword_text": "abcess",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.12,
+    "sample_size": 98
+  },
+  {
+    "keyword_text": "abdo pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.79,
+    "sample_size": 282
+  },
+  {
+    "keyword_text": "abdominal distention",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 44.29,
+    "sample_size": 1454
+  },
+  {
+    "keyword_text": "abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 23.24,
+    "sample_size": 35936
+  },
+  {
+    "keyword_text": "abdominal pain nausea vomiting",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 24.44,
+    "sample_size": 90
+  },
+  {
+    "keyword_text": "abnl labs",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 55.28,
+    "sample_size": 161
+  },
+  {
+    "keyword_text": "abnormal ct",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 66.42,
+    "sample_size": 1611
+  },
+  {
+    "keyword_text": "abnormal ekg",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 89.29,
+    "sample_size": 868
+  },
+  {
+    "keyword_text": "abnormal lab values",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 51.74,
+    "sample_size": 201
+  },
+  {
+    "keyword_text": "abnormal labs",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 55.27,
+    "sample_size": 5240
+  },
+  {
+    "keyword_text": "abnormal mri",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 68.64,
+    "sample_size": 759
+  },
+  {
+    "keyword_text": "abnormal sodium level",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 73.83,
+    "sample_size": 321
+  },
+  {
+    "keyword_text": "abnormal ultrasound",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 40.0,
+    "sample_size": 125
+  },
+  {
+    "keyword_text": "abnormal xray",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 40.65,
+    "sample_size": 123
+  },
+  {
+    "keyword_text": "abscess",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.22,
+    "sample_size": 1312
+  },
+  {
+    "keyword_text": "acute renal failure",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 75.0,
+    "sample_size": 96
+  },
+  {
+    "keyword_text": "afib",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 81.91,
+    "sample_size": 94
+  },
+  {
+    "keyword_text": "agitation",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 76.38,
+    "sample_size": 817
+  },
+  {
+    "keyword_text": "ah",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 85.03,
+    "sample_size": 294
+  },
+  {
+    "keyword_text": "alcohol intoxication",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 28.88,
+    "sample_size": 10624
+  },
+  {
+    "keyword_text": "alcohol intoxication detox",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 33.45,
+    "sample_size": 275
+  },
+  {
+    "keyword_text": "alcohol withdrawal",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 63.96,
+    "sample_size": 197
+  },
+  {
+    "keyword_text": "allergic reaction",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 70.74,
+    "sample_size": 2526
+  },
+  {
+    "keyword_text": "allergic rxn",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 72.84,
+    "sample_size": 81
+  },
+  {
+    "keyword_text": "altered level consciousness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 92.17,
+    "sample_size": 115
+  },
+  {
+    "keyword_text": "altered mental status",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 86.87,
+    "sample_size": 5979
+  },
+  {
+    "keyword_text": "altered ms",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 85.61,
+    "sample_size": 139
+  },
+  {
+    "keyword_text": "anemia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 79.2,
+    "sample_size": 1596
+  },
+  {
+    "keyword_text": "angioedema",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 96.05,
+    "sample_size": 76
+  },
+  {
+    "keyword_text": "ankle injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 7.95,
+    "sample_size": 88
+  },
+  {
+    "keyword_text": "ankle pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.59,
+    "sample_size": 109
+  },
+  {
+    "keyword_text": "ankle swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.66,
+    "sample_size": 83
+  },
+  {
+    "keyword_text": "anorexia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 47.67,
+    "sample_size": 193
+  },
+  {
+    "keyword_text": "anxiety",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 29.77,
+    "sample_size": 3050
+  },
+  {
+    "keyword_text": "anxiety situational crisis",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 32.84,
+    "sample_size": 67
+  },
+  {
+    "keyword_text": "aphasia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 94.74,
+    "sample_size": 247
+  },
+  {
+    "keyword_text": "appendicitis",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 30.13,
+    "sample_size": 239
+  },
+  {
+    "keyword_text": "arm numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 59.02,
+    "sample_size": 122
+  },
+  {
+    "keyword_text": "arm pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 29.3,
+    "sample_size": 215
+  },
+  {
+    "keyword_text": "ascites",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 53.75,
+    "sample_size": 80
+  },
+  {
+    "keyword_text": "assault",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 32.83,
+    "sample_size": 1904
+  },
+  {
+    "keyword_text": "asthma exacerbation",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 33.12,
+    "sample_size": 1274
+  },
+  {
+    "keyword_text": "ataxia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 68.91,
+    "sample_size": 119
+  },
+  {
+    "keyword_text": "atrial fibrillation",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 87.17,
+    "sample_size": 421
+  },
+  {
+    "keyword_text": "b flank pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.14,
+    "sample_size": 99
+  },
+  {
+    "keyword_text": "b foot pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 10.17,
+    "sample_size": 118
+  },
+  {
+    "keyword_text": "b knee pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 5.75,
+    "sample_size": 87
+  },
+  {
+    "keyword_text": "b leg pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.22,
+    "sample_size": 331
+  },
+  {
+    "keyword_text": "b leg swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 36.33,
+    "sample_size": 578
+  },
+  {
+    "keyword_text": "back pain",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "low",
+    "high_acuity_pct": 23.66,
+    "sample_size": 10126
+  },
+  {
+    "keyword_text": "back pain numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 68.0,
+    "sample_size": 120
+  },
+  {
+    "keyword_text": "back pain s p fall",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 45.0,
+    "sample_size": 200
+  },
+  {
+    "keyword_text": "bat exposure",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 0.0,
+    "sample_size": 78
+  },
+  {
+    "keyword_text": "bicycle accident",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 42.15,
+    "sample_size": 325
+  },
+  {
+    "keyword_text": "bizarre behavior",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 79.17,
+    "sample_size": 72
+  },
+  {
+    "keyword_text": "blood in stool melena",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 73.48,
+    "sample_size": 132
+  },
+  {
+    "keyword_text": "blurred vision",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 60.47,
+    "sample_size": 86
+  },
+  {
+    "keyword_text": "body aches",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 16.92,
+    "sample_size": 715
+  },
+  {
+    "keyword_text": "body pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.75,
+    "sample_size": 784
+  },
+  {
+    "keyword_text": "bowel obstruction",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 47.87,
+    "sample_size": 94
+  },
+  {
+    "keyword_text": "bradycardia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 93.93,
+    "sample_size": 824
+  },
+  {
+    "keyword_text": "brbpr",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 64.89,
+    "sample_size": 4141
+  },
+  {
+    "keyword_text": "breast pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.22,
+    "sample_size": 146
+  },
+  {
+    "keyword_text": "burn",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 25.25,
+    "sample_size": 301
+  },
+  {
+    "keyword_text": "buttock pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.71,
+    "sample_size": 175
+  },
+  {
+    "keyword_text": "c p",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 92.99,
+    "sample_size": 157
+  },
+  {
+    "keyword_text": "c spine fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 91.49,
+    "sample_size": 188
+  },
+  {
+    "keyword_text": "c2 fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 92.0,
+    "sample_size": 100
+  },
+  {
+    "keyword_text": "calf pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 27.27,
+    "sample_size": 66
+  },
+  {
+    "keyword_text": "cardiac arrest",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 100.0,
+    "sample_size": 228
+  },
+  {
+    "keyword_text": "cat bite",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 1.75,
+    "sample_size": 286
+  },
+  {
+    "keyword_text": "cellulitis",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 16.84,
+    "sample_size": 493
+  },
+  {
+    "keyword_text": "chest pain",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 65.06,
+    "sample_size": 28484
+  },
+  {
+    "keyword_text": "chest pain cardiac features",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 79.57,
+    "sample_size": 842
+  },
+  {
+    "keyword_text": "chest pain noncardiac features",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 41.77,
+    "sample_size": 237
+  },
+  {
+    "keyword_text": "chest pain shortness breath",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 78.02,
+    "sample_size": 91
+  },
+  {
+    "keyword_text": "chest pressure",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 73.47,
+    "sample_size": 98
+  },
+  {
+    "keyword_text": "chest tightness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 63.25,
+    "sample_size": 117
+  },
+  {
+    "keyword_text": "chills",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 34.31,
+    "sample_size": 548
+  },
+  {
+    "keyword_text": "cholecystitis",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 34.38,
+    "sample_size": 96
+  },
+  {
+    "keyword_text": "clogged foley",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.59,
+    "sample_size": 182
+  },
+  {
+    "keyword_text": "clotted fistula",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 16.24,
+    "sample_size": 271
+  },
+  {
+    "keyword_text": "coffee ground emesis",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 90.18,
+    "sample_size": 285
+  },
+  {
+    "keyword_text": "confusion",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 74.62,
+    "sample_size": 2447
+  },
+  {
+    "keyword_text": "constipation",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 11.58,
+    "sample_size": 1554
+  },
+  {
+    "keyword_text": "cough",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 28.05,
+    "sample_size": 7596
+  },
+  {
+    "keyword_text": "cough congestion",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.21,
+    "sample_size": 291
+  },
+  {
+    "keyword_text": "cva",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 99.44,
+    "sample_size": 713
+  },
+  {
+    "keyword_text": "decreased po intake",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 29.17,
+    "sample_size": 72
+  },
+  {
+    "keyword_text": "dehydration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 31.36,
+    "sample_size": 389
+  },
+  {
+    "keyword_text": "dental pain",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "low",
+    "high_acuity_pct": 5.3,
+    "sample_size": 1095
+  },
+  {
+    "keyword_text": "depression",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 67.54,
+    "sample_size": 2218
+  },
+  {
+    "keyword_text": "depression suicidal deliberate self harm",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 93.2,
+    "sample_size": 294
+  },
+  {
+    "keyword_text": "detox",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 22.74,
+    "sample_size": 541
+  },
+  {
+    "keyword_text": "diarrhea",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.6,
+    "sample_size": 3999
+  },
+  {
+    "keyword_text": "difficulty ambulating",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.02,
+    "sample_size": 111
+  },
+  {
+    "keyword_text": "difficulty breathing",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 59.18,
+    "sample_size": 267
+  },
+  {
+    "keyword_text": "difficulty swallowing",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 49.44,
+    "sample_size": 532
+  },
+  {
+    "keyword_text": "diplopia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 75.31,
+    "sample_size": 81
+  },
+  {
+    "keyword_text": "dizziness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 50.71,
+    "sample_size": 9470
+  },
+  {
+    "keyword_text": "dizzy",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 43.02,
+    "sample_size": 437
+  },
+  {
+    "keyword_text": "dka",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 94.83,
+    "sample_size": 116
+  },
+  {
+    "keyword_text": "doe",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 70.0,
+    "sample_size": 70
+  },
+  {
+    "keyword_text": "dog bite",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.61,
+    "sample_size": 546
+  },
+  {
+    "keyword_text": "dvt",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 42.4,
+    "sample_size": 342
+  },
+  {
+    "keyword_text": "dyspnea",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 71.04,
+    "sample_size": 18815
+  },
+  {
+    "keyword_text": "dyspnea on exertion",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 70.65,
+    "sample_size": 1881
+  },
+  {
+    "keyword_text": "dysuria",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.03,
+    "sample_size": 3336
+  },
+  {
+    "keyword_text": "ear pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.73,
+    "sample_size": 401
+  },
+  {
+    "keyword_text": "ekg changes",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 89.31,
+    "sample_size": 131
+  },
+  {
+    "keyword_text": "elevated d dimer",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 63.24,
+    "sample_size": 321
+  },
+  {
+    "keyword_text": "elevated inr",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 67.29,
+    "sample_size": 107
+  },
+  {
+    "keyword_text": "elevated troponin",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 96.98,
+    "sample_size": 364
+  },
+  {
+    "keyword_text": "elevated wbc",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 59.54,
+    "sample_size": 131
+  },
+  {
+    "keyword_text": "epigastric pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 28.76,
+    "sample_size": 2323
+  },
+  {
+    "keyword_text": "epistaxis",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 25.34,
+    "sample_size": 1255
+  },
+  {
+    "keyword_text": "etoh s p fall laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 49.0,
+    "sample_size": 150
+  },
+  {
+    "keyword_text": "exposure",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 52.11,
+    "sample_size": 142
+  },
+  {
+    "keyword_text": "eye",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.23,
+    "sample_size": 104
+  },
+  {
+    "keyword_text": "eye pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 20.45,
+    "sample_size": 308
+  },
+  {
+    "keyword_text": "eye redness",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.52,
+    "sample_size": 142
+  },
+  {
+    "keyword_text": "facial droop",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 87.4,
+    "sample_size": 254
+  },
+  {
+    "keyword_text": "facial injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 34.0,
+    "sample_size": 200
+  },
+  {
+    "keyword_text": "facial laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 16.84,
+    "sample_size": 95
+  },
+  {
+    "keyword_text": "facial numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 69.65,
+    "sample_size": 313
+  },
+  {
+    "keyword_text": "facial pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 13.47,
+    "sample_size": 245
+  },
+  {
+    "keyword_text": "facial swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 36.81,
+    "sample_size": 883
+  },
+  {
+    "keyword_text": "failure thrive",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 46.1,
+    "sample_size": 666
+  },
+  {
+    "keyword_text": "fall",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 44.97,
+    "sample_size": 447
+  },
+  {
+    "keyword_text": "fatigue",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 42.19,
+    "sample_size": 1242
+  },
+  {
+    "keyword_text": "femur fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 56.16,
+    "sample_size": 146
+  },
+  {
+    "keyword_text": "fever",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 45.83,
+    "sample_size": 12901
+  },
+  {
+    "keyword_text": "fevers",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 40.34,
+    "sample_size": 290
+  },
+  {
+    "keyword_text": "finger injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.79,
+    "sample_size": 688
+  },
+  {
+    "keyword_text": "finger laceration",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 2.67,
+    "sample_size": 1346
+  },
+  {
+    "keyword_text": "finger pain",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 5.63,
+    "sample_size": 302
+  },
+  {
+    "keyword_text": "finger swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.81,
+    "sample_size": 210
+  },
+  {
+    "keyword_text": "flank pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.06,
+    "sample_size": 969
+  },
+  {
+    "keyword_text": "food bolus",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 54.39,
+    "sample_size": 171
+  },
+  {
+    "keyword_text": "foot injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.35,
+    "sample_size": 69
+  },
+  {
+    "keyword_text": "foot laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.29,
+    "sample_size": 70
+  },
+  {
+    "keyword_text": "foot pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.23,
+    "sample_size": 507
+  },
+  {
+    "keyword_text": "foot swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.58,
+    "sample_size": 77
+  },
+  {
+    "keyword_text": "foreign body",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 34.0,
+    "sample_size": 100
+  },
+  {
+    "keyword_text": "found down",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 78.21,
+    "sample_size": 358
+  },
+  {
+    "keyword_text": "ftt",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 32.31,
+    "sample_size": 130
+  },
+  {
+    "keyword_text": "gastrointestinal bleeding",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 96.49,
+    "sample_size": 655
+  },
+  {
+    "keyword_text": "general weakness",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 53.21,
+    "sample_size": 109
+  },
+  {
+    "keyword_text": "gib",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 92.31,
+    "sample_size": 143
+  },
+  {
+    "keyword_text": "groin pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.73,
+    "sample_size": 89
+  },
+  {
+    "keyword_text": "gsw",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 88.0,
+    "sample_size": 80
+  },
+  {
+    "keyword_text": "gtube",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.97,
+    "sample_size": 632
+  },
+  {
+    "keyword_text": "gu",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 13.75,
+    "sample_size": 80
+  },
+  {
+    "keyword_text": "gum bleeding",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 37.68,
+    "sample_size": 69
+  },
+  {
+    "keyword_text": "gunshot wound",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 90.2,
+    "sample_size": 102
+  },
+  {
+    "keyword_text": "gyn",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.7,
+    "sample_size": 69
+  },
+  {
+    "keyword_text": "hallucinations",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 81.08,
+    "sample_size": 555
+  },
+  {
+    "keyword_text": "hand injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 28.04,
+    "sample_size": 189
+  },
+  {
+    "keyword_text": "hand laceration",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.77,
+    "sample_size": 174
+  },
+  {
+    "keyword_text": "hand numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 48.94,
+    "sample_size": 94
+  },
+  {
+    "keyword_text": "hand pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.92,
+    "sample_size": 131
+  },
+  {
+    "keyword_text": "head bleed",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 96.91,
+    "sample_size": 162
+  },
+  {
+    "keyword_text": "head injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 37.17,
+    "sample_size": 3148
+  },
+  {
+    "keyword_text": "head laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 29.46,
+    "sample_size": 533
+  },
+  {
+    "keyword_text": "head pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 27.47,
+    "sample_size": 91
+  },
+  {
+    "keyword_text": "headache",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 35.12,
+    "sample_size": 14327
+  },
+  {
+    "keyword_text": "hematemesis",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 75.65,
+    "sample_size": 813
+  },
+  {
+    "keyword_text": "hematuria",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.43,
+    "sample_size": 2686
+  },
+  {
+    "keyword_text": "hemodialysis",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 51.32,
+    "sample_size": 76
+  },
+  {
+    "keyword_text": "hemoptysis",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 63.46,
+    "sample_size": 780
+  },
+  {
+    "keyword_text": "hi",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 97.34,
+    "sample_size": 413
+  },
+  {
+    "keyword_text": "hip fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 45.26,
+    "sample_size": 137
+  },
+  {
+    "keyword_text": "hip pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.22,
+    "sample_size": 381
+  },
+  {
+    "keyword_text": "hives",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 30.97,
+    "sample_size": 268
+  },
+  {
+    "keyword_text": "htn",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 43.48,
+    "sample_size": 138
+  },
+  {
+    "keyword_text": "human bite",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 16.8,
+    "sample_size": 125
+  },
+  {
+    "keyword_text": "hyperglycemia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 66.53,
+    "sample_size": 2381
+  },
+  {
+    "keyword_text": "hyperkalemia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 82.81,
+    "sample_size": 640
+  },
+  {
+    "keyword_text": "hypertension",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 43.73,
+    "sample_size": 2545
+  },
+  {
+    "keyword_text": "hypoglycemia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 69.13,
+    "sample_size": 1030
+  },
+  {
+    "keyword_text": "hypokalemia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 66.14,
+    "sample_size": 189
+  },
+  {
+    "keyword_text": "hyponatremia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 68.25,
+    "sample_size": 126
+  },
+  {
+    "keyword_text": "hypotension",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 90.69,
+    "sample_size": 2310
+  },
+  {
+    "keyword_text": "hypoxia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 94.54,
+    "sample_size": 1393
+  },
+  {
+    "keyword_text": "icd",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 96.1,
+    "sample_size": 77
+  },
+  {
+    "keyword_text": "ich",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 98.99,
+    "sample_size": 895
+  },
+  {
+    "keyword_text": "ili",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 16.65,
+    "sample_size": 5068
+  },
+  {
+    "keyword_text": "influenza like illness",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.01,
+    "sample_size": 314
+  },
+  {
+    "keyword_text": "inguinal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 22.73,
+    "sample_size": 154
+  },
+  {
+    "keyword_text": "insect bite",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.59,
+    "sample_size": 251
+  },
+  {
+    "keyword_text": "insomnia",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.27,
+    "sample_size": 192
+  },
+  {
+    "keyword_text": "jaundice",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 52.76,
+    "sample_size": 906
+  },
+  {
+    "keyword_text": "jaw pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 33.2,
+    "sample_size": 485
+  },
+  {
+    "keyword_text": "joint pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 5.26,
+    "sample_size": 76
+  },
+  {
+    "keyword_text": "jtube",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 7.63,
+    "sample_size": 131
+  },
+  {
+    "keyword_text": "kidney stone",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.88,
+    "sample_size": 161
+  },
+  {
+    "keyword_text": "knee pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.93,
+    "sample_size": 504
+  },
+  {
+    "keyword_text": "l ankle injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 7.63,
+    "sample_size": 603
+  },
+  {
+    "keyword_text": "l ankle pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.65,
+    "sample_size": 903
+  },
+  {
+    "keyword_text": "l ankle swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.21,
+    "sample_size": 95
+  },
+  {
+    "keyword_text": "l arm injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 23.21,
+    "sample_size": 112
+  },
+  {
+    "keyword_text": "l arm numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 72.43,
+    "sample_size": 486
+  },
+  {
+    "keyword_text": "l arm pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 29.87,
+    "sample_size": 1590
+  },
+  {
+    "keyword_text": "l arm swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 32.26,
+    "sample_size": 310
+  },
+  {
+    "keyword_text": "l arm weakness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 75.21,
+    "sample_size": 117
+  },
+  {
+    "keyword_text": "l back pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 16.18,
+    "sample_size": 68
+  },
+  {
+    "keyword_text": "l breast pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.67,
+    "sample_size": 150
+  },
+  {
+    "keyword_text": "l calf pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 11.61,
+    "sample_size": 508
+  },
+  {
+    "keyword_text": "l chest pain",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 48.17,
+    "sample_size": 218
+  },
+  {
+    "keyword_text": "l ear pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.04,
+    "sample_size": 690
+  },
+  {
+    "keyword_text": "l elbow pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 7.36,
+    "sample_size": 421
+  },
+  {
+    "keyword_text": "l eye",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 28.57,
+    "sample_size": 70
+  },
+  {
+    "keyword_text": "l eye pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.16,
+    "sample_size": 831
+  },
+  {
+    "keyword_text": "l eye redness",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.6,
+    "sample_size": 87
+  },
+  {
+    "keyword_text": "l eye swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.09,
+    "sample_size": 117
+  },
+  {
+    "keyword_text": "l facial droop",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 87.63,
+    "sample_size": 194
+  },
+  {
+    "keyword_text": "l facial numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 82.95,
+    "sample_size": 305
+  },
+  {
+    "keyword_text": "l facial pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.63,
+    "sample_size": 95
+  },
+  {
+    "keyword_text": "l facial swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 20.66,
+    "sample_size": 121
+  },
+  {
+    "keyword_text": "l femur fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 61.06,
+    "sample_size": 113
+  },
+  {
+    "keyword_text": "l finger injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.27,
+    "sample_size": 163
+  },
+  {
+    "keyword_text": "l finger laceration",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.62,
+    "sample_size": 130
+  },
+  {
+    "keyword_text": "l finger pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.0,
+    "sample_size": 75
+  },
+  {
+    "keyword_text": "l flank pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.16,
+    "sample_size": 2309
+  },
+  {
+    "keyword_text": "l foot injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 5.28,
+    "sample_size": 265
+  },
+  {
+    "keyword_text": "l foot pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.4,
+    "sample_size": 1553
+  },
+  {
+    "keyword_text": "l foot swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 7.32,
+    "sample_size": 205
+  },
+  {
+    "keyword_text": "l hand injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.68,
+    "sample_size": 530
+  },
+  {
+    "keyword_text": "l hand laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 10.2,
+    "sample_size": 245
+  },
+  {
+    "keyword_text": "l hand numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 59.29,
+    "sample_size": 140
+  },
+  {
+    "keyword_text": "l hand pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 11.58,
+    "sample_size": 406
+  },
+  {
+    "keyword_text": "l hand swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 13.02,
+    "sample_size": 192
+  },
+  {
+    "keyword_text": "l hip fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 41.45,
+    "sample_size": 193
+  },
+  {
+    "keyword_text": "l hip pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.29,
+    "sample_size": 1358
+  },
+  {
+    "keyword_text": "l inguinal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.37,
+    "sample_size": 191
+  },
+  {
+    "keyword_text": "l knee injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 7.45,
+    "sample_size": 255
+  },
+  {
+    "keyword_text": "l knee pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.92,
+    "sample_size": 1990
+  },
+  {
+    "keyword_text": "l knee swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 5.26,
+    "sample_size": 114
+  },
+  {
+    "keyword_text": "l leg cellulitis",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.28,
+    "sample_size": 81
+  },
+  {
+    "keyword_text": "l leg injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 25.0,
+    "sample_size": 224
+  },
+  {
+    "keyword_text": "l leg numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 49.23,
+    "sample_size": 195
+  },
+  {
+    "keyword_text": "l leg pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.61,
+    "sample_size": 2225
+  },
+  {
+    "keyword_text": "l leg redness",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 10.0,
+    "sample_size": 120
+  },
+  {
+    "keyword_text": "l leg swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 21.83,
+    "sample_size": 765
+  },
+  {
+    "keyword_text": "l leg weakness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 62.69,
+    "sample_size": 67
+  },
+  {
+    "keyword_text": "l neck pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 13.76,
+    "sample_size": 109
+  },
+  {
+    "keyword_text": "l numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 77.83,
+    "sample_size": 212
+  },
+  {
+    "keyword_text": "l rib pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 25.18,
+    "sample_size": 417
+  },
+  {
+    "keyword_text": "l shoulder injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 34.1,
+    "sample_size": 305
+  },
+  {
+    "keyword_text": "l shoulder pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 20.95,
+    "sample_size": 1489
+  },
+  {
+    "keyword_text": "l testicular pain",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 45.81,
+    "sample_size": 179
+  },
+  {
+    "keyword_text": "l thumb injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.49,
+    "sample_size": 154
+  },
+  {
+    "keyword_text": "l thumb laceration",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.42,
+    "sample_size": 322
+  },
+  {
+    "keyword_text": "l toe pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.53,
+    "sample_size": 85
+  },
+  {
+    "keyword_text": "l weakness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 92.1,
+    "sample_size": 671
+  },
+  {
+    "keyword_text": "l wrist injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.03,
+    "sample_size": 317
+  },
+  {
+    "keyword_text": "l wrist pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.54,
+    "sample_size": 527
+  },
+  {
+    "keyword_text": "labor",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 95.71,
+    "sample_size": 163
+  },
+  {
+    "keyword_text": "laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.84,
+    "sample_size": 1788
+  },
+  {
+    "keyword_text": "laceration puncture",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.24,
+    "sample_size": 118
+  },
+  {
+    "keyword_text": "left ankle injury",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 5.97,
+    "sample_size": 67
+  },
+  {
+    "keyword_text": "left ankle pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 2.15,
+    "sample_size": 93
+  },
+  {
+    "keyword_text": "left arm pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 25.45,
+    "sample_size": 110
+  },
+  {
+    "keyword_text": "left flank pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.87,
+    "sample_size": 208
+  },
+  {
+    "keyword_text": "left foot pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 2.91,
+    "sample_size": 103
+  },
+  {
+    "keyword_text": "left hip pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.74,
+    "sample_size": 89
+  },
+  {
+    "keyword_text": "left knee pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.32,
+    "sample_size": 139
+  },
+  {
+    "keyword_text": "left leg pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.94,
+    "sample_size": 161
+  },
+  {
+    "keyword_text": "left shoulder pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.24,
+    "sample_size": 105
+  },
+  {
+    "keyword_text": "left sided abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.13,
+    "sample_size": 238
+  },
+  {
+    "keyword_text": "left sided chest pain",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 47.79,
+    "sample_size": 136
+  },
+  {
+    "keyword_text": "leg laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.68,
+    "sample_size": 93
+  },
+  {
+    "keyword_text": "leg numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 53.66,
+    "sample_size": 205
+  },
+  {
+    "keyword_text": "leg pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.39,
+    "sample_size": 1058
+  },
+  {
+    "keyword_text": "leg swelling",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 44.59,
+    "sample_size": 1487
+  },
+  {
+    "keyword_text": "leg weakness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 57.92,
+    "sample_size": 423
+  },
+  {
+    "keyword_text": "lethargy",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 73.56,
+    "sample_size": 1437
+  },
+  {
+    "keyword_text": "lightheaded",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 44.36,
+    "sample_size": 1934
+  },
+  {
+    "keyword_text": "lip laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.0,
+    "sample_size": 211
+  },
+  {
+    "keyword_text": "lip swelling",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 67.33,
+    "sample_size": 202
+  },
+  {
+    "keyword_text": "llq abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.57,
+    "sample_size": 1757
+  },
+  {
+    "keyword_text": "llq pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.48,
+    "sample_size": 145
+  },
+  {
+    "keyword_text": "low back pain",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "low",
+    "high_acuity_pct": 9.25,
+    "sample_size": 454
+  },
+  {
+    "keyword_text": "low hct",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 83.33,
+    "sample_size": 66
+  },
+  {
+    "keyword_text": "lower abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.02,
+    "sample_size": 2017
+  },
+  {
+    "keyword_text": "lower back pain",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "low",
+    "high_acuity_pct": 11.93,
+    "sample_size": 5324
+  },
+  {
+    "keyword_text": "lower extremity injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.49,
+    "sample_size": 253
+  },
+  {
+    "keyword_text": "lower extremity pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.2,
+    "sample_size": 427
+  },
+  {
+    "keyword_text": "luq abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 20.93,
+    "sample_size": 578
+  },
+  {
+    "keyword_text": "malaise",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 32.61,
+    "sample_size": 276
+  },
+  {
+    "keyword_text": "mania",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 80.0,
+    "sample_size": 180
+  },
+  {
+    "keyword_text": "mci",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 56.94,
+    "sample_size": 72
+  },
+  {
+    "keyword_text": "med refill",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.63,
+    "sample_size": 518
+  },
+  {
+    "keyword_text": "medical device problem",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.14,
+    "sample_size": 70
+  },
+  {
+    "keyword_text": "melena",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 75.78,
+    "sample_size": 1061
+  },
+  {
+    "keyword_text": "migraine",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.58,
+    "sample_size": 159
+  },
+  {
+    "keyword_text": "motor vehicle collision",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 32.43,
+    "sample_size": 4971
+  },
+  {
+    "keyword_text": "motorcycle accident",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 77.84,
+    "sample_size": 185
+  },
+  {
+    "keyword_text": "mouth pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.62,
+    "sample_size": 206
+  },
+  {
+    "keyword_text": "ms changes",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 85.31,
+    "sample_size": 143
+  },
+  {
+    "keyword_text": "multiple complaints",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.6,
+    "sample_size": 127
+  },
+  {
+    "keyword_text": "mva",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 72.0,
+    "sample_size": 300
+  },
+  {
+    "keyword_text": "mvc",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 72.0,
+    "sample_size": 300
+  },
+  {
+    "keyword_text": "myalgia",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.09,
+    "sample_size": 149
+  },
+  {
+    "keyword_text": "nasal injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.09,
+    "sample_size": 110
+  },
+  {
+    "keyword_text": "nausea",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 25.98,
+    "sample_size": 4931
+  },
+  {
+    "keyword_text": "nausea vomiting",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 27.14,
+    "sample_size": 9461
+  },
+  {
+    "keyword_text": "nausea vomiting abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 23.58,
+    "sample_size": 106
+  },
+  {
+    "keyword_text": "nausea vomiting d",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.82,
+    "sample_size": 4250
+  },
+  {
+    "keyword_text": "near syncope",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 51.55,
+    "sample_size": 161
+  },
+  {
+    "keyword_text": "neck pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 23.89,
+    "sample_size": 4161
+  },
+  {
+    "keyword_text": "neck swelling",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 64.98,
+    "sample_size": 257
+  },
+  {
+    "keyword_text": "needlestick",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 54.97,
+    "sample_size": 171
+  },
+  {
+    "keyword_text": "neuro",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 55.19,
+    "sample_size": 212
+  },
+  {
+    "keyword_text": "neuro deficit",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 91.25,
+    "sample_size": 80
+  },
+  {
+    "keyword_text": "neutropenia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 85.0,
+    "sample_size": 100
+  },
+  {
+    "keyword_text": "nose pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.41,
+    "sample_size": 68
+  },
+  {
+    "keyword_text": "nstemi",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 99.76,
+    "sample_size": 420
+  },
+  {
+    "keyword_text": "numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 59.54,
+    "sample_size": 734
+  },
+  {
+    "keyword_text": "od",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 94.41,
+    "sample_size": 143
+  },
+  {
+    "keyword_text": "overdose",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 88.02,
+    "sample_size": 1219
+  },
+  {
+    "keyword_text": "pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 20.63,
+    "sample_size": 601
+  },
+  {
+    "keyword_text": "palpatations",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 54.13,
+    "sample_size": 109
+  },
+  {
+    "keyword_text": "palpitations",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 56.76,
+    "sample_size": 4362
+  },
+  {
+    "keyword_text": "palpitations irregular heart beat",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 60.42,
+    "sample_size": 144
+  },
+  {
+    "keyword_text": "palps",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 60.2,
+    "sample_size": 98
+  },
+  {
+    "keyword_text": "pancreatitis",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 25.47,
+    "sample_size": 212
+  },
+  {
+    "keyword_text": "paranoid delusion",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 84.3,
+    "sample_size": 293
+  },
+  {
+    "keyword_text": "pe",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 96.24,
+    "sample_size": 425
+  },
+  {
+    "keyword_text": "ped struck",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 58.13,
+    "sample_size": 750
+  },
+  {
+    "keyword_text": "pedal edema",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 58.74,
+    "sample_size": 143
+  },
+  {
+    "keyword_text": "pelvic pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.69,
+    "sample_size": 938
+  },
+  {
+    "keyword_text": "penile pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 13.95,
+    "sample_size": 172
+  },
+  {
+    "keyword_text": "peritonsillar abscess",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 48.65,
+    "sample_size": 74
+  },
+  {
+    "keyword_text": "periumbilical pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.33,
+    "sample_size": 73
+  },
+  {
+    "keyword_text": "picc line",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 11.29,
+    "sample_size": 363
+  },
+  {
+    "keyword_text": "pleuritic chest pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 37.14,
+    "sample_size": 140
+  },
+  {
+    "keyword_text": "pna",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 55.56,
+    "sample_size": 72
+  },
+  {
+    "keyword_text": "pneumonia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 68.94,
+    "sample_size": 615
+  },
+  {
+    "keyword_text": "pneumothorax",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 96.15,
+    "sample_size": 208
+  },
+  {
+    "keyword_text": "positive blood cultures",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 41.94,
+    "sample_size": 186
+  },
+  {
+    "keyword_text": "pregnant",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 36.15,
+    "sample_size": 2293
+  },
+  {
+    "keyword_text": "presyncope",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 49.97,
+    "sample_size": 1841
+  },
+  {
+    "keyword_text": "productive cough",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 36.75,
+    "sample_size": 468
+  },
+  {
+    "keyword_text": "psych",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 73.91,
+    "sample_size": 1744
+  },
+  {
+    "keyword_text": "psychiatric hold",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 86.83,
+    "sample_size": 319
+  },
+  {
+    "keyword_text": "psychosis",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 83.09,
+    "sample_size": 272
+  },
+  {
+    "keyword_text": "pulseless foot",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 97.01,
+    "sample_size": 67
+  },
+  {
+    "keyword_text": "r ankle injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.91,
+    "sample_size": 763
+  },
+  {
+    "keyword_text": "r ankle pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.25,
+    "sample_size": 954
+  },
+  {
+    "keyword_text": "r ankle swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 5.88,
+    "sample_size": 102
+  },
+  {
+    "keyword_text": "r arm injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.56,
+    "sample_size": 103
+  },
+  {
+    "keyword_text": "r arm numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 70.12,
+    "sample_size": 251
+  },
+  {
+    "keyword_text": "r arm pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.42,
+    "sample_size": 1162
+  },
+  {
+    "keyword_text": "r arm swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 22.0,
+    "sample_size": 250
+  },
+  {
+    "keyword_text": "r back pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.0,
+    "sample_size": 100
+  },
+  {
+    "keyword_text": "r breast pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.54,
+    "sample_size": 113
+  },
+  {
+    "keyword_text": "r calf pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.66,
+    "sample_size": 383
+  },
+  {
+    "keyword_text": "r chest pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 34.25,
+    "sample_size": 181
+  },
+  {
+    "keyword_text": "r ear pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.49,
+    "sample_size": 602
+  },
+  {
+    "keyword_text": "r elbow pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 10.27,
+    "sample_size": 370
+  },
+  {
+    "keyword_text": "r eye",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 24.07,
+    "sample_size": 108
+  },
+  {
+    "keyword_text": "r eye pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.14,
+    "sample_size": 827
+  },
+  {
+    "keyword_text": "r eye redness",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.3,
+    "sample_size": 91
+  },
+  {
+    "keyword_text": "r eye swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.01,
+    "sample_size": 121
+  },
+  {
+    "keyword_text": "r facial droop",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 87.92,
+    "sample_size": 149
+  },
+  {
+    "keyword_text": "r facial numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 78.76,
+    "sample_size": 226
+  },
+  {
+    "keyword_text": "r facial pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.65,
+    "sample_size": 85
+  },
+  {
+    "keyword_text": "r femur fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 56.31,
+    "sample_size": 103
+  },
+  {
+    "keyword_text": "r finger injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.55,
+    "sample_size": 157
+  },
+  {
+    "keyword_text": "r finger laceration",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.65,
+    "sample_size": 86
+  },
+  {
+    "keyword_text": "r finger pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.17,
+    "sample_size": 81
+  },
+  {
+    "keyword_text": "r flank pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.75,
+    "sample_size": 2570
+  },
+  {
+    "keyword_text": "r foot injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.31,
+    "sample_size": 301
+  },
+  {
+    "keyword_text": "r foot pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 10.55,
+    "sample_size": 1640
+  },
+  {
+    "keyword_text": "r foot swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 13.02,
+    "sample_size": 215
+  },
+  {
+    "keyword_text": "r hand injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.17,
+    "sample_size": 593
+  },
+  {
+    "keyword_text": "r hand laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 10.61,
+    "sample_size": 179
+  },
+  {
+    "keyword_text": "r hand numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 58.54,
+    "sample_size": 82
+  },
+  {
+    "keyword_text": "r hand pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.18,
+    "sample_size": 534
+  },
+  {
+    "keyword_text": "r hand swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 13.17,
+    "sample_size": 243
+  },
+  {
+    "keyword_text": "r hip fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 41.24,
+    "sample_size": 194
+  },
+  {
+    "keyword_text": "r hip pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.92,
+    "sample_size": 1330
+  },
+  {
+    "keyword_text": "r inguinal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 22.9,
+    "sample_size": 262
+  },
+  {
+    "keyword_text": "r knee injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.2,
+    "sample_size": 261
+  },
+  {
+    "keyword_text": "r knee pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.29,
+    "sample_size": 2026
+  },
+  {
+    "keyword_text": "r knee swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.7,
+    "sample_size": 138
+  },
+  {
+    "keyword_text": "r leg cellulitis",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.05,
+    "sample_size": 88
+  },
+  {
+    "keyword_text": "r leg injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 28.87,
+    "sample_size": 194
+  },
+  {
+    "keyword_text": "r leg numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 54.68,
+    "sample_size": 139
+  },
+  {
+    "keyword_text": "r leg pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.99,
+    "sample_size": 2070
+  },
+  {
+    "keyword_text": "r leg redness",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 7.52,
+    "sample_size": 133
+  },
+  {
+    "keyword_text": "r leg swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 20.7,
+    "sample_size": 715
+  },
+  {
+    "keyword_text": "r leg weakness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 54.88,
+    "sample_size": 82
+  },
+  {
+    "keyword_text": "r neck pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.64,
+    "sample_size": 118
+  },
+  {
+    "keyword_text": "r numbness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 73.53,
+    "sample_size": 102
+  },
+  {
+    "keyword_text": "r rib pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 22.42,
+    "sample_size": 446
+  },
+  {
+    "keyword_text": "r shoulder injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 31.84,
+    "sample_size": 267
+  },
+  {
+    "keyword_text": "r shoulder pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 15.28,
+    "sample_size": 1597
+  },
+  {
+    "keyword_text": "r testicular pain",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 51.7,
+    "sample_size": 176
+  },
+  {
+    "keyword_text": "r thumb injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 10.47,
+    "sample_size": 172
+  },
+  {
+    "keyword_text": "r thumb laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 3.92,
+    "sample_size": 153
+  },
+  {
+    "keyword_text": "r thumb pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 1.12,
+    "sample_size": 89
+  },
+  {
+    "keyword_text": "r weakness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 90.51,
+    "sample_size": 506
+  },
+  {
+    "keyword_text": "r wrist injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.74,
+    "sample_size": 206
+  },
+  {
+    "keyword_text": "r wrist pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.49,
+    "sample_size": 601
+  },
+  {
+    "keyword_text": "rabies vaccine",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 1.27,
+    "sample_size": 157
+  },
+  {
+    "keyword_text": "rash",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 11.87,
+    "sample_size": 3403
+  },
+  {
+    "keyword_text": "rci",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 94.26,
+    "sample_size": 505
+  },
+  {
+    "keyword_text": "rectal bleeding",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 59.24,
+    "sample_size": 184
+  },
+  {
+    "keyword_text": "rectal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 11.43,
+    "sample_size": 1234
+  },
+  {
+    "keyword_text": "redness",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.94,
+    "sample_size": 72
+  },
+  {
+    "keyword_text": "requesting detox",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.71,
+    "sample_size": 118
+  },
+  {
+    "keyword_text": "respiratory distress",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 97.64,
+    "sample_size": 594
+  },
+  {
+    "keyword_text": "rib fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 82.35,
+    "sample_size": 85
+  },
+  {
+    "keyword_text": "rib pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 27.41,
+    "sample_size": 332
+  },
+  {
+    "keyword_text": "right ankle pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 1.35,
+    "sample_size": 74
+  },
+  {
+    "keyword_text": "right arm pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 10.81,
+    "sample_size": 74
+  },
+  {
+    "keyword_text": "right flank pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.89,
+    "sample_size": 180
+  },
+  {
+    "keyword_text": "right foot pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 5.31,
+    "sample_size": 113
+  },
+  {
+    "keyword_text": "right hip pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.19,
+    "sample_size": 97
+  },
+  {
+    "keyword_text": "right knee pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 1.2,
+    "sample_size": 167
+  },
+  {
+    "keyword_text": "right leg pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.8,
+    "sample_size": 125
+  },
+  {
+    "keyword_text": "right shoulder pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 11.88,
+    "sample_size": 101
+  },
+  {
+    "keyword_text": "right sided abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.73,
+    "sample_size": 1066
+  },
+  {
+    "keyword_text": "right sided chest pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 37.5,
+    "sample_size": 120
+  },
+  {
+    "keyword_text": "rlq abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 13.42,
+    "sample_size": 2987
+  },
+  {
+    "keyword_text": "rlq pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.19,
+    "sample_size": 296
+  },
+  {
+    "keyword_text": "ruq abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 16.89,
+    "sample_size": 2061
+  },
+  {
+    "keyword_text": "ruq pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 13.14,
+    "sample_size": 175
+  },
+  {
+    "keyword_text": "s p assault",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 25.47,
+    "sample_size": 267
+  },
+  {
+    "keyword_text": "s p cardiac arrest",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 100.0,
+    "sample_size": 72
+  },
+  {
+    "keyword_text": "s p fall",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 42.52,
+    "sample_size": 21289
+  },
+  {
+    "keyword_text": "s p mechanical fall",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.44,
+    "sample_size": 86
+  },
+  {
+    "keyword_text": "s p motor vehicle collision",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.04,
+    "sample_size": 487
+  },
+  {
+    "keyword_text": "s p seizure",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 58.19,
+    "sample_size": 232
+  },
+  {
+    "keyword_text": "sah",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 97.94,
+    "sample_size": 825
+  },
+  {
+    "keyword_text": "sbo",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 44.56,
+    "sample_size": 570
+  },
+  {
+    "keyword_text": "scalp lac",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 34.0,
+    "sample_size": 120
+  },
+  {
+    "keyword_text": "scalp laceration",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 36.0,
+    "sample_size": 90
+  },
+  {
+    "keyword_text": "scrotal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 33.7,
+    "sample_size": 92
+  },
+  {
+    "keyword_text": "sdh",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 97.41,
+    "sample_size": 1079
+  },
+  {
+    "keyword_text": "seizure",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 67.45,
+    "sample_size": 3850
+  },
+  {
+    "keyword_text": "sepsis",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 96.94,
+    "sample_size": 98
+  },
+  {
+    "keyword_text": "shortness breath",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 68.38,
+    "sample_size": 2448
+  },
+  {
+    "keyword_text": "shoulder pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 23.51,
+    "sample_size": 387
+  },
+  {
+    "keyword_text": "sickle cell crisis",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 37.2,
+    "sample_size": 164
+  },
+  {
+    "keyword_text": "sinus pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.19,
+    "sample_size": 191
+  },
+  {
+    "keyword_text": "slurred speech",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 92.56,
+    "sample_size": 994
+  },
+  {
+    "keyword_text": "sore throat",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.41,
+    "sample_size": 4386
+  },
+  {
+    "keyword_text": "sore throat abscess",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 64.0,
+    "sample_size": 110
+  },
+  {
+    "keyword_text": "st",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.22,
+    "sample_size": 193
+  },
+  {
+    "keyword_text": "stab wound",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 91.6,
+    "sample_size": 119
+  },
+  {
+    "keyword_text": "staples removal",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 0.0,
+    "sample_size": 75
+  },
+  {
+    "keyword_text": "stemi",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 100.0,
+    "sample_size": 130
+  },
+  {
+    "keyword_text": "substance misuse intoxication",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.3,
+    "sample_size": 447
+  },
+  {
+    "keyword_text": "substance use",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 41.09,
+    "sample_size": 1212
+  },
+  {
+    "keyword_text": "suicidal ideation",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 97.56,
+    "sample_size": 8263
+  },
+  {
+    "keyword_text": "suicide attempt",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 98.12,
+    "sample_size": 160
+  },
+  {
+    "keyword_text": "suprapubic pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 9.47,
+    "sample_size": 190
+  },
+  {
+    "keyword_text": "suture removal",
+    "base_esi": 5,
+    "is_red_flag": false,
+    "resource_estimate": 0,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.22,
+    "sample_size": 456
+  },
+  {
+    "keyword_text": "svt",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 94.94,
+    "sample_size": 79
+  },
+  {
+    "keyword_text": "swelling",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.29,
+    "sample_size": 133
+  },
+  {
+    "keyword_text": "syncope",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 64.65,
+    "sample_size": 5273
+  },
+  {
+    "keyword_text": "syncope presyncope",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 61.78,
+    "sample_size": 259
+  },
+  {
+    "keyword_text": "t spine fracture",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 51.85,
+    "sample_size": 81
+  },
+  {
+    "keyword_text": "tachycardia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 90.11,
+    "sample_size": 2063
+  },
+  {
+    "keyword_text": "tachypnea",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 98.72,
+    "sample_size": 78
+  },
+  {
+    "keyword_text": "testicular pain",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 42.59,
+    "sample_size": 432
+  },
+  {
+    "keyword_text": "throat foreign body sensation",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 36.57,
+    "sample_size": 402
+  },
+  {
+    "keyword_text": "thrombocytopenia",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 65.43,
+    "sample_size": 81
+  },
+  {
+    "keyword_text": "toe pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 6.07,
+    "sample_size": 922
+  },
+  {
+    "keyword_text": "tongue swelling",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 84.38,
+    "sample_size": 128
+  },
+  {
+    "keyword_text": "transfer",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 73.59,
+    "sample_size": 23221
+  },
+  {
+    "keyword_text": "traumatic back spine injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 11.86,
+    "sample_size": 194
+  },
+  {
+    "keyword_text": "tremor",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 43.34,
+    "sample_size": 383
+  },
+  {
+    "keyword_text": "tremors",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 28.36,
+    "sample_size": 67
+  },
+  {
+    "keyword_text": "unable ambulate",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 23.95,
+    "sample_size": 2597
+  },
+  {
+    "keyword_text": "unknown cc",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 54.01,
+    "sample_size": 187
+  },
+  {
+    "keyword_text": "unresponsive",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 97.22,
+    "sample_size": 503
+  },
+  {
+    "keyword_text": "unsteady gait",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 54.64,
+    "sample_size": 895
+  },
+  {
+    "keyword_text": "unwitnessed fall",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 67.03,
+    "sample_size": 91
+  },
+  {
+    "keyword_text": "upper abdominal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 17.52,
+    "sample_size": 428
+  },
+  {
+    "keyword_text": "upper back pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 21.3,
+    "sample_size": 216
+  },
+  {
+    "keyword_text": "upper extremity injury",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 18.31,
+    "sample_size": 213
+  },
+  {
+    "keyword_text": "upper extremity pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 12.15,
+    "sample_size": 181
+  },
+  {
+    "keyword_text": "urinary frequency",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 11.2,
+    "sample_size": 598
+  },
+  {
+    "keyword_text": "urinary incontinence",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 74.67,
+    "sample_size": 229
+  },
+  {
+    "keyword_text": "urinary retention",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 26.39,
+    "sample_size": 1800
+  },
+  {
+    "keyword_text": "urinary tract infection",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 19.42,
+    "sample_size": 412
+  },
+  {
+    "keyword_text": "urinary tract infection complaints",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 7.56,
+    "sample_size": 119
+  },
+  {
+    "keyword_text": "urosepsis",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 95.77,
+    "sample_size": 71
+  },
+  {
+    "keyword_text": "vag bleeding",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 23.4,
+    "sample_size": 141
+  },
+  {
+    "keyword_text": "vaginal bleed",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 30.0,
+    "sample_size": 70
+  },
+  {
+    "keyword_text": "vaginal bleeding",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 31.66,
+    "sample_size": 2511
+  },
+  {
+    "keyword_text": "vaginal discharge",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 4.57,
+    "sample_size": 197
+  },
+  {
+    "keyword_text": "vaginal pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 7.51,
+    "sample_size": 386
+  },
+  {
+    "keyword_text": "vertigo",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 30.41,
+    "sample_size": 319
+  },
+  {
+    "keyword_text": "vision changes",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 76.9,
+    "sample_size": 368
+  },
+  {
+    "keyword_text": "visual changes",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 71.91,
+    "sample_size": 1627
+  },
+  {
+    "keyword_text": "vomiting",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 31.69,
+    "sample_size": 4127
+  },
+  {
+    "keyword_text": "vomiting and or nausea",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 22.61,
+    "sample_size": 398
+  },
+  {
+    "keyword_text": "weak",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 49.14,
+    "sample_size": 116
+  },
+  {
+    "keyword_text": "weakness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 55.57,
+    "sample_size": 9384
+  },
+  {
+    "keyword_text": "wheezing",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 54.33,
+    "sample_size": 300
+  },
+  {
+    "keyword_text": "word finding difficulty",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 78.0,
+    "sample_size": 120
+  },
+  {
+    "keyword_text": "wound",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 14.18,
+    "sample_size": 7707
+  },
+  {
+    "keyword_text": "wound check",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 8.09,
+    "sample_size": 173
+  },
+  {
+    "keyword_text": "wound eval",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 22.0,
+    "sample_size": 250
+  },
+  {
+    "keyword_text": "wrist pain",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "mode_based",
+    "high_acuity_pct": 5.33,
+    "sample_size": 75
+  },
+  {
+    "keyword_text": "shortness of breath",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "mental change",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "ams",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "dental problem",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "toothache",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "hematochezia",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "blood in stool",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "dysarthria",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "palpitation",
+    "base_esi": 3,
+    "is_red_flag": false,
+    "resource_estimate": 2,
+    "risk_tier": "moderate",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "sorethroat",
+    "base_esi": 4,
+    "is_red_flag": false,
+    "resource_estimate": 1,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "for medication",
+    "base_esi": 5,
+    "is_red_flag": false,
+    "resource_estimate": 0,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "medication refill",
+    "base_esi": 5,
+    "is_red_flag": false,
+    "resource_estimate": 0,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "rx refill",
+    "base_esi": 5,
+    "is_red_flag": false,
+    "resource_estimate": 0,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "lab draw",
+    "base_esi": 5,
+    "is_red_flag": false,
+    "resource_estimate": 0,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "lab request",
+    "base_esi": 5,
+    "is_red_flag": false,
+    "resource_estimate": 0,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "labs only",
+    "base_esi": 5,
+    "is_red_flag": false,
+    "resource_estimate": 0,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "staple removal",
+    "base_esi": 5,
+    "is_red_flag": false,
+    "resource_estimate": 0,
+    "risk_tier": "low",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "loc",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "loss of consciousness",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  },
+  {
+    "keyword_text": "suicidal attempt",
+    "base_esi": 2,
+    "is_red_flag": true,
+    "resource_estimate": 3,
+    "risk_tier": "high",
+    "high_acuity_pct": 0.0,
+    "sample_size": 50
+  }
+]

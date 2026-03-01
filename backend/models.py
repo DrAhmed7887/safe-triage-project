@@ -29,6 +29,12 @@ class Vitals(BaseModel):
     temp: Optional[float] = Field(None, description="Temperature (C)")
     sbp: Optional[int] = Field(None, description="Systolic Blood Pressure (mmHg)")
     dbp: Optional[int] = Field(None, description="Diastolic Blood Pressure (mmHg)")
+    blood_glucose: Optional[float] = Field(
+        None,
+        description="Blood glucose (mg/dL)",
+        ge=10,
+        le=1000,
+    )
     pain_score: Optional[int] = Field(0, description="Pain Scale 0-10", ge=0, le=10)
     gcs: Optional[int] = Field(None, description="Glasgow Coma Scale (3-15)", ge=3, le=15)
 
@@ -52,6 +58,10 @@ class PatientInput(BaseModel):
     comorbidities: Optional[List[str]] = Field(
         default=None,
         description="List of comorbid conditions (e.g., diabetes, CKD)",
+    )
+    arrived_by_ambulance: bool = Field(
+        default=False,
+        description="Patient arrived by ambulance/EMS",
     )
 
     # ========== ESI v5 COMPLIANCE FIELDS ==========
@@ -135,9 +145,20 @@ class PatientInput(BaseModel):
     
 class TriageResult(BaseModel):
     level: TriageLevel
+    esi_level: Optional[int] = None
+    esi_baseline: Optional[int] = None
+    esi_safe: Optional[int] = None
     color_code: str
     label_ar: str
     label_en: str
+    extraction_method: Literal[
+        "egybert_offline",
+        "keyword_offline",
+        "keyword_mimic_enriched",
+        "gemini_online",
+        "gemini_partial",
+        "ai_reasoning_safety_override",
+    ] = "keyword_offline"
     description_ar: str = ""
     description_en: str = ""
     description: str = ""  # Legacy - combined
@@ -149,13 +170,22 @@ class TriageResult(BaseModel):
     time_to_physician: str = ""  # Legacy - combined
     red_flags: List[str] = []
     red_flag_summary: List[str] = []
+    insufficient_info_warning: Optional[Dict[str, Any]] = None
     reasoning_ar: List[str] = []
     reasoning_en: List[str] = []
     reasoning: List[str] = []  # Legacy - combined
     confidence: str = "High"  # High, Medium, Low
+    fallback_reason: Optional[str] = None
     rag_context: Optional[Dict[str, Any]] = None
     requires_review: bool = False
     review_message: str = ""
+    stage_reached: Optional[str] = None
+    resources_estimated: Optional[int] = None
+    confidence_action: Optional[str] = None
+    news2_override: Optional[bool] = None
+    safety_floors: List[str] = []
+    safety_floors_applied: List[str] = []
+    safety_floor_count: int = 0
     
     # ICD-10 Coding for GAHAR Compliance (Egyptian hospitals)
     icd10_code: str = ""

@@ -196,7 +196,7 @@ Include ALL cases. Valid JSON only, no markdown.
                 "flagged_details": [],
                 "critical_cases": [],
                 "moderate_cases": [],
-                "model_used": "medgemma-2b",
+                "model_used": "medgemma-4b-it",
                 "error": None,
             }
 
@@ -212,7 +212,7 @@ Include ALL cases. Valid JSON only, no markdown.
                 "flagged_details": [],
                 "critical_cases": [],
                 "moderate_cases": [],
-                "model_used": "medgemma-2b",
+                "model_used": "medgemma-4b-it",
                 "error": "MedGemma API call failed",
             }
 
@@ -227,7 +227,7 @@ Include ALL cases. Valid JSON only, no markdown.
                 "flagged_details": [],
                 "critical_cases": [],
                 "moderate_cases": [],
-                "model_used": "medgemma-2b",
+                "model_used": "medgemma-4b-it",
                 "error": "Could not parse MedGemma response",
             }
 
@@ -264,7 +264,7 @@ Include ALL cases. Valid JSON only, no markdown.
             "critical_cases": critical,
             "moderate_cases": moderate,
             "all_results": normalized,
-            "model_used": "medgemma-2b",
+            "model_used": "medgemma-4b-it",
             "timestamp": datetime.utcnow().isoformat(),
             "error": None,
         }
@@ -288,7 +288,7 @@ Include ALL cases. Valid JSON only, no markdown.
                     "reasoning": case.get("reasoning"),
                     "recommended_action": case.get("recommended_action"),
                     "esi_recommendation": case.get("esi_recommendation"),
-                    "model_used": "medgemma-2b",
+                    "model_used": "medgemma-4b-it",
                     "disaster_alert_sent": str(case.get("severity", "")).lower() == "critical",
                 }
             )

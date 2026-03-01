@@ -1,16 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Users, RotateCw, AlertTriangle, Eye, X, Activity, Download, Trash2 } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
+import ExportDialog from './ExportDialog';
+import { useAuth } from '../context/AuthContext';
+import { getIdToken } from '../lib/firebaseClient';
+
+const API_URL = import.meta.env.VITE_API_URL || 'https://safe-triage-eciux5h4aq-uc.a.run.app';
 
 export default function PatientList({ refreshTrigger = 0 }) {
     const [patients, setPatients] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [showAll, setShowAll] = useState(false);
-
+    const [showExportDialog, setShowExportDialog] = useState(false);
+    const [exportInProgress, setExportInProgress] = useState(false);
+    const [exportMessage, setExportMessage] = useState('');
+    const [exportError, setExportError] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const { user } = useAuth();
 
-    const loadPatients = () => {
+    const loadPatients = useCallback(() => {
         setLoading(true);
         try {
             let stored = JSON.parse(localStorage.getItem('triageHistory') || '[]');
@@ -32,7 +41,7 @@ export default function PatientList({ refreshTrigger = 0 }) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [searchTerm, showAll]);
 
     const clearHistory = () => {
         if (window.confirm("Are you sure you want to clear all history? This cannot be undone.")) {
@@ -41,43 +50,69 @@ export default function PatientList({ refreshTrigger = 0 }) {
         }
     };
 
-    const exportCSV = () => {
-        const stored = JSON.parse(localStorage.getItem('triageHistory') || '[]');
-        if (!stored.length) return;
+    const handleExportClick = () => {
+        setExportMessage('');
+        setExportError(false);
+        setShowExportDialog(true);
+    };
 
-        // Simple flatten for CSV
-        const headers = ["RecordID", "PatientID", "Name", "Date", "Age", "Gender", "Complaint", "Level", "Label", "RedFlags"];
-        const rows = stored.map(p => [
-            p.id,
-            `"${p.patient_id || ''}"`,
-            `"${p.name || 'Anonymous'}"`,
-            p.created_at,
-            p.age,
-            p.gender,
-            `"${(p.chief_complaint || '').replace(/"/g, '""')}"`, // Escape quotes
-            p.triage_level,
-            p.triage_label_en,
-            `"${(p.triage_red_flags || []).join(';')}"`
-        ]);
+    const handleExportConfirm = async () => {
+        setExportInProgress(true);
+        setExportMessage('');
+        setExportError(false);
+        try {
+            const token = await getIdToken();
+            if (!token) {
+                throw new Error('Authentication token missing. Please sign in again.');
+            }
 
-        const csvContent = [
-            headers.join(','),
-            ...rows.map(r => r.join(','))
-        ].join('\n');
+            const response = await fetch(`${API_URL}/export-triage`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'X-User-Role': user?.role || 'nurse',
+                },
+            });
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `triage_export_${new Date().toISOString()}.csv`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+            if (!response.ok) {
+                let detail = `HTTP ${response.status}`;
+                try {
+                    const payload = await response.json();
+                    detail = payload?.detail || detail;
+                } catch {
+                    // Ignore parse failure and keep status fallback.
+                }
+                throw new Error(detail);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const contentDisposition = response.headers.get('Content-Disposition') || response.headers.get('content-disposition') || '';
+            const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/i);
+            const filename = filenameMatch?.[1] || `triage_export_${Date.now()}.csv`;
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+
+            setShowExportDialog(false);
+            setExportMessage('Export completed. De-identified file downloaded.');
+            setExportError(false);
+        } catch (error) {
+            console.error('CSV export failed', error);
+            setExportMessage(`Export failed: ${error?.message || 'Unknown error'}`);
+            setExportError(true);
+        } finally {
+            setExportInProgress(false);
+        }
     };
 
     useEffect(() => {
         loadPatients();
-    }, [refreshTrigger, showAll, searchTerm]);
+    }, [refreshTrigger, loadPatients]);
 
     const getLevelColor = (level) => {
         switch (level) {
@@ -104,14 +139,19 @@ export default function PatientList({ refreshTrigger = 0 }) {
                             </button>
                         </div>
                         <div className="flex gap-2">
-                            <button onClick={exportCSV} className="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 flex items-center gap-1 border border-blue-100" title="Download CSV">
-                                <Download className="w-3 h-3" /> Export
+                            <button onClick={handleExportClick} className="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 flex items-center gap-1 border border-blue-100" title="Download my cases CSV">
+                                <Download className="w-3 h-3" /> Export My Cases
                             </button>
                             <button onClick={clearHistory} className="text-[10px] bg-red-50 text-red-600 px-2 py-1 rounded hover:bg-red-100 flex items-center gap-1 border border-red-100" title="Clear All">
                                 <Trash2 className="w-3 h-3" /> Clear
                             </button>
                         </div>
                     </div>
+                    {exportMessage && (
+                        <div className={`text-[11px] px-2 py-1 rounded border ${exportError ? 'bg-red-50 text-red-700 border-red-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'}`}>
+                            {exportMessage}
+                        </div>
+                    )}
 
                     {/* Search Bar */}
                     <div>
@@ -197,13 +237,7 @@ export default function PatientList({ refreshTrigger = 0 }) {
             <AnimatePresence>
                 {selectedPatient && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setSelectedPatient(null)}>
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden"
-                            onClick={e => e.stopPropagation()}
-                        >
+                        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden" onClick={e => e.stopPropagation()}>
                             <div className={`p-6 text-white bg-gradient-to-r ${selectedPatient.triage_level === 1 ? 'from-red-600 to-red-700' : selectedPatient.triage_level === 2 ? 'from-orange-500 to-orange-600' : selectedPatient.triage_level === 3 ? 'from-yellow-500 to-yellow-600' : selectedPatient.triage_level === 4 ? 'from-green-500 to-green-600' : 'from-blue-500 to-blue-600'}`}>
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
@@ -294,10 +328,17 @@ export default function PatientList({ refreshTrigger = 0 }) {
                                     </div>
                                 </section>
                             </div>
-                        </motion.div>
+                        </div>
                     </div>
                 )}
             </AnimatePresence>
+            {showExportDialog && (
+                <ExportDialog
+                    onConfirm={handleExportConfirm}
+                    onCancel={() => !exportInProgress && setShowExportDialog(false)}
+                    loading={exportInProgress}
+                />
+            )}
         </>
     );
 }

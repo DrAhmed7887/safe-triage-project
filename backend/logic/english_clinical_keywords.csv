@@ -1,0 +1,501 @@
+keyword_text,base_esi,is_red_flag,resource_estimate,risk_tier,high_acuity_pct,sample_size,esi_1_count,esi_2_count,esi_3_count,esi_4_count,esi_5_count,mode_esi_raw
+abdominal pain,3,False,2,mode_based,23.24,35936,643,7707,27484,101,1,3
+chest pain,2,True,3,high,65.06,28484,970,17561,9897,55,1,2
+transfer,2,True,3,high,73.59,23221,3029,14059,6111,18,4,2
+s p fall,2,True,3,high,42.52,21289,1215,7838,11155,1076,5,3
+dyspnea,2,True,3,high,71.04,18815,2016,11351,5403,43,2,2
+headache,3,False,2,moderate,35.12,14327,505,4526,9001,292,3,3
+fever,2,True,3,high,45.83,12901,764,5149,6896,90,2,3
+alcohol intoxication,3,False,2,moderate,28.88,10624,192,2876,7266,287,3,3
+back pain,4,False,1,low,23.66,10126,243,2153,6541,1169,20,3
+dizziness,2,True,3,high,50.71,9470,627,4175,4620,48,0,3
+nausea vomiting,3,False,2,moderate,27.14,9461,247,2321,6851,42,0,3
+weakness,2,True,3,high,55.57,9384,535,4680,4143,25,1,2
+suicidal ideation,2,True,3,high,97.56,8263,130,7931,199,2,1,2
+wound,3,False,2,mode_based,14.18,7707,67,1026,5666,894,54,3
+cough,3,False,2,moderate,28.05,7596,179,1952,5173,291,1,3
+altered mental status,2,True,3,high,86.87,5979,1481,3713,781,4,0,2
+lower back pain,4,False,1,low,11.93,5324,83,552,3559,1123,7,3
+syncope,2,True,3,high,64.65,5273,289,3120,1857,7,0,2
+abnormal labs,2,True,3,high,55.27,5240,103,2793,2325,18,1,2
+ili,3,False,2,mode_based,16.65,5068,126,718,4056,165,3,3
+motor vehicle collision,3,False,2,moderate,32.43,4971,707,905,2605,750,4,3
+nausea,3,False,2,moderate,25.98,4931,84,1197,3606,44,0,3
+sore throat,3,False,2,mode_based,14.41,4386,62,570,2963,782,9,3
+palpitations,2,True,3,high,56.76,4362,395,2081,1878,8,0,2
+nausea vomiting d,3,False,2,mode_based,18.82,4250,93,707,3447,3,0,3
+neck pain,3,False,2,mode_based,23.89,4161,66,928,2695,470,2,3
+brbpr,2,True,3,high,64.89,4141,119,2568,1449,5,0,2
+vomiting,3,False,2,moderate,31.69,4127,142,1166,2799,20,0,3
+diarrhea,3,False,2,mode_based,19.6,3999,85,699,3196,18,1,3
+seizure,2,True,3,high,67.45,3850,454,2143,1253,0,0,2
+rash,3,False,2,mode_based,11.87,3403,46,358,2021,952,26,3
+dysuria,3,False,2,mode_based,8.03,3336,23,245,2596,470,2,3
+head injury,3,False,2,moderate,37.17,3148,132,1038,1708,267,3,3
+anxiety,3,False,2,moderate,29.77,3050,47,861,2025,114,3,3
+rlq abdominal pain,3,False,2,mode_based,13.42,2987,21,380,2579,7,0,3
+hematuria,3,False,2,mode_based,19.43,2686,32,490,2080,83,1,3
+unable ambulate,3,False,2,mode_based,23.95,2597,34,588,1906,69,0,3
+r flank pain,3,False,2,mode_based,14.75,2570,21,358,2165,26,0,3
+hypertension,2,True,3,high,43.73,2545,38,1075,1402,29,1,3
+allergic reaction,2,True,3,high,70.74,2526,506,1281,674,63,2,2
+vaginal bleeding,3,False,2,moderate,31.66,2511,26,769,1703,13,0,3
+shortness breath,2,True,3,high,68.38,2448,391,1283,773,1,0,2
+confusion,2,True,3,high,74.62,2447,253,1573,614,7,0,2
+hyperglycemia,2,True,3,high,66.53,2381,73,1511,793,4,0,2
+epigastric pain,3,False,2,moderate,28.76,2323,24,644,1645,10,0,3
+hypotension,2,True,3,high,90.69,2310,1061,1034,214,1,0,1
+l flank pain,3,False,2,mode_based,15.16,2309,13,337,1939,19,1,3
+pregnant,3,False,2,moderate,36.15,2293,35,794,1434,27,3,3
+l leg pain,3,False,2,mode_based,18.61,2225,34,380,1610,199,2,3
+depression,2,True,3,high,67.54,2218,14,1484,709,10,1,2
+r leg pain,3,False,2,mode_based,15.99,2070,21,310,1534,204,1,3
+tachycardia,2,True,3,high,90.11,2063,1030,829,203,1,0,1
+ruq abdominal pain,3,False,2,mode_based,16.89,2061,15,333,1710,3,0,3
+r knee pain,3,False,2,mode_based,4.29,2026,6,81,1325,611,3,3
+lower abdominal pain,3,False,2,mode_based,15.02,2017,14,289,1697,17,0,3
+l knee pain,3,False,2,mode_based,4.92,1990,9,89,1279,609,4,3
+lightheaded,2,True,3,high,44.36,1934,88,770,1062,14,0,3
+assault,3,False,2,moderate,32.83,1904,77,548,1136,142,1,3
+dyspnea on exertion,2,True,3,high,70.65,1881,63,1266,551,1,0,2
+presyncope,2,True,3,high,49.97,1841,58,862,921,0,0,3
+urinary retention,3,False,2,moderate,26.39,1800,29,446,1302,23,0,3
+laceration,3,False,2,mode_based,17.84,1788,33,286,1033,427,9,3
+llq abdominal pain,3,False,2,mode_based,14.57,1757,18,238,1500,1,0,3
+psych,2,True,3,high,73.91,1744,25,1264,451,3,1,2
+r foot pain,3,False,2,mode_based,10.55,1640,26,147,1004,451,12,3
+visual changes,2,True,3,high,71.91,1627,177,993,443,14,0,2
+abnormal ct,2,True,3,high,66.42,1611,42,1028,540,1,0,2
+r shoulder pain,3,False,2,mode_based,15.28,1597,12,232,1056,297,0,3
+anemia,2,True,3,high,79.2,1596,59,1205,332,0,0,2
+l arm pain,3,False,2,moderate,29.87,1590,11,464,976,139,0,3
+constipation,3,False,2,mode_based,11.58,1554,7,173,1339,35,0,3
+l foot pain,3,False,2,mode_based,9.4,1553,23,123,965,431,11,3
+l shoulder pain,3,False,2,mode_based,20.95,1489,10,302,960,212,5,3
+leg swelling,2,True,3,high,44.59,1487,26,637,813,11,0,3
+abdominal distention,2,True,3,high,44.29,1454,35,609,805,5,0,3
+lethargy,2,True,3,high,73.56,1437,162,895,375,5,0,2
+hypoxia,2,True,3,high,94.54,1393,574,743,76,0,0,2
+l hip pain,3,False,2,mode_based,19.29,1358,11,251,980,114,2,3
+finger laceration,4,False,1,mode_based,2.67,1346,3,33,520,773,17,4
+r hip pain,3,False,2,mode_based,19.92,1330,14,251,947,117,1,3
+abscess,3,False,2,mode_based,18.22,1312,13,226,1003,69,1,3
+asthma exacerbation,3,False,2,moderate,33.12,1274,70,352,833,19,0,3
+epistaxis,3,False,2,moderate,25.34,1255,16,302,841,95,1,3
+fatigue,2,True,3,high,42.19,1242,27,497,700,16,2,3
+rectal pain,3,False,2,mode_based,11.43,1234,18,123,1012,80,1,3
+overdose,2,True,3,high,88.02,1219,184,889,144,2,0,2
+substance use,2,True,3,high,41.09,1212,46,452,676,37,1,3
+r arm pain,3,False,2,mode_based,18.42,1162,19,195,776,170,2,3
+dental pain,3,False,2,mode_based,5.3,1095,5,53,563,452,22,3
+sdh,2,True,3,high,97.41,1079,113,938,28,0,0,2
+right sided abdominal pain,3,False,2,mode_based,14.73,1066,4,153,907,2,0,3
+melena,2,True,3,high,75.78,1061,21,783,257,0,0,2
+leg pain,3,False,2,mode_based,17.39,1058,20,164,783,91,0,3
+hypoglycemia,2,True,3,high,69.13,1030,133,579,315,2,1,2
+slurred speech,2,True,3,high,92.56,994,316,604,74,0,0,2
+flank pain,3,False,2,mode_based,18.06,969,11,164,784,10,0,3
+r ankle pain,3,False,2,mode_based,3.25,954,3,28,514,408,1,3
+pelvic pain,3,False,2,mode_based,12.69,938,9,110,799,20,0,3
+toe pain,3,False,2,mode_based,6.07,922,4,52,484,372,10,3
+jaundice,2,True,3,high,52.76,906,34,444,427,1,0,2
+l ankle pain,3,False,2,mode_based,4.65,903,2,40,466,392,3,3
+unsteady gait,2,True,3,high,54.64,895,70,419,393,13,0,2
+ich,2,True,3,high,98.99,895,292,594,9,0,0,2
+facial swelling,3,False,2,moderate,36.81,883,51,274,521,36,1,3
+abnormal ekg,2,True,3,high,89.29,868,67,708,91,2,0,2
+chest pain cardiac features,2,True,3,high,79.57,842,31,639,172,0,0,2
+l eye pain,3,False,2,mode_based,15.16,831,11,115,436,264,5,3
+r eye pain,3,False,2,mode_based,18.14,827,4,146,444,229,4,3
+sah,2,True,3,high,97.94,825,142,666,17,0,0,2
+bradycardia,2,True,3,high,93.93,824,307,467,49,1,0,2
+agitation,2,True,3,high,76.38,817,41,583,189,4,0,2
+hematemesis,2,True,3,high,75.65,813,70,545,198,0,0,2
+body pain,3,False,2,mode_based,18.75,784,13,134,592,45,0,3
+hemoptysis,2,True,3,high,63.46,780,43,452,282,3,0,2
+l leg swelling,3,False,2,mode_based,21.83,765,6,161,590,8,0,3
+r ankle injury,3,False,2,mode_based,8.91,763,8,60,421,272,2,3
+abnormal mri,2,True,3,high,68.64,759,18,503,237,1,0,2
+ped struck,2,True,3,high,58.13,750,223,213,285,28,1,3
+numbness,2,True,3,high,59.54,734,88,349,288,9,0,2
+body aches,3,False,2,mode_based,16.92,715,15,106,571,23,0,3
+r leg swelling,3,False,2,mode_based,20.7,715,7,141,557,10,0,3
+cva,2,True,3,high,99.44,713,417,292,3,0,1,1
+l ear pain,3,False,2,mode_based,3.04,690,0,21,333,329,7,3
+finger injury,3,False,2,mode_based,12.79,688,1,87,340,255,5,3
+l weakness,2,True,3,high,92.1,671,226,392,52,1,0,2
+failure thrive,2,True,3,high,46.1,666,18,289,351,8,0,3
+gastrointestinal bleeding,2,True,3,high,96.49,655,119,513,23,0,0,2
+hyperkalemia,2,True,3,high,82.81,640,12,518,110,0,0,2
+gtube,3,False,2,mode_based,9.97,632,9,54,503,66,0,3
+pneumonia,2,True,3,high,68.94,615,51,373,190,1,0,2
+l ankle injury,3,False,2,mode_based,7.63,603,0,46,330,226,1,3
+r ear pain,3,False,2,mode_based,3.49,602,2,19,298,276,7,3
+pain,3,False,2,mode_based,20.63,601,13,111,418,53,6,3
+r wrist pain,3,False,2,mode_based,8.49,601,4,47,354,191,5,3
+urinary frequency,3,False,2,mode_based,11.2,598,0,67,475,56,0,3
+respiratory distress,2,True,3,high,97.64,594,419,161,14,0,0,1
+r hand injury,3,False,2,mode_based,14.17,593,4,80,340,162,7,3
+luq abdominal pain,3,False,2,mode_based,20.93,578,9,112,456,1,0,3
+b leg swelling,3,False,2,moderate,36.33,578,6,204,358,10,0,3
+sbo,2,True,3,high,44.56,570,14,240,316,0,0,3
+hallucinations,2,True,3,high,81.08,555,8,442,105,0,0,2
+chills,3,False,2,moderate,34.31,548,19,169,348,12,0,3
+dog bite,3,False,2,mode_based,8.61,546,2,45,360,136,3,3
+detox,3,False,2,mode_based,22.74,541,6,117,398,19,1,3
+r hand pain,3,False,2,mode_based,9.18,534,4,45,336,147,2,3
+head laceration,3,False,2,moderate,29.46,533,10,147,290,85,1,3
+difficulty swallowing,2,True,3,high,49.44,532,13,250,266,3,0,3
+l hand injury,3,False,2,mode_based,18.68,530,4,95,323,108,0,3
+l wrist pain,3,False,2,mode_based,8.54,527,4,41,300,181,1,3
+med refill,4,False,1,mode_based,4.63,518,1,23,170,217,107,4
+l calf pain,3,False,2,mode_based,11.61,508,3,56,418,31,0,3
+foot pain,3,False,2,mode_based,12.23,507,5,57,333,107,5,3
+r weakness,2,True,3,high,90.51,506,138,320,46,2,0,2
+rci,2,True,3,high,94.26,505,24,452,29,0,0,2
+knee pain,3,False,2,mode_based,8.93,504,5,40,333,123,3,3
+unresponsive,2,True,3,high,97.22,503,324,165,14,0,0,1
+cellulitis,3,False,2,mode_based,16.84,493,6,77,399,10,1,3
+s p motor vehicle collision,3,False,2,mode_based,17.04,487,21,62,324,79,1,3
+l arm numbness,2,True,3,high,72.43,486,90,262,128,6,0,2
+jaw pain,3,False,2,moderate,33.2,485,7,154,284,39,1,3
+productive cough,3,False,2,moderate,36.75,468,6,166,285,11,0,3
+suture removal,4,False,1,mode_based,0.22,456,1,0,23,298,134,4
+low back pain,4,False,1,low,9.25,454,4,38,324,88,0,3
+fall,2,True,3,high,44.97,447,38,163,229,17,0,3
+substance misuse intoxication,3,False,2,mode_based,12.3,447,7,48,361,31,0,3
+r rib pain,3,False,2,mode_based,22.42,446,4,96,308,38,0,3
+dizzy,2,True,3,high,43.02,437,41,147,246,3,0,3
+testicular pain,2,True,3,high,42.59,432,4,180,243,5,0,3
+upper abdominal pain,3,False,2,mode_based,17.52,428,3,72,348,5,0,3
+lower extremity pain,3,False,2,mode_based,8.2,427,8,27,322,69,1,3
+pe,2,True,3,high,96.24,425,21,388,16,0,0,2
+leg weakness,2,True,3,high,57.92,423,25,220,176,2,0,2
+atrial fibrillation,2,True,3,high,87.17,421,73,294,54,0,0,2
+l elbow pain,3,False,2,mode_based,7.36,421,1,30,307,79,4,3
+nstemi,2,True,3,high,99.76,420,30,389,1,0,0,2
+l rib pain,3,False,2,moderate,25.18,417,4,101,270,40,2,3
+hi,2,True,3,high,97.34,413,5,397,11,0,0,2
+urinary tract infection,3,False,2,mode_based,19.42,412,6,74,293,38,1,3
+l hand pain,3,False,2,mode_based,11.58,406,2,45,277,82,0,3
+throat foreign body sensation,3,False,2,moderate,36.57,402,9,138,248,7,0,3
+ear pain,3,False,2,mode_based,6.73,401,4,23,254,115,5,3
+vomiting and or nausea,3,False,2,mode_based,22.61,398,12,78,308,0,0,3
+dehydration,3,False,2,moderate,31.36,389,14,108,263,4,0,3
+shoulder pain,3,False,2,mode_based,23.51,387,4,87,253,42,1,3
+vaginal pain,3,False,2,mode_based,7.51,386,1,28,309,46,2,3
+r calf pain,3,False,2,mode_based,9.66,383,0,37,327,19,0,3
+tremor,2,True,3,high,43.34,383,18,148,216,1,0,3
+hip pain,3,False,2,mode_based,15.22,381,4,54,297,26,0,3
+r elbow pain,3,False,2,mode_based,10.27,370,3,35,242,88,2,3
+vision changes,2,True,3,high,76.9,368,113,170,82,3,0,2
+elevated troponin,2,True,3,high,96.98,364,22,331,11,0,0,2
+picc line,3,False,2,mode_based,11.29,363,4,37,272,50,0,3
+found down,2,True,3,high,78.21,358,97,183,78,0,0,2
+dvt,2,True,3,high,42.4,342,8,137,196,1,0,3
+rib pain,3,False,2,moderate,27.41,332,13,78,207,33,1,3
+b leg pain,3,False,2,mode_based,17.22,331,3,54,237,37,0,3
+bicycle accident,2,True,3,high,42.15,325,51,86,171,17,0,3
+l thumb laceration,4,False,1,mode_based,3.42,322,1,10,131,179,1,4
+elevated d dimer,2,True,3,high,63.24,321,2,201,118,0,0,2
+abnormal sodium level,2,True,3,high,73.83,321,14,223,84,0,0,2
+vertigo,3,False,2,moderate,30.41,319,10,87,218,4,0,3
+psychiatric hold,2,True,3,high,86.83,319,3,274,41,1,0,2
+l wrist injury,3,False,2,mode_based,17.03,317,5,49,188,74,1,3
+influenza like illness,3,False,2,mode_based,14.01,314,16,28,253,16,1,3
+facial numbness,2,True,3,high,69.65,313,60,158,93,2,0,2
+l arm swelling,3,False,2,moderate,32.26,310,5,95,204,6,0,3
+eye pain,3,False,2,mode_based,20.45,308,5,58,165,80,0,3
+l shoulder injury,3,False,2,moderate,34.1,305,0,104,178,23,0,3
+l facial numbness,2,True,3,high,82.95,305,80,173,51,1,0,2
+finger pain,4,False,1,mode_based,5.63,302,2,15,139,142,4,4
+burn,3,False,2,moderate,25.25,301,5,71,159,65,1,3
+r foot injury,3,False,2,mode_based,8.31,301,5,20,164,111,1,3
+wheezing,2,True,3,high,54.33,300,25,138,132,5,0,2
+rlq pain,3,False,2,mode_based,14.19,296,2,40,254,0,0,3
+ah,2,True,3,high,85.03,294,3,247,44,0,0,2
+depression suicidal deliberate self harm,2,True,3,high,93.2,294,0,274,19,1,0,2
+paranoid delusion,2,True,3,high,84.3,293,3,244,46,0,0,2
+cough congestion,3,False,2,mode_based,18.21,291,14,39,232,6,0,3
+fevers,2,True,3,high,40.34,290,28,89,171,2,0,3
+cat bite,3,False,2,mode_based,1.75,286,0,5,241,40,0,3
+coffee ground emesis,2,True,3,high,90.18,285,21,236,28,0,0,2
+abdo pain,3,False,2,mode_based,18.79,282,6,47,227,1,1,3
+malaise,3,False,2,moderate,32.61,276,6,84,181,4,1,3
+alcohol intoxication detox,3,False,2,moderate,33.45,275,3,89,177,6,0,3
+psychosis,2,True,3,high,83.09,272,9,217,45,1,0,2
+clotted fistula,3,False,2,mode_based,16.24,271,1,43,222,5,0,3
+hives,3,False,2,moderate,30.97,268,11,72,136,49,0,3
+r shoulder injury,3,False,2,moderate,31.84,267,3,82,150,32,0,3
+s p assault,3,False,2,moderate,25.47,267,8,60,178,20,1,3
+difficulty breathing,2,True,3,high,59.18,267,31,127,108,1,0,2
+l foot injury,3,False,2,mode_based,5.28,265,3,11,155,94,2,3
+r inguinal pain,3,False,2,mode_based,22.9,262,3,57,189,13,0,3
+r knee injury,3,False,2,mode_based,9.2,261,0,24,160,77,0,3
+syncope presyncope,2,True,3,high,61.78,259,23,137,98,1,0,2
+neck swelling,2,True,3,high,64.98,257,19,148,82,8,0,2
+l knee injury,3,False,2,mode_based,7.45,255,2,17,159,77,0,3
+facial droop,2,True,3,high,87.4,254,79,143,32,0,0,2
+lower extremity injury,3,False,2,mode_based,9.49,253,2,22,153,75,1,3
+r arm numbness,2,True,3,high,70.12,251,43,133,72,3,0,2
+insect bite,3,False,2,mode_based,3.59,251,0,9,121,113,8,3
+r arm swelling,3,False,2,mode_based,22.0,250,5,50,185,10,0,3
+aphasia,2,True,3,high,94.74,247,81,153,13,0,0,2
+facial pain,3,False,2,mode_based,13.47,245,3,30,182,30,0,3
+l hand laceration,3,False,2,mode_based,10.2,245,1,24,129,91,0,3
+r hand swelling,3,False,2,mode_based,13.17,243,3,29,195,16,0,3
+appendicitis,3,False,2,moderate,30.13,239,2,70,167,0,0,3
+left sided abdominal pain,3,False,2,mode_based,15.13,238,2,34,200,2,0,3
+chest pain noncardiac features,2,True,3,high,41.77,237,6,93,137,1,0,3
+s p seizure,2,True,3,high,58.19,232,21,114,97,0,0,2
+urinary incontinence,2,True,3,high,74.67,229,22,149,55,3,0,2
+cardiac arrest,2,True,3,high,100.0,228,219,9,0,0,0,1
+r facial numbness,2,True,3,high,78.76,226,47,131,47,1,0,2
+l leg injury,3,False,2,moderate,25.0,224,3,53,148,20,0,3
+l chest pain,2,True,3,high,48.17,218,3,102,108,5,0,3
+upper back pain,3,False,2,mode_based,21.3,216,4,42,131,39,0,3
+r foot swelling,3,False,2,mode_based,13.02,215,2,26,179,8,0,3
+arm pain,3,False,2,moderate,29.3,215,3,60,131,21,0,3
+upper extremity injury,3,False,2,mode_based,18.31,213,1,38,131,43,0,3
+pancreatitis,3,False,2,moderate,25.47,212,4,50,158,0,0,3
+l numbness,2,True,3,high,77.83,212,53,112,47,0,0,2
+neuro,2,True,3,high,55.19,212,21,96,95,0,0,2
+lip laceration,3,False,2,mode_based,9.0,211,0,19,133,59,0,3
+finger swelling,3,False,2,mode_based,3.81,210,0,8,122,78,2,3
+left flank pain,3,False,2,mode_based,15.87,208,0,33,174,1,0,3
+pneumothorax,2,True,3,high,96.15,208,10,190,8,0,0,2
+r wrist injury,3,False,2,mode_based,8.74,206,1,17,150,37,1,3
+mouth pain,3,False,2,mode_based,12.62,206,1,25,133,44,3,3
+leg numbness,2,True,3,high,53.66,205,10,100,95,0,0,2
+l foot swelling,3,False,2,mode_based,7.32,205,2,13,177,13,0,3
+lip swelling,2,True,3,high,67.33,202,33,103,53,11,2,2
+abnormal lab values,2,True,3,high,51.74,201,6,98,97,0,0,2
+facial injury,3,False,2,moderate,34.0,200,7,61,123,9,0,3
+vaginal discharge,3,False,2,mode_based,4.57,197,0,9,156,32,0,3
+alcohol withdrawal,2,True,3,high,63.96,197,6,120,71,0,0,2
+l leg numbness,2,True,3,high,49.23,195,19,77,95,4,0,3
+r hip fracture,2,True,3,high,41.24,194,3,77,114,0,0,3
+r leg injury,3,False,2,moderate,28.87,194,3,53,118,20,0,3
+l facial droop,2,True,3,high,87.63,194,48,122,24,0,0,2
+traumatic back spine injury,3,False,2,mode_based,11.86,194,3,20,139,32,0,3
+l hip fracture,2,True,3,high,41.45,193,4,76,113,0,0,3
+st,3,False,2,mode_based,6.22,193,3,9,121,60,0,3
+anorexia,2,True,3,high,47.67,193,9,83,101,0,0,3
+insomnia,3,False,2,mode_based,19.27,192,1,36,133,20,2,3
+l hand swelling,3,False,2,mode_based,13.02,192,1,24,157,10,0,3
+l inguinal pain,3,False,2,mode_based,19.37,191,1,36,144,9,1,3
+sinus pain,3,False,2,mode_based,4.19,191,0,8,119,62,2,3
+suprapubic pain,3,False,2,mode_based,9.47,190,0,18,168,4,0,3
+hand injury,3,False,2,moderate,28.04,189,4,49,104,30,2,3
+hypokalemia,2,True,3,high,66.14,189,6,119,64,0,0,2
+c spine fracture,2,True,3,high,91.49,188,18,154,16,0,0,2
+unknown cc,2,True,3,high,54.01,187,38,63,66,16,4,3
+positive blood cultures,2,True,3,high,41.94,186,2,76,108,0,0,3
+motorcycle accident,2,True,3,high,77.84,185,89,55,40,1,0,1
+rectal bleeding,2,True,3,high,59.24,184,7,102,75,0,0,2
+aaa,2,True,3,high,97.25,182,51,126,5,0,0,2
+clogged foley,3,False,2,mode_based,6.59,182,1,11,155,14,1,3
+upper extremity pain,3,False,2,mode_based,12.15,181,1,21,129,30,0,3
+r chest pain,3,False,2,moderate,34.25,181,1,61,115,4,0,3
+right flank pain,3,False,2,mode_based,8.89,180,1,15,164,0,0,3
+mania,2,True,3,high,80.0,180,4,140,35,1,0,2
+l testicular pain,2,True,3,high,45.81,179,1,81,90,7,0,3
+r hand laceration,3,False,2,mode_based,10.61,179,3,16,104,55,1,3
+r testicular pain,2,True,3,high,51.7,176,2,89,83,2,0,2
+buttock pain,3,False,2,mode_based,9.71,175,2,15,134,24,0,3
+ruq pain,3,False,2,mode_based,13.14,175,3,20,152,0,0,3
+hand laceration,4,False,1,mode_based,9.77,174,1,16,77,78,2,4
+wound check,3,False,2,mode_based,8.09,173,4,10,97,56,6,3
+penile pain,3,False,2,mode_based,13.95,172,2,22,118,30,0,3
+r thumb injury,3,False,2,mode_based,10.47,172,0,18,81,72,1,3
+food bolus,2,True,3,high,54.39,171,3,90,78,0,0,2
+needlestick,2,True,3,high,54.97,171,5,89,53,23,1,2
+right knee pain,3,False,2,mode_based,1.2,167,0,2,116,48,1,3
+sickle cell crisis,3,False,2,moderate,37.2,164,1,60,103,0,0,3
+l finger injury,3,False,2,mode_based,12.27,163,1,19,90,52,1,3
+labor,2,True,3,high,95.71,163,25,131,7,0,0,2
+head bleed,2,True,3,high,96.91,162,37,120,5,0,0,2
+left leg pain,3,False,2,mode_based,9.94,161,2,14,134,10,1,3
+near syncope,2,True,3,high,51.55,161,7,76,77,1,0,3
+kidney stone,3,False,2,mode_based,19.88,161,2,30,128,1,0,3
+abnl labs,2,True,3,high,55.28,161,10,79,72,0,0,2
+suicide attempt,2,True,3,high,98.12,160,17,140,3,0,0,2
+migraine,3,False,2,mode_based,12.58,159,2,18,136,3,0,3
+r finger injury,3,False,2,mode_based,9.55,157,0,15,86,54,2,3
+rabies vaccine,4,False,1,mode_based,1.27,157,0,2,19,120,16,4
+c p,2,True,3,high,92.99,157,2,144,11,0,0,2
+l thumb injury,3,False,2,mode_based,6.49,154,0,10,88,54,2,3
+inguinal pain,3,False,2,mode_based,22.73,154,2,33,111,8,0,3
+r thumb laceration,3,False,2,mode_based,3.92,153,0,6,74,73,0,3
+l breast pain,3,False,2,mode_based,8.67,150,1,12,125,12,0,3
+r facial droop,2,True,3,high,87.92,149,33,98,18,0,0,2
+myalgia,3,False,2,mode_based,14.09,149,2,19,122,6,0,3
+femur fracture,2,True,3,high,56.16,146,4,78,64,0,0,2
+breast pain,3,False,2,mode_based,8.22,146,0,12,119,15,0,3
+llq pain,3,False,2,mode_based,14.48,145,1,20,124,0,0,3
+palpitations irregular heart beat,2,True,3,high,60.42,144,23,64,57,0,0,2
+pedal edema,2,True,3,high,58.74,143,4,80,58,1,0,2
+gib,2,True,3,high,92.31,143,21,111,11,0,0,2
+ms changes,2,True,3,high,85.31,143,44,78,21,0,0,2
+od,2,True,3,high,94.41,143,41,94,8,0,0,2
+eye redness,4,False,1,mode_based,3.52,142,1,4,60,69,8,4
+exposure,2,True,3,high,52.11,142,6,68,47,20,1,2
+vag bleeding,3,False,2,mode_based,23.4,141,3,30,107,1,0,3
+l hand numbness,2,True,3,high,59.29,140,13,70,50,7,0,2
+pleuritic chest pain,3,False,2,moderate,37.14,140,2,50,87,1,0,3
+left knee pain,3,False,2,mode_based,4.32,139,2,4,91,42,0,3
+r leg numbness,2,True,3,high,54.68,139,8,68,60,3,0,2
+altered ms,2,True,3,high,85.61,139,64,55,20,0,0,1
+htn,2,True,3,high,43.48,138,4,56,78,0,0,3
+r knee swelling,3,False,2,mode_based,8.7,138,0,12,109,17,0,3
+hip fracture,2,True,3,high,45.26,137,4,58,75,0,0,3
+left sided chest pain,2,True,3,high,47.79,136,1,64,70,1,0,3
+r leg redness,3,False,2,mode_based,7.52,133,1,9,122,1,0,3
+swelling,3,False,2,mode_based,17.29,133,3,20,103,7,0,3
+blood in stool melena,2,True,3,high,73.48,132,4,93,35,0,0,2
+jtube,3,False,2,mode_based,7.63,131,1,9,110,10,1,3
+hand pain,3,False,2,mode_based,9.92,131,1,12,86,31,1,3
+ekg changes,2,True,3,high,89.31,131,14,103,14,0,0,2
+elevated wbc,2,True,3,high,59.54,131,5,73,52,1,0,2
+stemi,2,True,3,high,100.0,130,120,10,0,0,0,1
+ftt,3,False,2,moderate,32.31,130,8,34,88,0,0,3
+l finger laceration,4,False,1,mode_based,4.62,130,0,6,54,70,0,4
+tongue swelling,2,True,3,high,84.38,128,45,63,19,1,0,2
+multiple complaints,3,False,2,mode_based,12.6,127,2,14,105,6,0,3
+hyponatremia,2,True,3,high,68.25,126,3,83,40,0,0,2
+right leg pain,3,False,2,mode_based,12.8,125,2,14,96,13,0,3
+human bite,3,False,2,mode_based,16.8,125,1,20,70,33,1,3
+abnormal ultrasound,2,True,3,high,40.0,125,0,50,75,0,0,3
+abnormal xray,2,True,3,high,40.65,123,1,49,68,5,0,3
+arm numbness,2,True,3,high,59.02,122,20,52,48,2,0,2
+r eye swelling,3,False,2,mode_based,19.01,121,0,23,64,33,1,3
+l facial swelling,3,False,2,mode_based,20.66,121,3,22,87,9,0,3
+right sided chest pain,3,False,2,moderate,37.5,120,1,44,75,0,0,3
+l leg redness,3,False,2,mode_based,10.0,120,1,11,106,2,0,3
+ataxia,2,True,3,high,68.91,119,15,67,37,0,0,2
+urinary tract infection complaints,3,False,2,mode_based,7.56,119,2,7,91,19,0,3
+stab wound,2,True,3,high,91.6,119,79,30,10,0,0,1
+b foot pain,3,False,2,mode_based,10.17,118,1,11,82,24,0,3
+r neck pain,3,False,2,mode_based,18.64,118,1,21,75,21,0,3
+laceration puncture,3,False,2,mode_based,4.24,118,0,5,62,50,1,3
+requesting detox,3,False,2,mode_based,12.71,118,2,13,99,4,0,3
+l arm weakness,2,True,3,high,75.21,117,25,63,28,1,0,2
+chest tightness,2,True,3,high,63.25,117,2,72,43,0,0,2
+l eye swelling,3,False,2,mode_based,17.09,117,1,19,58,38,1,3
+weak,2,True,3,high,49.14,116,11,46,58,1,0,3
+dka,2,True,3,high,94.83,116,18,92,6,0,0,2
+altered level consciousness,2,True,3,high,92.17,115,48,58,9,0,0,2
+l knee swelling,3,False,2,mode_based,5.26,114,0,6,101,7,0,3
+r breast pain,3,False,2,mode_based,3.54,113,0,4,94,15,0,3
+right foot pain,3,False,2,mode_based,5.31,113,1,5,64,43,0,3
+l femur fracture,2,True,3,high,61.06,113,4,65,44,0,0,2
+l arm injury,3,False,2,mode_based,23.21,112,1,25,73,13,0,3
+difficulty ambulating,3,False,2,mode_based,18.02,111,3,17,84,6,1,3
+left arm pain,3,False,2,moderate,25.45,110,1,27,75,7,0,3
+nasal injury,3,False,2,mode_based,9.09,110,0,10,70,30,0,3
+palpatations,2,True,3,high,54.13,109,14,45,50,0,0,3
+ankle pain,3,False,2,mode_based,4.59,109,0,5,66,37,1,3
+l neck pain,3,False,2,mode_based,13.76,109,0,15,74,20,0,3
+general weakness,2,True,3,high,53.21,109,9,49,51,0,0,3
+r eye,3,False,2,mode_based,24.07,108,0,26,50,29,3,3
+elevated inr,2,True,3,high,67.29,107,3,69,35,0,0,2
+nausea vomiting abdominal pain,3,False,2,mode_based,23.58,106,4,21,81,0,0,3
+left shoulder pain,3,False,2,mode_based,15.24,105,2,14,70,19,0,3
+eye,3,False,2,mode_based,19.23,104,0,20,46,37,1,3
+r femur fracture,2,True,3,high,56.31,103,3,55,45,0,0,2
+left foot pain,3,False,2,mode_based,2.91,103,1,2,54,46,0,3
+r arm injury,3,False,2,mode_based,14.56,103,1,14,71,17,0,3
+r numbness,2,True,3,high,73.53,102,16,59,27,0,0,2
+gunshot wound,2,True,3,high,90.2,102,63,29,10,0,0,1
+r ankle swelling,3,False,2,mode_based,5.88,102,0,6,87,9,0,3
+right shoulder pain,3,False,2,mode_based,11.88,101,1,11,75,13,1,3
+c2 fracture,2,True,3,high,92.0,100,7,85,8,0,0,2
+foreign body,3,False,2,moderate,34.0,100,0,34,46,19,1,3
+r back pain,3,False,2,mode_based,12.0,100,0,12,75,13,0,3
+neutropenia,2,True,3,high,85.0,100,2,83,15,0,0,2
+b flank pain,3,False,2,mode_based,14.14,99,1,13,85,0,0,3
+abcess,3,False,2,mode_based,6.12,98,0,6,83,9,0,3
+chest pressure,2,True,3,high,73.47,98,3,69,26,0,0,2
+palps,2,True,3,high,60.2,98,12,47,39,0,0,2
+sepsis,2,True,3,high,96.94,98,59,36,3,0,0,1
+right hip pain,3,False,2,mode_based,6.19,97,1,5,82,9,0,3
+cholecystitis,3,False,2,moderate,34.38,96,4,29,63,0,0,3
+acute renal failure,2,True,3,high,75.0,96,4,68,24,0,0,2
+l facial pain,3,False,2,mode_based,12.63,95,0,12,72,10,1,3
+facial laceration,3,False,2,mode_based,16.84,95,1,15,58,21,0,3
+l ankle swelling,3,False,2,mode_based,4.21,95,0,4,72,19,0,3
+hand numbness,2,True,3,high,48.94,94,10,36,48,0,0,3
+afib,2,True,3,high,81.91,94,20,57,17,0,0,2
+bowel obstruction,2,True,3,high,47.87,94,2,43,49,0,0,3
+leg laceration,3,False,2,mode_based,9.68,93,1,8,54,29,1,3
+left ankle pain,3,False,2,mode_based,2.15,93,0,2,51,40,0,3
+scrotal pain,3,False,2,moderate,33.7,92,2,29,58,3,0,3
+head pain,3,False,2,moderate,27.47,91,3,22,61,5,0,3
+unwitnessed fall,2,True,3,high,67.03,91,11,50,30,0,0,2
+r eye redness,4,False,1,mode_based,3.3,91,0,3,40,44,4,4
+chest pain shortness breath,2,True,3,high,78.02,91,9,62,19,0,1,2
+abdominal pain nausea vomiting,3,False,2,mode_based,24.44,90,5,17,68,0,0,3
+r thumb pain,3,False,2,mode_based,1.12,89,0,1,47,39,2,3
+groin pain,3,False,2,mode_based,15.73,89,1,13,70,5,0,3
+left hip pain,3,False,2,mode_based,6.74,89,1,5,77,6,0,3
+r leg cellulitis,3,False,2,mode_based,17.05,88,1,14,71,2,0,3
+ankle injury,3,False,2,mode_based,7.95,88,1,6,49,31,1,3
+b knee pain,3,False,2,mode_based,5.75,87,1,4,57,24,1,3
+l eye redness,3,False,2,mode_based,4.6,87,0,4,51,32,0,3
+r finger laceration,4,False,1,mode_based,4.65,86,0,4,34,48,0,4
+blurred vision,2,True,3,high,60.47,86,21,31,34,0,0,3
+s p mechanical fall,3,False,2,mode_based,17.44,86,1,14,57,14,0,3
+l toe pain,3,False,2,mode_based,3.53,85,0,3,45,37,0,3
+rib fracture,2,True,3,high,82.35,85,9,61,15,0,0,2
+r facial pain,3,False,2,mode_based,17.65,85,2,13,62,8,0,3
+ankle swelling,3,False,2,mode_based,15.66,83,1,12,60,10,0,3
+r hand numbness,2,True,3,high,58.54,82,14,34,32,2,0,2
+r leg weakness,2,True,3,high,54.88,82,9,36,36,1,0,2
+l leg cellulitis,3,False,2,mode_based,17.28,81,0,14,66,1,0,3
+thrombocytopenia,2,True,3,high,65.43,81,1,52,28,0,0,2
+r finger pain,3,False,2,mode_based,6.17,81,0,5,55,21,0,3
+t spine fracture,2,True,3,high,51.85,81,4,38,39,0,0,3
+diplopia,2,True,3,high,75.31,81,3,58,20,0,0,2
+allergic rxn,2,True,3,high,72.84,81,17,42,20,2,0,2
+neuro deficit,2,True,3,high,91.25,80,27,46,7,0,0,2
+ascites,2,True,3,high,53.75,80,0,43,37,0,0,2
+gu,3,False,2,mode_based,13.75,80,1,10,48,21,0,3
+svt,2,True,3,high,94.94,79,31,44,4,0,0,2
+tachypnea,2,True,3,high,98.72,78,46,31,0,1,0,1
+bat exposure,4,False,1,mode_based,0.0,78,0,0,21,51,6,4
+foot swelling,3,False,2,mode_based,15.58,77,2,10,61,3,1,3
+icd,2,True,3,high,96.1,77,14,60,2,1,0,2
+joint pain,3,False,2,mode_based,5.26,76,0,4,68,4,0,3
+hemodialysis,2,True,3,high,51.32,76,0,39,37,0,0,2
+angioedema,2,True,3,high,96.05,76,31,42,3,0,0,2
+staples removal,4,False,1,mode_based,0.0,75,0,0,9,46,20,4
+wrist pain,3,False,2,mode_based,5.33,75,0,4,53,17,1,3
+l finger pain,3,False,2,mode_based,4.0,75,0,3,39,32,1,3
+peritonsillar abscess,2,True,3,high,48.65,74,0,36,38,0,0,3
+right arm pain,3,False,2,mode_based,10.81,74,2,6,48,17,1,3
+right ankle pain,3,False,2,mode_based,1.35,74,0,1,47,26,0,3
+periumbilical pain,3,False,2,mode_based,12.33,73,2,7,64,0,0,3
+bizarre behavior,2,True,3,high,79.17,72,4,53,14,1,0,2
+pna,2,True,3,high,55.56,72,10,30,32,0,0,3
+redness,3,False,2,mode_based,6.94,72,1,4,60,7,0,3
+mci,2,True,3,high,56.94,72,4,37,28,3,0,2
+decreased po intake,3,False,2,moderate,29.17,72,1,20,51,0,0,3
+s p cardiac arrest,2,True,3,high,100.0,72,61,11,0,0,0,1
+urosepsis,2,True,3,high,95.77,71,28,40,3,0,0,2
+vaginal bleed,3,False,2,moderate,30.0,70,0,21,49,0,0,3
+foot laceration,3,False,2,mode_based,4.29,70,0,3,38,28,1,3
+medical device problem,3,False,2,mode_based,17.14,70,1,11,51,7,0,3
+doe,2,True,3,high,70.0,70,3,46,21,0,0,2
+l eye,3,False,2,moderate,28.57,70,1,19,33,17,0,3
+gum bleeding,3,False,2,moderate,37.68,69,0,26,37,6,0,3
+foot injury,3,False,2,mode_based,4.35,69,1,2,41,22,3,3
+gyn,3,False,2,mode_based,8.7,69,0,6,44,19,0,3
+nose pain,3,False,2,mode_based,4.41,68,0,3,39,25,1,3
+l back pain,3,False,2,mode_based,16.18,68,1,10,45,12,0,3
+left ankle injury,4,False,1,mode_based,5.97,67,0,4,20,43,0,4
+tremors,3,False,2,moderate,28.36,67,5,14,48,0,0,3
+l leg weakness,2,True,3,high,62.69,67,3,39,25,0,0,2
+pulseless foot,2,True,3,high,97.01,67,21,44,2,0,0,2
+anxiety situational crisis,3,False,2,moderate,32.84,67,1,21,43,2,0,3
+low hct,2,True,3,high,83.33,66,4,51,11,0,0,2
+calf pain,3,False,2,moderate,27.27,66,3,15,46,2,0,3

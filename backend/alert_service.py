@@ -3,19 +3,30 @@ import html
 import asyncio
 from enum import Enum
 from datetime import datetime
-from threading import Lock
-from typing import Dict, Any, Optional
+from threading import Lock, Thread
+from typing import Dict, Any, Optional, Iterable, List
 
 import httpx
 
-GAHAR_NOTICE = "🏥 According to GAHAR Standards | وفقاً لمعايير الجهار"
+try:
+    import firebase_admin
+    from firebase_admin import messaging
+except ImportError:
+    firebase_admin = None
+    messaging = None
 
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
+GAHAR_NOTICE = "🏥 According to GAHAR Standards | وفقاً لمعايير الجهار"
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", "")
 ALERT_EMAIL_TO = os.getenv("ALERT_EMAIL_TO", "")
+ALERT_EMAIL_RECIPIENTS = [
+    email.strip()
+    for email in os.getenv("ALERT_EMAIL_RECIPIENTS", ALERT_EMAIL_TO).split(",")
+    if email.strip()
+]
 ALERT_EMAIL_FROM = os.getenv("ALERT_EMAIL_FROM", ALERT_EMAIL_TO)
+ALERT_FRONTEND_URL = os.getenv("ALERT_FRONTEND_URL", "https://safe-triage-ai.web.app")
+ALERT_FCM_TOPIC = os.getenv("ALERT_FCM_TOPIC", "critical-alerts")
 
 ALERT_RECIPIENT_NAME = os.getenv(
     "ALERT_RECIPIENT_NAME",
@@ -24,6 +35,9 @@ ALERT_RECIPIENT_NAME = os.getenv(
 
 _queue_lock = Lock()
 _alert_queue = []
+
+_device_lock = Lock()
+_fcm_devices: Dict[str, Dict[str, str]] = {}
 
 
 class AlertLevel(str, Enum):
@@ -53,43 +67,38 @@ def _alert_banner(level: AlertLevel) -> str:
     return "🟡🟡🟡"
 
 
-def build_telegram_message(payload: Dict[str, Any]) -> str:
+def _alert_title(payload: Dict[str, Any]) -> str:
     level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
-    line = "━━━━━━━━━━━━━━━━━"
-    complaint = _safe_text(payload.get("complaint", ""))
-    icd10_code = _safe_text(payload.get("icd10_code", ""))
-    icd10_desc = _safe_text(payload.get("icd10_description", ""))
-    snomed_code = _safe_text(payload.get("snomed_code", ""))
-    snomed_term = _safe_text(payload.get("snomed_term", ""))
-    recommended = _safe_text(_format_recommended(payload.get("recommended", "")))
-    clinician = _safe_text(payload.get("clinician", "Unassigned | غير محدد"))
-    patient_id = _safe_text(payload.get("patient_id", "Unknown"))
-    esi_level = _safe_text(str(payload.get("esi_level", "")))
-    news2_score = _safe_text(str(payload.get("news2_score", "")))
-    timestamp = _safe_text(payload.get("timestamp") or datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
+    patient_id = str(payload.get("patient_id", "Unknown"))
+    esi_level = str(payload.get("esi_level", ""))
+    level_label = str(level).replace("_", " ")
+    return f"{_alert_banner(level)} SAFE-Triage {level_label} | Patient {patient_id} | ESI {esi_level}"
 
-    recipient = _safe_text(payload.get("recipient", ALERT_RECIPIENT_NAME))
 
-    header = f"{_alert_banner(level)} <b>SAFE-Triage Alert | تنبيه SAFE-Triage</b>"
-    body = [
-        header,
-        line,
-        f"<b>Level | المستوى:</b> {level}",
-        f"<b>Patient | المريض:</b> {patient_id}",
-        f"<b>ESI:</b> {esi_level} | <b>NEWS2:</b> {news2_score}",
-        line,
-        f"<b>Complaint | الشكوى:</b> {complaint}",
-        f"<b>ICD-10:</b> {icd10_code} ({icd10_desc})",
-        f"<b>SNOMED:</b> {snomed_code} ({snomed_term})",
-        line,
-        f"<b>Recommended | المطلوب:</b> {recommended}",
-        f"<b>Clinician | الطبيب:</b> {clinician}",
-        f"<b>Time | الوقت:</b> {timestamp}",
-        f"📱 <b>Sent to | أُرسل إلى:</b> {recipient}",
-        line,
-        GAHAR_NOTICE,
-    ]
-    return "\n".join(body)
+def _alert_body(payload: Dict[str, Any]) -> str:
+    complaint = str(payload.get("complaint", "")).strip()
+    recommended = _format_recommended(payload.get("recommended", ""))
+    news2_score = str(payload.get("news2_score", "")).strip()
+    clinician = str(payload.get("clinician", "Unassigned | غير محدد")).strip()
+
+    lines = []
+    if complaint:
+        lines.append(f"Complaint: {complaint}")
+    if news2_score:
+        lines.append(f"NEWS2: {news2_score}")
+    if recommended:
+        lines.append(f"Recommended: {recommended}")
+    if clinician:
+        lines.append(f"Clinician: {clinician}")
+    return " | ".join(lines)[:512]
+
+
+def _alert_link(payload: Dict[str, Any]) -> str:
+    patient_id = str(payload.get("patient_id", "")).strip()
+    base_url = ALERT_FRONTEND_URL.rstrip("/")
+    if not patient_id:
+        return f"{base_url}/dashboard"
+    return f"{base_url}/dashboard?case={patient_id}"
 
 
 def build_email_subject(payload: Dict[str, Any]) -> str:
@@ -98,7 +107,7 @@ def build_email_subject(payload: Dict[str, Any]) -> str:
     esi_level = payload.get("esi_level", "")
     recipient = payload.get("recipient", ALERT_RECIPIENT_NAME)
     recipient_en = recipient.split("|")[0].strip()
-    return f"[SAFE-Triage] {level} → {recipient_en}: Patient {patient_id} — ESI {esi_level}"
+    return f"[SAFE-Triage] {level} -> {recipient_en}: Patient {patient_id} | ESI {esi_level}"
 
 
 def build_email_html(payload: Dict[str, Any]) -> str:
@@ -115,6 +124,7 @@ def build_email_html(payload: Dict[str, Any]) -> str:
     timestamp = _safe_text(payload.get("timestamp") or datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
     recipient = _safe_text(payload.get("recipient", ALERT_RECIPIENT_NAME))
     level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
+    alert_link = _safe_text(_alert_link(payload))
 
     return f"""
     <div style="font-family: Arial, sans-serif; line-height: 1.5;">
@@ -131,39 +141,157 @@ def build_email_html(payload: Dict[str, Any]) -> str:
       <p><b>Recommended | المطلوب:</b> {recommended}</p>
       <p><b>Clinician | الطبيب:</b> {clinician}</p>
       <p><b>Time | الوقت:</b> {timestamp}</p>
-      <p>📱 <b>Sent to | أُرسل إلى:</b> {recipient}</p>
+      <p>📲 <b>Push + Email | إشعار + بريد:</b> {recipient}</p>
+      <p><a href="{alert_link}">Open SAFE-Triage Dashboard</a></p>
       <hr />
       <p><b>{GAHAR_NOTICE}</b></p>
     </div>
     """.strip()
 
 
-async def _send_telegram(message_html: str) -> bool:
-    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        print("[ALERT] Telegram not configured")
+def _ensure_firebase() -> bool:
+    if firebase_admin is None or messaging is None:
+        print("[ALERT] firebase-admin not installed")
         return False
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
-        "text": message_html,
-        "parse_mode": "HTML",
-        "disable_web_page_preview": True,
+    try:
+        firebase_admin.get_app()
+    except ValueError:
+        try:
+            firebase_admin.initialize_app()
+        except Exception as exc:
+            print(f"[ALERT] Firebase init failed: {exc}")
+            return False
+    except Exception as exc:
+        print(f"[ALERT] Firebase unavailable: {exc}")
+        return False
+    return True
+
+
+def _normalize_role(role: Optional[str]) -> str:
+    return (role or "nurse").strip().lower() or "nurse"
+
+
+def _registered_push_tokens(roles: Optional[Iterable[str]] = None) -> List[str]:
+    allowed = {role.strip().lower() for role in roles or [] if role}
+    with _device_lock:
+        devices = list(_fcm_devices.values())
+    tokens = []
+    seen = set()
+    for device in devices:
+        token = (device.get("token") or "").strip()
+        role = _normalize_role(device.get("role"))
+        if not token:
+            continue
+        if allowed and role not in allowed:
+            continue
+        if token in seen:
+            continue
+        seen.add(token)
+        tokens.append(token)
+    return tokens
+
+
+def register_fcm_device(user_id: str, token: str, role: str) -> Dict[str, Any]:
+    registered_at = datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    normalized_role = _normalize_role(role)
+
+    with _device_lock:
+        _fcm_devices[user_id] = {
+            "token": token,
+            "role": normalized_role,
+            "registered_at": registered_at,
+        }
+
+    subscribed = False
+    subscribe_error = None
+    if token and _ensure_firebase():
+        try:
+            messaging.subscribe_to_topic([token], ALERT_FCM_TOPIC)
+            subscribed = True
+        except Exception as exc:
+            subscribe_error = str(exc)
+            print(f"[ALERT] Topic subscription failed for {user_id}: {exc}")
+
+    return {
+        "status": "registered",
+        "user_id": user_id,
+        "role": normalized_role,
+        "topic": ALERT_FCM_TOPIC,
+        "topic_subscribed": subscribed,
+        "subscription_error": subscribe_error,
     }
-    async with httpx.AsyncClient(timeout=8) as client:
-        resp = await client.post(url, data=payload)
-        if resp.status_code >= 200 and resp.status_code < 300:
+
+
+def _push_payload_data(payload: Dict[str, Any]) -> Dict[str, str]:
+    return {
+        "alert_level": str(payload.get("alert_level", "")),
+        "patient_id": str(payload.get("patient_id", "")),
+        "esi_level": str(payload.get("esi_level", "")),
+        "news2_score": str(payload.get("news2_score", "")),
+        "complaint": str(payload.get("complaint", ""))[:200],
+        "recommended": _format_recommended(payload.get("recommended", ""))[:200],
+        "link": _alert_link(payload),
+    }
+
+
+async def _send_push(payload: Dict[str, Any]) -> bool:
+    if not _ensure_firebase():
+        return False
+
+    title = _alert_title(payload)
+    body = _alert_body(payload)
+    data = _push_payload_data(payload)
+    tokens = _registered_push_tokens({"doctor", "supervisor"})
+    icon_url = f"{ALERT_FRONTEND_URL.rstrip('/')}/icons/alert-icon.svg"
+
+    notification = messaging.Notification(title=title, body=body)
+    android = messaging.AndroidConfig(priority="high")
+    webpush = messaging.WebpushConfig(
+        notification=messaging.WebpushNotification(
+            title=title,
+            body=body,
+            icon=icon_url,
+            require_interaction=True,
+        ),
+        fcm_options=messaging.WebpushFCMOptions(link=data["link"]),
+    )
+
+    if tokens:
+        message = messaging.MulticastMessage(
+            notification=notification,
+            data=data,
+            android=android,
+            webpush=webpush,
+            tokens=tokens,
+        )
+        response = await asyncio.to_thread(messaging.send_each_for_multicast, message)
+        if response.success_count > 0:
             return True
-        print(f"[ALERT] Telegram failed: {resp.status_code} {resp.text}")
+        print(f"[ALERT] FCM multicast failed for all devices ({response.failure_count} failures)")
+        return False
+
+    message = messaging.Message(
+        notification=notification,
+        data=data,
+        android=android,
+        webpush=webpush,
+        topic=ALERT_FCM_TOPIC,
+    )
+    try:
+        await asyncio.to_thread(messaging.send, message)
+        return True
+    except Exception as exc:
+        print(f"[ALERT] FCM topic send failed: {exc}")
         return False
 
 
 async def _send_email(subject: str, html_body: str) -> bool:
-    if not SENDGRID_API_KEY or not ALERT_EMAIL_TO or not ALERT_EMAIL_FROM:
+    if not SENDGRID_API_KEY or not ALERT_EMAIL_RECIPIENTS or not ALERT_EMAIL_FROM:
         print("[ALERT] SendGrid not configured")
         return False
     url = "https://api.sendgrid.com/v3/mail/send"
     payload = {
-        "personalizations": [{"to": [{"email": ALERT_EMAIL_TO}]}],
+        "personalizations": [{"to": [{"email": email} for email in ALERT_EMAIL_RECIPIENTS]}],
         "from": {"email": ALERT_EMAIL_FROM, "name": "SAFE-Triage"},
         "subject": subject,
         "content": [{"type": "text/html", "value": html_body}],
@@ -179,27 +307,50 @@ async def _send_email(subject: str, html_body: str) -> bool:
 
 async def _deliver_alert(payload: Dict[str, Any], queue_on_fail: bool = True) -> Dict[str, bool]:
     level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
-    message_html = build_telegram_message(payload)
     subject = build_email_subject(payload)
     email_html = build_email_html(payload)
 
-    telegram_ok = False
+    push_ok = False
     email_ok = False
 
     if level in {AlertLevel.CODE_RED, AlertLevel.HIGH_ALERT, AlertLevel.ESCALATION}:
-        telegram_ok = await _send_telegram(message_html)
+        push_ok = await _send_push(payload)
 
     if level in {AlertLevel.CODE_RED, AlertLevel.HIGH_ALERT, AlertLevel.ESCALATION, AlertLevel.QA_FLAG}:
         email_ok = await _send_email(subject, email_html)
 
     queued = False
-    if queue_on_fail and not telegram_ok and not email_ok:
+    if queue_on_fail and not push_ok and not email_ok:
         with _queue_lock:
             _alert_queue.append(payload)
         queued = True
         print("[ALERT] Queued alert for retry")
 
-    return {"telegram": telegram_ok, "email": email_ok, "queued": queued}
+    return {"push": push_ok, "email": email_ok, "queued": queued}
+
+
+def _run_coro_sync(coro: Any) -> Any:
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(coro)
+
+    result: Dict[str, Any] = {}
+    error: Dict[str, BaseException] = {}
+
+    def _runner() -> None:
+        try:
+            result["value"] = asyncio.run(coro)
+        except BaseException as exc:
+            error["value"] = exc
+
+    thread = Thread(target=_runner, daemon=True)
+    thread.start()
+    thread.join()
+
+    if "value" in error:
+        raise error["value"]
+    return result.get("value")
 
 
 async def send_alert_async(payload: Dict[str, Any]) -> Dict[str, bool]:
@@ -207,11 +358,7 @@ async def send_alert_async(payload: Dict[str, Any]) -> Dict[str, bool]:
 
 
 def send_alert_sync(payload: Dict[str, Any]) -> Dict[str, bool]:
-    try:
-        loop = asyncio.get_running_loop()
-    except RuntimeError:
-        return asyncio.run(send_alert_async(payload))
-    return loop.create_task(send_alert_async(payload))  # type: ignore[return-value]
+    return _run_coro_sync(send_alert_async(payload))
 
 
 async def flush_alert_queue_async() -> Dict[str, Any]:
@@ -225,7 +372,7 @@ async def flush_alert_queue_async() -> Dict[str, Any]:
     failed = []
     for payload in queued:
         result = await _deliver_alert(payload, queue_on_fail=False)
-        if not (result.get("telegram") or result.get("email")):
+        if not (result.get("push") or result.get("email")):
             failed.append(payload)
 
     if failed:
@@ -236,13 +383,27 @@ async def flush_alert_queue_async() -> Dict[str, Any]:
 
 
 def flush_alert_queue_sync() -> Dict[str, Any]:
-    try:
-        loop = asyncio.get_running_loop()
-    except RuntimeError:
-        return asyncio.run(flush_alert_queue_async())
-    return loop.create_task(flush_alert_queue_async())  # type: ignore[return-value]
+    return _run_coro_sync(flush_alert_queue_async())
+
+
+def retry_queued_alerts() -> Dict[str, Any]:
+    return flush_alert_queue_sync()
 
 
 def get_queue_size() -> int:
     with _queue_lock:
         return len(_alert_queue)
+
+
+def get_queue_status() -> Dict[str, Any]:
+    with _queue_lock:
+        queued = len(_alert_queue)
+        oldest = _alert_queue[0].get("timestamp") if _alert_queue else None
+    with _device_lock:
+        device_count = len(_fcm_devices)
+    return {
+        "queued": queued,
+        "oldest": oldest,
+        "registered_devices": device_count,
+        "topic": ALERT_FCM_TOPIC,
+    }

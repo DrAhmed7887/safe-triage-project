@@ -543,7 +543,7 @@ export default function LandingPage() {
                             <div className="st-step"><div><div className="st-step-title">Layer 2: NEWS2 scores vitals</div><div className="st-step-desc">Objective scoring across HR, RR, BP, temperature, oxygenation and consciousness.</div></div></div>
                             <div className="st-step"><div><div className="st-step-title">Deterministic ESI assignment</div><div className="st-step-desc">Initial level assigned by reproducible rule engine with safety rules.</div></div></div>
                             <div className="st-step danger st-pulse-red"><div><div className="st-step-title" style={{ color: 'var(--st-red)' }}>MedGemma QA escalation</div><div className="st-step-desc">Flags atypical high-risk pattern and requests immediate physician reassessment.</div></div></div>
-                            <div className="st-step danger"><div><div className="st-step-title" style={{ color: 'var(--st-red)' }}>Critical alert dispatch</div><div className="st-step-desc">Telegram and email alert are sent to the on-call emergency resident.</div></div></div>
+                            <div className="st-step danger"><div><div className="st-step-title" style={{ color: 'var(--st-red)' }}>Critical alert dispatch</div><div className="st-step-desc">Push notification and email are sent to the on-call emergency clinician.</div></div></div>
                             <div className="st-step success"><div><div className="st-step-title" style={{ color: 'var(--st-green)' }}>Early intervention path</div><div className="st-step-desc">Reassessment and workup are accelerated for potential silent MI cases.</div></div></div>
                         </div>
                     </div>

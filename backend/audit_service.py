@@ -23,6 +23,7 @@ class AuditService:
         self.table_id = "safe-triage-ai.safe_triage_audit.triage_logs"
         self.confirmation_table_id = "safe-triage-ai.safe_triage_audit.triage_confirmations"
         self.report_download_table_id = "safe-triage-ai.safe_triage_audit.report_downloads"
+        self.export_download_table_id = "safe-triage-ai.safe_triage_audit.export_downloads"
         
         if not BQ_AVAILABLE:
             print("[Audit] BigQuery client not available")
@@ -31,10 +32,61 @@ class AuditService:
         try:
             self.client = bigquery.Client(project="safe-triage-ai")
             print("[Audit] BigQuery audit logging initialized")
+            self._ensure_triage_table()
             self._ensure_confirmation_table()
             self._ensure_report_download_table()
+            self._ensure_export_download_table()
         except Exception as e:
             print(f"[Audit] BigQuery init failed: {e}")
+
+    def _triage_table_schema(self):
+        return [
+            bigquery.SchemaField("log_id", "STRING"),
+            bigquery.SchemaField("timestamp", "TIMESTAMP"),
+            bigquery.SchemaField("patient_id", "STRING"),
+            bigquery.SchemaField("age", "INTEGER"),
+            bigquery.SchemaField("gender", "STRING"),
+            bigquery.SchemaField("chief_complaint", "STRING"),
+            bigquery.SchemaField("vitals", "STRING"),
+            bigquery.SchemaField("extracted_features", "STRING"),
+            bigquery.SchemaField("icd10_codes", "STRING"),
+            bigquery.SchemaField("news2_score", "INTEGER"),
+            bigquery.SchemaField("news2_breakdown", "STRING"),
+            bigquery.SchemaField("ai_confidence", "FLOAT"),
+            bigquery.SchemaField("recommended_esi", "INTEGER"),
+            bigquery.SchemaField("final_esi", "INTEGER"),
+            bigquery.SchemaField("esi_baseline", "INTEGER"),
+            bigquery.SchemaField("esi_safe", "INTEGER"),
+            bigquery.SchemaField("safety_floors_applied", "STRING"),
+            bigquery.SchemaField("safety_floor_count", "INTEGER"),
+            bigquery.SchemaField("was_overridden", "BOOLEAN"),
+            bigquery.SchemaField("override_reason", "STRING"),
+            bigquery.SchemaField("clinician_id", "STRING"),
+            bigquery.SchemaField("rag_sources", "STRING"),
+            bigquery.SchemaField("session_mode", "STRING"),
+        ]
+
+    def _ensure_triage_table(self) -> None:
+        """Create/patch triage audit table with required schema fields."""
+        if not self.client:
+            return
+
+        schema = self._triage_table_schema()
+        try:
+            table = self.client.get_table(self.table_id)
+            existing = {field.name for field in table.schema}
+            missing = [field for field in schema if field.name not in existing]
+            if missing:
+                table.schema = list(table.schema) + missing
+                self.client.update_table(table, ["schema"])
+                print(f"[Audit] Updated triage table schema (+{len(missing)} fields)")
+        except Exception:
+            try:
+                table = bigquery.Table(self.table_id, schema=schema)
+                self.client.create_table(table)
+                print("[Audit] Created triage audit table")
+            except Exception as e:
+                print(f"[Audit] Failed to create triage table: {e}")
 
     def _ensure_confirmation_table(self) -> None:
         """Create confirmation audit table if it doesn't exist."""
@@ -99,6 +151,34 @@ class AuditService:
                 print("[Audit] Created report downloads table")
             except Exception as e:
                 print(f"[Audit] Failed to create report downloads table: {e}")
+
+    def _ensure_export_download_table(self) -> None:
+        """Create CSV export downloads table if it doesn't exist."""
+        if not self.client:
+            return
+
+        schema = [
+            bigquery.SchemaField("download_id", "STRING"),
+            bigquery.SchemaField("timestamp", "TIMESTAMP"),
+            bigquery.SchemaField("export_type", "STRING"),
+            bigquery.SchemaField("scope", "STRING"),
+            bigquery.SchemaField("user_id", "STRING"),
+            bigquery.SchemaField("user_email", "STRING"),
+            bigquery.SchemaField("user_name", "STRING"),
+            bigquery.SchemaField("case_count", "INTEGER"),
+            bigquery.SchemaField("start_at", "TIMESTAMP"),
+            bigquery.SchemaField("end_at", "TIMESTAMP"),
+        ]
+
+        try:
+            self.client.get_table(self.export_download_table_id)
+        except Exception:
+            try:
+                table = bigquery.Table(self.export_download_table_id, schema=schema)
+                self.client.create_table(table)
+                print("[Audit] Created export downloads table")
+            except Exception as e:
+                print(f"[Audit] Failed to create export downloads table: {e}")
     
     def log_triage(
         self,
@@ -111,6 +191,10 @@ class AuditService:
         news2_breakdown: Dict[str, Any],
         recommended_esi: int,
         final_esi: int,
+        esi_baseline: Optional[int] = None,
+        esi_safe: Optional[int] = None,
+        safety_floors_applied: Optional[list] = None,
+        safety_floor_count: Optional[int] = None,
         extracted_features: Optional[Dict] = None,
         icd10_codes: Optional[list] = None,
         ai_confidence: Optional[float] = None,
@@ -144,6 +228,12 @@ class AuditService:
                 "ai_confidence": ai_confidence,
                 "recommended_esi": recommended_esi,
                 "final_esi": final_esi,
+                "esi_baseline": int(esi_baseline) if esi_baseline is not None else None,
+                "esi_safe": int(esi_safe) if esi_safe is not None else int(final_esi),
+                "safety_floors_applied": json.dumps(safety_floors_applied) if safety_floors_applied is not None else None,
+                "safety_floor_count": int(safety_floor_count) if safety_floor_count is not None else (
+                    len(safety_floors_applied or []) if safety_floors_applied is not None else 0
+                ),
                 "was_overridden": was_overridden,
                 "override_reason": override_reason,
                 "clinician_id": clinician_id,
@@ -282,6 +372,45 @@ class AuditService:
             return True
         except Exception as e:
             print(f"[Audit] Report download log failed: {e}")
+            return False
+
+    def log_export_download(
+        self,
+        export_type: str,
+        scope: str,
+        user_id: Optional[str],
+        user_email: Optional[str],
+        user_name: Optional[str],
+        case_count: int,
+        start_at: Optional[datetime] = None,
+        end_at: Optional[datetime] = None,
+    ) -> bool:
+        """Log CSV export downloads to BigQuery."""
+        if not self.client:
+            print("[Audit] Skipping export download log - no BigQuery client")
+            return False
+
+        try:
+            row = {
+                "download_id": str(uuid.uuid4()),
+                "timestamp": datetime.utcnow().isoformat(),
+                "export_type": export_type,
+                "scope": scope,
+                "user_id": user_id,
+                "user_email": user_email,
+                "user_name": user_name,
+                "case_count": int(case_count or 0),
+                "start_at": start_at.isoformat() if start_at else None,
+                "end_at": end_at.isoformat() if end_at else None,
+            }
+            errors = self.client.insert_rows_json(self.export_download_table_id, [row])
+            if errors:
+                print(f"[Audit] Export download insert errors: {errors}")
+                return False
+            print(f"[Audit] Logged {export_type} export for {user_email or user_id}")
+            return True
+        except Exception as e:
+            print(f"[Audit] Export download log failed: {e}")
             return False
 
 

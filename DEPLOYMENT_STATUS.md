@@ -10,7 +10,7 @@
 - [x] Stroke classification guardrails (English + Arabic acute neuro patterns)
 - [x] Category-specific action text routing
 - [x] Resource label keyword matching + bilingual labels
-- [x] Telegram direct alert service (no n8n dependency)
+- [x] FCM push alert service with SendGrid email fallback (no n8n dependency)
 - [x] Confirmation flow endpoints (`/confirm-triage/request`, `/confirm-triage`)
 - [x] BigQuery confirmation audit logging
 - [x] `/health` reports AI/RAG/QA/BigQuery/alerts status
@@ -47,10 +47,12 @@
 
 ## Required Env Vars (Runtime)
 - `UMLS_API_KEY`
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
+- `ALERT_FCM_TOPIC` (optional, defaults to `critical-alerts`)
+- `ALERT_FRONTEND_URL` (optional, used for dashboard deep links)
+- `GOOGLE_APPLICATION_CREDENTIALS` (optional for local Firebase Admin auth; Cloud Run uses its service account)
 - `ALERT_RECIPIENT_NAME`
 - `SENDGRID_API_KEY` (optional, enables email alerts)
+- `ALERT_EMAIL_RECIPIENTS` (optional, comma-separated email override)
 - `ALERT_EMAIL_TO` (required for SendGrid path)
 - `ALERT_EMAIL_FROM` (optional, defaults to `ALERT_EMAIL_TO`)
 - `SUPERVISOR_PIN`

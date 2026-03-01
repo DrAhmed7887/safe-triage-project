@@ -23,6 +23,7 @@ const isFirebaseConfigured = requiredKeys.every((key) => isValidValue(firebaseCo
 
 const FIREBASE_APP_URL = 'https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js';
 const FIREBASE_AUTH_URL = 'https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js';
+const FIREBASE_MESSAGING_URL = 'https://www.gstatic.com/firebasejs/10.12.4/firebase-messaging.js';
 
 let firebaseCache = null;
 
@@ -38,8 +39,18 @@ const ensureFirebase = async () => {
         : appModule.initializeApp(firebaseConfig);
     const auth = authModule.getAuth(app);
     const googleProvider = new authModule.GoogleAuthProvider();
-    firebaseCache = { auth, authModule, googleProvider };
+    firebaseCache = { app, auth, authModule, googleProvider };
     return firebaseCache;
+};
+
+const ensureMessaging = async () => {
+    const firebase = await ensureFirebase();
+    const messagingModule = await import(/* @vite-ignore */ FIREBASE_MESSAGING_URL);
+    return {
+        ...firebase,
+        messagingModule,
+        messaging: messagingModule.getMessaging(firebase.app),
+    };
 };
 
 const signInWithGoogle = async ({ rememberMe = true } = {}) => {
@@ -77,4 +88,11 @@ const getIdToken = async () => {
     return auth.currentUser.getIdToken();
 };
 
-export { isFirebaseConfigured, signInWithGoogle, signOutUser, subscribeToAuthChanges, getIdToken };
+export {
+    isFirebaseConfigured,
+    signInWithGoogle,
+    signOutUser,
+    subscribeToAuthChanges,
+    getIdToken,
+    ensureMessaging,
+};

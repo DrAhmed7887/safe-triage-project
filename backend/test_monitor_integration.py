@@ -57,7 +57,7 @@ def main() -> None:
     }
     response = requests.post(f"{API_URL}/monitor/vitals/ingest", json=critical_data, timeout=30)
     print(response.status_code, response.json())
-    print("Check Telegram/Email for critical alert.")
+    print("Check push/email delivery for the critical alert.")
 
 
 if __name__ == "__main__":

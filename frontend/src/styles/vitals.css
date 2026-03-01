@@ -1,0 +1,16 @@
+.glucose-input-card input.normal {
+  border-color: #16a34a;
+  background-color: #f0fdf4;
+}
+
+.glucose-input-card input.warning-low,
+.glucose-input-card input.warning-high {
+  border-color: #d97706;
+  background-color: #fffbeb;
+}
+
+.glucose-input-card input.critical-low,
+.glucose-input-card input.critical-high {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}

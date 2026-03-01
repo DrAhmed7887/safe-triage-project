@@ -17,6 +17,7 @@ Version: 2.0.0 (Phase 2 Audit Fixes)
 
 import os
 import json
+import copy
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 
@@ -487,13 +488,23 @@ DEFAULT_KEYWORDS = {
                 # English - PHASE 2: Added time-sensitive qualifiers
                 "stroke", "cva", "brain attack", "face drooping", "arm weakness",
                 "speech difficulty", "slurred speech", "sudden weakness",
+                "can't speak", "cannot speak", "unable to speak", "difficulty speaking",
+                "loss of speech", "sudden speech loss", "inability to speak", "sudden inability to speak",
+                "facial droop", "face drooping",
+                "one side weakness", "one sided weakness", "hemiplegia", "aphasia", "dysarthria",
                 "weakness started now", "wake up stroke", "started suddenly",
                 "sudden numbness", "sudden vision loss", "sudden confusion",
                 "arm drift", "balance problems", "double vision",
                 # Arabic MSA
                 "سكتة دماغية", "جلطة دماغية", "شلل نصفي",
+                "فقدان النطق", "فقدان الكلام", "عدم القدرة على الكلام", "عدم القدرة على التكلم",
                 # Egyptian Arabic - Standard
                 "جلطة", "شلل", "مش قادر يتكلم", "وشه مايل",
+                "وشي مايل", "وشي اتعوج", "وشه اتعوج", "نص وشي وقع", "نص وشه وقع",
+                "كلامي مش واضح", "كلامي اتلخبط", "كلامه اتلخبط", "بيتكلم غريب",
+                "مش قادر اتكلم", "مش قادر أتكلم", "مبقتش قادر اتكلم",
+                "لساني اتلت", "لسانه اتلت", "لساني تقيل", "لسانه تقيل",
+                "مش قادر ينطق", "مش قادر يتكلم", "بيكلم ومش مفهوم",
                 "نص جسمه", "نص جسمي مش بيتحرك", "ايده مش بتتحرك", "بيشوف ضلم",
                 "بقع سودا", "فقد البصر", "مش شايف", "فجأة مش شايف",
                 "نص وشه وقع", "وشه وقع", "مش قادر يرفع ايده",
@@ -1267,6 +1278,83 @@ class KeywordDatabase:
         """Invalidate cached keyword search index."""
         self._search_index = None
 
+    @staticmethod
+    def _normalize_keyword_key(keyword: str) -> str:
+        return (
+            " ".join(str(keyword or "").strip().lower().split())
+            .replace("أ", "ا")
+            .replace("إ", "ا")
+            .replace("آ", "ا")
+        )
+
+    def _merge_keywords_unique(self, existing: List[str], defaults: List[str]) -> List[str]:
+        merged = list(existing or [])
+        seen = {self._normalize_keyword_key(item) for item in merged}
+        for keyword in defaults or []:
+            normalized = self._normalize_keyword_key(keyword)
+            if normalized and normalized not in seen:
+                merged.append(keyword)
+                seen.add(normalized)
+        return merged
+
+    def _merge_with_defaults(self, loaded_data: dict) -> Tuple[dict, bool]:
+        """
+        Merge newly added default keywords/categories into existing on-disk DB
+        without deleting prior AI/user additions.
+        """
+        merged = copy.deepcopy(loaded_data or {})
+        changed = False
+
+        if "metadata" not in merged:
+            merged["metadata"] = {}
+            changed = True
+        default_version = str(DEFAULT_KEYWORDS.get("metadata", {}).get("version", "2.0.0"))
+        current_version = str(merged.get("metadata", {}).get("version", "0.0.0"))
+        if current_version < default_version:
+            merged["metadata"]["version"] = default_version
+            changed = True
+
+        for level_key in ("level_1", "level_2", "level_3", "level_4", "level_5"):
+            default_level = DEFAULT_KEYWORDS.get(level_key, {})
+            if level_key not in merged:
+                merged[level_key] = {}
+                changed = True
+            merged_level = merged[level_key]
+            for category, default_info in default_level.items():
+                if category not in merged_level:
+                    merged_level[category] = copy.deepcopy(default_info)
+                    changed = True
+                    continue
+
+                target = merged_level[category]
+                merged_keywords = self._merge_keywords_unique(
+                    target.get("keywords", []),
+                    default_info.get("keywords", []),
+                )
+                if merged_keywords != target.get("keywords", []):
+                    target["keywords"] = merged_keywords
+                    changed = True
+
+                merged_added = self._merge_keywords_unique(
+                    target.get("added_by_ai", []),
+                    default_info.get("added_by_ai", []),
+                )
+                if merged_added != target.get("added_by_ai", []):
+                    target["added_by_ai"] = merged_added
+                    changed = True
+
+                for field in (
+                    "priority",
+                    "resource_count",
+                    "expected_resources",
+                    "requires_immediate_intervention",
+                ):
+                    if field not in target and field in default_info:
+                        target[field] = copy.deepcopy(default_info[field])
+                        changed = True
+
+        return merged, changed
+
     def _build_search_index(self):
         """Build cached keyword search index for fast lookups."""
         all_keywords = []
@@ -1294,7 +1382,10 @@ class KeywordDatabase:
                         print("Upgrading keyword database to v2.0.0...")
                         self._save(DEFAULT_KEYWORDS)
                         return DEFAULT_KEYWORDS.copy()
-                    return loaded_data
+                    merged_data, changed = self._merge_with_defaults(loaded_data)
+                    if changed:
+                        self._save(merged_data)
+                    return merged_data
             except Exception as e:
                 print(f"Error loading keyword database: {e}")
                 return DEFAULT_KEYWORDS.copy()

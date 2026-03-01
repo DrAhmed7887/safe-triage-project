@@ -28,7 +28,7 @@ async def send_disaster_alert(case: Dict) -> Dict:
             f"Action: {case.get('recommended_action', 'Manual physician review now')}",
             "Immediate senior review required",
         ],
-        "clinician": "MedGemma-2B QA Agent",
+        "clinician": "MedGemma-1.5-4B QA Agent",
         "timestamp": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
     }
     return await send_alert_async(payload)
@@ -58,8 +58,7 @@ async def send_hourly_report(results: Dict) -> Dict:
         "snomed_code": "",
         "snomed_term": "",
         "recommended": ["Open analytics dashboard for flagged case details"],
-        "clinician": "MedGemma-2B QA Agent",
+        "clinician": "MedGemma-1.5-4B QA Agent",
         "timestamp": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
     }
     return await send_alert_async(payload)
-

@@ -2,9 +2,9 @@
 
 FEMALE_ONLY_COMPLAINTS = [
     "vaginal bleeding", "vaginal discharge", "menstrual", "pregnant", 
-    "pregnancy", "labor", "ovarian", "uterine", "cervical", "miscarriage",
+    "pregnancy", "labor", "ovarian", "uterine", "cervix", "cervical os", "miscarriage",
     "نزيف مهبلي", "إفرازات مهبلية", "دورة شهرية", "حامل", "حمل", 
-    "ولادة", "طلق", "مبيض", "رحم", "إجهاض"
+    "ولادة", "طلق", "مبيض", "رحم", "عنق الرحم", "إجهاض"
 ]
 
 MALE_ONLY_COMPLAINTS = [

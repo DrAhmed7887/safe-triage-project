@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import TriageForm from '../components/TriageForm';
 import TriageResult from '../components/TriageResult';
 import PatientList from '../components/PatientList';
-import TriageStats from '../components/TriageStats';
+import TriageStatsWidget from '../components/TriageStatsWidget';
+import NotificationBell from '../components/NotificationBell';
 import { Activity, ClipboardList, LogOut, BarChart3 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -73,6 +74,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
+                        <NotificationBell />
                         <button
                             onClick={() => navigate('/analytics/dashboard')}
                             disabled={!isSupervisor}
@@ -129,7 +131,7 @@ export default function Dashboard() {
 
                 {/* Statistics Dashboard */}
                 <div className="mt-8">
-                    <TriageStats />
+                    <TriageStatsWidget />
                 </div>
             </main>
 

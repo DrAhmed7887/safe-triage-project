@@ -18,3 +18,8 @@ build/
 venv/
 tests/
 *.log
+
+# Optional offline semantic assets (only required when TRIAGE_OFFLINE_MODE=true)
+egybert_model/*
+!egybert_model/.keep
+keyword_embeddings.pt

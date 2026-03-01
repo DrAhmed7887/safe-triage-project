@@ -1,8 +1,67 @@
+# Dependencies
 node_modules/
 venv/
 __pycache__/
 *.pyc
-.DS_Store
-*.db
+*.pyo
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Environment and secrets
 .env
+.env.local
+.env.production
+.env.*.local
+*.pem
+*.key
+service-account*.json
+*-credentials.json
+
+# Firebase and Google Cloud
+.firebase/
+frontend/.firebase/
+firebase-debug.log
+.gcloudignore
+.gcloud/
+
+# Local tooling outputs
+.agent/
+.playwright-cli/
+output/playwright/
+
+# Browser and temp data
+tmp/
+chrome_profile*/
+Default/
+Preferences
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Databases
+*.db
+*.sqlite3
+!backend/umls_cache.db
+
+# Logs and cache
+*.log
+logs/
+.cache/
+.pytest_cache/
+
+# Optional local model weights
+backend/egybert_model/*.safetensors
+
+# Legacy local-only files
 test_ai.py

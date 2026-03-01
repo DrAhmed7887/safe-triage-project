@@ -1,8 +1,12 @@
 import io
+import csv
 import json
 import os
+import hashlib
+import re
+import logging
 from datetime import datetime, date as date_type
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional, Tuple
 
 from google.cloud import bigquery
 from reportlab.lib import colors
@@ -15,6 +19,10 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 
 import arabic_reshaper
 from bidi.algorithm import get_display
+try:
+    from umls_rag import UMLSMedicalRAG
+except ImportError:  # pragma: no cover - package import fallback
+    from backend.umls_rag import UMLSMedicalRAG
 
 GAHAR_NOTICE = "🏥 According to GAHAR Standards | وفقاً لمعايير الجهار"
 CONF_HEADER_EN = "CONFIDENTIAL — Authorized Personnel Only"
@@ -33,7 +41,48 @@ CONF_WATERMARK_AR = "سري"
 PROJECT_ID = os.getenv("PROJECT_ID", "safe-triage-ai")
 DATASET_ID = os.getenv("DATASET_ID", "safe_triage_audit")
 TRIAGE_TABLE = os.getenv("TRIAGE_TABLE", "triage_logs")
+CONFIRMATION_TABLE = os.getenv("CONFIRMATION_TABLE", "triage_confirmations")
 BQ_LOCATION = os.getenv("BQ_LOCATION", "me-west1")
+
+EXPORT_COLUMNS = [
+    "CaseTimestamp",
+    "PatientID",
+    "Name",
+    "Age",
+    "Gender",
+    "Complaint",
+    "RecommendedESI",
+    "FinalESI",
+    "NEWS2Score",
+    "AIConfidence",
+]
+
+PERSONAL_EXPORT_SCOPE = "Personal cases only (NOT system-wide)"
+SYSTEM_EXPORT_SCOPE = "System-wide cases (Supervisor export)"
+
+PHONE_PATTERN = re.compile(r"\b(?:\+?2)?0?1[0125]\d{8}\b")
+NAME_PATTERN = re.compile(
+    r"\b(محمد|أحمد|علي|مصطفى|احمد|عبدالله|يوسف|mohamed|mohammed|ahmed|ali|mostafa|mustafa)\b",
+    flags=re.IGNORECASE,
+)
+EMAIL_PATTERN = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
+ADDRESS_PATTERN = re.compile(
+    r"\b\d{1,5}\s+(?:street|st\.?|road|rd\.?|avenue|ave\.?|lane|ln\.?|building|block|apt|apartment)\b[^,;\n]*",
+    flags=re.IGNORECASE,
+)
+ARABIC_ADDRESS_PATTERN = re.compile(r"(?:شارع|عمارة|مبنى)\s+\S+", flags=re.IGNORECASE)
+logger = logging.getLogger(__name__)
+_UMLS_RAG_INSTANCE: Optional[UMLSMedicalRAG] = None
+
+ICD10_NAME_FALLBACK = {
+    "R51": "Headache",
+    "R04.0": "Epistaxis",
+    "R10.4": "Abdominal pain, unspecified",
+    "R07.9": "Chest pain, unspecified",
+    "R06.0": "Dyspnea",
+    "R12": "Heartburn",
+    "R69": "Illness, unspecified",
+}
 
 
 def _table_ref(name: str) -> str:
@@ -80,6 +129,337 @@ def _parse_date(value: str | None) -> date_type:
     return datetime.strptime(value, "%Y-%m-%d").date()
 
 
+def _safe_text(value: Any) -> str:
+    if value is None:
+        return ""
+    return str(value).strip()
+
+
+def _get_umls_rag() -> UMLSMedicalRAG:
+    global _UMLS_RAG_INSTANCE
+    if _UMLS_RAG_INSTANCE is None:
+        cache_path = os.path.join(os.path.dirname(__file__), "umls_cache.db")
+        _UMLS_RAG_INSTANCE = UMLSMedicalRAG(cache_path)
+    return _UMLS_RAG_INSTANCE
+
+
+def _parse_code_list(value: Any) -> List[str]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item).strip()]
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return []
+        if text.startswith("["):
+            try:
+                parsed = json.loads(text)
+                if isinstance(parsed, list):
+                    return [str(item).strip() for item in parsed if str(item).strip()]
+            except Exception:
+                pass
+        return [text]
+    return [str(value).strip()]
+
+
+def lookup_snomed_name(snomed_code: Any) -> str:
+    code = _safe_text(snomed_code)
+    if not code:
+        return ""
+    rag = _get_umls_rag()
+    term = rag.lookup_snomed_term(code)
+    return term or f"Code: {code}"
+
+
+def lookup_icd10_name(icd10_code: Any) -> str:
+    code = _safe_text(icd10_code)
+    if not code:
+        return ""
+    rag = _get_umls_rag()
+    try:
+        cursor = rag.conn.execute(
+            "SELECT description FROM icd10_cache WHERE icd10_code = ? LIMIT 1",
+            (code,),
+        )
+        row = cursor.fetchone()
+        if row and row[0]:
+            return str(row[0]).strip()
+    except Exception:
+        pass
+    return ICD10_NAME_FALLBACK.get(code.upper(), f"Code: {code}")
+
+
+def resolve_clinical_codes(snomed_code: Any, icd10_code: Any) -> Tuple[str, str]:
+    """Resolve codes to human-readable names with graceful fallback."""
+    snomed_label = _safe_text(snomed_code)
+    icd10_label = _safe_text(icd10_code)
+    try:
+        snomed_name = lookup_snomed_name(snomed_code)
+    except Exception:
+        snomed_name = f"Code: {snomed_label}" if snomed_label else "Unknown"
+    try:
+        icd10_name = lookup_icd10_name(icd10_code)
+    except Exception:
+        icd10_name = f"Code: {icd10_label}" if icd10_label else "Unknown"
+    return snomed_name, icd10_name
+
+
+def _resolve_case_clinical_identity(case: Dict[str, Any]) -> None:
+    snomed_codes = _parse_code_list(case.get("snomed_codes") or case.get("snomed_code"))
+    icd10_codes = _parse_code_list(case.get("icd10_codes") or case.get("icd10_code") or case.get("icd10"))
+    snomed_code = snomed_codes[0] if snomed_codes else ""
+    icd10_code = icd10_codes[0] if icd10_codes else ""
+    try:
+        snomed_name, icd10_name = resolve_clinical_codes(snomed_code, icd10_code)
+    except Exception as exc:
+        logger.warning("Code resolution failed for case %s: %s", case.get("patient_id"), exc)
+        snomed_name = snomed_code or "Unknown"
+        icd10_name = icd10_code or "Unknown"
+    case["snomed_name"] = snomed_name
+    case["icd10_name"] = icd10_name
+
+
+def _anonymized_patient_id(patient_id: Any, clinician_id: str) -> str:
+    patient_raw = _safe_text(patient_id)
+    if not patient_raw:
+        return "ANON_UNKNOWN"
+    digest = hashlib.sha256(f"{patient_raw}{clinician_id}".encode("utf-8")).hexdigest()[:8].upper()
+    return f"ANON_{digest}"
+
+
+def redact_pii(text: Any) -> str:
+    source = _safe_text(text)
+    if not source:
+        return ""
+    redacted = PHONE_PATTERN.sub("[PHONE]", source)
+    redacted = EMAIL_PATTERN.sub("[EMAIL]", redacted)
+    redacted = ADDRESS_PATTERN.sub("[ADDRESS]", redacted)
+    redacted = ARABIC_ADDRESS_PATTERN.sub("[ADDRESS]", redacted)
+    redacted = NAME_PATTERN.sub("[NAME]", redacted)
+    return redacted
+
+
+def _format_timestamp(value: Any) -> str:
+    if isinstance(value, datetime):
+        return value.strftime("%Y-%m-%d %H:%M:%S")
+    text_value = _safe_text(value)
+    if not text_value:
+        return ""
+    try:
+        return datetime.fromisoformat(text_value.replace("Z", "+00:00")).strftime("%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return text_value
+
+
+def anonymize_patient_data(rows: List[Dict[str, Any]], clinician_id: str) -> List[Dict[str, Any]]:
+    """Apply Safe Harbor de-identification to export rows."""
+    anonymized_rows: List[Dict[str, Any]] = []
+    for row in rows:
+        anonymized_rows.append(
+            {
+                "CaseTimestamp": _format_timestamp(row.get("case_timestamp") or row.get("timestamp")),
+                "PatientID": _anonymized_patient_id(row.get("patient_id"), clinician_id),
+                "Name": "[Redacted]",
+                "Age": row.get("age", "") if row.get("age") is not None else "",
+                "Gender": _safe_text(row.get("gender")),
+                "Complaint": redact_pii(row.get("chief_complaint") or row.get("complaint")),
+                "RecommendedESI": row.get("recommended_esi", "") if row.get("recommended_esi") is not None else "",
+                "FinalESI": row.get("final_esi", "") if row.get("final_esi") is not None else "",
+                "NEWS2Score": row.get("news2_score", "") if row.get("news2_score") is not None else "",
+                "AIConfidence": row.get("ai_confidence", "") if row.get("ai_confidence") is not None else "",
+            }
+        )
+    return anonymized_rows
+
+
+def _run_rows_query(
+    query: str,
+    params: Optional[List[bigquery.ScalarQueryParameter]] = None,
+) -> List[Dict[str, Any]]:
+    client = bigquery.Client(project=PROJECT_ID, location=BQ_LOCATION)
+    job_config = bigquery.QueryJobConfig(query_parameters=params or [])
+    rows = client.query(query, job_config=job_config, location=BQ_LOCATION).result()
+    return [dict(row) for row in rows]
+
+
+def fetch_personal_export_cases(clinician_id: str) -> List[Dict[str, Any]]:
+    params = [bigquery.ScalarQueryParameter("clinician_id", "STRING", clinician_id)]
+    # Intentional scope restriction: personal export is limited to the requesting clinician's cases.
+    query_with_confirmation = f"""
+        SELECT
+            t.timestamp AS case_timestamp,
+            t.patient_id,
+            t.age,
+            t.gender,
+            t.chief_complaint,
+            t.recommended_esi,
+            t.final_esi,
+            t.news2_score,
+            t.ai_confidence,
+            t.icd10_codes
+        FROM `{_table_ref(TRIAGE_TABLE)}` AS t
+        WHERE
+            t.clinician_id = @clinician_id
+            OR EXISTS (
+                SELECT 1
+                FROM `{_table_ref(CONFIRMATION_TABLE)}` AS c
+                WHERE c.patient_id = t.patient_id
+                  AND c.clinician_id = @clinician_id
+            )
+        ORDER BY t.timestamp DESC
+    """
+    try:
+        cases = _run_rows_query(query_with_confirmation, params)
+        for case in cases:
+            try:
+                _resolve_case_clinical_identity(case)
+            except Exception as exc:
+                logger.warning("Code resolution failed for case %s: %s", case.get("patient_id"), exc)
+        return cases
+    except Exception:
+        fallback_query = f"""
+            SELECT
+                t.timestamp AS case_timestamp,
+                t.patient_id,
+                t.age,
+                t.gender,
+                t.chief_complaint,
+                t.recommended_esi,
+                t.final_esi,
+                t.news2_score,
+                t.ai_confidence,
+                t.icd10_codes
+            FROM `{_table_ref(TRIAGE_TABLE)}` AS t
+            WHERE t.clinician_id = @clinician_id
+            ORDER BY t.timestamp DESC
+        """
+        cases = _run_rows_query(fallback_query, params)
+        for case in cases:
+            try:
+                _resolve_case_clinical_identity(case)
+            except Exception as exc:
+                logger.warning("Code resolution failed for case %s: %s", case.get("patient_id"), exc)
+        return cases
+
+
+def fetch_system_wide_export_cases(
+    start_at: Optional[datetime] = None,
+    end_at: Optional[datetime] = None,
+) -> List[Dict[str, Any]]:
+    query = f"""
+        SELECT
+            t.timestamp AS case_timestamp,
+            t.patient_id,
+            t.age,
+            t.gender,
+            t.chief_complaint,
+            t.recommended_esi,
+            t.final_esi,
+            t.news2_score,
+            t.ai_confidence,
+            t.icd10_codes
+        FROM `{_table_ref(TRIAGE_TABLE)}` AS t
+        WHERE (@start_at IS NULL OR t.timestamp >= @start_at)
+          AND (@end_at IS NULL OR t.timestamp <= @end_at)
+        ORDER BY t.timestamp DESC
+    """
+    params = [
+        bigquery.ScalarQueryParameter("start_at", "TIMESTAMP", start_at),
+        bigquery.ScalarQueryParameter("end_at", "TIMESTAMP", end_at),
+    ]
+    cases = _run_rows_query(query, params)
+    for case in cases:
+        try:
+            _resolve_case_clinical_identity(case)
+        except Exception as exc:
+            logger.warning("Code resolution failed for case %s: %s", case.get("patient_id"), exc)
+    return cases
+
+
+def _build_export_metadata(
+    *,
+    generated_at: datetime,
+    clinician_id: str,
+    scope_label: str,
+    requested_by: Optional[str] = None,
+    start_at: Optional[datetime] = None,
+    end_at: Optional[datetime] = None,
+) -> List[str]:
+    lines = [
+        "SAFE-Triage Export",
+        f"Generated: {generated_at.strftime('%Y-%m-%d %H:%M:%S UTC')}",
+        f"Clinician ID: {clinician_id}",
+        f"Scope: {scope_label}",
+        "Privacy: Safe Harbor de-identified",
+        "For quality review purposes only - handle securely",
+    ]
+    if requested_by:
+        lines.append(f"Requested By: {requested_by}")
+    if start_at or end_at:
+        range_start = start_at.strftime("%Y-%m-%d %H:%M:%S") if start_at else "Open"
+        range_end = end_at.strftime("%Y-%m-%d %H:%M:%S") if end_at else "Open"
+        lines.append(f"Date Range: {range_start} -> {range_end}")
+    return lines
+
+
+def _rows_to_csv_text(rows: List[Dict[str, Any]], metadata_lines: List[str]) -> str:
+    output = io.StringIO()
+    for line in metadata_lines:
+        output.write(f"# {line}\n")
+    output.write("#\n")
+    writer = csv.DictWriter(output, fieldnames=EXPORT_COLUMNS, extrasaction="ignore")
+    writer.writeheader()
+    for row in rows:
+        writer.writerow({column: row.get(column, "") for column in EXPORT_COLUMNS})
+    output.write("#\n")
+    output.write("# Export action is logged and auditable\n")
+    output.write("# Retention guidance: delete after 30 days unless policy requires otherwise\n")
+    return output.getvalue()
+
+
+def export_triage_csv(clinician_id: str) -> Tuple[str, str, int]:
+    """Export this clinician's cases with Safe Harbor de-identification."""
+    cases = fetch_personal_export_cases(clinician_id)
+    anonymized_rows = anonymize_patient_data(cases, clinician_id)
+    generated_at = datetime.utcnow()
+    metadata = _build_export_metadata(
+        generated_at=generated_at,
+        clinician_id=clinician_id,
+        scope_label=PERSONAL_EXPORT_SCOPE,
+    )
+    csv_text = _rows_to_csv_text(anonymized_rows, metadata)
+    filename = f"triage_export_{generated_at.strftime('%Y%m%d_%H%M%S')}.csv"
+    return csv_text, filename, len(anonymized_rows)
+
+
+def export_triage_csv_with_metadata(clinician_id: str) -> Tuple[str, str, int]:
+    """Backward-compatible alias with explicit metadata naming."""
+    return export_triage_csv(clinician_id)
+
+
+def export_system_wide_csv(
+    requested_by: str,
+    start_at: Optional[datetime] = None,
+    end_at: Optional[datetime] = None,
+) -> Tuple[str, str, int]:
+    """Supervisor-only system-wide export with de-identification."""
+    cases = fetch_system_wide_export_cases(start_at=start_at, end_at=end_at)
+    anonymized_rows = anonymize_patient_data(cases, "SYSTEM_EXPORT")
+    generated_at = datetime.utcnow()
+    metadata = _build_export_metadata(
+        generated_at=generated_at,
+        clinician_id="SYSTEM_EXPORT",
+        scope_label=SYSTEM_EXPORT_SCOPE,
+        requested_by=requested_by,
+        start_at=start_at,
+        end_at=end_at,
+    )
+    csv_text = _rows_to_csv_text(anonymized_rows, metadata)
+    filename = f"triage_system_export_{generated_at.strftime('%Y%m%d_%H%M%S')}.csv"
+    return csv_text, filename, len(anonymized_rows)
+
+
 def fetch_cases(report_date: date_type) -> List[Dict[str, Any]]:
     client = bigquery.Client(project=PROJECT_ID, location=BQ_LOCATION)
     query = f"""
@@ -102,12 +482,14 @@ def fetch_cases(report_date: date_type) -> List[Dict[str, Any]]:
     rows = client.query(query, job_config=job_config, location=BQ_LOCATION).result()
     cases = []
     for row in rows:
-        icd10_codes = []
-        try:
-            if row.icd10_codes:
-                icd10_codes = json.loads(row.icd10_codes)
-        except Exception:
-            icd10_codes = [row.icd10_codes]
+        icd10_codes = _parse_code_list(row.icd10_codes)
+        icd10_display = []
+        for code in icd10_codes:
+            _, icd10_name = resolve_clinical_codes("", code)
+            if code and icd10_name:
+                icd10_display.append(f"{code} ({icd10_name})")
+            elif code:
+                icd10_display.append(code)
         cases.append({
             "patient_id": row.patient_id,
             "age": row.age,
@@ -116,7 +498,7 @@ def fetch_cases(report_date: date_type) -> List[Dict[str, Any]]:
             "final_esi": row.final_esi,
             "news2_score": row.news2_score,
             "clinician_id": row.clinician_id,
-            "icd10": ", ".join([code for code in icd10_codes if code]) if icd10_codes else "",
+            "icd10": ", ".join(icd10_display) if icd10_display else "",
         })
     return cases
 

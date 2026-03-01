@@ -107,8 +107,8 @@ ICD10_MAPPING = {
         "category": "Hip fracture"
     },
     "stroke_symptoms": {
-        "code": "I64",
-        "description": "Stroke, not specified as hemorrhage or infarction",
+        "code": "I63.9",
+        "description": "Cerebral infarction, unspecified",
         "category": "Stroke"
     },
     "respiratory_distress": {

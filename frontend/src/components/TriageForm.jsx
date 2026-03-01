@@ -30,9 +30,49 @@ import {
     VitalInput, 
     CheckboxCard 
 } from './ui/FormComponents';
+import ConfirmationDialog from './ConfirmationDialog';
+import '../styles/vitals.css';
 
 const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_API_URL || 'http://localhost:8000';
 const MONITOR_POLL_MS = 10000;
+
+const CHIEF_COMPLAINT_VALIDATION = {
+    MIN_LENGTH: 3,
+    MAX_LENGTH: 500,
+    REQUIRES_LETTERS: /[a-zA-Zأ-ي]/,
+    ONLY_NUMBERS: /^\d+$/,
+    ONLY_SPECIAL_CHARS: /^[^a-zA-Zأ-ي0-9]+$/
+};
+
+const REQUIRED_VITALS = ['hr', 'sbp', 'dbp', 'rr', 'spo2', 'temp', 'consciousness'];
+
+const ESI1_BYPASS_KEYWORDS = [
+    'cardiac arrest',
+    'respiratory arrest',
+    'not breathing',
+    'unconscious',
+    'active seizure',
+    'massive hemorrhage',
+    'severe trauma',
+    'anaphylaxis',
+    'توقف القلب',
+    'توقف التنفس',
+    'مش بيتنفس',
+    'فاقد الوعي',
+    'تشنج',
+    'نزيف شديد',
+    'إصابة شديدة',
+];
+
+const VITAL_RANGES = {
+    hr: { min: 20, max: 250, unit: 'bpm', name: 'Heart Rate', nameAr: 'معدل القلب' },
+    sbp: { min: 50, max: 250, unit: 'mmHg', name: 'Systolic BP', nameAr: 'الضغط الانقباضي' },
+    dbp: { min: 20, max: 150, unit: 'mmHg', name: 'Diastolic BP', nameAr: 'الضغط الانبساطي' },
+    rr: { min: 4, max: 60, unit: '/min', name: 'Respiratory Rate', nameAr: 'معدل التنفس' },
+    spo2: { min: 50, max: 100, unit: '%', name: 'SpO2', nameAr: 'تشبع الأكسجين' },
+    temp: { min: 30, max: 45, unit: '°C', name: 'Temperature', nameAr: 'الحرارة' },
+    blood_glucose: { min: 20, max: 1000, unit: 'mg/dL', name: 'Blood Glucose', nameAr: 'سكر الدم' },
+};
 
 export default function TriageForm({ onResult }) {
     // ==================== STATE MANAGEMENT ====================
@@ -52,7 +92,7 @@ export default function TriageForm({ onResult }) {
         chief_complaint_text: '',
         
         // Vital Signs (NEWS2)
-        vitals: { hr: '', rr: '', spo2: '', temp: '', sbp: '', dbp: '' },
+        vitals: { hr: '', rr: '', spo2: '', temp: '', sbp: '', dbp: '', blood_glucose: '' },
         
         // Legacy red flags (kept for API compatibility)
         red_flags: { history_cardiac: false, history_stroke: false, immuno_compromised: false },
@@ -92,6 +132,9 @@ export default function TriageForm({ onResult }) {
     const [monitorNews2Score, setMonitorNews2Score] = useState(null);
     const [loadingVitals, setLoadingVitals] = useState(false);
     const [manualVitalsUnlocked, setManualVitalsUnlocked] = useState(false);
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const [unusualVitals, setUnusualVitals] = useState([]);
+    const [mrnError, setMrnError] = useState('');
     
     // Voice Recording State
     const [isRecording, setIsRecording] = useState(false);
@@ -171,6 +214,7 @@ export default function TriageForm({ onResult }) {
                         rr: data?.vitals?.rr ?? '',
                         spo2: data?.vitals?.spo2 ?? '',
                         temp: data?.vitals?.temp ?? '',
+                        blood_glucose: data?.vitals?.blood_glucose ?? '',
                     },
                 }));
 
@@ -215,6 +259,17 @@ export default function TriageForm({ onResult }) {
             ...prev,
             vitals: { ...prev.vitals, [name]: value ? parseFloat(value) : '' }
         }));
+    };
+
+    const handleMrnChange = (event) => {
+        const rawValue = event.target.value || '';
+        const numericOnly = rawValue.replace(/\D/g, '');
+        setFormData((prev) => ({ ...prev, patient_id: numericOnly }));
+        if (rawValue !== numericOnly) {
+            setMrnError('MRN must contain numbers only / الرقم الطبي يجب أن يحتوي على أرقام فقط');
+        } else {
+            setMrnError('');
+        }
     };
 
     // ==================== VOICE RECORDING ====================
@@ -278,7 +333,14 @@ export default function TriageForm({ onResult }) {
                 }));
             }
         } catch (err) {
-            setError('Transcription failed. Ensure backend is running. | فشل التفريغ الصوتي. تأكد من تشغيل الخادم.');
+            const backendDetail = err?.response?.data?.detail || err?.response?.data?.error;
+            if (backendDetail) {
+                setError(`Transcription failed: ${backendDetail} | فشل التفريغ الصوتي: ${backendDetail}`);
+            } else if (!err?.response) {
+                setError('Transcription failed: cannot reach backend API. | فشل التفريغ الصوتي: تعذر الوصول إلى الخادم.');
+            } else {
+                setError('Transcription failed due to backend error. | فشل التفريغ الصوتي بسبب خطأ في الخادم.');
+            }
         } finally {
             setIsTranscribing(false);
         }
@@ -315,60 +377,138 @@ export default function TriageForm({ onResult }) {
 
     // ==================== VALIDATION ====================
     
-    /**
-     * Validate form values and return warnings for unusual inputs
-     * Prevents accidental data entry errors (e.g., age 250 instead of 25)
-     * Returns array of warning messages to show in confirmation dialog
-     */
-    const validateWithConfirmation = () => {
+    const validateChiefComplaint = (complaint) => {
+        const text = (complaint || '').trim();
+        if (!text || text.length < CHIEF_COMPLAINT_VALIDATION.MIN_LENGTH) {
+            return {
+                valid: false,
+                error: 'Chief complaint too short - minimum 3 characters',
+                errorAr: 'الشكوى قصيرة جدًا - 3 أحرف على الأقل'
+            };
+        }
+        if (text.length > CHIEF_COMPLAINT_VALIDATION.MAX_LENGTH) {
+            return {
+                valid: false,
+                error: 'Chief complaint too long - maximum 500 characters',
+                errorAr: 'الشكوى طويلة جدًا - 500 حرف كحد أقصى'
+            };
+        }
+        if (!CHIEF_COMPLAINT_VALIDATION.REQUIRES_LETTERS.test(text)) {
+            return {
+                valid: false,
+                error: 'Chief complaint must contain letters (Arabic or English)',
+                errorAr: 'يجب أن تحتوي الشكوى على حروف (عربية أو إنجليزية)'
+            };
+        }
+        if (CHIEF_COMPLAINT_VALIDATION.ONLY_NUMBERS.test(text)) {
+            return {
+                valid: false,
+                error: 'Invalid input - chief complaint cannot be only numbers',
+                errorAr: 'إدخال غير صالح - لا يمكن أن تكون الشكوى أرقامًا فقط'
+            };
+        }
+        if (CHIEF_COMPLAINT_VALIDATION.ONLY_SPECIAL_CHARS.test(text)) {
+            return {
+                valid: false,
+                error: 'Invalid input - chief complaint must contain words',
+                errorAr: 'إدخال غير صالح - يجب أن تحتوي الشكوى على كلمات'
+            };
+        }
+        const wordCount = text.split(/\s+/).filter(Boolean).length;
+        if (wordCount < 2 && text.length < 10) {
+            return {
+                valid: false,
+                error: 'Please provide more detail about the patient\'s complaint',
+                errorAr: 'يرجى تقديم المزيد من التفاصيل حول شكوى المريض'
+            };
+        }
+        return { valid: true };
+    };
+
+    const validateVitalSigns = (vitals) => {
+        const errors = [];
         const warnings = [];
-        const age = parseFloat(formData.age);
-        const hr = formData.vitals.hr ? parseInt(formData.vitals.hr) : null;
-        const rr = formData.vitals.rr ? parseInt(formData.vitals.rr) : null;
-        const spo2 = formData.vitals.spo2 ? parseFloat(formData.vitals.spo2) : null;
-        const sbp = formData.vitals.sbp ? parseInt(formData.vitals.sbp) : null;
-        const temp = formData.vitals.temp ? parseFloat(formData.vitals.temp) : null;
+        const payload = { ...vitals, consciousness };
+        const complaintText = (formData.chief_complaint_text || '').toLowerCase();
+        const bypassAllowed = ESI1_BYPASS_KEYWORDS.some((token) => complaintText.includes(token));
 
-        // Age validation (oldest recorded human was 122)
-        if (age > 120) {
-            warnings.push(`⚠️ Age ${age} years is above 120. Did you mean ${Math.floor(age / 10)}?`);
-        } else if (age > 100) {
-            warnings.push(`⚠️ Age ${age} years - Please confirm this is correct.`);
-        } else if (age < 0) {
-            warnings.push(`⚠️ Age cannot be negative.`);
+        const missing = REQUIRED_VITALS.filter((field) => {
+            const value = payload[field];
+            return value === null || value === undefined || value === '';
+        });
+        if (missing.length > 0 && !bypassAllowed) {
+            errors.push({
+                type: 'missing_vitals',
+                message: `Missing required vital signs: ${missing.map((m) => (VITAL_RANGES[m]?.name || m)).join(', ')}`,
+                messageAr: `قياسات حيوية مطلوبة مفقودة: ${missing.map((m) => (VITAL_RANGES[m]?.nameAr || m)).join('، ')}`,
+                fields: missing
+            });
+        } else if (missing.length > 0 && bypassAllowed) {
+            warnings.push({
+                type: 'esi1_vitals_bypass',
+                message: 'Life-threatening complaint detected - proceed now and complete vitals during resuscitation.',
+                messageAr: 'تم اكتشاف حالة مهددة للحياة - تابع الآن واستكمل العلامات الحيوية أثناء الإنعاش.',
+                severity: 'critical',
+            });
         }
 
-        // Heart Rate validation (normal: 60-100 bpm)
-        if (hr !== null) {
-            if (hr > 250) warnings.push(`⚠️ Heart Rate ${hr} bpm is extremely high (>250). Please verify.`);
-            if (hr < 20) warnings.push(`⚠️ Heart Rate ${hr} bpm is extremely low (<20). Please verify.`);
+        Object.entries(VITAL_RANGES).forEach(([field, range]) => {
+            const value = parseFloat(payload[field]);
+            if (Number.isNaN(value)) return;
+            if (value < range.min || value > range.max) {
+                warnings.push({
+                    type: 'out_of_range',
+                    field,
+                    value,
+                    range: [range.min, range.max],
+                    message: `${range.name} (${value}) is outside valid range (${range.min}-${range.max} ${range.unit})`,
+                    messageAr: `${range.nameAr} (${value}) خارج النطاق الصحيح (${range.min}-${range.max} ${range.unit})`,
+                });
+            }
+        });
+
+        const hr = parseFloat(payload.hr);
+        const sbp = parseFloat(payload.sbp);
+        if (!Number.isNaN(hr) && !Number.isNaN(sbp) && hr > 120 && sbp < 90) {
+            warnings.push({
+                type: 'shock_indicators',
+                message: 'CRITICAL: High HR + Low BP may indicate shock',
+                messageAr: 'حرج: معدل قلب عالي + ضغط منخفض قد يشير إلى صدمة',
+                severity: 'critical',
+            });
         }
 
-        // Respiratory Rate validation (normal: 12-20/min)
-        if (rr !== null) {
-            if (rr > 60) warnings.push(`⚠️ Respiratory Rate ${rr}/min is extremely high (>60). Please verify.`);
-            if (rr < 4) warnings.push(`⚠️ Respiratory Rate ${rr}/min is extremely low (<4). Please verify.`);
-        }
+        return {
+            valid: errors.length === 0,
+            errors,
+            warnings,
+            requiresConfirmation: warnings.length > 0,
+            bypassAllowed,
+        };
+    };
 
-        // SpO2 validation (normal: 95-100%)
-        if (spo2 !== null) {
-            if (spo2 > 100) warnings.push(`⚠️ SpO2 ${spo2}% cannot exceed 100%. Please correct.`);
-            if (spo2 < 50) warnings.push(`⚠️ SpO2 ${spo2}% is critically low. Please verify.`);
-        }
+    const getGlucoseClass = (bg) => {
+        if (bg === '' || bg === null || bg === undefined) return '';
+        const value = parseFloat(bg);
+        if (Number.isNaN(value)) return '';
+        if (value < 54) return 'critical-low';
+        if (value < 70) return 'warning-low';
+        if (value > 600) return 'critical-high';
+        if (value > 250) return 'warning-high';
+        return 'normal';
+    };
 
-        // Blood Pressure validation (normal: 90-140 mmHg systolic)
-        if (sbp !== null) {
-            if (sbp > 300) warnings.push(`⚠️ Systolic BP ${sbp} mmHg is extremely high (>300). Please verify.`);
-            if (sbp < 40) warnings.push(`⚠️ Systolic BP ${sbp} mmHg is extremely low (<40). Please verify.`);
-        }
-
-        // Temperature validation (normal: 36.1-37.2°C)
-        if (temp !== null) {
-            if (temp > 45) warnings.push(`⚠️ Temperature ${temp}°C is above survivable range (>45°C). Please verify.`);
-            if (temp < 25) warnings.push(`⚠️ Temperature ${temp}°C is below survivable range (<25°C). Please verify.`);
-        }
-
-        return warnings;
+    const getGlucoseMessage = (bg) => {
+        if (bg === '' || bg === null || bg === undefined) return '';
+        const value = parseFloat(bg);
+        if (Number.isNaN(value)) return '';
+        if (value < 54) return 'Critical hypoglycemia - immediate action required | هبوط سكر حرج - تدخل فوري';
+        if (value < 70) return 'Hypoglycemia - monitor closely | انخفاض سكر - مراقبة دقيقة';
+        if (value > 600) return 'Extreme hyperglycemia - possible HHS | ارتفاع سكر شديد جدًا - احتمال HHS';
+        if (value > 400) return 'Severe hyperglycemia - check for DKA | ارتفاع سكر شديد - افحص DKA';
+        if (value > 250) return 'Hyperglycemia - further evaluation needed | ارتفاع سكر - يحتاج تقييم';
+        if (value > 180) return 'Elevated glucose | سكر مرتفع';
+        return 'Normal range | نطاق طبيعي';
     };
 
     // ==================== FORM SUBMISSION ====================
@@ -379,24 +519,22 @@ export default function TriageForm({ onResult }) {
      * - Constructs API payload with all clinical data
      * - Sends to either standard or AI triage endpoint
      */
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        // Check for unusual values and ask for confirmation
-        const warnings = validateWithConfirmation();
-        if (warnings.length > 0) {
-            const confirmMessage = warnings.join('\n\n') + '\n\nDo you want to proceed anyway?';
-            if (!window.confirm(confirmMessage)) {
-                return; // User cancelled
-            }
-        }
-
+    const submitTriage = async () => {
         setLoading(true);
         setError(null);
         
         try {
+            const mrnValue = (formData.patient_id || '').trim();
+            if (mrnValue && !/^\d+$/.test(mrnValue)) {
+                setMrnError('MRN must contain numbers only / الرقم الطبي يجب أن يحتوي على أرقام فقط');
+                setError({
+                    title: 'MRN must contain numbers only',
+                    titleAr: 'الرقم الطبي يجب أن يحتوي على أرقام فقط'
+                });
+                return;
+            }
             // Auto-generate Patient ID if empty
-            const patientId = formData.patient_id?.trim() || generateTempId();
+            const patientId = mrnValue || generateTempId();
             
             // ===== Construct API Payload =====
             // Includes all clinical data for NEWS2 and ESI v5 assessment
@@ -414,6 +552,7 @@ export default function TriageForm({ onResult }) {
                     dbp: formData.vitals.dbp ? parseInt(formData.vitals.dbp) : null,
                     spo2: formData.vitals.spo2 ? parseFloat(formData.vitals.spo2) : null,
                     temp: formData.vitals.temp ? parseFloat(formData.vitals.temp) : null,
+                    blood_glucose: formData.vitals.blood_glucose ? parseFloat(formData.vitals.blood_glucose) : null,
                 },
                 
                 // Clinical Risk Factors (NEWS2 compliance)
@@ -455,7 +594,15 @@ export default function TriageForm({ onResult }) {
             
         } catch (err) {
             // Parse structured error from backend validation
-            if (err.response?.data?.detail) {
+            if (err.response?.status === 422 && err.response?.data?.detail) {
+                const detail = err.response.data.detail;
+                const title = detail?.message || detail?.error || 'Validation error';
+                setError({
+                    title,
+                    titleAr: detail?.message_ar || detail?.error_ar || null,
+                    suggestion: detail?.action ? `Action: ${detail.action}` : null
+                });
+            } else if (err.response?.data?.detail) {
                 const detail = err.response.data.detail;
                 if (typeof detail === 'object' && detail.error) {
                     setError({
@@ -474,6 +621,56 @@ export default function TriageForm({ onResult }) {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const mrnValue = (formData.patient_id || '').trim();
+        if (mrnValue && !/^\d+$/.test(mrnValue)) {
+            setMrnError('MRN must contain numbers only / الرقم الطبي يجب أن يحتوي على أرقام فقط');
+            setError({
+                title: 'MRN must contain numbers only',
+                titleAr: 'الرقم الطبي يجب أن يحتوي على أرقام فقط',
+            });
+            return;
+        }
+
+        const complaintValidation = validateChiefComplaint(formData.chief_complaint_text);
+        if (!complaintValidation.valid) {
+            setError({
+                title: complaintValidation.error,
+                titleAr: complaintValidation.errorAr
+            });
+            return;
+        }
+
+        const vitalsValidation = validateVitalSigns(formData.vitals);
+        if (!vitalsValidation.valid) {
+            const firstError = vitalsValidation.errors[0];
+            setError({
+                title: firstError?.message || 'Missing required vital signs',
+                titleAr: firstError?.messageAr || 'قياسات حيوية مطلوبة مفقودة'
+            });
+            return;
+        }
+
+        if (vitalsValidation.requiresConfirmation) {
+            setUnusualVitals(vitalsValidation.warnings);
+            setShowConfirmDialog(true);
+            return;
+        }
+
+        await submitTriage();
+    };
+
+    const handleConfirmUnusualVitals = async () => {
+        setShowConfirmDialog(false);
+        await submitTriage();
+    };
+
+    const handleCancelUnusualVitals = () => {
+        setShowConfirmDialog(false);
     };
 
     // ==================== RENDER ====================
@@ -543,14 +740,21 @@ export default function TriageForm({ onResult }) {
                     accentColor="teal"
                 >
                     <div className="grid grid-cols-2 gap-4">
-                        <InputField
-                            label="Patient ID / MRN"
-                            labelAr="رقم المريض"
-                            type="text"
-                            value={formData.patient_id}
-                            onChange={e => setFormData({ ...formData, patient_id: e.target.value })}
-                            placeholder="Auto-generated if empty"
-                        />
+                        <div>
+                            <InputField
+                                label="Patient ID / MRN"
+                                labelAr="رقم المريض"
+                                type="text"
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                                value={formData.patient_id}
+                                onChange={handleMrnChange}
+                                placeholder="e.g., 123456 (numbers only / أرقام فقط)"
+                            />
+                            {mrnError && (
+                                <p className="text-red-500 text-xs mt-1">{mrnError}</p>
+                            )}
+                        </div>
                         <InputField
                             label="Patient Name"
                             labelAr="اسم المريض"
@@ -691,6 +895,38 @@ export default function TriageForm({ onResult }) {
                         <VitalInput icon={Thermometer} label="Temp" unit="°C" name="temp" value={formData.vitals.temp} onChange={handleVitalChange} disabled={monitorLocked} />
                         <VitalInput icon={Activity} label="SBP" unit="mmHg" name="sbp" value={formData.vitals.sbp} onChange={handleVitalChange} disabled={monitorLocked} />
                         <VitalInput icon={Activity} label="DBP" unit="mmHg" name="dbp" value={formData.vitals.dbp} onChange={handleVitalChange} disabled={monitorLocked} />
+                    </div>
+
+                    <div className="mt-4 bg-slate-50 rounded-lg p-3 border border-slate-200 glucose-input-card">
+                        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                            Blood Glucose <span className="text-slate-500">(Optional)</span> | سكر الدم <span className="text-slate-500">(اختياري)</span>
+                        </label>
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="number"
+                                min="20"
+                                max="1000"
+                                step="1"
+                                name="blood_glucose"
+                                value={formData.vitals.blood_glucose}
+                                onChange={handleVitalChange}
+                                disabled={monitorLocked}
+                                placeholder="e.g. 95"
+                                className={`w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 ${
+                                    getGlucoseClass(formData.vitals.blood_glucose)
+                                }`}
+                            />
+                            <span className="text-xs text-slate-500 whitespace-nowrap">mg/dL</span>
+                        </div>
+                        {formData.vitals.blood_glucose !== '' && (
+                            <small className="block mt-2 text-xs text-slate-600">
+                                {getGlucoseMessage(formData.vitals.blood_glucose)}
+                            </small>
+                        )}
+                        <small className="block mt-1 text-[11px] text-slate-500">
+                            Recommended for altered mental status, weakness, diabetes, or sepsis concern. |
+                            يوصى بقياس السكر عند اضطراب الوعي أو الضعف أو السكري أو الاشتباه بالإنتان.
+                        </small>
                     </div>
 
                     {monitorLocked && (
@@ -1030,6 +1266,13 @@ export default function TriageForm({ onResult }) {
                     </div>
                 )}
             </form>
+            <ConfirmationDialog
+                open={showConfirmDialog}
+                title="Confirm Unusual Vital Signs | تأكيد العلامات الحيوية غير المعتادة"
+                items={unusualVitals}
+                onConfirm={handleConfirmUnusualVitals}
+                onCancel={handleCancelUnusualVitals}
+            />
         </div>
     );
 }

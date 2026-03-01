@@ -42,8 +42,8 @@
         "description_ar": "تشنجات"
       },
       "stroke_symptoms": {
-        "icd10": "I64",
-        "description_en": "Stroke, not specified as hemorrhage or infarction",
+        "icd10": "I63.9",
+        "description_en": "Cerebral infarction, unspecified",
         "description_ar": "سكتة دماغية"
       },
       "severe_trauma": {

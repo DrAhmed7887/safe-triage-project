@@ -1,0 +1,3632 @@
+{
+  "generated_at_utc": "2026-02-11T11:28:06.162167+00:00",
+  "total_cases": 50,
+  "summary": {
+    "exact_keyword_only": {
+      "category_correct": 39,
+      "category_accuracy_percent": 78.0,
+      "safe_esi": 36,
+      "safe_esi_percent": 72.0
+    },
+    "egybert_semantic": {
+      "category_correct": 35,
+      "category_accuracy_percent": 70.0,
+      "safe_esi": 43,
+      "safe_esi_percent": 86.0
+    },
+    "combined_egybert_kw": {
+      "category_correct": 35,
+      "category_accuracy_percent": 70.0,
+      "safe_esi": 43,
+      "safe_esi_percent": 86.0
+    },
+    "egybert_caught_when_kw_missed": 5,
+    "kw_caught_when_egybert_missed": 9
+  },
+  "per_category": {
+    "Abdominal": {
+      "total": 10,
+      "kw_correct": 7,
+      "egybert_correct": 5,
+      "combined_correct": 5
+    },
+    "Dyspnea": {
+      "total": 8,
+      "kw_correct": 5,
+      "egybert_correct": 5,
+      "combined_correct": 5
+    },
+    "Fever/Infection": {
+      "total": 4,
+      "kw_correct": 4,
+      "egybert_correct": 4,
+      "combined_correct": 4
+    },
+    "Vomiting": {
+      "total": 4,
+      "kw_correct": 2,
+      "egybert_correct": 2,
+      "combined_correct": 2
+    },
+    "Syncope/Dizziness": {
+      "total": 4,
+      "kw_correct": 3,
+      "egybert_correct": 4,
+      "combined_correct": 4
+    },
+    "Weakness": {
+      "total": 4,
+      "kw_correct": 3,
+      "egybert_correct": 3,
+      "combined_correct": 3
+    },
+    "Chest Pain/Cardiac": {
+      "total": 3,
+      "kw_correct": 3,
+      "egybert_correct": 3,
+      "combined_correct": 3
+    },
+    "Neuro/Stroke": {
+      "total": 4,
+      "kw_correct": 4,
+      "egybert_correct": 2,
+      "combined_correct": 2
+    },
+    "Trauma": {
+      "total": 4,
+      "kw_correct": 4,
+      "egybert_correct": 4,
+      "combined_correct": 4
+    },
+    "Diabetic Silent MI": {
+      "total": 3,
+      "kw_correct": 2,
+      "egybert_correct": 2,
+      "combined_correct": 2
+    },
+    "Psychiatric/Poisoning": {
+      "total": 2,
+      "kw_correct": 2,
+      "egybert_correct": 1,
+      "combined_correct": 1
+    }
+  },
+  "cases": [
+    {
+      "case_id": 1,
+      "group": "Abdominal",
+      "input_text": "بطني بتولع فيا",
+      "expected": {
+        "category_label": "abdominal_pain",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "abdominal_pain_moderate"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "بطني بتولع فيا",
+        "category": "abdominal_pain_moderate",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "abdominal_pain_moderate",
+        "esi": 2,
+        "top_keyword": "بطني بتولع فيا",
+        "top_similarity": 1.0,
+        "threshold": 0.7,
+        "semantic_keyword": "بطني بتولع فيا",
+        "semantic_similarity": 1.0,
+        "top_matches": [
+          {
+            "keyword": "بطني بتولع فيا",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 1.0
+          },
+          {
+            "keyword": "بطني بتولع",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.982044
+          },
+          {
+            "keyword": "رجليا مش شايلاني",
+            "category": "altered_mental_status",
+            "snomed": "419284004",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.981614
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "abdominal_pain_moderate",
+        "esi": 2,
+        "matched_keyword": "بطني بتولع فيا",
+        "similarity": 1.0,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 2,
+      "group": "Abdominal",
+      "input_text": "معدتي بتقطع من الصبح",
+      "expected": {
+        "category_label": "abdominal_pain",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "abdominal_pain_moderate"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "معدتي",
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "abdominal_pain_moderate",
+        "esi": 2,
+        "top_keyword": "بطني بتقطع",
+        "top_similarity": 0.984056,
+        "threshold": 0.7,
+        "semantic_keyword": "بطني بتقطع",
+        "semantic_similarity": 0.984056,
+        "top_matches": [
+          {
+            "keyword": "بطني بتقطع",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.984056
+          },
+          {
+            "keyword": "جسمي مكسر وبرجع من امبارح",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.980814
+          },
+          {
+            "keyword": "هبطان ومعدتي مقلوبة من الصبح",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.978871
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "abdominal_pain_moderate",
+        "esi": 2,
+        "matched_keyword": "بطني بتقطع",
+        "similarity": 0.984056,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 3,
+      "group": "Abdominal",
+      "input_text": "عندي مغص جامد ومش قادر أقف",
+      "expected": {
+        "category_label": "abdominal_pain",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "abdominal_pain_moderate",
+          "severe_pain"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "مغص جامد",
+        "category": "abdominal_pain_moderate",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "respiratory_distress",
+        "esi": 2,
+        "top_keyword": "ضيق في الصدر ومش قادر اتنفس",
+        "top_similarity": 0.988734,
+        "threshold": 0.7,
+        "semantic_keyword": "ضيق في الصدر ومش قادر اتنفس",
+        "semantic_similarity": 0.988734,
+        "top_matches": [
+          {
+            "keyword": "ضيق في الصدر ومش قادر اتنفس",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.988734
+          },
+          {
+            "keyword": "مغص مش قادر أنام من الوجع",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.986173
+          },
+          {
+            "keyword": "مش قادر اخد نفسي جامد",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.986138
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "matched_keyword": "ضيق في الصدر ومش قادر اتنفس",
+        "similarity": 0.988734,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 4,
+      "group": "Abdominal",
+      "input_text": "بطني منفوخة ومتحجرة",
+      "expected": {
+        "category_label": "acute_abdomen",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "abdominal_pain_moderate",
+          "severe_pain",
+          "mesenteric_ischemia"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": false,
+        "matched_keyword": "MISS",
+        "category": "unknown",
+        "esi": 3,
+        "category_correct": false,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "top_keyword": "بطني ناشفة",
+        "top_similarity": 0.992921,
+        "threshold": 0.7,
+        "semantic_keyword": "بطني ناشفة",
+        "semantic_similarity": 0.992921,
+        "top_matches": [
+          {
+            "keyword": "بطني ناشفة",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.992921
+          },
+          {
+            "keyword": "بطني متحجرة",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.992599
+          },
+          {
+            "keyword": "بطني مش مستحملة",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.991122
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "matched_keyword": "بطني ناشفة",
+        "similarity": 0.992921,
+        "category_correct": true,
+        "safe_esi": false
+      }
+    },
+    {
+      "case_id": 5,
+      "group": "Abdominal",
+      "input_text": "ألم أسفل البطن على اليمين وسخونية",
+      "expected": {
+        "category_label": "appendicitis/rlq_pain",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "abdominal_pain_moderate",
+          "high_fever_toxic",
+          "fever_with_symptoms"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "سخونية",
+        "category": "fever_with_symptoms",
+        "esi": 3,
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "top_keyword": "وجع صدر ممتد للدراع الشمال",
+        "top_similarity": 0.98881,
+        "threshold": 0.7,
+        "semantic_keyword": "وجع صدر ممتد للدراع الشمال",
+        "semantic_similarity": 0.98881,
+        "top_matches": [
+          {
+            "keyword": "وجع صدر ممتد للدراع الشمال",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.98881
+          },
+          {
+            "keyword": "طعن في راسي من ورا",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.987522
+          },
+          {
+            "keyword": "بيتهز من السخونية",
+            "category": "sepsis",
+            "snomed": "91302008",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.986724
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "matched_keyword": "وجع صدر ممتد للدراع الشمال",
+        "similarity": 0.98881,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 6,
+      "group": "Abdominal",
+      "input_text": "بطني بتوجعني وبستفرغ من إمبارح",
+      "expected": {
+        "category_label": "abd_pain_vomiting",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "abdominal_pain_moderate",
+          "vomiting_dehydration"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "بطني بتوجعني",
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "top_keyword": "بيزيد بطني بتوجعني",
+        "top_similarity": 0.992837,
+        "threshold": 0.7,
+        "semantic_keyword": "بيزيد بطني بتوجعني",
+        "semantic_similarity": 0.992837,
+        "top_matches": [
+          {
+            "keyword": "بيزيد بطني بتوجعني",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.992837
+          },
+          {
+            "keyword": "بطني بتوجعني بيزيد",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.990794
+          },
+          {
+            "keyword": "بطني بتوجعني جامد",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.990554
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "matched_keyword": "بيزيد بطني بتوجعني",
+        "similarity": 0.992837,
+        "category_correct": true,
+        "safe_esi": false
+      }
+    },
+    {
+      "case_id": 7,
+      "group": "Abdominal",
+      "input_text": "مغص وإسهال من 3 أيام",
+      "expected": {
+        "category_label": "abdominal_pain",
+        "esi": 3,
+        "accepted_internal_categories": [
+          "abdominal_pain_moderate",
+          "mild_gi"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "مغص",
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "top_keyword": "مغص",
+        "top_similarity": 0.988437,
+        "threshold": 0.7,
+        "semantic_keyword": "مغص",
+        "semantic_similarity": 0.988437,
+        "top_matches": [
+          {
+            "keyword": "مغص",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.988437
+          },
+          {
+            "keyword": "مغص مستمر",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.988251
+          },
+          {
+            "keyword": "مغص حاد",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.986498
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "matched_keyword": "مغص",
+        "similarity": 0.988437,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 8,
+      "group": "Abdominal",
+      "input_text": "حرقان في المعدة بعد الأكل",
+      "expected": {
+        "category_label": "heartburn",
+        "esi": 4,
+        "accepted_internal_categories": [
+          "mild_gi",
+          "chest_pain_noncardiac"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "حرقان في المعدة",
+        "category": "silent_mi",
+        "esi": 2,
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "silent_mi",
+        "esi": 2,
+        "top_keyword": "حرقان في المعدة",
+        "top_similarity": 0.994334,
+        "threshold": 0.7,
+        "semantic_keyword": "حرقان في المعدة",
+        "semantic_similarity": 0.994334,
+        "top_matches": [
+          {
+            "keyword": "حرقان في المعدة",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.994334
+          },
+          {
+            "keyword": "سكر وعندي حرقان في المعدة",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.99093
+          },
+          {
+            "keyword": "حساسية في الزور",
+            "category": "allergic_reaction_moderate",
+            "snomed": "271807003",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.987616
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "silent_mi",
+        "esi": 2,
+        "matched_keyword": "حرقان في المعدة",
+        "similarity": 0.994334,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 9,
+      "group": "Abdominal",
+      "input_text": "بطني بتنغز من الجنب",
+      "expected": {
+        "category_label": "abdominal_pain",
+        "esi": 3,
+        "accepted_internal_categories": [
+          "abdominal_pain_moderate",
+          "kidney_stone"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": false,
+        "matched_keyword": "MISS",
+        "category": "unknown",
+        "esi": 3,
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "top_keyword": "جسمي بيترعش من السخونية",
+        "top_similarity": 0.990372,
+        "threshold": 0.7,
+        "semantic_keyword": "جسمي بيترعش من السخونية",
+        "semantic_similarity": 0.990372,
+        "top_matches": [
+          {
+            "keyword": "جسمي بيترعش من السخونية",
+            "category": "high_fever_toxic",
+            "snomed": "386661006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.990372
+          },
+          {
+            "keyword": "جسمي بيتهز من السخونية",
+            "category": "sepsis",
+            "snomed": "91302008",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.990314
+          },
+          {
+            "keyword": "رقبتي بتأزني",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.990187
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "matched_keyword": "جسمي بيترعش من السخونية",
+        "similarity": 0.990372,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 10,
+      "group": "Abdominal",
+      "input_text": "عندي مغص وسخونية عالية",
+      "expected": {
+        "category_label": "abd_pain_fever",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "abdominal_pain_moderate",
+          "high_fever_toxic",
+          "fever_with_symptoms"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "سخونية",
+        "category": "fever_with_symptoms",
+        "esi": 3,
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "silent_mi",
+        "esi": 2,
+        "top_keyword": "سكر وعندي حرقان في المعدة",
+        "top_similarity": 0.987371,
+        "threshold": 0.7,
+        "semantic_keyword": "سكر وعندي حرقان في المعدة",
+        "semantic_similarity": 0.987371,
+        "top_matches": [
+          {
+            "keyword": "سكر وعندي حرقان في المعدة",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.987371
+          },
+          {
+            "keyword": "سخونية وضغطي واطي",
+            "category": "sepsis",
+            "snomed": "91302008",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.985367
+          },
+          {
+            "keyword": "حالة صرع",
+            "category": "active_seizure",
+            "snomed": "91175000",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.984781
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "silent_mi",
+        "esi": 2,
+        "matched_keyword": "سكر وعندي حرقان في المعدة",
+        "similarity": 0.987371,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 11,
+      "group": "Dyspnea",
+      "input_text": "مش قادر أخد نفسي خالص",
+      "expected": {
+        "category_label": "dyspnea",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "respiratory_distress",
+          "moderate_dyspnea"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "مش قادر أخد نفسي",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "respiratory_distress",
+        "esi": 2,
+        "top_keyword": "مش قادر أخد نفسي",
+        "top_similarity": 0.998189,
+        "threshold": 0.7,
+        "semantic_keyword": "مش قادر أخد نفسي",
+        "semantic_similarity": 0.998189,
+        "top_matches": [
+          {
+            "keyword": "مش قادر أخد نفسي",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.998189
+          },
+          {
+            "keyword": "مش قادر اخد نفسي",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.998189
+          },
+          {
+            "keyword": "بيزيد مش قادر اخد نفسي",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.997851
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "matched_keyword": "مش قادر أخد نفسي",
+        "similarity": 0.998189,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 12,
+      "group": "Dyspnea",
+      "input_text": "بنهج من أقل مجهود",
+      "expected": {
+        "category_label": "dyspnea",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "respiratory_distress",
+          "moderate_dyspnea"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "بنهج",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "respiratory_distress",
+        "esi": 2,
+        "top_keyword": "بلهث من أقل مجهود",
+        "top_similarity": 0.986815,
+        "threshold": 0.7,
+        "semantic_keyword": "بلهث من أقل مجهود",
+        "semantic_similarity": 0.986815,
+        "top_matches": [
+          {
+            "keyword": "بلهث من أقل مجهود",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.986815
+          },
+          {
+            "keyword": "بيتنمل مع وجع",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.983505
+          },
+          {
+            "keyword": "بيعمل دم",
+            "category": "gi_bleed",
+            "snomed": "74474003",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.980429
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "matched_keyword": "بلهث من أقل مجهود",
+        "similarity": 0.986815,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 13,
+      "group": "Dyspnea",
+      "input_text": "النفس مقطوع ومش عارف أتنفس",
+      "expected": {
+        "category_label": "dyspnea",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "respiratory_distress"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "مش عارف أتنفس",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "respiratory_distress",
+        "esi": 2,
+        "top_keyword": "مش عارف أتنفس",
+        "top_similarity": 0.98657,
+        "threshold": 0.7,
+        "semantic_keyword": "مش عارف أتنفس",
+        "semantic_similarity": 0.98657,
+        "top_matches": [
+          {
+            "keyword": "مش عارف أتنفس",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.98657
+          },
+          {
+            "keyword": "ضيق في الصدر ومش قادر اتنفس",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.986007
+          },
+          {
+            "keyword": "واقف ومش عارف اتنفس",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.985779
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "matched_keyword": "مش عارف أتنفس",
+        "similarity": 0.98657,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 14,
+      "group": "Dyspnea",
+      "input_text": "كتمة في صدري من الصبح",
+      "expected": {
+        "category_label": "dyspnea",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "respiratory_distress",
+          "moderate_dyspnea"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "كتمة في صدري",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "respiratory_distress",
+        "esi": 2,
+        "top_keyword": "كتمة في صدري",
+        "top_similarity": 0.988755,
+        "threshold": 0.7,
+        "semantic_keyword": "كتمة في صدري",
+        "semantic_similarity": 0.988755,
+        "top_matches": [
+          {
+            "keyword": "كتمة في صدري",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.988755
+          },
+          {
+            "keyword": "رقبتي متشنجة",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.985779
+          },
+          {
+            "keyword": "رعشة في نص وشي",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.985717
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "matched_keyword": "كتمة في صدري",
+        "similarity": 0.988755,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 15,
+      "group": "Dyspnea",
+      "input_text": "بيتخنق ووشه بقى أزرق",
+      "expected": {
+        "category_label": "dyspnea",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "respiratory_distress"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "زرق",
+        "category": "respiratory_arrest",
+        "esi": 1,
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "stroke_symptoms",
+        "esi": 2,
+        "top_keyword": "مش قادر يبلع ريقه",
+        "top_similarity": 0.981156,
+        "threshold": 0.7,
+        "semantic_keyword": "مش قادر يبلع ريقه",
+        "semantic_similarity": 0.981156,
+        "top_matches": [
+          {
+            "keyword": "مش قادر يبلع ريقه",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.981156
+          },
+          {
+            "keyword": "بيتخنق",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.980544
+          },
+          {
+            "keyword": "عرقان ولونه اصفر",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.980451
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "stroke_symptoms",
+        "esi": 2,
+        "matched_keyword": "مش قادر يبلع ريقه",
+        "similarity": 0.981156,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 16,
+      "group": "Dyspnea",
+      "input_text": "نفسي بينقطع لما بطلع السلم",
+      "expected": {
+        "category_label": "dyspnea_exertion",
+        "esi": 3,
+        "accepted_internal_categories": [
+          "moderate_dyspnea",
+          "respiratory_distress"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "قطع",
+        "category": "laceration_simple",
+        "esi": 4,
+        "category_correct": false,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "chest_pain_noncardiac",
+        "esi": 3,
+        "top_keyword": "صدري بيوجع لما بتنفس",
+        "top_similarity": 0.978703,
+        "threshold": 0.7,
+        "semantic_keyword": "صدري بيوجع لما بتنفس",
+        "semantic_similarity": 0.978703,
+        "top_matches": [
+          {
+            "keyword": "صدري بيوجع لما بتنفس",
+            "category": "chest_pain_noncardiac",
+            "snomed": "29857009",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.978703
+          },
+          {
+            "keyword": "جسمي بيتكسر وسخن",
+            "category": "sepsis",
+            "snomed": "91302008",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.973265
+          },
+          {
+            "keyword": "دراعي الشمال بيتنمل",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.972433
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "chest_pain_noncardiac",
+        "esi": 3,
+        "matched_keyword": "صدري بيوجع لما بتنفس",
+        "similarity": 0.978703,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 17,
+      "group": "Dyspnea",
+      "input_text": "صدري بيصفر وعندي أزمة",
+      "expected": {
+        "category_label": "asthma/wheezing",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "asthma_exacerbation",
+          "respiratory_distress"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "صدري بيصفر",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "top_keyword": "صدري بيضغط عليا",
+        "top_similarity": 0.984993,
+        "threshold": 0.7,
+        "semantic_keyword": "صدري بيضغط عليا",
+        "semantic_similarity": 0.984993,
+        "top_matches": [
+          {
+            "keyword": "صدري بيضغط عليا",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.984993
+          },
+          {
+            "keyword": "صدري بيصفر",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.98385
+          },
+          {
+            "keyword": "mfiش طاقة خالص وبحس بدوخة",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.981202
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "matched_keyword": "صدري بيضغط عليا",
+        "similarity": 0.984993,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 18,
+      "group": "Dyspnea",
+      "input_text": "الطفل مش بيتنفس كويس",
+      "expected": {
+        "category_label": "dyspnea",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "respiratory_distress",
+          "pediatric_distress",
+          "pediatric_emergency"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "مش بيتنفس",
+        "category": "respiratory_arrest",
+        "esi": 1,
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "pediatric_distress",
+        "esi": 3,
+        "top_keyword": "الطفل تعبان",
+        "top_similarity": 0.985242,
+        "threshold": 0.7,
+        "semantic_keyword": "الطفل تعبان",
+        "semantic_similarity": 0.985242,
+        "top_matches": [
+          {
+            "keyword": "الطفل تعبان",
+            "category": "pediatric_distress",
+            "snomed": "248549005",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.985242
+          },
+          {
+            "keyword": "طفل لا يتنفس",
+            "category": "pediatric_critical",
+            "snomed": "248549005",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.984775
+          },
+          {
+            "keyword": "الطفل بيعيط فجأة وبيسحب رجليه على بطنه",
+            "category": "pediatric_emergency",
+            "snomed": "408467006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.98259
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "pediatric_distress",
+        "esi": 3,
+        "matched_keyword": "الطفل تعبان",
+        "similarity": 0.985242,
+        "category_correct": true,
+        "safe_esi": false
+      }
+    },
+    {
+      "case_id": 19,
+      "group": "Fever/Infection",
+      "input_text": "سخونية جامدة ورعشة من إمبارح",
+      "expected": {
+        "category_label": "fever_rigor",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "high_fever_toxic",
+          "fever_with_symptoms"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "سخونية جامدة",
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "top_keyword": "سخونية ورعشة",
+        "top_similarity": 0.993102,
+        "threshold": 0.7,
+        "semantic_keyword": "سخونية ورعشة",
+        "semantic_similarity": 0.993102,
+        "top_matches": [
+          {
+            "keyword": "سخونية ورعشة",
+            "category": "high_fever_toxic",
+            "snomed": "386661006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.993102
+          },
+          {
+            "keyword": "سخونية جامدة",
+            "category": "high_fever_toxic",
+            "snomed": "386661006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.990804
+          },
+          {
+            "keyword": "سخونية وكحة",
+            "category": "fever_with_symptoms",
+            "snomed": "386661006",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.987665
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "matched_keyword": "سخونية ورعشة",
+        "similarity": 0.993102,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 20,
+      "group": "Fever/Infection",
+      "input_text": "جسمي نار والحرارة مش بتنزل",
+      "expected": {
+        "category_label": "high_fever",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "high_fever_toxic"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "حرارة مش بتنزل",
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "top_keyword": "جسمي سخن ومكسر",
+        "top_similarity": 0.988906,
+        "threshold": 0.7,
+        "semantic_keyword": "جسمي سخن ومكسر",
+        "semantic_similarity": 0.988906,
+        "top_matches": [
+          {
+            "keyword": "جسمي سخن ومكسر",
+            "category": "high_fever_toxic",
+            "snomed": "386661006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.988906
+          },
+          {
+            "keyword": "مش قادر اقوم من السرير وسخونيتي نار",
+            "category": "sepsis",
+            "snomed": "91302008",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.98617
+          },
+          {
+            "keyword": "ماما حاسة برجفة جوا جسمها ومش مرتاحة",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.984763
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "matched_keyword": "جسمي سخن ومكسر",
+        "similarity": 0.988906,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 21,
+      "group": "Fever/Infection",
+      "input_text": "سخونية مع ألم في البطن",
+      "expected": {
+        "category_label": "fever_abd",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "high_fever_toxic",
+          "fever_with_symptoms",
+          "abdominal_pain_moderate"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "سخونية",
+        "category": "fever_with_symptoms",
+        "esi": 3,
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "top_keyword": "وجع بطن مع سخونية",
+        "top_similarity": 0.990159,
+        "threshold": 0.7,
+        "semantic_keyword": "وجع بطن مع سخونية",
+        "semantic_similarity": 0.990159,
+        "top_matches": [
+          {
+            "keyword": "وجع بطن مع سخونية",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.990159
+          },
+          {
+            "keyword": "سخونية مع صداع شديد",
+            "category": "high_fever_toxic",
+            "snomed": "386661006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.989414
+          },
+          {
+            "keyword": "ألم صدر مع التنفس",
+            "category": "chest_pain_noncardiac",
+            "snomed": "29857009",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.98891
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "abdominal_pain_moderate",
+        "esi": 3,
+        "matched_keyword": "وجع بطن مع سخونية",
+        "similarity": 0.990159,
+        "category_correct": true,
+        "safe_esi": false
+      }
+    },
+    {
+      "case_id": 22,
+      "group": "Fever/Infection",
+      "input_text": "حرارة وكحة وضيق نفس",
+      "expected": {
+        "category_label": "fever + cough_dyspnea",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "respiratory_distress",
+          "high_fever_toxic",
+          "fever_with_symptoms"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "حرارة",
+        "category": "fever_with_symptoms",
+        "esi": 3,
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "top_keyword": "حرارة مع كحة شديدة",
+        "top_similarity": 0.989996,
+        "threshold": 0.7,
+        "semantic_keyword": "حرارة مع كحة شديدة",
+        "semantic_similarity": 0.989996,
+        "top_matches": [
+          {
+            "keyword": "حرارة مع كحة شديدة",
+            "category": "high_fever_toxic",
+            "snomed": "386661006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.989996
+          },
+          {
+            "keyword": "سخونية وكحة",
+            "category": "fever_with_symptoms",
+            "snomed": "386661006",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.988745
+          },
+          {
+            "keyword": "كحة دم كتير",
+            "category": "hemoptysis",
+            "snomed": "66857006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.986904
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "high_fever_toxic",
+        "esi": 2,
+        "matched_keyword": "حرارة مع كحة شديدة",
+        "similarity": 0.989996,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 23,
+      "group": "Vomiting",
+      "input_text": "بستفرغ دم من الصبح",
+      "expected": {
+        "category_label": "hematemesis",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "severe_bleeding",
+          "gi_bleed"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "بستفرغ دم",
+        "category": "severe_bleeding",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "severe_bleeding",
+        "esi": 1,
+        "top_keyword": "بستفرغ دم",
+        "top_similarity": 0.995239,
+        "threshold": 0.7,
+        "semantic_keyword": "بستفرغ دم",
+        "semantic_similarity": 0.995239,
+        "top_matches": [
+          {
+            "keyword": "بستفرغ دم",
+            "category": "severe_bleeding",
+            "snomed": "50960005",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.995239
+          },
+          {
+            "keyword": "بيعمل دم",
+            "category": "gi_bleed",
+            "snomed": "74474003",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.990898
+          },
+          {
+            "keyword": "البراز فيه دم",
+            "category": "gi_bleed",
+            "snomed": "74474003",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.990322
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "severe_bleeding",
+        "esi": 1,
+        "matched_keyword": "بستفرغ دم",
+        "similarity": 0.995239,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 24,
+      "group": "Vomiting",
+      "input_text": "الترجيع فيه لون بني زي البن",
+      "expected": {
+        "category_label": "hematemesis",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "severe_bleeding",
+          "gi_bleed"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "ترجيع",
+        "category": "vomiting_dehydration",
+        "esi": 3,
+        "category_correct": false,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "severe_bleeding",
+        "esi": 1,
+        "top_keyword": "بستفرغ لون بني",
+        "top_similarity": 0.988974,
+        "threshold": 0.7,
+        "semantic_keyword": "بستفرغ لون بني",
+        "semantic_similarity": 0.988974,
+        "top_matches": [
+          {
+            "keyword": "بستفرغ لون بني",
+            "category": "severe_bleeding",
+            "snomed": "50960005",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.988974
+          },
+          {
+            "keyword": "برازه زي الجيلي الأحمر",
+            "category": "pediatric_emergency",
+            "snomed": "408467006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.987374
+          },
+          {
+            "keyword": "لونه اصفر وهبطان",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.986287
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "severe_bleeding",
+        "esi": 1,
+        "matched_keyword": "بستفرغ لون بني",
+        "similarity": 0.988974,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 25,
+      "group": "Vomiting",
+      "input_text": "كل ما بأكل حاجة بستفرغها",
+      "expected": {
+        "category_label": "intractable_vomiting",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "vomiting_dehydration"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": false,
+        "matched_keyword": "MISS",
+        "category": "unknown",
+        "esi": 3,
+        "category_correct": false,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "silent_mi",
+        "esi": 2,
+        "top_keyword": "ماما السكر عندها بترجع وهبطانة",
+        "top_similarity": 0.978327,
+        "threshold": 0.7,
+        "semantic_keyword": "ماما السكر عندها بترجع وهبطانة",
+        "semantic_similarity": 0.978327,
+        "top_matches": [
+          {
+            "keyword": "ماما السكر عندها بترجع وهبطانة",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.978327
+          },
+          {
+            "keyword": "أكلت سم",
+            "category": "poisoning_overdose",
+            "snomed": "75478009",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.977665
+          },
+          {
+            "keyword": "بتأزني لما احركها",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.977055
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "silent_mi",
+        "esi": 2,
+        "matched_keyword": "ماما السكر عندها بترجع وهبطانة",
+        "similarity": 0.978327,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 26,
+      "group": "Vomiting",
+      "input_text": "ترجيع وإسهال ومش قادر أشرب ميه",
+      "expected": {
+        "category_label": "vomiting + diarrhea",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "vomiting_dehydration",
+          "fever_with_symptoms",
+          "mild_gi"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "ترجيع",
+        "category": "vomiting_dehydration",
+        "esi": 3,
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "respiratory_distress",
+        "esi": 2,
+        "top_keyword": "ضيق في الصدر ومش قادر اتنفس",
+        "top_similarity": 0.989772,
+        "threshold": 0.7,
+        "semantic_keyword": "ضيق في الصدر ومش قادر اتنفس",
+        "semantic_similarity": 0.989772,
+        "top_matches": [
+          {
+            "keyword": "ضيق في الصدر ومش قادر اتنفس",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.989772
+          },
+          {
+            "keyword": "وجع بطن مع ترجيع",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.98849
+          },
+          {
+            "keyword": "كحة دم كتير",
+            "category": "hemoptysis",
+            "snomed": "66857006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.988276
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "matched_keyword": "ضيق في الصدر ومش قادر اتنفس",
+        "similarity": 0.989772,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 27,
+      "group": "Syncope/Dizziness",
+      "input_text": "أغمى عليا في الشارع ووقعت",
+      "expected": {
+        "category_label": "syncope",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "altered_mental_status",
+          "unconscious"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "أغمى عليا",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "altered_mental_status",
+        "esi": 2,
+        "top_keyword": "أغمى عليا",
+        "top_similarity": 0.986853,
+        "threshold": 0.7,
+        "semantic_keyword": "أغمى عليا",
+        "semantic_similarity": 0.986853,
+        "top_matches": [
+          {
+            "keyword": "أغمى عليا",
+            "category": "altered_mental_status",
+            "snomed": "419284004",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.986853
+          },
+          {
+            "keyword": "رقبتي بتأزني",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.982883
+          },
+          {
+            "keyword": "رقبتي متيبسة",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.982448
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "matched_keyword": "أغمى عليا",
+        "similarity": 0.986853,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 28,
+      "group": "Syncope/Dizziness",
+      "input_text": "عيني بتسود لما بقوم",
+      "expected": {
+        "category_label": "presyncope",
+        "esi": 3,
+        "accepted_internal_categories": [
+          "altered_mental_status"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "عيني بتسود",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "altered_mental_status",
+        "esi": 2,
+        "top_keyword": "عيني بتسود",
+        "top_similarity": 0.982575,
+        "threshold": 0.7,
+        "semantic_keyword": "عيني بتسود",
+        "semantic_similarity": 0.982575,
+        "top_matches": [
+          {
+            "keyword": "عيني بتسود",
+            "category": "altered_mental_status",
+            "snomed": "419284004",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.982575
+          },
+          {
+            "keyword": "شفايفي بتتكلم لوحدها",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.9817
+          },
+          {
+            "keyword": "بطني بتعورني",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.980279
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "matched_keyword": "عيني بتسود",
+        "similarity": 0.982575,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 29,
+      "group": "Syncope/Dizziness",
+      "input_text": "دوخة جامدة والدنيا بتلف بيا",
+      "expected": {
+        "category_label": "vertigo",
+        "esi": 3,
+        "accepted_internal_categories": [
+          "altered_mental_status"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "الدنيا بتلف",
+        "category": "stroke_symptoms",
+        "esi": 2,
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "altered_mental_status",
+        "esi": 2,
+        "top_keyword": "دوخة شديدة جدا",
+        "top_similarity": 0.980669,
+        "threshold": 0.7,
+        "semantic_keyword": "دوخة شديدة جدا",
+        "semantic_similarity": 0.980669,
+        "top_matches": [
+          {
+            "keyword": "دوخة شديدة جدا",
+            "category": "altered_mental_status",
+            "snomed": "419284004",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.980669
+          },
+          {
+            "keyword": "بطني ناشفة",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.977799
+          },
+          {
+            "keyword": "رقبتي متشنجة",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.977232
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "matched_keyword": "دوخة شديدة جدا",
+        "similarity": 0.980669,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 30,
+      "group": "Syncope/Dizziness",
+      "input_text": "فقدت وعيي لمدة دقيقة",
+      "expected": {
+        "category_label": "syncope",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "altered_mental_status",
+          "unconscious"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "فقدت وعيي",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "altered_mental_status",
+        "esi": 2,
+        "top_keyword": "فقدت وعيي",
+        "top_similarity": 0.987366,
+        "threshold": 0.7,
+        "semantic_keyword": "فقدت وعيي",
+        "semantic_similarity": 0.987366,
+        "top_matches": [
+          {
+            "keyword": "فقدت وعيي",
+            "category": "altered_mental_status",
+            "snomed": "419284004",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.987366
+          },
+          {
+            "keyword": "نوبة صرعية",
+            "category": "active_seizure",
+            "snomed": "91175000",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.97982
+          },
+          {
+            "keyword": "صعوبة في التنفس",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.978083
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "matched_keyword": "فقدت وعيي",
+        "similarity": 0.987366,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 31,
+      "group": "Weakness",
+      "input_text": "رجليا مش شايلاني وجسمي مكسر",
+      "expected": {
+        "category_label": "severe_weakness",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "altered_mental_status",
+          "severe_pain"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "رجليا مش شايلاني",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "altered_mental_status",
+        "esi": 2,
+        "top_keyword": "رجليا مش شايلاني",
+        "top_similarity": 0.995834,
+        "threshold": 0.7,
+        "semantic_keyword": "رجليا مش شايلاني",
+        "semantic_similarity": 0.995834,
+        "top_matches": [
+          {
+            "keyword": "رجليا مش شايلاني",
+            "category": "altered_mental_status",
+            "snomed": "419284004",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.995834
+          },
+          {
+            "keyword": "جسمي مكسر وبرجع",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.990954
+          },
+          {
+            "keyword": "جسمي مكسر وبرجع من امبارح",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.990177
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "matched_keyword": "رجليا مش شايلاني",
+        "similarity": 0.995834,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 32,
+      "group": "Weakness",
+      "input_text": "نص جسمي الشمال مش بيتحرك فجأة",
+      "expected": {
+        "category_label": "hemiparesis",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "stroke_symptoms"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "نص جسمي الشمال",
+        "category": "stroke_symptoms",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "stroke_symptoms",
+        "esi": 1,
+        "top_keyword": "نص جسمي مش بيتحرك",
+        "top_similarity": 0.991311,
+        "threshold": 0.7,
+        "semantic_keyword": "نص جسمي مش بيتحرك",
+        "semantic_similarity": 0.991311,
+        "top_matches": [
+          {
+            "keyword": "نص جسمي مش بيتحرك",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.991311
+          },
+          {
+            "keyword": "نص جسمي مش حاسس بيه",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.98389
+          },
+          {
+            "keyword": "رجليا مش شايلاني",
+            "category": "altered_mental_status",
+            "snomed": "419284004",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.981221
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "stroke_symptoms",
+        "esi": 1,
+        "matched_keyword": "نص جسمي مش بيتحرك",
+        "similarity": 0.991311,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 33,
+      "group": "Weakness",
+      "input_text": "هلكان ومش قادر أقوم من السرير",
+      "expected": {
+        "category_label": "severe_weakness",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "altered_mental_status",
+          "severe_pain"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "هلكان",
+        "category": "altered_mental_status",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "respiratory_distress",
+        "esi": 2,
+        "top_keyword": "صحيت من النوم مش قادر اتنفس",
+        "top_similarity": 0.986202,
+        "threshold": 0.7,
+        "semantic_keyword": "صحيت من النوم مش قادر اتنفس",
+        "semantic_similarity": 0.986202,
+        "top_matches": [
+          {
+            "keyword": "صحيت من النوم مش قادر اتنفس",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.986202
+          },
+          {
+            "keyword": "مش قادر اقوم من السرير وسخونيتي نار",
+            "category": "sepsis",
+            "snomed": "91302008",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.985642
+          },
+          {
+            "keyword": "مغص مش قادر أنام من الوجع",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.985564
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "matched_keyword": "صحيت من النوم مش قادر اتنفس",
+        "similarity": 0.986202,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 34,
+      "group": "Weakness",
+      "input_text": "إيدي اليمين مش بتتحرك من الصبح",
+      "expected": {
+        "category_label": "limb_weakness",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "stroke_symptoms"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": false,
+        "matched_keyword": "MISS",
+        "category": "unknown",
+        "esi": 3,
+        "category_correct": false,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "stroke_symptoms",
+        "esi": 2,
+        "top_keyword": "ايدي الشمال مش بتتحرك",
+        "top_similarity": 0.991749,
+        "threshold": 0.7,
+        "semantic_keyword": "ايدي الشمال مش بتتحرك",
+        "semantic_similarity": 0.991749,
+        "top_matches": [
+          {
+            "keyword": "ايدي الشمال مش بتتحرك",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.991749
+          },
+          {
+            "keyword": "رجليا مش شايلاني",
+            "category": "altered_mental_status",
+            "snomed": "419284004",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.979458
+          },
+          {
+            "keyword": "ايده مش بتتحرك",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.978604
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "stroke_symptoms",
+        "esi": 2,
+        "matched_keyword": "ايدي الشمال مش بتتحرك",
+        "similarity": 0.991749,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 35,
+      "group": "Chest Pain/Cardiac",
+      "input_text": "صدري بيضغط عليا والألم واصل لدراعي الشمال",
+      "expected": {
+        "category_label": "chest_pain_radiation",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "chest_pain_cardiac"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "صدري بيضغط عليا",
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "top_keyword": "صدري بيضغط عليا",
+        "top_similarity": 0.991047,
+        "threshold": 0.7,
+        "semantic_keyword": "صدري بيضغط عليا",
+        "semantic_similarity": 0.991047,
+        "top_matches": [
+          {
+            "keyword": "صدري بيضغط عليا",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.991047
+          },
+          {
+            "keyword": "وجع صدر ممتد للدراع الشمال",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.988116
+          },
+          {
+            "keyword": "بطني بتوجعني جدا شديد",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.987872
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "matched_keyword": "صدري بيضغط عليا",
+        "similarity": 0.991047,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 36,
+      "group": "Chest Pain/Cardiac",
+      "input_text": "قلبي بينط وبيدق بسرعة جامدة",
+      "expected": {
+        "category_label": "palpitations",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "chest_pain_cardiac"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "قلبي بينط",
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "top_keyword": "قلبي بيدق بسرعة",
+        "top_similarity": 0.990727,
+        "threshold": 0.7,
+        "semantic_keyword": "قلبي بيدق بسرعة",
+        "semantic_similarity": 0.990727,
+        "top_matches": [
+          {
+            "keyword": "قلبي بيدق بسرعة",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.990727
+          },
+          {
+            "keyword": "قلبي بيخبط جامد",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.987489
+          },
+          {
+            "keyword": "قلبي بينط",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.986576
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "matched_keyword": "قلبي بيدق بسرعة",
+        "similarity": 0.990727,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 37,
+      "group": "Chest Pain/Cardiac",
+      "input_text": "حاسس فيه حاجة واقفة على صدري",
+      "expected": {
+        "category_label": "chest_pain",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "chest_pain_cardiac",
+          "chest_pain_noncardiac"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "صدري",
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "top_keyword": "حاجة قاعدة على صدري",
+        "top_similarity": 0.991095,
+        "threshold": 0.7,
+        "semantic_keyword": "حاجة قاعدة على صدري",
+        "semantic_similarity": 0.991095,
+        "top_matches": [
+          {
+            "keyword": "حاجة قاعدة على صدري",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.991095
+          },
+          {
+            "keyword": "حاسس بتقل على صدري",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.987933
+          },
+          {
+            "keyword": "مش قادر انزل راسي على صدري",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.984527
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "chest_pain_cardiac",
+        "esi": 2,
+        "matched_keyword": "حاجة قاعدة على صدري",
+        "similarity": 0.991095,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 38,
+      "group": "Neuro/Stroke",
+      "input_text": "وشي مال فجأة ومش قادر أتكلم",
+      "expected": {
+        "category_label": "facial_droop + aphasia",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "stroke_symptoms"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "وشي مال",
+        "category": "stroke_symptoms",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "respiratory_distress",
+        "esi": 2,
+        "top_keyword": "فجأة مش قادر اخد نفسي",
+        "top_similarity": 0.975618,
+        "threshold": 0.7,
+        "semantic_keyword": "فجأة مش قادر اخد نفسي",
+        "semantic_similarity": 0.975618,
+        "top_matches": [
+          {
+            "keyword": "فجأة مش قادر اخد نفسي",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.975618
+          },
+          {
+            "keyword": "وشي مال",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.975575
+          },
+          {
+            "keyword": "مش قادر اخد نفسي فجأة",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.974539
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": false
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "matched_keyword": "فجأة مش قادر اخد نفسي",
+        "similarity": 0.975618,
+        "category_correct": false,
+        "safe_esi": false
+      }
+    },
+    {
+      "case_id": 39,
+      "group": "Neuro/Stroke",
+      "input_text": "أسوأ صداع في حياتي جه فجأة",
+      "expected": {
+        "category_label": "thunderclap_headache",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "severe_headache"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "أسوأ صداع",
+        "category": "severe_headache",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "severe_headache",
+        "esi": 2,
+        "top_keyword": "صداع مش طبيعي",
+        "top_similarity": 0.980155,
+        "threshold": 0.7,
+        "semantic_keyword": "صداع مش طبيعي",
+        "semantic_similarity": 0.980155,
+        "top_matches": [
+          {
+            "keyword": "صداع مش طبيعي",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.980155
+          },
+          {
+            "keyword": "أسوأ صداع",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.979732
+          },
+          {
+            "keyword": "صداع فجأة",
+            "category": "severe_headache",
+            "snomed": "25064002",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.978035
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": false
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "severe_headache",
+        "esi": 2,
+        "matched_keyword": "صداع مش طبيعي",
+        "similarity": 0.980155,
+        "category_correct": true,
+        "safe_esi": false
+      }
+    },
+    {
+      "case_id": 40,
+      "group": "Neuro/Stroke",
+      "input_text": "اتشنج ووقع على الأرض",
+      "expected": {
+        "category_label": "seizure",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "active_seizure"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "اتشنج",
+        "category": "active_seizure",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "hip_fracture",
+        "esi": 2,
+        "top_keyword": "وقع ومش قادر يقوم",
+        "top_similarity": 0.987413,
+        "threshold": 0.7,
+        "semantic_keyword": "وقع ومش قادر يقوم",
+        "semantic_similarity": 0.987413,
+        "top_matches": [
+          {
+            "keyword": "وقع ومش قادر يقوم",
+            "category": "hip_fracture",
+            "snomed": "359817006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.987413
+          },
+          {
+            "keyword": "مش قادر يبلع ريقه",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.984617
+          },
+          {
+            "keyword": "مش قادر يتنفس",
+            "category": "respiratory_arrest",
+            "snomed": "397829000",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.984227
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "hip_fracture",
+        "esi": 2,
+        "matched_keyword": "وقع ومش قادر يقوم",
+        "similarity": 0.987413,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 41,
+      "group": "Neuro/Stroke",
+      "input_text": "لساني تقيل وكلامي مش مفهوم",
+      "expected": {
+        "category_label": "speech_disturbance",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "stroke_symptoms"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "لساني تقيل",
+        "category": "stroke_symptoms",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "stroke_symptoms",
+        "esi": 1,
+        "top_keyword": "لساني تقيل",
+        "top_similarity": 0.988444,
+        "threshold": 0.7,
+        "semantic_keyword": "لساني تقيل",
+        "semantic_similarity": 0.988444,
+        "top_matches": [
+          {
+            "keyword": "لساني تقيل",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.988444
+          },
+          {
+            "keyword": "كلامي بقى مش مفهوم",
+            "category": "stroke_symptoms",
+            "snomed": "230690007",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.984028
+          },
+          {
+            "keyword": "صدري تقيل",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.981014
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "stroke_symptoms",
+        "esi": 1,
+        "matched_keyword": "لساني تقيل",
+        "similarity": 0.988444,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 42,
+      "group": "Trauma",
+      "input_text": "حادثة عربية واتخبط في راسه",
+      "expected": {
+        "category_label": "mva + head_injury",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "severe_trauma"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "حادثة عربية",
+        "category": "severe_trauma",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "severe_trauma",
+        "esi": 1,
+        "top_keyword": "طعنة في صدره",
+        "top_similarity": 0.977792,
+        "threshold": 0.7,
+        "semantic_keyword": "طعنة في صدره",
+        "semantic_similarity": 0.977792,
+        "top_matches": [
+          {
+            "keyword": "طعنة في صدره",
+            "category": "severe_trauma",
+            "snomed": "417746004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.977792
+          },
+          {
+            "keyword": "طعنة في بطنه",
+            "category": "severe_trauma",
+            "snomed": "417746004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.977238
+          },
+          {
+            "keyword": "حادث موتوسيكل",
+            "category": "severe_trauma",
+            "snomed": "417746004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.976945
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "severe_trauma",
+        "esi": 1,
+        "matched_keyword": "طعنة في صدره",
+        "similarity": 0.977792,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 43,
+      "group": "Trauma",
+      "input_text": "اتطعن بسكينة في بطنه",
+      "expected": {
+        "category_label": "stab_wound",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "severe_trauma"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "اتطعن",
+        "category": "severe_trauma",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "severe_trauma",
+        "esi": 1,
+        "top_keyword": "طعنة في بطنه",
+        "top_similarity": 0.99293,
+        "threshold": 0.7,
+        "semantic_keyword": "طعنة في بطنه",
+        "semantic_similarity": 0.99293,
+        "top_matches": [
+          {
+            "keyword": "طعنة في بطنه",
+            "category": "severe_trauma",
+            "snomed": "417746004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.99293
+          },
+          {
+            "keyword": "طعنة في صدره",
+            "category": "severe_trauma",
+            "snomed": "417746004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.991808
+          },
+          {
+            "keyword": "صفير في صدره",
+            "category": "moderate_dyspnea",
+            "snomed": "267036007",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.988557
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "severe_trauma",
+        "esi": 1,
+        "matched_keyword": "طعنة في بطنه",
+        "similarity": 0.99293,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 44,
+      "group": "Trauma",
+      "input_text": "وقع من الدور التالت على راسه",
+      "expected": {
+        "category_label": "fall_height",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "severe_trauma"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "وقع من الدور",
+        "category": "severe_trauma",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "severe_trauma",
+        "esi": 1,
+        "top_keyword": "وقع من فوق العمارة",
+        "top_similarity": 0.988584,
+        "threshold": 0.7,
+        "semantic_keyword": "وقع من فوق العمارة",
+        "semantic_similarity": 0.988584,
+        "top_matches": [
+          {
+            "keyword": "وقع من فوق العمارة",
+            "category": "severe_trauma",
+            "snomed": "417746004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.988584
+          },
+          {
+            "keyword": "وقع من السلم",
+            "category": "severe_trauma",
+            "snomed": "417746004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.987659
+          },
+          {
+            "keyword": "وقع من الدور",
+            "category": "severe_trauma",
+            "snomed": "417746004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.987456
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "severe_trauma",
+        "esi": 1,
+        "matched_keyword": "وقع من فوق العمارة",
+        "similarity": 0.988584,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 45,
+      "group": "Trauma",
+      "input_text": "نزيف مش بيوقف من الجرح",
+      "expected": {
+        "category_label": "active_bleeding",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "severe_bleeding",
+          "moderate_bleeding"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "نزيف مش بيوقف",
+        "category": "severe_bleeding",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "severe_bleeding",
+        "esi": 1,
+        "top_keyword": "نزيف مش بيوقف",
+        "top_similarity": 0.989134,
+        "threshold": 0.7,
+        "semantic_keyword": "نزيف مش بيوقف",
+        "semantic_similarity": 0.989134,
+        "top_matches": [
+          {
+            "keyword": "نزيف مش بيوقف",
+            "category": "severe_bleeding",
+            "snomed": "50960005",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.989134
+          },
+          {
+            "keyword": "بيزيد ألم بطني",
+            "category": "abdominal_pain_moderate",
+            "snomed": "21522001",
+            "base_esi": 3,
+            "red_flag": false,
+            "similarity": 0.986055
+          },
+          {
+            "keyword": "بيتنمل مع وجع",
+            "category": "chest_pain_cardiac",
+            "snomed": "29857009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.985826
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "severe_bleeding",
+        "esi": 1,
+        "matched_keyword": "نزيف مش بيوقف",
+        "similarity": 0.989134,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 46,
+      "group": "Diabetic Silent MI",
+      "input_text": "عندي سكر وحرقان في المعدة من الصبح",
+      "expected": {
+        "category_label": "dm_silent_mi",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "silent_mi",
+          "chest_pain_cardiac"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "حرقان في المعدة",
+        "category": "silent_mi",
+        "esi": 2,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "silent_mi",
+        "esi": 2,
+        "top_keyword": "سكر وعندي حرقان في المعدة",
+        "top_similarity": 0.991376,
+        "threshold": 0.7,
+        "semantic_keyword": "سكر وعندي حرقان في المعدة",
+        "semantic_similarity": 0.991376,
+        "top_matches": [
+          {
+            "keyword": "سكر وعندي حرقان في المعدة",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.991376
+          },
+          {
+            "keyword": "هبطان ومعدتي مقلوبة من الصبح",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.986046
+          },
+          {
+            "keyword": "حرقان في المعدة",
+            "category": "silent_mi",
+            "snomed": "57054005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.985263
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "silent_mi",
+        "esi": 2,
+        "matched_keyword": "سكر وعندي حرقان في المعدة",
+        "similarity": 0.991376,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 47,
+      "group": "Diabetic Silent MI",
+      "input_text": "السكر نازل وبترعش وبدوخ",
+      "expected": {
+        "category_label": "hypoglycemia",
+        "esi": 2,
+        "accepted_internal_categories": [
+          "diabetic_emergency"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "بتر",
+        "category": "severe_trauma",
+        "esi": 1,
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "sepsis",
+        "esi": 1,
+        "top_keyword": "بترعش من البرد",
+        "top_similarity": 0.983006,
+        "threshold": 0.7,
+        "semantic_keyword": "بترعش من البرد",
+        "semantic_similarity": 0.983006,
+        "top_matches": [
+          {
+            "keyword": "بترعش من البرد",
+            "category": "sepsis",
+            "snomed": "91302008",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.983006
+          },
+          {
+            "keyword": "سخن جداً وبترعش",
+            "category": "sepsis",
+            "snomed": "91302008",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.982606
+          },
+          {
+            "keyword": "عنده سكر وبيترعش",
+            "category": "diabetic_emergency",
+            "snomed": "73211009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.981735
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "sepsis",
+        "esi": 1,
+        "matched_keyword": "بترعش من البرد",
+        "similarity": 0.983006,
+        "category_correct": false,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 48,
+      "group": "Diabetic Silent MI",
+      "input_text": "غيبوبة سكر ومش بيرد",
+      "expected": {
+        "category_label": "diabetic_coma",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "diabetic_emergency",
+          "unconscious"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "غيبوبة سكر",
+        "category": "diabetic_emergency",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "unconscious",
+        "esi": 1,
+        "top_keyword": "مش بيرد خالص",
+        "top_similarity": 0.98852,
+        "threshold": 0.7,
+        "semantic_keyword": "مش بيرد خالص",
+        "semantic_similarity": 0.98852,
+        "top_matches": [
+          {
+            "keyword": "مش بيرد خالص",
+            "category": "unconscious",
+            "snomed": "422768004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.98852
+          },
+          {
+            "keyword": "مش بيرد",
+            "category": "unconscious",
+            "snomed": "422768004",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.987726
+          },
+          {
+            "keyword": "مريض سكر ومش واعي",
+            "category": "diabetic_emergency",
+            "snomed": "73211009",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.987466
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "unconscious",
+        "esi": 1,
+        "matched_keyword": "مش بيرد خالص",
+        "similarity": 0.98852,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    },
+    {
+      "case_id": 49,
+      "group": "Psychiatric/Poisoning",
+      "input_text": "بلعت كل الحبوب اللي في البيت عايز أموت",
+      "expected": {
+        "category_label": "overdose + suicidal",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "poisoning_overdose",
+          "suicidal_homicidal"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "عايز أموت",
+        "category": "suicidal_homicidal",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "respiratory_distress",
+        "esi": 2,
+        "top_keyword": "بيزيد مش قادر اخد نفسي",
+        "top_similarity": 0.983373,
+        "threshold": 0.7,
+        "semantic_keyword": "بيزيد مش قادر اخد نفسي",
+        "semantic_similarity": 0.983373,
+        "top_matches": [
+          {
+            "keyword": "بيزيد مش قادر اخد نفسي",
+            "category": "respiratory_distress",
+            "snomed": "271825005",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.983373
+          },
+          {
+            "keyword": "جسمي بيتهز من السخونية",
+            "category": "sepsis",
+            "snomed": "91302008",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.983093
+          },
+          {
+            "keyword": "جسمي بيترعش من السخونية",
+            "category": "high_fever_toxic",
+            "snomed": "386661006",
+            "base_esi": 2,
+            "red_flag": true,
+            "similarity": 0.982776
+          }
+        ],
+        "category_correct": false,
+        "safe_esi": false
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "respiratory_distress",
+        "esi": 2,
+        "matched_keyword": "بيزيد مش قادر اخد نفسي",
+        "similarity": 0.983373,
+        "category_correct": false,
+        "safe_esi": false
+      }
+    },
+    {
+      "case_id": 50,
+      "group": "Psychiatric/Poisoning",
+      "input_text": "شربت كلور ومعدتي بتولع",
+      "expected": {
+        "category_label": "poisoning",
+        "esi": 1,
+        "accepted_internal_categories": [
+          "poisoning_overdose"
+        ]
+      },
+      "method_a_exact_keyword": {
+        "method": "Exact Keyword Only",
+        "matched": true,
+        "matched_keyword": "شربت كلور",
+        "category": "poisoning_overdose",
+        "esi": 1,
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_b_egybert_semantic": {
+        "method": "EgyBERT Semantic",
+        "matched": true,
+        "category": "poisoning_overdose",
+        "esi": 1,
+        "top_keyword": "شربت كلور",
+        "top_similarity": 0.989924,
+        "threshold": 0.7,
+        "semantic_keyword": "شربت كلور",
+        "semantic_similarity": 0.989924,
+        "top_matches": [
+          {
+            "keyword": "شربت كلور",
+            "category": "poisoning_overdose",
+            "snomed": "75478009",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.989924
+          },
+          {
+            "keyword": "شربت مادة كاوية",
+            "category": "poisoning_overdose",
+            "snomed": "75478009",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.988105
+          },
+          {
+            "keyword": "شربت منظف",
+            "category": "poisoning_overdose",
+            "snomed": "75478009",
+            "base_esi": 1,
+            "red_flag": true,
+            "similarity": 0.985711
+          }
+        ],
+        "category_correct": true,
+        "safe_esi": true
+      },
+      "method_c_combined": {
+        "method": "Combined (EgyBERT+KW)",
+        "source": "EgyBERT",
+        "category": "poisoning_overdose",
+        "esi": 1,
+        "matched_keyword": "شربت كلور",
+        "similarity": 0.989924,
+        "category_correct": true,
+        "safe_esi": true
+      }
+    }
+  ]
+}

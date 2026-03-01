@@ -11,6 +11,7 @@ export default function TriageResult({ result, onReset }) {
     const [confirmationError, setConfirmationError] = useState(null);
     const [pendingRegistered, setPendingRegistered] = useState(false);
     const [toast, setToast] = useState(null);
+    const [warningDismissed, setWarningDismissed] = useState(false);
 
     const clinicianId = user?.username || user?.name || 'unknown';
     const clinicianRoleRaw = (user?.role || '').toLowerCase();
@@ -117,6 +118,10 @@ export default function TriageResult({ result, onReset }) {
     const redFlagSummary = Array.isArray(result?.red_flag_summary) ? result.red_flag_summary : [];
     const resourcePlan = Array.isArray(result?.resource_plan) ? result.resource_plan : [];
     const fallbackWorkup = Array.isArray(result?.ai_data?.recommended_workup) ? result.ai_data.recommended_workup : [];
+    const insufficientInfoWarning = result?.insufficient_info_warning || null;
+    const showInsufficientInfoWarning = Boolean(
+        insufficientInfoWarning && (!insufficientInfoWarning.dismissible || !warningDismissed)
+    );
     const workupItems = resourcePlan.length
         ? resourcePlan.map((item) => ({
             label_en: item.label_en,
@@ -135,20 +140,20 @@ export default function TriageResult({ result, onReset }) {
             return;
         }
 
-        const { telegram, email, queued } = result.alerts_sent || {};
+        const { push, email, queued } = result.alerts_sent || {};
         const levelTag = result.level === 1 ? '🔴 ESI 1' : '🟠 ESI 2';
         let message = '';
 
         if (queued) {
             message = '⚠️ التنبيه في الانتظار | Alert queued — will send when online';
         } else {
-            const telegramMsg = telegram
-                ? '✅ تم إرسال التنبيه لطبيب الطوارئ المناوب | Alert sent to ER Resident on call'
+            const pushMsg = push
+                ? '✅ تم إرسال الإشعار للطبيب المناوب | Push alert sent to the on-call clinician'
                 : '';
             const emailMsg = email
                 ? '✅ تم إرسال البريد لطبيب الطوارئ المناوب | Email sent to ER Resident on call'
                 : '';
-            message = [telegramMsg, emailMsg].filter(Boolean).join(' • ');
+            message = [pushMsg, emailMsg].filter(Boolean).join(' • ');
         }
 
         setToast({
@@ -161,6 +166,10 @@ export default function TriageResult({ result, onReset }) {
         const timer = setTimeout(() => setToast(null), 5000);
         return () => clearTimeout(timer);
     }, [result]);
+
+    useEffect(() => {
+        setWarningDismissed(false);
+    }, [result?.patient_id, result?.level, result?.insufficient_info_warning]);
 
     // Determine gradient based on level
     const getGradient = (code) => {
@@ -197,6 +206,50 @@ export default function TriageResult({ result, onReset }) {
             >
                 <ArrowLeft className="w-4 h-4 mr-1" /> Back to Form
             </button>
+
+            {showInsufficientInfoWarning && (
+                <div
+                    className={`rounded-xl border-2 px-4 py-4 shadow-sm ${
+                        insufficientInfoWarning.severity === 'critical'
+                            ? 'bg-red-50 border-red-600 animate-pulse'
+                            : 'bg-amber-50 border-amber-500'
+                    }`}
+                >
+                    <div className="flex gap-3 items-start">
+                        <div className="text-2xl leading-none">
+                            {insufficientInfoWarning.severity === 'critical' ? '🚨' : '⚠️'}
+                        </div>
+                        <div className="flex-1 space-y-2">
+                            <p className="text-sm font-semibold text-slate-900">
+                                {insufficientInfoWarning.message_en}
+                            </p>
+                            <p className="text-sm text-slate-800 font-arabic" dir="rtl">
+                                {insufficientInfoWarning.message_ar}
+                            </p>
+                            {Array.isArray(insufficientInfoWarning.ask_patient) && insufficientInfoWarning.ask_patient.length > 0 && (
+                                <div className="text-sm text-slate-700">
+                                    <div className="font-semibold mb-1">Ask Patient / اسأل المريض:</div>
+                                    <ul className="list-disc pl-5 space-y-1">
+                                        {insufficientInfoWarning.ask_patient.map((question, idx) => (
+                                            <li key={`${question}-${idx}`}>{question}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    {insufficientInfoWarning.dismissible && (
+                        <div className="mt-3">
+                            <button
+                                onClick={() => setWarningDismissed(true)}
+                                className="px-3 py-1.5 rounded-md text-xs font-semibold bg-slate-800 text-white hover:bg-slate-700 transition"
+                            >
+                                I have reviewed this / راجعت
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
 
             {/* Main Card */}
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">

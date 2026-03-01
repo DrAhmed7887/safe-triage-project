@@ -26,7 +26,7 @@ Ensure SAFE-Triage does **not** auto-assign ESI. Final decisions require clinici
 ```
 **Behavior**
 - Writes to BigQuery `triage_confirmations`
-- If `confirmed_esi <= 2`, send alert (Telegram + n8n)
+- If `confirmed_esi <= 2`, send alert (FCM push + email)
 - Marks pending record as resolved
 
 ### 3) GET `/pending-confirmations`
@@ -61,14 +61,14 @@ Table: `triage_confirmations`
 
 ### Escalation
 - 5-minute timeout triggers:
-  - Supervisor alert via n8n (WhatsApp/SMS/email)
+- Supervisor alert via FCM push + email
   - Case moves to `/pending-confirmations`
 
 ## Open Decisions (Ahmed Approval Needed)
 1. Supervisor PIN policy (static vs rotating)
 2. Allowed roles for override (nurse vs physician vs supervisor)
 3. Timeout duration (default 5 min; should this be configurable?)
-4. Escalation channels (Telegram only vs n8n multi-channel)
+4. Escalation channels (FCM push only vs push + email)
 
 ## Safety Notes
 - Overrides must be logged with reason.

@@ -82,6 +82,7 @@ def test_deterministic_triage_levels():
         # LEVEL 2 - Emergent
         {"name": "Chest pain (cardiac)", "complaint": "صدري بيوجعني", "vitals": {"hr": 100}, "age": 55, "expected": 2},
         {"name": "Stroke symptoms", "complaint": "وشه مايل ومش قادر يتكلم", "expected": 2},
+        {"name": "Stroke speech loss sudden", "complaint": "مش قادر اتكلم فجأة", "expected": 2},
         {"name": "Can't breathe", "complaint": "مش عارف آخد نفسي", "expected": 2},
         {"name": "Suicidal", "complaint": "عايز أموت", "expected": 2},
         {"name": "Pregnant bleeding", "complaint": "حامل وبتنزف", "expected": 2},

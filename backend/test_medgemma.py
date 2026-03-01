@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-Test MedGemma-2B integration end-to-end.
-"""
+"""Test MedGemma 1.5-4B integration end-to-end."""
 
 from __future__ import annotations
 
@@ -13,7 +11,7 @@ from medgemma_client import MedGemmaClient
 
 async def test_medgemma_connection() -> bool:
     print("\n" + "=" * 70)
-    print("TEST 1: MedGemma-2B Connection Test")
+    print("TEST 1: MedGemma 1.5-4B Connection Test")
     print("=" * 70 + "\n")
     try:
         client = MedGemmaClient()
@@ -23,9 +21,9 @@ async def test_medgemma_connection() -> bool:
         return False
 
     if ok:
-        print("✅ MedGemma-2B API is accessible")
+        print("✅ MedGemma 1.5-4B API is accessible")
     else:
-        print("❌ MedGemma-2B API connection failed")
+        print("❌ MedGemma 1.5-4B API connection failed")
     return ok
 
 
@@ -65,7 +63,7 @@ async def test_alert_system() -> bool:
     try:
         result = await send_disaster_alert(test_case)
         print(f"Alert result: {result}")
-        if result.get("telegram") or result.get("email") or result.get("queued"):
+        if result.get("push") or result.get("email") or result.get("queued"):
             print("✅ Alert dispatch pathway working")
             return True
         print("❌ Alert dispatch returned no channels")
@@ -77,7 +75,7 @@ async def test_alert_system() -> bool:
 
 async def run_all_tests() -> int:
     print("\n" + "=" * 70)
-    print("MedGemma-2B Complete Test Suite")
+    print("MedGemma 1.5-4B Complete Test Suite")
     print("=" * 70)
 
     results = []
@@ -97,4 +95,3 @@ async def run_all_tests() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(asyncio.run(run_all_tests()))
-

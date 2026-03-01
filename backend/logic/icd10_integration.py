@@ -163,19 +163,44 @@ def check_silent_mi_pattern(patient_data: Dict) -> Dict[str, Any]:
     is_diabetic = "diabetes" in str(patient_data.get("comorbidities", [])).lower() or \
                   "dm" in str(patient_data.get("comorbidities", [])).lower() or \
                   patient_data.get("diabetic", False)
+    comorbidity_text = str(patient_data.get("comorbidities", [])).lower()
+    high_cardiac_risk = (
+        patient_data.get("history_cardiac", False)
+        or any(
+            token in comorbidity_text
+            for token in ["hypertension", "hyperlipidemia", "smoker", "coronary", "cad", "cardiac", "heart failure"]
+        )
+    )
     
     age = patient_data.get("age", 0)
     gender = patient_data.get("gender", "").lower()
-    complaint = str(patient_data.get("chief_complaint", "")).lower()
+    complaint = str(
+        patient_data.get("chief_complaint")
+        or patient_data.get("chief_complaint_text")
+        or patient_data.get("complaint")
+        or ""
+    ).lower()
+    extracted_symptoms = patient_data.get("extracted_symptoms") or []
+    extracted_text = " ".join(str(item) for item in extracted_symptoms).lower()
+    combined_text = f"{complaint} {extracted_text}".strip()
     
     # Check for atypical GI symptoms in diabetic patient
-    gi_symptoms = any(word in complaint for word in [
+    gi_symptoms = any(word in combined_text for word in [
         "nausea", "غثيان", "indigestion", "سوء هضم", "heartburn", "حرقان",
-        "stomach", "معدة", "vomiting", "قيء", "fatigue", "تعب", "هبطان"
+        "stomach", "معدة", "vomiting", "قيء", "epigastric", "فم المعدة",
+        "dyspepsia", "حموضة", "حرقان المعدة"
+    ])
+    atypical_systemic = any(word in combined_text for word in [
+        "fatigue", "weakness", "nausea", "diaphoresis", "sweating",
+        "تعب", "ضعف", "غثيان", "عرق", "دوخة", "هبطان"
     ])
     
     # High risk: diabetic + male + age > 50 + GI symptoms
-    pattern_detected = is_diabetic and age > 50 and gi_symptoms
+    pattern_detected = (
+        (is_diabetic and age >= 50 and gi_symptoms)
+        or (high_cardiac_risk and age >= 65 and gi_symptoms)
+        or ((is_diabetic or high_cardiac_risk) and age >= 45 and gi_symptoms and atypical_systemic)
+    )
     strong_pattern = pattern_detected and gender == "male"
     
     return {
@@ -187,9 +212,11 @@ def check_silent_mi_pattern(patient_data: Dict) -> Dict[str, Any]:
         "icd10_code": silent_mi_info.get("icd10", "R07.89"),
         "red_flags_present": {
             "diabetic": is_diabetic,
-            "age_over_50": age > 50,
+            "high_cardiac_risk": high_cardiac_risk,
+            "age_over_45": age >= 45,
             "male": gender == "male",
-            "gi_symptoms": gi_symptoms
+            "gi_symptoms": gi_symptoms,
+            "atypical_systemic": atypical_systemic,
         },
         "clinical_action": "Recommend ECG even for GI complaints" if pattern_detected else None
     }

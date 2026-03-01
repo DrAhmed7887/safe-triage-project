@@ -60,6 +60,7 @@ from dataclasses import dataclass
 from enum import Enum
 import os
 import json
+import time
 from dotenv import load_dotenv
 
 # ICD-10 coding for GAHAR compliance (Egyptian hospitals)
@@ -91,7 +92,7 @@ def _get_genai():
     """Lazy load google.generativeai module."""
     global genai
     if genai is None:
-        # import google.generativeai as _genai  # REMOVED
+        import google.generativeai as _genai
         genai = _genai
     return genai
 
@@ -246,6 +247,367 @@ class NEWS2Result:
     alerts_ar: List[str]
     alerts_en: List[str]
     triage_level: int  # Derived from NEWS2 score
+
+
+class VitalSignsValidator:
+    """Validate required vital signs and detect out-of-range entries."""
+
+    REQUIRED_VITALS = ["hr", "sbp", "dbp", "rr", "spo2", "temp", "consciousness"]
+
+    RANGES = {
+        "hr": (20, 250),
+        "sbp": (50, 250),
+        "dbp": (20, 150),
+        "rr": (4, 60),
+        "spo2": (50, 100),
+        "temp": (30.0, 45.0),
+        "blood_glucose": (20, 1000),
+    }
+
+    BYPASS_ALLOWED = {
+        "cardiac_arrest",
+        "severe_trauma",
+        "active_seizure",
+        "severe_bleeding",
+        "respiratory_arrest",
+        "anaphylaxis",
+        "drowning",
+    }
+
+    BYPASS_KEYWORDS = [
+        "cardiac arrest",
+        "not breathing",
+        "respiratory arrest",
+        "unconscious",
+        "active seizure",
+        "massive hemorrhage",
+        "توقف القلب",
+        "توقف التنفس",
+        "مش بيتنفس",
+        "فاقد الوعي",
+        "تشنج",
+        "نزيف شديد",
+    ]
+
+    @staticmethod
+    def normalize_vitals(vitals: Dict[str, Any]) -> Dict[str, Any]:
+        data = dict(vitals or {})
+        if "bp_systolic" in data and "sbp" not in data:
+            data["sbp"] = data.get("bp_systolic")
+        if "bp_diastolic" in data and "dbp" not in data:
+            data["dbp"] = data.get("bp_diastolic")
+        if "temperature" in data and "temp" not in data:
+            data["temp"] = data.get("temperature")
+        # Accept Fahrenheit temperature payloads and normalize to Celsius.
+        raw_temp = data.get("temp")
+        try:
+            if raw_temp is not None:
+                temp_value = float(raw_temp)
+                if 80.0 <= temp_value <= 120.0:
+                    data["temp"] = round((temp_value - 32.0) * 5.0 / 9.0, 1)
+        except (TypeError, ValueError):
+            pass
+        return data
+
+    @staticmethod
+    def validate(
+        vitals: Dict[str, Any],
+        complaint_text: str = "",
+        extracted_features: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        normalized = VitalSignsValidator.normalize_vitals(vitals)
+        category = (extracted_features or {}).get("category", "")
+        category = str(category or "").strip().lower()
+        complaint_l = str(complaint_text or "").lower()
+
+        bypass = category in VitalSignsValidator.BYPASS_ALLOWED or any(
+            token in complaint_l for token in VitalSignsValidator.BYPASS_KEYWORDS
+        )
+        if bypass:
+            return {
+                "valid": True,
+                "bypass_allowed": True,
+                "temporary_esi": 1,
+                "message": "Life-threatening presentation - vitals can be completed during resuscitation",
+                "normalized_vitals": normalized,
+            }
+
+        missing = []
+        for field in VitalSignsValidator.REQUIRED_VITALS:
+            value = normalized.get(field)
+            if value is None or (isinstance(value, str) and value.strip() == ""):
+                missing.append(field)
+
+        if missing:
+            return {
+                "valid": False,
+                "bypass_allowed": False,
+                "errors": [
+                    {
+                        "type": "missing_vitals",
+                        "fields": missing,
+                        "message": f"Missing required vital signs: {', '.join(missing)}",
+                    }
+                ],
+                "warnings": [],
+                "normalized_vitals": normalized,
+            }
+
+        errors: List[Dict[str, Any]] = []
+        warnings: List[Dict[str, Any]] = []
+        for field, (min_v, max_v) in VitalSignsValidator.RANGES.items():
+            if field not in normalized or normalized.get(field) in (None, ""):
+                continue
+            try:
+                value = float(normalized[field])
+            except (TypeError, ValueError):
+                errors.append(
+                    {
+                        "type": "invalid_value",
+                        "field": field,
+                        "message": f"Invalid {field} value",
+                    }
+                )
+                continue
+            if value < min_v or value > max_v:
+                warnings.append(
+                    {
+                        "type": "out_of_range",
+                        "field": field,
+                        "value": value,
+                        "range": [min_v, max_v],
+                        "message": f"{field} ({value}) outside valid range ({min_v}-{max_v})",
+                    }
+                )
+
+        hr = normalized.get("hr")
+        sbp = normalized.get("sbp")
+        try:
+            if hr is not None and sbp is not None and float(hr) > 120 and float(sbp) < 90:
+                warnings.append(
+                    {
+                        "type": "shock_indicators",
+                        "message": "High HR + Low BP may indicate shock",
+                        "severity": "critical",
+                    }
+                )
+        except Exception:
+            pass
+
+        return {
+            "valid": len(errors) == 0,
+            "bypass_allowed": False,
+            "errors": errors,
+            "warnings": warnings,
+            "normalized_vitals": normalized,
+        }
+
+
+def calculate_news2_plus(news2_result: NEWS2Result, vitals: Any) -> Dict[str, Any]:
+    """
+    Extended NEWS2 scoring with optional blood glucose contribution.
+    Blood glucose input is expected in mg/dL.
+    """
+    bg_mgdl = getattr(vitals, "blood_glucose", None)
+    glucose_score = 0
+    glucose_category = "not_measured"
+
+    if bg_mgdl is not None:
+        try:
+            bg_mgdl = float(bg_mgdl)
+            bg_mmol = bg_mgdl / 18.0
+            if bg_mmol < 3.0:
+                glucose_score = 3
+                glucose_category = "severe_hypoglycemia"
+            elif bg_mmol < 4.0:
+                glucose_score = 2
+                glucose_category = "hypoglycemia"
+            elif bg_mmol < 6.0:
+                glucose_score = 1
+                glucose_category = "abnormal_low"
+            elif bg_mmol > 15.0:
+                glucose_score = 1
+                glucose_category = "hyperglycemia"
+            else:
+                glucose_score = 0
+                glucose_category = "normal"
+        except (TypeError, ValueError):
+            glucose_score = 0
+            glucose_category = "invalid"
+
+    total = int(news2_result.total_score) + int(glucose_score)
+    triage_level = news2_result.triage_level
+    if total >= 10:
+        triage_level = 1
+    elif total >= 7 or news2_result.has_extreme_value:
+        triage_level = 2
+    elif total >= 5:
+        triage_level = 3
+    elif total >= 1:
+        triage_level = 4
+    else:
+        triage_level = 5
+
+    return {
+        "news2_base": int(news2_result.total_score),
+        "glucose_score": int(glucose_score),
+        "news2_plus_total": int(total),
+        "glucose_measured": bg_mgdl is not None,
+        "glucose_value_mgdl": bg_mgdl,
+        "glucose_value_mmol": round(bg_mgdl / 18.0, 2) if bg_mgdl is not None else None,
+        "glucose_category": glucose_category,
+        "triage_level": triage_level,
+    }
+
+
+def check_glucose_red_flags(vitals: Any, patient_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Check glucose-specific red flags."""
+    flags: List[Dict[str, Any]] = []
+    bg = getattr(vitals, "blood_glucose", None)
+
+    if bg is None:
+        # If glucose is not measured, suggest it for presentations where bedside glucose
+        # is clinically important and can change urgency.
+        symptoms = [str(item).lower() for item in (patient_data.get("extracted_symptoms") or [])]
+        complaint_text = str(
+            patient_data.get("chief_complaint_text")
+            or patient_data.get("chief_complaint")
+            or patient_data.get("complaint")
+            or ""
+        ).lower()
+        joined = " ".join(symptoms + [complaint_text])
+        recommend_tokens = [
+            "altered mental",
+            "confusion",
+            "seizure",
+            "weakness",
+            "fatigue",
+            "syncope",
+            "sepsis",
+            "تغير الوعي",
+            "تشوش",
+            "تشنج",
+            "ضعف",
+            "إغماء",
+            "تعفن",
+        ]
+        if any(token in joined for token in recommend_tokens):
+            flags.append(
+                {
+                    "type": "glucose_recommended",
+                    "min_esi": 3,
+                    "alert": "Blood glucose measurement recommended for this presentation",
+                    "action": "Check bedside glucose now",
+                    "icd10": "",
+                }
+            )
+        return flags
+
+    try:
+        bg = float(bg)
+    except (TypeError, ValueError):
+        return flags
+
+    comorbidities = [str(item).lower() for item in (patient_data.get("comorbidities") or [])]
+    has_diabetes = any("diabet" in item or "سكري" in item for item in comorbidities)
+
+    if bg < 54:
+        flags.append(
+            {
+                "type": "severe_hypoglycemia",
+                "min_esi": 2,
+                "alert": "Critical hypoglycemia - immediate intervention required",
+                "action": "IV dextrose + neuro assessment",
+                "icd10": "E16.2",
+            }
+        )
+    if bg > 250 and has_diabetes:
+        flags.append(
+            {
+                "type": "dka_concern",
+                "min_esi": 2,
+                "alert": "Severe hyperglycemia in diabetic - possible DKA",
+                "action": "Obtain ABG, BMP, urinalysis, ketones",
+                "icd10": "E10.10",
+            }
+        )
+    if bg > 600:
+        flags.append(
+            {
+                "type": "hhs_concern",
+                "min_esi": 2,
+                "alert": "Extreme hyperglycemia - possible HHS",
+                "action": "Aggressive fluid resuscitation, electrolyte monitoring",
+                "icd10": "E11.01",
+            }
+        )
+
+    return flags
+
+
+class ESI5Criteria:
+    """Strict eligibility criteria for ESI 5 assignments."""
+
+    APPROVED_CATEGORIES = {
+        "medication_refill",
+        "prescription_refill",
+        "prescription_renewal",
+        "routine_followup",
+        "minor_uri",
+        "stable_rash",
+        "minor_sprain_48h",
+        "cast_check",
+        "chronic_stable_pain",
+        "administrative_issue",
+        "minor_complaint",
+        "chronic_stable",
+        "suture_removal",
+        "wound_check",
+        "rash_minor",
+    }
+
+    HIGH_RISK_COMORBIDITY_TOKENS = {
+        "active_cancer",
+        "immunocomprom",
+        "dialysis",
+        "unstable_angina",
+        "recent_surgery",
+    }
+
+    CONCERNING_MODIFIERS = ("severe", "acute", "sudden", "worsening", "شديد", "حاد")
+
+    @staticmethod
+    def is_eligible(patient_data: Dict[str, Any], news2_plus_total: int, category: str) -> Dict[str, Any]:
+        age = float(patient_data.get("age") or 0)
+        complaint = str(
+            patient_data.get("chief_complaint_text")
+            or patient_data.get("chief_complaint")
+            or patient_data.get("complaint")
+            or ""
+        ).lower()
+        comorbidities = [str(item).lower() for item in (patient_data.get("comorbidities") or [])]
+        pain_score = patient_data.get("pain_scale")
+        if pain_score is None:
+            pain_score = (patient_data.get("vitals") or {}).get("pain_score")
+        try:
+            pain_score = float(pain_score) if pain_score is not None else 0.0
+        except (TypeError, ValueError):
+            pain_score = 0.0
+
+        if age < 18 or age > 65:
+            return {"eligible": False, "reason": "age_out_of_range", "recommended_esi": 4}
+        if news2_plus_total > 0:
+            return {"eligible": False, "reason": "abnormal_vitals", "recommended_esi": 4}
+        if pain_score > 2:
+            return {"eligible": False, "reason": "significant_pain", "recommended_esi": 4}
+        if any(any(token in item for token in ESI5Criteria.HIGH_RISK_COMORBIDITY_TOKENS) for item in comorbidities):
+            return {"eligible": False, "reason": "high_risk_comorbidities", "recommended_esi": 4}
+        if category not in ESI5Criteria.APPROVED_CATEGORIES:
+            return {"eligible": False, "reason": "complaint_requires_evaluation", "recommended_esi": 4}
+        if any(token in complaint for token in ESI5Criteria.CONCERNING_MODIFIERS):
+            return {"eligible": False, "reason": "concerning_severity_modifiers", "recommended_esi": 4}
+
+        return {"eligible": True, "reason": "meets_all_esi5_criteria", "confidence": "high"}
 
 
 # =============================================================================
@@ -723,6 +1085,10 @@ class AISymptomClassifier:
     constrained outputs in healthcare AI systems.
     """
     
+    @staticmethod
+    def _offline_mode_enabled() -> bool:
+        return str(os.getenv("TRIAGE_OFFLINE_MODE", "false")).strip().lower() in {"1", "true", "yes"}
+
     def __init__(self):
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
@@ -749,6 +1115,70 @@ class AISymptomClassifier:
         self._failure_threshold = 3  # After 3 failures, circuit opens
         self._circuit_open_until = 0  # Unix timestamp when circuit can close
         self._cooldown_seconds = 60  # Wait 60 seconds before retrying AI
+        self.last_extraction_method = "keyword_offline"
+
+        # Lazy semantic matcher (EgyBERT offline). Instantiate only when needed.
+        self._egybert_matcher = None
+        self._egybert_unavailable = False
+
+    def _get_egybert_matcher(self):
+        # Performance/safety guard: never touch EgyBERT outside explicit offline mode.
+        if not self._offline_mode_enabled():
+            return None
+        if self._egybert_unavailable:
+            return None
+        if self._egybert_matcher is not None:
+            return self._egybert_matcher
+
+        import_started = time.perf_counter()
+        try:
+            from egybert_matcher import EgyBertOfflineMatcher
+        except Exception:
+            try:
+                from backend.egybert_matcher import EgyBertOfflineMatcher
+            except Exception as import_exc:
+                print(f"[EgyBERT] Matcher import unavailable: {import_exc}")
+                self._egybert_unavailable = True
+                return None
+
+        print(
+            f"[Timing] EgyBERT import prepared in {(time.perf_counter() - import_started):.3f}s",
+            flush=True,
+        )
+        init_started = time.perf_counter()
+        try:
+            self._egybert_matcher = EgyBertOfflineMatcher()
+            print(
+                f"[Timing] EgyBERT model loaded in {(time.perf_counter() - init_started):.3f}s",
+                flush=True,
+            )
+            return self._egybert_matcher
+        except Exception as init_exc:
+            print(f"[EgyBERT] Matcher init failed: {init_exc}")
+            self._egybert_unavailable = True
+            return None
+
+    def _semantic_offline_match(self, text: str) -> Optional[str]:
+        matcher = self._get_egybert_matcher()
+        if matcher is None:
+            return None
+
+        match_started = time.perf_counter()
+        try:
+            result = matcher.match(text)
+        except Exception as match_exc:
+            print(f"[EgyBERT] Semantic match failed: {match_exc}")
+            return None
+        print(
+            f"[Timing] EgyBERT semantic match in {(time.perf_counter() - match_started):.3f}s",
+            flush=True,
+        )
+
+        candidate_category = str(result.get("category", "")).strip()
+        if candidate_category and candidate_category != "unknown" and candidate_category in SYMPTOM_CATEGORIES:
+            self.last_extraction_method = "egybert_offline"
+            return candidate_category
+        return None
     
     def _ensure_model_loaded(self):
         """Lazy load the generative AI model on first use."""
@@ -841,17 +1271,20 @@ class AISymptomClassifier:
             
             # Validate against known categories
             if category in self.category_list:
+                self.last_extraction_method = "gemini_online"
                 self._record_success()  # Reset circuit breaker on success
                 return category
             
             # Try fuzzy matching for close matches
             for known_cat in self.category_list:
                 if known_cat in category or category in known_cat:
+                    self.last_extraction_method = "gemini_online"
                     self._record_success()  # Reset circuit breaker on success
                     return known_cat
             
             # Default to unclear if no match
             print(f"AI returned unknown category: '{category}'. Defaulting to 'unclear'")
+            self.last_extraction_method = "gemini_online"
             return "unclear"
             
         except Exception as e:
@@ -864,8 +1297,65 @@ class AISymptomClassifier:
         Fallback keyword matching when AI is unavailable.
         Uses dynamic keyword database if available, otherwise static keywords.
         """
+        self.last_extraction_method = "keyword_offline"
         text_lower = text.lower()
-        
+        normalized_text = text_lower.replace("أ", "ا")
+
+        # Guardrail: abdominal pain + fever is a high-risk combination (ESI 2 pathway).
+        fever_tokens = ["سخونية", "حمى", "حرارة", "fever", "temp", "high fever"]
+        abdominal_tokens = ["بطني", "وجع بطن", "الم بطن", "ألم بطن", "stomach pain", "abdominal pain", "مغص"]
+        if any(token in normalized_text for token in fever_tokens) and any(
+            token in normalized_text for token in abdominal_tokens
+        ):
+            return "high_fever_toxic"
+
+        # Guardrail: atypical ACS / silent MI often presents as GI discomfort + sweating/fatigue.
+        silent_mi_gi_tokens = [
+            "indigestion",
+            "epigastr",
+            "heartburn",
+            "dyspepsia",
+            "عسر هضم",
+            "سوء هضم",
+            "حرقان",
+            "فم المعدة",
+            "فم المعده",
+            "المعده",
+        ]
+        silent_mi_signal_tokens = [
+            "عرقان",
+            "عرق",
+            "sweat",
+            "diaphores",
+            "fatigue",
+            "تعب",
+            "ارهاق",
+            "إرهاق",
+            "هبطان",
+            "ضعف",
+            "weak",
+        ]
+        chest_discomfort_tokens = [
+            "chest pain",
+            "chest discomfort",
+            "burning chest",
+            "chest burning",
+            "angina",
+            "ألم صدر",
+            "الم صدر",
+            "وجع صدر",
+            "حرقان صدر",
+            "حارق بالصدر",
+            "ضغط على الصدر",
+        ]
+        has_silent_mi_gi = any(token in normalized_text for token in silent_mi_gi_tokens)
+        has_silent_mi_signal = any(token in normalized_text for token in silent_mi_signal_tokens)
+        has_chest_discomfort = any(token in normalized_text for token in chest_discomfort_tokens)
+        if has_silent_mi_gi and (has_silent_mi_signal or has_chest_discomfort):
+            return "silent_mi"
+        if has_chest_discomfort:
+            return "chest_pain_cardiac"
+
         # Try dynamic keyword database first
         if USE_DYNAMIC_KEYWORDS:
             try:
@@ -877,6 +1367,11 @@ class AISymptomClassifier:
             except Exception as e:
                 print(f"Dynamic keyword search error: {e}")
                 # Fall through to static keywords
+
+        # Semantic fallback is used only after deterministic keyword lookup fails.
+        semantic_category = self._semantic_offline_match(text)
+        if semantic_category:
+            return semantic_category
         
         # Static fallback keywords
         # Level 1 keywords (must catch these even without AI)
@@ -905,9 +1400,23 @@ class AISymptomClassifier:
         # Level 2 keywords
         level2_keywords = {
             "chest_pain_cardiac": ["chest pain", "ألم صدر", "صدري بيوجعني", "قلبي بيوجعني"],
-            "stroke_symptoms": ["stroke", "جلطة", "شلل", "مش قادر يتكلم", "وشه مايل"],
+            "stroke_symptoms": [
+                "stroke", "جلطة", "جلطة في المخ", "سكتة", "سكتة دماغية", "شلل",
+                "aphasia", "dysarthria", "slurred speech", "speech difficulty",
+                "can not speak", "can't speak", "cannot speak", "unable to speak",
+                "difficulty speaking", "speech loss", "inability to speak", "sudden inability to speak",
+                "facial droop", "face drooping",
+                "one side weakness", "one sided weakness", "hemiplegia",
+                "مش قادر يتكلم", "مش قادر اتكلم", "مش قادر أتكلم", "مبقتش قادر اتكلم",
+                "كلامي اتلخبط", "كلامه اتلخبط", "بيتكلم غريب", "كلامي مش واضح",
+                "فقدان النطق", "فقدان الكلام", "عدم القدرة على الكلام", "عدم القدرة على التكلم",
+                "لساني اتلت", "لسانه اتلت", "لساني تقيل", "لسانه تقيل",
+                "وشه مايل", "وشي مايل", "نص وشه وقع", "نص وشي وقع", "وشي اتعوج",
+                "نص جسمي مش بيتحرك", "نص جسمه مش بيتحرك", "ايدي مش بتتحرك", "ايده مش بتتحرك",
+                "رجلي مش بتتحرك", "الجنب ده كله مش بيتحرك", "ايده وقعت", "ايدي وقعت",
+            ],
             "respiratory_distress": ["can't breathe", "مش عارف آخد نفسي", "ضيق تنفس", 
-                                    "مش قادرة آخد نفسي", "صعوبة تنفس"],
+                                    "مش قادرة آخد نفسي", "صعوبة تنفس", "مش قادر اتنفس"],
             "suicidal_homicidal": ["suicidal", "kill myself", "عايز أموت", "عايز يموت",
                                   "يقتل نفسه", "عايز يقتل نفسه", "ينتحر", "عايز ينتحر",
                                   "هيأذي نفسه", "مش عايز يعيش"],
@@ -1001,6 +1510,7 @@ class DeterministicTriageResult:
     """Complete triage result with full decision audit trail"""
     # Final Result
     final_level: int
+    extraction_method: str
     color_code: str
     label_ar: str
     label_en: str
@@ -1710,6 +2220,7 @@ class DeterministicTriageEngine:
                 self.sbp = d.get('sbp')
                 self.dbp = d.get('dbp')
                 self.temp = d.get('temp')
+                self.blood_glucose = d.get('blood_glucose')
                 self.pain_score = d.get('pain_score', 0)
         
         if isinstance(vitals, dict):
@@ -1723,11 +2234,18 @@ class DeterministicTriageEngine:
             on_supplemental_o2=on_supplemental_o2,
             consciousness=consciousness
         )
+        news2_plus_result = calculate_news2_plus(news2_result, vitals)
+        news2_effective_total = int(news2_plus_result["news2_plus_total"])
+        news2_effective_level = int(news2_plus_result["triage_level"])
         
         # Step 2: Classify complaint (allow explicit override from upstream AI/RAG)
         category_override = patient_data.get("category_override")
         if category_override in SYMPTOM_CATEGORIES:
             category = category_override
+            extraction_method = (
+                patient_data.get("extraction_method_override")
+                or ("gemini_online" if self.use_ai else "keyword_offline")
+            )
         else:
             # PERFORMANCE FIX: Only use AI when explicitly enabled
             if self.use_ai:
@@ -1735,13 +2253,65 @@ class DeterministicTriageEngine:
             else:
                 # Standard mode: Use ONLY keyword matching (fast, deterministic)
                 category = self.ai_classifier._fallback_keyword_match(complaint)
+            extraction_method = getattr(self.ai_classifier, "last_extraction_method", "keyword_offline")
         category_info = SYMPTOM_CATEGORIES.get(category, SYMPTOM_CATEGORIES["unclear"])
         category_level = category_info.esi_level
+
+        complaint_lower = str(complaint or "").lower()
+        normalized_complaint = (
+            complaint_lower.replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
+        )
+        pain_context = str(patient_data.get("pain_context") or "").strip().lower()
+        comorbidities_text = " ".join(str(item).lower() for item in (patient_data.get("comorbidities") or []))
+        has_diabetes_risk = any(token in comorbidities_text for token in ["diabet", "dm", "سكر"])
+        has_smoker_risk = any(token in comorbidities_text for token in ["smok", "مدخ"])
+        has_hyperlipidemia_risk = any(token in comorbidities_text for token in ["hyperlipidemia", "lipid", "دهون"])
+        chest_discomfort_tokens = [
+            "chest pain",
+            "chest discomfort",
+            "burning chest",
+            "chest burning",
+            "angina",
+            "ألم صدر",
+            "الم صدر",
+            "وجع صدر",
+            "حرقان صدر",
+            "حارق بالصدر",
+            "ضغط على الصدر",
+        ]
+        atypical_gi_tokens = [
+            "indigestion",
+            "epigastr",
+            "heartburn",
+            "dyspepsia",
+            "عسر هضم",
+            "سوء هضم",
+            "حرقان",
+            "فم المعدة",
+            "فم المعده",
+            "المعده",
+        ]
+        autonomic_fatigue_tokens = [
+            "عرقان",
+            "عرق",
+            "sweat",
+            "diaphores",
+            "fatigue",
+            "تعب",
+            "ارهاق",
+            "إرهاق",
+            "هبطان",
+            "weak",
+            "ضعف",
+        ]
+        has_chest_discomfort = any(token in normalized_complaint for token in chest_discomfort_tokens)
+        has_atypical_gi = any(token in normalized_complaint for token in atypical_gi_tokens)
+        has_autonomic_fatigue = any(token in normalized_complaint for token in autonomic_fatigue_tokens)
         
         # Step 3: Apply clinical modifiers (Deterministic rules)
         modifiers = []
         modifier_level = 5  # Start with lowest urgency
-        
+
         # ===== PEDIATRIC MODIFIERS (AUDIT FIX - CRITICAL) =====
         # ESI v4 Chapter 5: Pediatric Considerations
         
@@ -1759,7 +2329,34 @@ class DeterministicTriageEngine:
         if age < 2 and news2_result.total_score >= 2:
             modifier_level = min(modifier_level, 2)
             modifiers.append("طفل رضيع مع علامات حيوية غير طبيعية / Infant with abnormal vitals")
-        
+
+        # ===== CHEST PAIN SAFETY FLOOR =====
+        if pain_context == "chest_pain" or has_chest_discomfort:
+            modifier_level = min(modifier_level, 2)
+            modifiers.append("🚨 ألم/انزعاج صدري - حد أدنى ESI 2 / Chest pain/discomfort - minimum ESI 2")
+
+        # ===== SILENT MI / ATYPICAL ACS SAFETY FLOOR =====
+        if (
+            has_atypical_gi
+            and (has_autonomic_fatigue or has_chest_discomfort)
+            and (
+                bool(patient_data.get("history_cardiac"))
+                or has_diabetes_risk
+                or has_smoker_risk
+                or has_hyperlipidemia_risk
+                or age >= 50
+            )
+        ):
+            modifier_level = min(modifier_level, 2)
+            if category in {"mild_gi", "mild_pain", "unclear", "abdominal_pain_moderate", "chest_pain_noncardiac"}:
+                category = "silent_mi"
+                category_info = SYMPTOM_CATEGORIES.get(category, category_info)
+                category_level = category_info.esi_level
+            modifiers.append(
+                "⚠️ نمط جلطة صامتة/ACS غير نمطي (أعراض معدية + تعب/تعرق مع عوامل خطورة) / "
+                "Atypical ACS pattern (GI symptoms + fatigue/sweating with risk factors)"
+            )
+
         # ===== ELDERLY MODIFIERS =====
         if age >= 65 and category in ["chest_pain_cardiac", "chest_pain_noncardiac"]:
             modifier_level = min(modifier_level, 2)
@@ -1816,9 +2413,18 @@ class DeterministicTriageEngine:
         # - 0 resources = Level 5
         # =================================================================
         
-        # Step 4: Determine preliminary level from NEWS2, category, and modifiers
+        glucose_flags = check_glucose_red_flags(vitals, patient_data)
+        for glucose_flag in glucose_flags:
+            min_esi = int(glucose_flag.get("min_esi", 5))
+            modifier_level = min(modifier_level, min_esi)
+            modifiers.append(
+                f"{glucose_flag.get('alert', 'Glucose risk detected')} / "
+                f"{glucose_flag.get('action', 'Requires urgent evaluation')}"
+            )
+
+        # Step 4: Determine preliminary level from NEWS2+, category, and modifiers
         preliminary_level = min(
-            news2_result.triage_level,
+            news2_effective_level,
             category_level,
             modifier_level
         )
@@ -1878,6 +2484,19 @@ class DeterministicTriageEngine:
                     final_level = 5  # Non-urgent - no resources
                 modifiers.append("بدون موارد طوارئ / No ED resources needed")
 
+            if final_level == 5:
+                esi5_check = ESI5Criteria.is_eligible(
+                    patient_data=patient_data,
+                    news2_plus_total=news2_effective_total,
+                    category=category,
+                )
+                if not esi5_check.get("eligible", False):
+                    final_level = int(esi5_check.get("recommended_esi", 4))
+                    modifiers.append(
+                        f"ESI5 not eligible: {esi5_check.get('reason')} / "
+                        f"غير مؤهل لمستوى ESI5: {esi5_check.get('reason')}"
+                    )
+
         # Apply ESI v5 compliance
         final_level, esi_v5_alerts = self.apply_esi_v5_compliance(
             patient_data, vitals, final_level
@@ -1893,14 +2512,14 @@ class DeterministicTriageEngine:
             extreme_component_count = sum(
                 1 for score in (news2_result.component_scores or {}).values() if score == 3
             )
-            if news2_result.total_score >= 7 or extreme_component_count >= 2:
+            if news2_effective_total >= 7 or extreme_component_count >= 2:
                 # Ultimate safety net for unknown complaints with high NEWS2.
                 final_level = 1
                 modifiers.append(
                     "شكوى غير معروفة + نيوز2 خطير (>=7 أو معياران شديدان) → إنعاش فوري / "
                     "Unrecognized complaint + critical NEWS2 (>=7 or >=2 extreme components) -> immediate resuscitation"
                 )
-            elif news2_result.total_score >= 5:
+            elif news2_effective_total >= 5:
                 # Maintain at least urgent/emergent response for physiologic risk.
                 final_level = min(final_level, 3)
             elif final_level > 3:
@@ -1913,21 +2532,21 @@ class DeterministicTriageEngine:
         
         # Build decision path string for audit (bilingual)
         decision_path = (
-            f"NEWS2={news2_result.total_score}→L{news2_result.triage_level} | "
+            f"NEWS2+={news2_effective_total} (base={news2_result.total_score}, glucose={news2_plus_result['glucose_score']})→L{news2_effective_level} | "
             f"Category={category}→L{category_level} | "
             f"Modifiers→L{modifier_level} | "
             f"Final=L{final_level}"
         )
         
         decision_path_ar = (
-            f"نيوز2={news2_result.total_score}→م{news2_result.triage_level} | "
+            f"نيوز2+={news2_effective_total} (أساسي={news2_result.total_score}, جلوكوز={news2_plus_result['glucose_score']})→م{news2_effective_level} | "
             f"التصنيف={category_info.name_ar}→م{category_level} | "
             f"المعدلات→م{modifier_level} | "
             f"النهائي=م{final_level}"
         )
         
         decision_path_en = (
-            f"NEWS2={news2_result.total_score}→L{news2_result.triage_level} | "
+            f"NEWS2+={news2_effective_total} (base={news2_result.total_score}, glucose={news2_plus_result['glucose_score']})→L{news2_effective_level} | "
             f"Category={category_info.name_en}→L{category_level} | "
             f"Modifiers→L{modifier_level} | "
             f"Final=L{final_level}"
@@ -1940,7 +2559,13 @@ class DeterministicTriageEngine:
         all_alerts_ar = news2_result.alerts_ar.copy()
         all_alerts_en = news2_result.alerts_en.copy()
         all_alerts_en.extend(esi_v5_alerts)
-        
+
+        # Surface glucose-specific risk signals in alert lists, not only modifiers.
+        for glucose_flag in glucose_flags:
+            alert_text = glucose_flag.get("alert")
+            if alert_text:
+                all_alerts_en.append(f"⚠️ {alert_text}")
+
         if category_info.esi_level <= 2:
             all_alerts_ar.append(f"⚠️ {category_info.name_ar}")
             all_alerts_en.append(f"⚠️ {category_info.name_en}")
@@ -1953,11 +2578,12 @@ class DeterministicTriageEngine:
 
         return DeterministicTriageResult(
             final_level=final_level,
+            extraction_method=str(extraction_method),
             color_code=level_info["color"],
             label_ar=level_info["label_ar"],
             label_en=level_info["label_en"],
-            news2_score=news2_result.total_score,
-            news2_level=news2_result.triage_level,
+            news2_score=news2_effective_total,
+            news2_level=news2_effective_level,
             category=category,
             category_ar=category_info.name_ar,
             category_en=category_info.name_en,
@@ -2020,6 +2646,7 @@ class DeterministicTriageEngine:
                 'sbp': patient.vitals.sbp,
                 'dbp': patient.vitals.dbp,
                 'temp': patient.vitals.temp,
+                'blood_glucose': getattr(patient.vitals, 'blood_glucose', None),
                 'pain_score': patient.vitals.pain_score
             } if patient.vitals else {},
             # ===== PHASE 2: Clinical Risk Factors =====
@@ -2094,6 +2721,7 @@ class DeterministicTriageEngine:
             color_code=color_map.get(internal_result.final_level, "#eab308"),
             label_ar=internal_result.label_ar,
             label_en=internal_result.label_en,
+            extraction_method=internal_result.extraction_method,
             description_ar=internal_result.category_ar,
             description_en=internal_result.category_en,
             description=f"{internal_result.category_ar} / {internal_result.category_en}",
