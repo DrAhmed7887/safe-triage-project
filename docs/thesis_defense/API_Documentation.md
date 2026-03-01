@@ -49,6 +49,34 @@ Base URL (Cloud Run):
 ### POST /triage
 **Description:** Deterministic triage (no AI).
 
+**Request**
+```json
+{
+  "patient_id": "string",
+  "age": 40,
+  "gender": "male",
+  "chief_complaint_text": "severe headache",
+  "vitals": {
+    "hr": 88,
+    "sbp": 130,
+    "dbp": 82,
+    "rr": 18,
+    "temp": 37,
+    "spo2": 98
+  },
+  "consciousness": "A"
+}
+```
+
+**cURL smoke test**
+```bash
+curl -X POST "https://safe-triage-eciux5h4aq-uc.a.run.app/triage" \
+  -H "Content-Type: application/json" \
+  -d '{"patient_id":"TEST-TRIAGE","age":40,"gender":"male","chief_complaint_text":"severe headache","vitals":{"hr":88,"sbp":130,"dbp":82,"rr":18,"temp":37,"spo2":98},"consciousness":"A"}'
+```
+
+**Validation note:** `/triage` requires `chief_complaint_text` and a complete `vitals` object. A payload with only `complaint` will fail schema validation.
+
 ### POST /confirm-triage
 **Description:** Record human confirmation/override of triage decision.
 

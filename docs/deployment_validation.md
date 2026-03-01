@@ -53,6 +53,19 @@ curl -X POST "https://safe-triage-459364571026.us-central1.run.app/ai-triage" \
 - `test_english_scenarios.py`: **88 total, 58 passed, 30 over-triage (no critical under-triage)**
 - `test_triage_v2.py`: **3/6 groups passed** (AI disabled offline)
 
+## 6) Deterministic /triage Smoke Test
+- Successful `/triage` request requires the same core schema as `/ai-triage`:
+  - `chief_complaint_text`
+  - complete `vitals` (`hr`, `sbp`, `dbp`, `rr`, `temp`, `spo2`)
+- A payload with only `complaint` will fail request validation.
+
+Command:
+```
+curl -X POST "https://safe-triage-eciux5h4aq-uc.a.run.app/triage" \
+  -H "Content-Type: application/json" \
+  -d '{"patient_id":"TEST-TRIAGE","age":40,"gender":"male","chief_complaint_text":"severe headache","vitals":{"hr":88,"sbp":130,"dbp":82,"rr":18,"temp":37,"spo2":98},"consciousness":"A"}'
+```
+
 Artifacts:
 - `backend/tests/results.txt`
 - `backend/tests/results_english.txt`
