@@ -35,7 +35,7 @@ The system is currently live at [safe-triage-ai.web.app](https://safe-triage-ai.
 - **GitHub:** [@username](https://github.com/username)
 
 ### Ahmed Zayed, MBBCh — Lead Developer & System Architect
-- **Background:** Physician (MBBCh), Stanford AI in Healthcare (Coursera), AUC AI & Business
+- **Background:** Physician with 12+ years of clinical experience (MBBCh, Alexandria University). Clinical AI Specialist at DoctorIQ. Top Rated Plus medical writer on Upwork (5,200+ hours, 676 projects). Stanford AI in Healthcare Specialization. 25+ AI & healthcare certifications (Google Cloud, Johns Hopkins, DeepLearning.AI). AUC School of Business — AI in Healthcare.
 - **Contribution:** Designed and built the complete system — hybrid AI architecture, backend, frontend, AI pipeline, cloud deployment, clinical validation, MedGemma integration
 - **GitHub:** [@DrAhmed7887](https://github.com/DrAhmed7887)
 
