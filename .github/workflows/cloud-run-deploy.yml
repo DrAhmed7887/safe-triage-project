@@ -1,0 +1,67 @@
+name: Deploy Backend to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+      - 'Dockerfile'
+      - '.github/workflows/cloud-run-deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloud-run-production
+  cancel-in-progress: true
+
+env:
+  PROJECT_ID: safe-triage-ai
+  REGION: us-central1
+  SERVICE_NAME: safe-triage
+  FRONTEND_URL: https://safe-triage-ai.web.app
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify deploy secrets
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SAFE_TRIAGE_AI }}
+        run: |
+          set -euo pipefail
+          test -n "$GEMINI_API_KEY"
+          test -n "$FIREBASE_SERVICE_ACCOUNT"
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SAFE_TRIAGE_AI }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Deploy backend
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          set -euo pipefail
+          gcloud run deploy "${SERVICE_NAME}" \
+            --source . \
+            --region "${REGION}" \
+            --project "${PROJECT_ID}" \
+            --allow-unauthenticated \
+            --cpu 2 \
+            --memory 1Gi \
+            --min-instances 1 \
+            --max-instances 3 \
+            --update-env-vars "PYTHONUNBUFFERED=1,GEMINI_API_KEY=${GEMINI_API_KEY},PROJECT_ID=${PROJECT_ID},FIREBASE_PROJECT_ID=${PROJECT_ID},ALERT_FRONTEND_URL=${FRONTEND_URL}"

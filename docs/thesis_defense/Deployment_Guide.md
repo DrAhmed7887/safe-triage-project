@@ -32,6 +32,13 @@ npm run build
 firebase deploy --only hosting
 ```
 
+## Automatic Deployments
+- Merging to `main` in GitHub automatically deploys the backend to Cloud Run and the frontend to Firebase Hosting.
+- Required GitHub secrets:
+  - `FIREBASE_SERVICE_ACCOUNT_SAFE_TRIAGE_AI`
+  - `GEMINI_API_KEY`
+- Keep local edits committed and pushed so Cloud Run and Firebase stay in sync with GitHub.
+
 ## Speech-to-Text Enablement
 ```bash
 gcloud services enable speech.googleapis.com --project safe-triage-ai

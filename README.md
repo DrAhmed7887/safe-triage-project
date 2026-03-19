@@ -202,6 +202,11 @@ npm run dev
 
 🎥 **Video Demo:** [youtu.be/RRQ0_RTsDrI](https://youtu.be/RRQ0_RTsDrI)
 
+## Deployment
+
+- Pushes to `main` automatically deploy the backend to Cloud Run and the frontend to Firebase Hosting.
+- GitHub is the source of truth; make edits locally, commit them, and push to keep the cloud copies in sync.
+
 ---
 
 ## Publications & Competitions
