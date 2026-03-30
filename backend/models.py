@@ -1,7 +1,21 @@
-from pydantic import BaseModel, Field
+import re
+import unicodedata
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional, List, Dict, Literal, Any
 from datetime import datetime
 from enum import Enum
+
+
+def _is_valid_name(value: str) -> bool:
+    """Return True if every character is a Unicode letter, space, hyphen, or apostrophe."""
+    for ch in value:
+        cat = unicodedata.category(ch)
+        if cat.startswith("L"):  # letter
+            continue
+        if ch in (" ", "-", "'"):
+            continue
+        return False
+    return True
 
 class Gender(str, Enum):
     MALE = "male"
@@ -42,6 +56,19 @@ class PatientInput(BaseModel):
     # Patient Identification
     patient_id: Optional[str] = Field(None, description="Hospital Patient ID / MRN (Medical Record Number)")
     patient_name: Optional[str] = Field(None, description="Patient full name")
+
+    @field_validator("patient_name")
+    @classmethod
+    def validate_patient_name(cls, v: Optional[str]) -> Optional[str]:
+        if v is None or v.strip() == "":
+            return None
+        stripped = v.strip()
+        if not _is_valid_name(stripped):
+            raise ValueError(
+                "Patient name must contain letters only "
+                "(letters, spaces, hyphens, and apostrophes are allowed)"
+            )
+        return stripped
     
     # Demographics - Frontend validates unusual ages, backend allows for confirmed entries
     age: float = Field(..., description="Age in years (use decimals for months, e.g. 0.25 = 3mo)", ge=0)

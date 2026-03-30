@@ -135,6 +135,7 @@ export default function TriageForm({ onResult }) {
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
     const [unusualVitals, setUnusualVitals] = useState([]);
     const [mrnError, setMrnError] = useState('');
+    const [nameError, setNameError] = useState('');
     
     // Voice Recording State
     const [isRecording, setIsRecording] = useState(false);
@@ -269,6 +270,17 @@ export default function TriageForm({ onResult }) {
             setMrnError('MRN must contain numbers only / الرقم الطبي يجب أن يحتوي على أرقام فقط');
         } else {
             setMrnError('');
+        }
+    };
+
+    const NAME_REGEX = /^[\p{L}\s\-']+$/u;
+    const handleNameChange = (event) => {
+        const value = event.target.value;
+        setFormData((prev) => ({ ...prev, patient_name: value }));
+        if (value && !NAME_REGEX.test(value)) {
+            setNameError('Name must contain letters only / الاسم يجب أن يحتوي على حروف فقط');
+        } else {
+            setNameError('');
         }
     };
 
@@ -755,15 +767,20 @@ export default function TriageForm({ onResult }) {
                                 <p className="text-red-500 text-xs mt-1">{mrnError}</p>
                             )}
                         </div>
-                        <InputField
-                            label="Patient Name"
-                            labelAr="اسم المريض"
-                            type="text"
-                            value={formData.patient_name}
-                            onChange={e => setFormData({ ...formData, patient_name: e.target.value })}
-                            placeholder="Full Name"
-                            dir="auto"
-                        />
+                        <div>
+                            <InputField
+                                label="Patient Name"
+                                labelAr="اسم المريض"
+                                type="text"
+                                value={formData.patient_name}
+                                onChange={handleNameChange}
+                                placeholder="Full Name"
+                                dir="auto"
+                            />
+                            {nameError && (
+                                <p className="text-red-500 text-xs mt-1">{nameError}</p>
+                            )}
+                        </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mt-4">
                         <InputField

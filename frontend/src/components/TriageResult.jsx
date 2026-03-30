@@ -298,15 +298,21 @@ export default function TriageResult({ result, onReset }) {
                                 <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-purple-600 text-white text-xs font-mono">
                                     {icd10Code || '—'}
                                 </span>
-                                <span className="text-slate-700">{icd10Desc || 'غير متاح / Unavailable'}</span>
+                                {icd10Desc ? (
+                                    <span className="text-slate-700">{icd10Desc}</span>
+                                ) : (
+                                    <span className="text-slate-400 italic text-xs">Not generated</span>
+                                )}
                             </div>
-                            <div className="flex flex-wrap items-center gap-2">
-                                <span className="text-xs uppercase text-slate-500 font-semibold">SNOMED-CT</span>
-                                <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-teal-600 text-white text-xs font-mono">
-                                    {snomedCode || '—'}
-                                </span>
-                                <span className="text-slate-700">{snomedTerm || 'غير متاح / Unavailable'}</span>
-                            </div>
+                            {(snomedCode || snomedTerm) && (
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <span className="text-xs uppercase text-slate-500 font-semibold">SNOMED-CT</span>
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-teal-600 text-white text-xs font-mono">
+                                        {snomedCode || '—'}
+                                    </span>
+                                    <span className="text-slate-700">{snomedTerm}</span>
+                                </div>
+                            )}
                         </div>
                         <div className="text-[10px] text-slate-500 mt-2">
                             🏥 Designed to Align with GAHAR Safety Requirements | مصمم وفقاً لمتطلبات سلامة الجهار
