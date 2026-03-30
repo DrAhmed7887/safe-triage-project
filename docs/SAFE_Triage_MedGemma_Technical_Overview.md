@@ -5,7 +5,7 @@
 **🏅 Track:** Main Competition + Agentic Workflow Prize
 **🌐 Live System:** [safe-triage-ai.web.app](https://safe-triage-ai.web.app) | **💻 Code:** [GitHub Repository](https://github.com/DrAhmed7887/safe-triage-project) | **🎥 Video Demo:** [Watch 3-minute Demo](#)
 
-> **TL;DR:** SAFE-Triage is a hybrid AI/deterministic triage system designed to address the 32% preventable mortality rate in Egyptian Emergency Departments. By utilizing **MedGemma** for offline-capable extraction from Egyptian Arabic and as an autonomous QA agent, alongside deterministic rules (ESI v5 + NEWS2), the system achieves **97.7% safety accuracy** and **zero critical under-triage**.
+> **TL;DR:** SAFE-Triage is a hybrid AI/deterministic triage system designed to address the 32% preventable mortality rate in Egyptian Emergency Departments. By utilizing **MedGemma** for offline-capable extraction from Egyptian Arabic and as an autonomous QA agent, alongside deterministic rules (ESI v5 + NEWS2), the system achieves **97.2% within-1 accuracy** on the MIETIC expert-validated benchmark. Critical under-triage reduction remains an active engineering priority.
 
 ---
 
@@ -85,17 +85,16 @@ Nurse confirmation is required for all paths. The system provides a 5-minute tim
 
 ## 📊 4. Validation Results
 
-Validated across **299 expert-labeled cases** from the MIETIC dataset and **750+ total test cases**, including standard Egyptian Arabic presentations and atypical "silent killer" scenarios.
+Validated on **36 expert-RETAIN cases** from the MIETIC dataset (MIMIC-IV-ED Triage Instruction Corpus) and **88 English clinical scenarios**.
 
-| Metric | SAFE-Triage | Human Nurses (Global Avg.) |
-| :--- | :--- | :--- |
-| **Exact ESI Match** | **78.3%** | 59.2% |
-| **Within-1 Accuracy** | **97.7%** | 82.9% |
-| **Critical Under-triage** (≥2 levels) | **0.7%*** | 8.4% |
-| **Response Time** | **17 seconds** | 2-5 minutes |
-| **Arabic Dialect Support** | **Native (1,858 terms)** | Variable |
+| Metric | SAFE-Triage (MIETIC, n=36) | SAFE-Triage (English, n=88) | Human Nurses (Global Avg.) |
+| :--- | :--- | :--- | :--- |
+| **Exact ESI Match** | 41.7% | ~80.7% | 59.2% |
+| **Within-1 Accuracy** | 97.2% | ~95.5% | 82.9% |
+| **Critical Under-triage** | 33.3% (12/36) | 0% (0/88) | 8.4% |
+| **Arabic Dialect Support** | — | **Native (1,858 terms)** | Variable |
 
-> ***Safety Note:** The 0.7% under-triage rate (2 cases) traced back to dataset labeling ambiguities, not system failures. **Zero critical under-triage** was observed across all 150 Egyptian Arabic-specific test cases.*
+> **Honesty note:** The MIETIC benchmark reveals significant critical under-triage (primarily ESI 1 cases classified as ESI 2). The English scenario set shows zero critical under-triage but is hand-crafted, not an independent benchmark. See `backend/benchmarks/` for fully reproducible code and `MIETIC_AUDIT_AND_FIX_REPORT.md` for detailed analysis.
 
 ---
 
