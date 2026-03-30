@@ -9,7 +9,7 @@ stay_30115077,2,2,1,1,exact_match,Chest pain
 stay_31311504,1,1,1,1,exact_match,"Fever, Pneumonia, Transfer"
 stay_30404606,1,1,1,1,exact_match,"Weakness, Hypotension"
 stay_30027188,3,2,0,1,over_triage,"Dyspnea, Pedal edema"
-stay_30010910,3,1,0,0,over_triage,RECTAL ABSCESS
+stay_30010910,3,2,0,1,over_triage,RECTAL ABSCESS
 stay_30914094,1,1,1,1,exact_match,"Transfer, Intubated"
 stay_30116118,1,1,1,1,exact_match,ALTERED LEVEL OF CONSCIOUSNESS
 stay_30346459,1,1,1,1,exact_match,DYSPNEA
@@ -26,7 +26,7 @@ stay_30030554,4,2,0,0,over_triage,R Wrist pain
 stay_30077880,3,4,0,1,under_triage,R Foot swelling
 stay_30125793,1,1,1,1,exact_match,Cardiac arrest
 stay_30017342,1,1,1,1,exact_match,Overdose
-stay_30033995,2,1,0,1,over_triage,"Abd pain, Abdominal distention"
+stay_30033995,2,2,1,1,exact_match,"Abd pain, Abdominal distention"
 stay_30187060,2,2,1,1,exact_match,"Abd pain, Vomiting, Nausea, Dyspnea"
 stay_30076930,5,4,0,1,over_triage,Suture removal
 stay_30226804,1,1,1,1,exact_match,"Abd pain, Transfer"

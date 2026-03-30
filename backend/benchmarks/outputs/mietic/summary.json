@@ -1,6 +1,6 @@
 {
   "benchmark": "MIETIC",
-  "timestamp": "20260330T225222Z",
+  "timestamp": "20260330T232325Z",
   "dataset": {
     "total": 36,
     "acuity_distribution": {
@@ -14,19 +14,19 @@
   },
   "metrics": {
     "total": 36,
-    "exact_match": 25,
-    "exact_match_rate": 0.6944,
-    "within_one": 34,
-    "within_one_rate": 0.9444,
+    "exact_match": 26,
+    "exact_match_rate": 0.7222,
+    "within_one": 35,
+    "within_one_rate": 0.9722,
     "under_triage": 1,
     "under_triage_rate": 0.0278,
-    "over_triage": 10,
-    "over_triage_rate": 0.2778,
+    "over_triage": 9,
+    "over_triage_rate": 0.25,
     "critical_under_triage": 0,
     "critical_under_triage_rate": 0.0,
     "per_class_recall": {
       "1": 1.0,
-      "2": 0.7273,
+      "2": 0.8182,
       "3": 0.0,
       "4": 0.75,
       "5": 0.0
@@ -40,15 +40,15 @@
         "5": 0
       },
       "2": {
-        "1": 3,
-        "2": 8,
+        "1": 2,
+        "2": 9,
         "3": 0,
         "4": 0,
         "5": 0
       },
       "3": {
-        "1": 1,
-        "2": 3,
+        "1": 0,
+        "2": 4,
         "3": 0,
         "4": 1,
         "5": 0

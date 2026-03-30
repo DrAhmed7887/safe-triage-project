@@ -340,8 +340,8 @@ INSTABILITY_SIGNALS = [
     # Explicit severity
     "sepsis", "septic", "shock", "in shock",
     "cardiac arrest", "not breathing", "no pulse",
-    "stroke", "facial droop", "arm weakness", "slurred speech",
-    "dissection", "aortic", "ectopic", "ruptured",
+    "acute stroke", "facial droop", "arm weakness", "slurred speech",
+    "dissection", "aortic dissection", "ectopic", "ruptured",
     "anaphylaxis", "anaphylactic",
     "suicide attempt", "overdose", "ingested",
     "dka", "diabetic ketoacidosis",
@@ -433,13 +433,11 @@ LIFE_THREAT_SIGNALS = [
     "airway obstruction",
     "complete airway obstruction",
     "apneic",
-    "apnea",
     "intubated",
     "on ventilator",
     "mechanical ventilation",
     "requires intubation",
     "bipap",
-    "cpap",
     # Consciousness
     "unresponsive",
     "unconscious",
@@ -513,11 +511,6 @@ LIFE_THREAT_SIGNALS = [
     "acute worsening shortness",
     "acute exacerbation",
     "acute decompensation",
-    # Severe chronic disease exacerbation
-    "gold stage iv",
-    "gold iv",
-    "end stage",
-    "end-stage",
 ]
 
 CLEAR_NON_URGENT_SIGNALS = [
@@ -3472,11 +3465,11 @@ class DeterministicTriageEngine:
                 "open tibia", "open femur", "open humerus",
                 "open left tibia", "open right tibia",
                 "open left femur", "open right femur",
-                "stroke", "facial droop", "hemiplegia", "hemiparesis",
+                "acute stroke", "facial droop", "hemiplegia", "hemiparesis",
                 "flaccid", "gaze deviation",
                 "sepsis", "septic",
                 "anaphylaxis", "anaphylactic",
-                "dissection", "aortic",
+                "dissection", "aortic dissection",
                 "testicular torsion",
             })
             has_definitive = any(m in DEFINITIVE_ESI2_SIGNALS for m in strong_instability)
