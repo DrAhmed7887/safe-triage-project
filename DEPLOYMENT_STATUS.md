@@ -1,9 +1,34 @@
 # DEPLOYMENT STATUS
-**Date:** 2026-02-06  
-**Backend:** `safe-triage-00060-prc` (`us-central1`)  
+**Date:** 2026-03-30
+**Backend:** `safe-triage-00176-nkv` (`us-central1`)
 **Backend URL:** `https://safe-triage-459364571026.us-central1.run.app`  
 **Frontend URL:** `https://safe-triage-ai.web.app`  
 **Notice:** `According to GAHAR Standards | وفقاً لمعايير الجهار`
+
+## Cloud Run Topology
+```text
+safe-triage-ai
+├── safe-triage (us-central1)
+│   ├── role: canonical production backend
+│   ├── revision: safe-triage-00176-nkv
+│   ├── url: https://safe-triage-eciux5h4aq-uc.a.run.app
+│   └── status: ready
+├── safe-triage (me-west1)
+│   ├── role: legacy backend snapshot
+│   ├── revision: safe-triage-00031-6qn
+│   ├── url: https://safe-triage-eciux5h4aq-zf.a.run.app
+│   └── status: ready but stale
+├── safe-triage (...-ew.a.run.app)
+│   ├── role: extra legacy/test service with same name
+│   └── status: do not use for routine validation or release checks
+├── safe-triage-api
+└── safe-triage-frontend
+```
+
+## Release Rule
+- Treat `safe-triage` in `us-central1` as the only production deploy target.
+- Treat the other same-name Cloud Run services as legacy/test artifacts until they are intentionally retired.
+- Use the GitHub workflow in `.github/workflows/cloud-run-deploy.yml` to validate the production target before release.
 
 ## Working Features
 - [x] AI triage endpoint stable (`/ai-triage`)
@@ -45,30 +70,22 @@
 - Local generation of `SAMPLE_REPORT.pdf` was blocked in this environment because local Python lacks `reportlab`; production endpoint remains available with auth.
 - Some non-specific presentations still map to `R69` by design (when complaint is clinically non-specific).
 
-## Required Env Vars (Runtime)
-- `UMLS_API_KEY`
-- `ALERT_FCM_TOPIC` (optional, defaults to `critical-alerts`)
-- `ALERT_FRONTEND_URL` (optional, used for dashboard deep links)
-- `GOOGLE_APPLICATION_CREDENTIALS` (optional for local Firebase Admin auth; Cloud Run uses its service account)
-- `ALERT_RECIPIENT_NAME`
-- `SENDGRID_API_KEY` (optional, enables email alerts)
-- `ALERT_EMAIL_RECIPIENTS` (optional, comma-separated email override)
-- `ALERT_EMAIL_TO` (required for SendGrid path)
-- `ALERT_EMAIL_FROM` (optional, defaults to `ALERT_EMAIL_TO`)
-- `SUPERVISOR_PIN`
-- `CONFIRMATION_TIMEOUT_SECONDS`
-- `DOWNGRADE_ROLE`
-- `FIREBASE_PROJECT_ID`
-- `PROJECT_ID`
-- `DATASET_ID`
-- `TRIAGE_TABLE`
-- `QA_FLAGS_TABLE`
-- `QA_REVIEWS_TABLE`
-- `QA_MAX_CASES`
-- `QA_MODEL`
-- `BQ_LOCATION`
-- `VERTEX_REGION`
+## Runtime Config Reference
+- Core deploy env in GitHub Actions: `PYTHONUNBUFFERED`, `GEMINI_API_KEY`, `PROJECT_ID`, `FIREBASE_PROJECT_ID`, `ALERT_FRONTEND_URL`
+- Defaults exist in code for many operational settings, including `SUPERVISOR_PIN`, `CONFIRMATION_TIMEOUT_SECONDS`, `DOWNGRADE_ROLE`, `DATASET_ID`, `TRIAGE_TABLE`, `BQ_LOCATION`, `VERTEX_REGION`, `ALERT_FCM_TOPIC`, and `ALERT_RECIPIENT_NAME`
+- Optional integrations only need extra config when the feature is enabled:
+  - `UMLS_API_KEY`
+  - `USE_VERTEX_SPEECH`
+  - `SENDGRID_API_KEY`
+  - `ALERT_EMAIL_TO`
+  - `ALERT_EMAIL_RECIPIENTS`
+  - `ALERT_EMAIL_FROM`
+  - `DR7_API_KEY`
+  - `QA_FLAGS_TABLE`
+  - `QA_REVIEWS_TABLE`
+  - `QA_MODEL`
+  - `QA_MAX_CASES`
 
 ## Final Status
-- Overnight core mission items are complete and deployed on production.
-- System is in a team-reviewable state with documented validation artifacts.
+- Canonical production backend is healthy in `us-central1` and serving traffic.
+- Repo docs and workflow are now the primary release source of truth for HSIL demo prep.

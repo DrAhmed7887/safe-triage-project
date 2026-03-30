@@ -125,7 +125,7 @@ class MedGemmaClient:
 
             project = os.getenv("PROJECT_ID", "safe-triage-ai")
             region = os.getenv("VERTEX_REGION", "us-central1")
-            model_name = os.getenv("MEDGEMMA_FALLBACK_MODEL", "gemini-2.0-flash-001")
+            model_name = os.getenv("MEDGEMMA_FALLBACK_MODEL", "gemini-2.5-flash")
             vertexai.init(project=project, location=region)
             model = GenerativeModel(model_name)
             response = model.generate_content(prompt)

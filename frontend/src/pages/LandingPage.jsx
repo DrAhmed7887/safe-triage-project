@@ -43,10 +43,19 @@ export default function LandingPage() {
 
     const navLinks = useMemo(
         () => [
+            { id: 'features', label: 'Product' },
             { id: 'evidence', label: 'Evidence' },
-            { id: 'science', label: 'Science' },
-            { id: 'features', label: 'Features' },
             { id: 'impact', label: 'Impact' },
+            { id: 'auth', label: user ? 'Dashboard' : 'Demo' },
+        ],
+        [user]
+    );
+
+    const heroSignals = useMemo(
+        () => [
+            { label: 'Language', value: 'Arabic + English' },
+            { label: 'Workflow', value: 'Clinician-confirmed' },
+            { label: 'Output', value: 'ICD-10 + SNOMED' },
         ],
         []
     );
@@ -94,7 +103,7 @@ export default function LandingPage() {
 
     return (
         <div className="st-landing">
-            <div className="st-gahar-bar">{`Hospital Safety Platform | ${GAHAR_TEXT}`}</div>
+            <div className="st-gahar-bar">{`Clinical Precision Editorial | ${GAHAR_TEXT}`}</div>
 
             <header className={`st-nav ${scrolled ? 'st-nav-solid' : 'st-nav-transparent'}`}>
                 <div className="st-container st-nav-inner">
@@ -139,24 +148,34 @@ export default function LandingPage() {
                 <section className="st-hero" id="top">
                     <div className="st-container st-hero-main">
                         <div className="st-hero-content">
-                            <div className="st-hero-badge">AI-Powered Decision Support for Emergency Departments</div>
+                            <div className="st-hero-badge">Clinical precision editorial for emergency departments</div>
                             <h1 className="st-hero-title">
-                                Smarter Triage.<br />
-                                <span>Safer Patients.</span><br />
-                                Built for Egypt.
+                                A premium triage<br />
+                                platform for faster,<br />
+                                safer intake.
                             </h1>
-                            <div className="st-hero-ar st-ar">نظام ذكي لفرز الطوارئ. حياة أكثر أماناً. صُنع في مصر، لمصر.</div>
+                            <div className="st-hero-ar st-ar">نظام ذكي لفرز الطوارئ. مصمم بوضوح سريري، وسلاسة تشغيل، وثقة أعلى للفريق الطبي.</div>
                             <p className="st-hero-desc">
-                                SAFE-Triage combines AI with international clinical standards to help Egyptian hospitals
-                                triage patients faster, safer, and in their own language, even when the internet is unavailable.
+                                SAFE-Triage pairs AI guidance with deterministic clinical rules so hospitals can triage
+                                with more clarity, bilingual support, and an audit-friendly workflow that stays readable
+                                under pressure.
                             </p>
+
+                            <div className="st-hero-highlights" aria-label="Key product attributes">
+                                {heroSignals.map((signal) => (
+                                    <div key={signal.label} className="st-hero-highlight">
+                                        <div className="st-hero-highlight-label">{signal.label}</div>
+                                        <div className="st-hero-highlight-value">{signal.value}</div>
+                                    </div>
+                                ))}
+                            </div>
 
                             <div className="st-hero-cta">
                                 <button className="st-btn st-btn-primary" onClick={() => scrollToId('auth')}>
-                                    Try Live Demo
+                                    {user ? 'Open Dashboard' : 'Try Live Demo'}
                                 </button>
-                                <button className="st-btn st-btn-outline" onClick={() => scrollToId('evidence')}>
-                                    See the Evidence
+                                <button className="st-btn st-btn-outline" onClick={() => scrollToId('features')}>
+                                    Explore Product
                                 </button>
                             </div>
 
@@ -165,9 +184,9 @@ export default function LandingPage() {
                             </button>
 
                             <div className="st-compliance-strip">
-                                <div className="st-compliance-badge"><span className="st-dot st-dot-green" />HIPAA Compliant (GCP)</div>
-                                <div className="st-compliance-badge"><span className="st-dot st-dot-gold" />GAHAR-Aligned</div>
-                                <div className="st-compliance-badge"><span className="st-dot st-dot-blue" />SOC 2 (Google Cloud)</div>
+                                <div className="st-compliance-badge"><span className="st-dot st-dot-green" />Clinician-confirmed workflow</div>
+                                <div className="st-compliance-badge"><span className="st-dot st-dot-gold" />GAHAR-aware design language</div>
+                                <div className="st-compliance-badge"><span className="st-dot st-dot-blue" />Offline-first support layer</div>
                             </div>
                         </div>
 
@@ -176,11 +195,11 @@ export default function LandingPage() {
                                 <div className="st-screen">
                                     <div className="st-screen-header">
                                         <span>SAFE-Triage</span>
-                                        <span className="st-lang">Auto AR/EN</span>
+                                        <span className="st-lang">Editorial UI</span>
                                     </div>
-                                    <div className="st-screen-row"><span className="st-label">Patient:</span><span className="st-val">58M, Diabetic</span></div>
-                                    <div className="st-screen-row"><span className="st-label">Complaint:</span><span className="st-val st-ar">صدري بيوجعني</span></div>
-                                    <div className="st-screen-row"><span className="st-label">NEWS2:</span><span className="st-val" style={{ color: '#dc2626' }}>8 (High Risk)</span></div>
+                                    <div className="st-screen-row"><span className="st-label">Case</span><span className="st-val">58M · Diabetic</span></div>
+                                    <div className="st-screen-row"><span className="st-label">Complaint</span><span className="st-val st-ar">صدري بيوجعني</span></div>
+                                    <div className="st-screen-row"><span className="st-label">NEWS2</span><span className="st-val st-screen-urgent">8 · High risk</span></div>
                                     <div className="st-screen-codes">
                                         <span className="st-screen-code st-code-purple">ICD-10: I20.9</span>
                                         <span className="st-screen-code st-code-teal">SNOMED: 225566008</span>
@@ -196,23 +215,23 @@ export default function LandingPage() {
                         <div className="st-hero-stats">
                             <div className="st-hero-stat">
                                 <div className="st-num">0%</div>
-                                <div className="st-stat-label">Under-Triage Rate</div>
+                                <div className="st-stat-label">Under-triage rate</div>
                                 <div className="st-qualifier">in 138 internal validation cases</div>
                             </div>
                             <div className="st-hero-stat">
                                 <div className="st-num">&lt;0.5s</div>
-                                <div className="st-stat-label">Response Time</div>
+                                <div className="st-stat-label">Response time</div>
                                 <div className="st-qualifier">warm start latency</div>
                             </div>
                             <div className="st-hero-stat">
                                 <div className="st-num">6,370</div>
-                                <div className="st-stat-label">SNOMED-CT Concepts</div>
+                                <div className="st-stat-label">SNOMED-CT concepts</div>
                                 <div className="st-qualifier">via UMLS Metathesaurus</div>
                             </div>
                             <div className="st-hero-stat">
                                 <div className="st-num">0.82-0.86</div>
                                 <div className="st-stat-label">Projected AUROC</div>
-                                <div className="st-qualifier">hybrid ESI+NEWS2+AI model</div>
+                                <div className="st-qualifier">hybrid ESI + NEWS2 + AI model</div>
                             </div>
                         </div>
                     </div>

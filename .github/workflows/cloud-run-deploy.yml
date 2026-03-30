@@ -1,13 +1,6 @@
 name: Deploy Backend to Cloud Run
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'backend/**'
-      - 'Dockerfile'
-      - '.github/workflows/cloud-run-deploy.yml'
   workflow_dispatch:
 
 permissions:
@@ -19,9 +12,12 @@ concurrency:
 
 env:
   PROJECT_ID: safe-triage-ai
+  # Canonical production target. Other same-name Cloud Run services exist in
+  # legacy/test regions and should not be used for routine release validation.
   REGION: us-central1
   SERVICE_NAME: safe-triage
   FRONTEND_URL: https://safe-triage-ai.web.app
+  REVISION_TAG: demo-candidate
 
 jobs:
   deploy:
@@ -40,7 +36,28 @@ jobs:
           test -n "$GEMINI_API_KEY"
           test -n "$FIREBASE_SERVICE_ACCOUNT"
 
+      - name: Print integration matrix
+        env:
+          UMLS_API_KEY: ${{ secrets.UMLS_API_KEY }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          DR7_API_KEY: ${{ secrets.DR7_API_KEY }}
+        run: |
+          set -euo pipefail
+          status() {
+            if [ -n "${1:-}" ]; then
+              echo "enabled"
+            else
+              echo "disabled"
+            fi
+          }
+          echo "Integration matrix:"
+          echo "  GEMINI_API_KEY: enabled"
+          echo "  UMLS_API_KEY: $(status "${UMLS_API_KEY:-}")"
+          echo "  SENDGRID_API_KEY: $(status "${SENDGRID_API_KEY:-}")"
+          echo "  DR7/MEDGEMMA: $(status "${DR7_API_KEY:-}")"
+
       - name: Authenticate to Google Cloud
+        # TODO(post-demo): replace JSON key auth with Workload Identity Federation.
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SAFE_TRIAGE_AI }}
@@ -50,12 +67,29 @@ jobs:
         with:
           project_id: ${{ env.PROJECT_ID }}
 
+      - name: Show current deploy target
+        run: |
+          set -euo pipefail
+          current_url="$(gcloud run services describe "${SERVICE_NAME}" \
+            --region "${REGION}" \
+            --project "${PROJECT_ID}" \
+            --format='value(status.url)')"
+          current_revision="$(gcloud run services describe "${SERVICE_NAME}" \
+            --region "${REGION}" \
+            --project "${PROJECT_ID}" \
+            --format='value(status.latestReadyRevisionName)')"
+          test -n "${current_url}"
+          test -n "${current_revision}"
+          echo "Current service URL: ${current_url}"
+          echo "Current revision: ${current_revision}"
+          echo "CURRENT_SERVICE_URL=${current_url}" >> "${GITHUB_ENV}"
+
       - name: Deploy backend
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           set -euo pipefail
-          gcloud run deploy "${SERVICE_NAME}" \
+          deployed_revision="$(gcloud run deploy "${SERVICE_NAME}" \
             --source . \
             --region "${REGION}" \
             --project "${PROJECT_ID}" \
@@ -64,4 +98,41 @@ jobs:
             --memory 1Gi \
             --min-instances 1 \
             --max-instances 3 \
-            --update-env-vars "PYTHONUNBUFFERED=1,GEMINI_API_KEY=${GEMINI_API_KEY},PROJECT_ID=${PROJECT_ID},FIREBASE_PROJECT_ID=${PROJECT_ID},ALERT_FRONTEND_URL=${FRONTEND_URL}"
+            --no-traffic \
+            --tag "${REVISION_TAG}" \
+            --update-env-vars "PYTHONUNBUFFERED=1,GEMINI_API_KEY=${GEMINI_API_KEY},PROJECT_ID=${PROJECT_ID},FIREBASE_PROJECT_ID=${PROJECT_ID},ALERT_FRONTEND_URL=${FRONTEND_URL}" \
+            --format='value(status.latestCreatedRevisionName)')"
+          candidate_url="$(gcloud run services describe "${SERVICE_NAME}" \
+            --region "${REGION}" \
+            --project "${PROJECT_ID}" \
+            --format="value(status.traffic[?tag==\"${REVISION_TAG}\"].url)")"
+          test -n "${deployed_revision}"
+          test -n "${candidate_url}"
+          echo "Candidate revision: ${deployed_revision}"
+          echo "Candidate URL: ${candidate_url}"
+          echo "CANDIDATE_REVISION=${deployed_revision}" >> "${GITHUB_ENV}"
+          echo "CANDIDATE_URL=${candidate_url}" >> "${GITHUB_ENV}"
+
+      - name: Smoke test candidate revision
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            http_code="$(curl -sS -o /tmp/candidate-health.json -w '%{http_code}' --max-time 20 "${CANDIDATE_URL}/health" || true)"
+            if [ "${http_code}" = "200" ]; then
+              echo "Smoke test passed on attempt ${attempt}"
+              cat /tmp/candidate-health.json
+              exit 0
+            fi
+            echo "Attempt ${attempt}: /health returned ${http_code}"
+            sleep 10
+          done
+          echo "Smoke test failed for ${CANDIDATE_URL}/health"
+          exit 1
+
+      - name: Promote candidate to 100% traffic
+        run: |
+          set -euo pipefail
+          gcloud run services update-traffic "${SERVICE_NAME}" \
+            --region "${REGION}" \
+            --project "${PROJECT_ID}" \
+            --to-revisions "${CANDIDATE_REVISION}=100"
