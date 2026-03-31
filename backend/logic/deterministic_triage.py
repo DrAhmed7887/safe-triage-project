@@ -508,7 +508,6 @@ LIFE_THREAT_SIGNALS = [
     "saddle embolus",
     "acute worsening dyspnea",
     "acute worsening shortness",
-    "acute exacerbation",
     "acute decompensation",
 ]
 
@@ -1976,16 +1975,29 @@ class AISymptomClassifier:
         normalized_text = text_lower.replace("أ", "ا")
 
         # Strip negated phrases to prevent false keyword matches.
-        # Clinical vignettes often contain "denies X, Y, Z" and "no pain"
-        # which should not trigger keyword classification.
-        # The pattern removes from negation word to next sentence boundary
-        # (period or semicolon), handling comma-separated denial lists.
-        # NOTE: "no" alone is excluded because "no pulse" / "no breathing"
-        # are real life-threat signals. We handle "no pain" / "no fever"
-        # etc. via the "reported no" and specific "no + benign" patterns.
-        _NEGATION_RE = re.compile(
-            r'\b(?:denies?|negative for|absent|ruled out)\b[^.;]*(?:[.;]|$)'
+        # Clinical vignettes contain "denies X, Y, Z" where X/Y/Z should
+        # not trigger keyword classification.
+        #
+        # IMPORTANT: We only strip known benign denial terms, NOT
+        # everything to the sentence boundary.  A greedy sentence-level
+        # strip would delete true-positive symptoms that follow a comma
+        # (e.g., "denies fever, sudden testicular pain" must keep the
+        # high-risk phrase).
+        _DENIED_TERMS = (
+            r"(?:fever|cough|chills|nausea|vomiting|diarrhea|headache|"
+            r"rash|bleeding|bloody stools|chest pain|abdominal pain|"
+            r"shortness of breath|drainage|weight loss|weight changes|"
+            r"dysuria|hematuria|pain|swelling)"
         )
+        # Match "denies <term>" and optional ", <term>" continuations
+        _NEGATION_RE = re.compile(
+            r'\b(?:denies?|negative for)\s+'
+            + _DENIED_TERMS
+            + r'(?:\s*,\s*' + _DENIED_TERMS + r')*'
+            + r'(?:\s*,?\s*(?:and|or)\s+' + _DENIED_TERMS + r')?',
+            re.IGNORECASE,
+        )
+        # Handle "reported no <benign term>" and "no <benign term>"
         _NO_BENIGN_RE = re.compile(
             r'\b(?:reported no|no)\s+(?:pain|fever|cough|bleeding|vomiting|nausea|headache|diarrhea|rash|swelling)\b'
         )
