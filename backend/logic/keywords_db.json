@@ -1,8 +1,8 @@
 {
   "metadata": {
     "version": "2.0.0",
-    "last_updated": "2026-02-11T20:20:45.979020",
-    "total_keywords": 1580,
+    "last_updated": "2026-03-31T02:09:56.911417",
+    "total_keywords": 1582,
     "updates_count": 0,
     "audit_compliance": "ESI v4 + NEWS2",
     "icd10_compliant": true,
@@ -81,7 +81,8 @@
       "keywords": [
         "not breathing",
         "stopped breathing",
-        "apnea",
+        "apneic",
+        "apnea episode",
         "respiratory arrest",
         "respiratory failure",
         "intubation",
@@ -110,7 +111,9 @@
         "لونه أزرق",
         "وشه أزرق",
         "امبو",
-        "مجرى الهوا مسدود"
+        "مجرى الهوا مسدود",
+        "apneic",
+        "apnea episode"
       ],
       "added_by_ai": [],
       "priority": 1,
