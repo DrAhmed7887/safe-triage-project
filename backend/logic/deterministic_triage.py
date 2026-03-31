@@ -2146,9 +2146,9 @@ class AISymptomClassifier:
         # "abscess" must precede "bleeding" to prevent perianal/rectal
         # abscess vignettes from matching moderate_bleeding via "bloody".
         level3_keywords = {
-            "abdominal_pain_moderate": ["abdominal pain", "stomach pain", "abscess",
+            "abdominal_pain_moderate": ["abdominal pain", "stomach pain",
                                         "ألم بطن", "بطني بتوجعني",
-                                        "معدتي", "مغص", "وجع بطن", "خراج"],
+                                        "معدتي", "مغص", "وجع بطن"],
             "fever_with_symptoms": ["fever", "سخونية", "حرارة", "سخن"],
             "vomiting_dehydration": ["vomiting", "بيرجع", "استفراغ", "ترجيع"],
             "moderate_bleeding": ["bleeding", "بينزف", "نزيف", "دم"],
@@ -3176,6 +3176,7 @@ class DeterministicTriageEngine:
             category = "chest_pain_cardiac"
             category_info = SYMPTOM_CATEGORIES.get(category, category_info)
             category_level = category_info.esi_level
+            category_requires_immediate_intervention = category_info.requires_immediate_intervention
         
         # Step 3: Apply clinical modifiers (Deterministic rules)
         modifiers = ai_guardrail_reasons.copy()
