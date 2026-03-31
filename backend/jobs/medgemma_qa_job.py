@@ -20,7 +20,7 @@ TRIAGE_TABLE = os.getenv("TRIAGE_TABLE", "triage_logs")
 QA_FLAGS_TABLE = os.getenv("QA_FLAGS_TABLE", "qa_flags")
 QA_REVIEWS_TABLE = os.getenv("QA_REVIEWS_TABLE", "qa_reviews")
 QA_MAX_CASES = int(os.getenv("QA_MAX_CASES", "50"))
-MODEL_NAME = os.getenv("QA_MODEL", "gemini-2.0-flash-001")
+MODEL_NAME = os.getenv("QA_MODEL", "gemini-2.5-flash")
 BQ_LOCATION = os.getenv("BQ_LOCATION", "me-west1")
 
 

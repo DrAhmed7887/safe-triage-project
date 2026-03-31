@@ -448,7 +448,7 @@ class SymptomClassifier:
             print(f"Warning: google.generativeai not available: {e}")
         if api_key and genai:
             genai.configure(api_key=api_key)
-            self.model = genai.GenerativeModel('gemini-2.0-flash')
+            self.model = genai.GenerativeModel('gemini-2.5-flash')
         else:
             self.model = None
             if not api_key:

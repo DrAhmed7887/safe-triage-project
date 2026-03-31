@@ -55,14 +55,16 @@ The system was submitted to the **MedGemma Impact Challenge on Kaggle** (Februar
 
 ## Validated Performance
 
-| Metric | SAFE-Triage | Human Nurses | Industry Standard |
-|--------|-------------|--------------|-------------------|
-| **Exact ESI Accuracy** | 79.7% | 61.3% | ~72% |
-| **Within-1 Accuracy** | 97.7% | 82.9% | ~85% |
-| **Critical Under-triage** | 0.7% | 5-15% | <5% (ACS-COT) |
-| **Response Time** | 17 seconds | 3-5 minutes | — |
+| Metric | SAFE-Triage (MIETIC, n=36) | Human Nurses | Industry Standard |
+|--------|---------------------------|--------------|-------------------|
+| **Exact ESI Accuracy** | 69.4% | 61.3% | ~72% |
+| **Within-1 Accuracy** | 94.4% | 82.9% | ~85% |
+| **Critical Under-triage** | **0.0%** (0/36) | 5-15% | <5% (ACS-COT) |
+| **Over-triage** | 27.8% | ~20% | ~30% |
 
-*Validated across 299+ cases including MIMIC-IV-ED, MIETIC, and Korean KTAS datasets.*
+*Validated on 36 expert-reviewed MIETIC cases (MIMIC-IV-ED Triage Instruction Corpus).
+Zero critical under-triage achieved. Over-triage is the safe direction.
+See `backend/benchmarks/` for fully reproducible benchmark code.*
 
 ---
 
@@ -70,7 +72,7 @@ The system was submitted to the **MedGemma Impact Challenge on Kaggle** (Februar
 
 **🇪🇬 Arabic Dialect Support** — 1,858 Egyptian Arabic medical keywords, not just Modern Standard Arabic. Understands colloquial complaints like "قلبي بيوجعني" and "حاسس إني هموت".
 
-**🔒 Safety-First Architecture** — Zero critical under-triage is non-negotiable. Over-triage is always safer than under-triage. Deterministic rules enforce safety floors that AI cannot override.
+**🔒 Safety-First Architecture** — Zero critical under-triage achieved on the MIETIC benchmark. Over-triage is always safer than under-triage. Deterministic safety floors (vital-sign escalation, life-threat text detection) enforce patient safety that AI cannot override.
 
 **🧬 MedGemma QA Layer** — Google's medical foundation model reviews triage decisions asynchronously, catching atypical presentations and silent killers that pattern matching alone would miss.
 

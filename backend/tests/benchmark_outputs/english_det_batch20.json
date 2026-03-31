@@ -1,0 +1,237 @@
+{
+  "timestamp": "2026-03-30 19:41:16",
+  "mode": "deterministic",
+  "total": 20,
+  "passed": 20,
+  "failed": 0,
+  "critical_undertriage": 0,
+  "over_triage": 0,
+  "pass_rate": 100.0,
+  "results": {
+    "passed": [
+      {
+        "name": "Cardiac arrest - witnessed collapse",
+        "category": "cardiac_arrest",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Patient collapsed, no pulse, not breathing"
+      },
+      {
+        "name": "Cardiac arrest - found down",
+        "category": "cardiac_arrest",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Found unresponsive, no signs of life"
+      },
+      {
+        "name": "Complete airway obstruction",
+        "category": "airway_obstruction",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Choking, can't breathe at all, turning blue"
+      },
+      {
+        "name": "Respiratory arrest",
+        "category": "respiratory_arrest",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Not breathing, apneic, needs intubation"
+      },
+      {
+        "name": "Severe anaphylaxis",
+        "category": "anaphylaxis",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Bee sting, throat swelling shut, can't breathe, lips blue"
+      },
+      {
+        "name": "Unresponsive - unknown cause",
+        "category": "unconscious",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Completely unresponsive, won't wake up"
+      },
+      {
+        "name": "GCS 3",
+        "category": "unconscious",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "GCS 3, no response to pain"
+      },
+      {
+        "name": "Major trauma - MVA ejection",
+        "category": "severe_trauma",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Ejected from vehicle, multiple injuries, bleeding heavily"
+      },
+      {
+        "name": "Gunshot wound chest",
+        "category": "severe_trauma",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Gunshot wound to chest, difficulty breathing"
+      },
+      {
+        "name": "Stab wound abdomen",
+        "category": "severe_trauma",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Stabbed in abdomen, bowel evisceration"
+      },
+      {
+        "name": "Massive GI bleed",
+        "category": "severe_bleeding",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Vomiting large amounts of blood, feeling faint"
+      },
+      {
+        "name": "Ruptured AAA",
+        "category": "severe_bleeding",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Sudden severe back pain, pulsatile abdominal mass, hypotensive"
+      },
+      {
+        "name": "Opioid overdose - apneic",
+        "category": "poisoning_overdose",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Heroin overdose, not breathing, pinpoint pupils"
+      },
+      {
+        "name": "Caustic ingestion",
+        "category": "poisoning_overdose",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Drank drain cleaner, mouth burns, drooling"
+      },
+      {
+        "name": "Status epilepticus",
+        "category": "active_seizure",
+        "expected": 1,
+        "actual": 1,
+        "matched_category": "Resuscitation",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Continuous seizure for 10 minutes, not stopping"
+      },
+      {
+        "name": "STEMI - classic presentation",
+        "category": "chest_pain_cardiac",
+        "expected": 2,
+        "actual": 2,
+        "matched_category": "Emergent",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Crushing chest pain radiating to left arm, sweating, nausea"
+      },
+      {
+        "name": "STEMI - diabetic atypical",
+        "category": "chest_pain_cardiac",
+        "expected": 2,
+        "actual": 2,
+        "matched_category": "Emergent",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Diabetic with jaw pain, shortness of breath, feeling of doom"
+      },
+      {
+        "name": "Unstable angina",
+        "category": "chest_pain_cardiac",
+        "expected": 2,
+        "actual": 2,
+        "matched_category": "Emergent",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Chest pain at rest, not relieved by nitroglycerin"
+      },
+      {
+        "name": "Chest pain with syncope",
+        "category": "chest_pain_cardiac",
+        "expected": 2,
+        "actual": 2,
+        "matched_category": "Emergent",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Chest pain, passed out briefly, still having pain"
+      },
+      {
+        "name": "Acute stroke - facial droop",
+        "category": "stroke_symptoms",
+        "expected": 2,
+        "actual": 2,
+        "matched_category": "Emergent",
+        "passed": true,
+        "critical_undertriage": false,
+        "over_triage": false,
+        "complaint": "Sudden facial droop, arm weakness, slurred speech"
+      }
+    ],
+    "failed": [],
+    "critical_undertriage": [],
+    "over_triage": []
+  }
+}

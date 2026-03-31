@@ -1,0 +1,1001 @@
+stay_id,source_row,actual_esi,complaint_bucket,chief_complaint_text,hr,rr,spo2,temp,sbp,dbp,pain_score
+38797992,944,1,sob,SOB/ABNL LABS,130,32,94.0,99.2,106,74,
+38807028,5483,1,ped struck,Ped struck,,,,,,,
+37474721,5826,1,dyspnea,Dyspnea,98,36,100.0,98.1,157,68,0
+31053010,8511,1,s,"s/p Fall, Transfer",111,18,95.0,99.9,140,74,0
+37075847,12215,1,hypotension,Hypotension,105,19,97.0,98.9,66,41,0
+37258585,14463,1,dizziness,DIZZINESS,140,18,98.0,,150,100,
+37164028,18837,1,back pain,BACK PAIN,103,14,100.0,100.2,138,75,10
+31436959,21138,1,finger pain,Finger pain,80,16,100.0,99.5,174,95,1
+36375819,22567,1,abd pain,"Abd pain, Tachycardia",140,,90.0,96.6,,,
+32916658,26007,1,abnormal labs,"Abnormal labs, Lethargy",93,16,97.0,99.5,86,52,0
+34472471,29009,1,fever,Fever,107,18,100.0,100.4,84,63,0
+35227569,30766,1,labor,LABOR,113,18,100.0,97.5,120,82,10
+37505852,33604,1,unresponsive,Unresponsive,,,,,,,
+36407532,36455,1,hypotension,"Hypotension, Weakness",125,17,95.0,96.0,91,57,0
+30214932,45489,1,kicked in the head,KICKED IN THE HEAD,97,16,100.0,97.6,159,108,8
+38520111,47160,1,dyspnea,Dyspnea,90,22,87.0,99.4,113,56,0
+35996712,47503,1,wound dehisc s,WOUND DEHISC S/P ASSAULT,144,22,98.0,98.4,116,80,5
+32745952,49607,1,weakness,Weakness,,,,,,,
+38933038,51320,1,abdominal distention,"Abdominal distention, BRBPR",142,20,98.0,99.4,108,62,8
+31728998,57250,1,l arm numbness,L Arm numbness,73,18,100.0,98.8,169,93,0
+39249315,57696,1,dyspnea,"Dyspnea, Hypoxia",103,32,86.0,97.5,116,84,0
+32511319,61594,1,sob,SOB/LOW SAT,120,,91.0,95.7,86,50,13
+39119518,61605,1,fever,"Fever, Tachycardia",166,18,99.0,100.4,123,62,0
+36326961,62718,1,altered level of consciousness,ALTERED LEVEL OF CONSCIOUSNESS,150,18,99.0,99.4,76,34,
+30331642,63373,1,dyspnea,"Dyspnea, Transfer",88,36,97.0,98.4,112,58,0
+39900135,65817,1,abd pain,"Abd pain, SBO, Transfer",61,16,95.0,99.8,87,63,2
+36577143,65886,1,l numbness,L Numbness,84,16,100.0,99.3,124,71,13
+34319220,66715,1,s,s/p Fall,,,,,,,10
+30652576,66868,1,od,? OD,102,16,100.0,97.4,145,104,13
+39595844,69144,1,tachycardia,Tachycardia,140,16,96.0,97.4,123,82,0
+31913036,69880,1,altered mental status,Altered mental status,70,16,100.0,98.6,110,76,
+38069888,70895,1,mvc,"MVC, Pregnant",,,,,,,
+33194101,72832,1,s,"s/p cardiac arrest, Transfer",,,,,,,
+35368396,74620,1,dyspnea,Dyspnea,146,22,100.0,97.8,111,81,0
+35803509,75484,1,l side weakness,L SIDE WEAKNESS,64,18,97.0,97.0,136,90,0
+36250886,75606,1,hematuria,"Hematuria, Tachycardia, Fever",137,24,98.0,101.8,109,68,
+35783115,76003,1,altered mental status,"Altered mental status, APHASIA",66,16,98.0,97.8,143,86,
+35878013,80219,1,mvc,"MVC, Transfer",,,,,,,
+30130255,80344,1,dyspnea,Dyspnea,85,30,87.0,98.1,110,55,0
+31635040,86534,1,tachycardia,Tachycardia,140,20,97.0,98.3,160,115,0
+39900420,86716,1,left facial droop,LEFT FACIAL DROOP/NUMBNESS,85,18,100.0,98.2,152,75,0
+32419722,88421,1,sah,"SAH, Transfer",,,,,,,
+32650655,89146,1,agitated,AGITATED,94,20,96.0,99.0,130,72,13
+30176611,100832,1,altered mental status,"Altered mental status, FACIAL DROOP",54,18,100.0,98.2,184,64,13
+35570144,100966,1,pna,PNA,137,20,99.0,100.9,125,85,8
+32928905,104694,1,agitation,"Agitation, Substance use",154,20,99.0,96.2,140,91,0
+35847589,112865,1,od,OD,,,100.0,,88,60,13
+33991080,113589,1,arm laceration,Arm laceration,,,,,,,
+39437552,115699,1,transfer,"Transfer, Dyspnea, Tachycardia",130,16,99.0,96.8,106,64,0
+32155991,115826,1,allergic reaction,Allergic reaction,78,18,98.0,98.3,152,87,8
+33495537,116710,1,altered mental status,"Altered mental status, Hypotension",,,,,,,
+39658245,117131,1,found down,"Found down, Elevated troponin, MCA INFARCT",71,16,100.0,98.6,91,68,
+31509661,120391,1,tachycardia,Tachycardia,144,22,95.0,101.0,153,54,0
+31128326,120516,1,hypotension,Hypotension,57,14,98.0,98.1,115,53,13
+31647149,126352,1,unresponsive,Unresponsive,,,,,60,,0
+32668367,130919,1,dyspnea,"Dyspnea, Tachycardia",178,16,98.0,98.3,114,51,0
+33515662,131313,1,gi bleed,"GI bleed, Transfer",,,,,,,
+35950112,131746,1,dyspnea,"Dyspnea, Hypotension, Bradycardia",47,28,99.0,99.0,157,92,0
+31549637,135325,1,dizziness,"Dizziness, Headache",76,18,100.0,97.7,145,79,0
+34314732,141109,1,chest pain,Chest pain,60,16,,,130,80,
+37996924,141317,1,numbness,"Numbness, PAIN",90,18,96.0,98.4,146,80,2
+36011039,143401,1,weakness,WEAKNESS,77,24,89.0,96.2,113,67,9
+30103360,143973,1,r chest pain,R Chest pain,80,18,98.0,98.0,142,90,5
+37121544,144410,1,seizure,Seizure,,,,,,,
+37504277,145846,1,tachycardia,"Tachycardia, Hypokalemia",130,18,98.0,97.5,116,71,0
+30267678,146016,1,cp,CP,30,,,,154,85,
+32650561,146362,1,dizziness,Dizziness,96,16,97.0,97.9,117,87,0
+37892295,148757,1,l shoulder pain,L Shoulder pain,138,,92.0,,104,85,
+35368400,153641,1,s,"s/p Fall, Abd pain, Transfer",70,18,97.0,97.8,116,72,7
+33067776,157745,1,facial injury,FACIAL INJURY,109,22,100.0,97.6,145,92,0
+37936823,159040,1,allergic reaction,"Allergic reaction, Tachycardia",140,,100.0,,123,89,
+33407817,161258,1,dyspnea,"Dyspnea, Tachypnea",122,36,98.0,97.1,148,96,0
+36337129,162384,1,mental status change,MENTAL  STATUS CHANGE,,,,,,,
+39946304,163019,1,overdose,OVERDOSE,125,10,90.0,99.5,133,85,
+37198675,163020,1,s,"s/p Fall, Transfer",75,15,100.0,96.9,118,80,5
+35735055,163794,1,seizures,SEIZURES,,,96.0,,,,
+30392921,167353,1,back pain,Back pain,73,16,100.0,97.8,123,83,8
+33372601,169979,1,sdh,"SDH, Transfer",106,18,93.0,97.7,148,115,8
+33755074,170717,1,respiratory distress,RESPIRATORY DISTRESS,,,,,,,
+39868701,176684,1,vision changes,VISION CHANGES,72,18,99.0,98.11,156,82,0
+32022763,177991,1,s,s/p Fall,,,,,,,
+30107753,187297,1,seizure,"Seizure, Transfer",,,,,,,
+37519173,189497,1,transfer,Transfer,64,16,96.0,,161,104,10
+31753819,189771,1,abnormal ekg,Abnormal EKG,30,18,98.0,98.0,167,54,0
+35508481,190589,1,altered mental status,Altered mental status,113,14,99.0,,184,109,
+34488255,192396,1,smoke inhalation,Smoke inhalation,100,22,100.0,99.2,168,85,6
+33371809,196496,1,mvc,"MVC, Transfer",83,22,100.0,97.0,111,68,
+31094088,197205,1,s,"s/p Fall, Dizziness",82,18,98.0,97.0,169,93,13
+34157055,197213,1,altered mental status,Altered mental status,92,16,95.0,97.7,174,107,0
+34495210,197619,1,finger laceration,Finger laceration,82,18,98.0,97.9,85,67,0
+38719003,198554,1,altered mental status,Altered mental status,77,18,98.0,98.5,118,76,0
+35938694,199086,1,hypoxia,Hypoxia,81,20,83.0,,113,57,
+38438583,201492,1,headache,"Headache, Numbness",108,18,96.0,100.9,187,105,0
+31003456,204967,1,general weakness,GENERAL WEAKNESS,78,24,98.0,98.8,124,62,13
+38579354,209358,1,allergic reaction,Allergic reaction,72,18,97.0,98.8,134,54,0
+32038023,212400,1,seizure,SEIZURE,,,,,,,13
+35873721,219124,1,weakness,WEAKNESS,81,24,96.0,97.5,82,66,0
+39843786,221698,1,head injury,HEAD INJURY,58,16,100.0,98.3,120,82,9
+39223203,224865,1,chest pain,"Chest pain, STEMI",,,,,,,
+35639676,233968,1,n,"N/V, Headache, Dizziness",105,13,99.0,98.0,134,81,9
+37295571,243396,1,cva,"CVA, Transfer",,,,,,,
+32590666,245535,1,ha,HA,76,16,100.0,98.3,150,93,5
+33370963,247265,1,labor,LABOR,,24,,,,,13
+38862369,249079,1,cva,"CVA, R/O CVA",,,,,,,
+33010343,250265,1,brbpr,"BRBPR, Urinary retention",137,16,100.0,98.6,112,70,7
+31930963,251172,1,unknown cc,UNKNOWN-CC,,,,,,,
+31432567,252286,1,cardiac arrest,"Cardiac arrest, Transfer",,,,,,,
+32057168,255298,1,chest pain,Chest pain,92,16,99.0,97.6,113,78,6
+39883739,256940,1,abd pain,Abd pain,135,,100.0,99.0,130,75,7
+35436665,257396,1,hypotension,Hypotension,,,,,,,
+38209558,260165,1,mvc,MVC,102,18,96.0,,127,87,8
+35305839,262441,1,weakness,Weakness,110,18,100.0,98.6,154,105,0
+35409015,263689,1,n,"N,V,D",89,20,90.0,98.5,80,40,
+38719743,263891,1,gunshot wound,Gunshot wound,,,,,,,
+38564454,265504,1,ha,HA/FACIAL DROOP,140,16,100.0,97.9,154,,0
+39238185,270857,1,dizziness,"Dizziness, Headache, R Facial numbness",89,16,99.0,98.8,177,103,9
+39401808,271318,1,lethargy,Lethargy,88,18,91.0,97.7,111,77,0
+37095569,271717,1,od,OD/OBTUNDED,72,14,100.0,98.0,160,68,
+37579688,273921,1,palpitations,"Palpitations, Tachycardia",140,15,94.0,98.8,144,108,0
+32765204,276098,1,mcc,MCC,,,,,,,
+35786229,277057,1,brbpr,BRBPR,99,18,96.0,,67,44,13
+35638078,277932,1,s,"s/p Fall, Transfer",,,,,,,
+36361897,278061,1,overdose,"Overdose, SI",153,16,96.0,99.2,154,101,0
+36130591,278573,1,dizzy,DIZZY,60,16,100.0,97.3,167,75,0
+39228800,280600,1,sore throat,SORE THROAT,128,18,97.0,100.4,129,85,10
+34321811,284123,1,cp,CP/DIZZY,113,22,100.0,97.0,142,66,
+32588020,286391,1,dyspnea,"Dyspnea, Hypoxia",94,24,72.0,,110,73,
+37439598,287510,1,cardiac arrest,Cardiac arrest,,,,,,,
+33201212,290978,1,transfer,Transfer,121,22,94.0,98.4,126,92,7
+33281955,295439,1,altered mental status,Altered mental status,90,18,98.0,99.4,155,71,
+34737772,295531,1,rci,RCI,89,20,100.0,97.5,147,82,
+39908620,296965,1,unknown cc,UNKNOWN-CC,,,,,,,
+31041143,297325,1,syncope,Syncope,35,18,100.0,97.3,168,96,0
+38748301,298825,1,motorcycle accident,"Motorcycle accident, Transfer",85,20,97.0,,164,68,
+34028107,302454,1,auto bike collision,Auto bike collision,86,20,100.0,97.8,150,80,3
+35643674,304873,1,dyspnea,"Dyspnea, Transfer",84,34,100.0,97.1,144,68,7
+36006461,304874,1,sob chest pain,SOB CHEST PAIN,91,16,84.0,97.8,147,76,6
+32324819,304967,1,unable to swallow,UNABLE TO SWALLOW,133,20,93.0,98.4,116,65,
+35962113,305602,1,dyspnea on exertion,"Dyspnea on exertion, Bradycardia",30,13,100.0,98.0,103,44,0
+39236503,306472,1,bleeding left arm,BLEEDING LEFT ARM,,,,,,,0
+39566502,306534,1,altered mental status,ALTERED MENTAL STATUS,78,16,100.0,98.0,98,65,13
+34157409,306962,1,dyspnea,Dyspnea,88,18,99.0,98.6,81,55,0
+33413658,308247,1,cva,CVA,,,,,,,
+35052780,309367,1,respiratory distress,"Respiratory distress, Transfer",,,,,,,0
+33379643,311972,1,hand inj,HAND INJ,,,,,,,
+34837066,313606,1,black stools,"BLACK STOOLS, LETHARGY",60,,,,74,46,
+32314365,318049,1,fever,FEVER,130,16,96.0,100.1,82,30,13
+36534019,318822,1,altered mental status,"Altered mental status, Hypoglycemia",72,24,99.0,93.0,154,88,
+36671211,320608,1,vicodan overdose,VICODAN OVERDOSE,130,,94.0,101.1,141,85,
+34504811,321914,1,aaa,"AAA, Dyspnea, Transfer",97,24,90.0,97.4,125,78,0
+38257153,322056,1,dyspnea,"Dyspnea, Hypoxia, Hypotension",,,,,,,
+39286539,322294,1,dyspnea,Dyspnea,150,28,99.0,,134,91,
+31402016,325150,1,transfer,Transfer,50,16,97.0,96.6,87,52,0
+35288939,327535,1,abd pain,ABD PAIN,135,16,100.0,98.4,164,100,
+30162929,328450,1,aphasia,APHASIA,,,,,,,13
+30564382,330830,1,tachy,TACHY,141,22,98.0,,109,87,
+37780116,339004,1,pregnant,PREGNANT W/ ABD CRAMPING,77,22,100.0,98.0,71,38,8
+35258442,343084,1,s,"s/p Fall, Transfer",60,14,95.0,97.0,142,73,8
+32254206,344370,1,unresponsive,UNRESPONSIVE /LOSS OF VISION,79,17,100.0,98.0,126,68,13
+37861534,346773,1,s,S/P UNRESPONSIVE,112,8,100.0,97.4,139,74,0
+36809607,346916,1,unknown,", Altered mental status, s/p Fall",88,19,98.0,,102,70,13
+33305312,351054,1,fever,"FEVER, HEADACHE, ABD PAIN",83,20,84.0,100.1,164,91,13
+35759239,354316,1,gunshot wound,Gunshot wound,,,,,,,
+38818079,357979,1,syncope,"Syncope, Hypotension",150,16,97.0,98.2,121,95,0
+34792431,358584,1,chest pain,"Chest pain, Dyspnea",46,24,100.0,97.8,100,49,10
+31745522,363659,1,allergic reaction,Allergic reaction,91,16,100.0,97.9,150,81,0
+38293828,363957,1,detox,Detox,141,18,95.0,98.6,136,93,0
+36816482,367073,1,tachycardia,"Tachycardia, Wound eval",135,22,100.0,98.5,141,94,2
+39177780,369972,1,altered level of consciousness,ALTERED LEVEL OF CONSCIOUSNESS,52,20,99.0,98.8,154,65,13
+36426210,371746,1,weakness,Weakness,116,20,97.0,,128,98,
+39195367,372728,1,cavernous venous thrombosis,CAVERNOUS VENOUS THROMBOSIS/TRANSFER,96,18,89.0,98.0,176,100,4
+32574762,374224,1,fall,FALL,95,18,100.0,97.2,97,55,13
+36653388,377083,1,aaa leak,AAA LEAK,,,,,,,
+37437649,383824,1,palpitations,PALPITATIONS/IRREGULAR HEART BEAT,120,16,98.0,97.4,157,93,0
+34794880,384299,1,hypoglycemi,HYPOGLYCEMI,80,26,87.0,98.4,98,55,
+34367081,386067,1,tachycardia,TACHYCARDIA,148,20,95.0,97.8,85,57,0
+30453143,391227,1,dizziness,Dizziness,78,18,100.0,97.6,131,78,0
+34991501,391547,1,aortic disection,AORTIC DISECTION,,,,,,,
+30118302,393004,1,altered mental status,"Altered mental status, Hypoglycemia",80,16,100.0,97.0,144,80,
+32850512,393544,1,sob,SOB,140,28,100.0,102.1,115,70,0
+34008220,395543,1,dyspnea,DYSPNEA,74,24,98.0,97.6,88,63,0
+39922925,399530,1,altered level of consciousness,ALTERED LEVEL OF CONSCIOUSNESS,,24,,,124,73,
+31637421,403611,1,tachycardia,"Tachycardia, Hypotension",145,18,100.0,98.6,99,76,0
+37709324,405216,1,bicycle struck,BICYCLE STRUCK,58,16,100.0,96.0,138,70,7
+38221800,406798,1,mvc,MVC,,,,,,,
+36314766,407308,1,transfer,Transfer,,,,,,,
+36946057,408063,1,altered mental status,Altered mental status,70,26,100.0,97.6,189,108,0
+32322498,409294,1,feels anxious,FEELS ANXIOUS,134,18,100.0,100.8,169,84,0
+39297588,409810,1,seizure,"Seizure, Bradycardia",66,16,100.0,,127,81,
+37278292,411055,1,headache,HEADACHE,67,20,100.0,97.7,100,32,4
+30071746,416303,1,n,"N/V, Altered mental status, Hypoxia",90,18,82.0,98.0,109,86,
+36079055,416314,1,n,"N/V, GROIN PAIN",144,18,94.0,98.2,131,56,13
+36383306,417843,1,vaginal bleeding,"Vaginal bleeding, Rash, Lower abdominal pain",138,20,100.0,98.6,113,54,6
+38305610,418364,1,altered mental status,Altered mental status,100,16,98.0,96.8,120,80,0
+33884772,419290,1,allergic reaction,Allergic reaction,102,16,100.0,98.2,141,77,0
+39484187,422241,1,altered mental status,Altered mental status,81,16,99.0,96.1,144,107,0
+30166565,423750,1,altered mental status,Altered mental status,,,,,,,
+32872776,423776,1,dyspnea,"Dyspnea, Hypoxia, Palpitations, Abnormal EKG",85,26,95.0,98.6,173,90,0
+37603834,424800,1,fever,FEVER/COUGH,140,22,98.0,98.1,130,74,0
+33056680,425020,1,respiratory distress,RESPIRATORY DISTRESS,,,,,,,
+35420907,26,2,s,s/p Fall,92,18,100.0,98.9,140,77,3
+37323830,884,2,s,"s/p Fall, SDH",70,16,99.0,98.0,155,86,0
+38249627,1638,2,confusion,"Confusion, Fatigue",78,16,100.0,98.0,148,78,4
+30288544,2391,2,abd pain,"Abd pain, BRBPR",76,18,98.0,96.7,113,77,3
+36382399,4846,2,dysuria,"Dysuria, Hyperglycemia",100,18,100.0,96.8,154,99,0
+36486686,6445,2,c spine fracture,"C-spine fracture, Transfer",66,16,100.0,97.3,111,75,0
+35980110,6833,2,chest pain,"Chest pain, ILI",92,20,100.0,97.1,112,69,6
+30511643,7654,2,dyspnea,DYSPNEA,73,18,94.0,98.4,124,68,9
+39670875,8025,2,abd pain,"Abd pain, N/V",73,16,100.0,98.8,119,71,2
+32790240,9255,2,headache,"Headache, Fever, Transfer",70,16,99.0,97.3,129,91,0
+30991538,10611,2,vag bleeding,VAG BLEEDING,83,16,100.0,98.2,143,73,8
+31855341,11375,2,abd pain,"Abd pain, Nausea",110,18,98.0,98.9,194,84,8
+31394872,12875,2,shoulder injury,Shoulder injury,67,18,100.0,99.2,177,114,10
+37958179,13261,2,llq abdominal pain,LLQ abdominal pain,115,18,99.0,101.3,167,94,8
+33470915,16692,2,s,"s/p Fall, L Elbow pain",100,18,100.0,98.0,140,88,8
+36673492,19961,2,l facial swelling,"L Facial swelling, Lip swelling",112,18,100.0,99.5,200,65,0
+38937343,21762,2,facial swelling,"Facial swelling, R Arm swelling",112,16,97.0,97.2,146,64,0
+30989869,22828,2,requesting evaluation,REQUESTING EVALUATION,75,15,100.0,97.8,113,75,0
+34422814,23896,2,seizure,"Seizure, Slurred speech",71,20,97.0,97.2,183,86,0
+34118500,24340,2,abdominal pain back pain,ABDOMINAL PAIN BACK PAIN,120,16,99.0,97.0,108,83,5
+38826859,27496,2,chest pain,Chest pain,79,18,100.0,97.0,150,96,6
+39458847,35815,2,abd pain,Abd pain,59,18,98.0,98.0,94,47,8
+38528924,39395,2,dyspnea,"Dyspnea, N/V, Weakness",82,24,96.0,102.5,124,50,4
+37257048,39939,2,dislocated,"DISLOCATED, FX RIGHT SHOULDER",106,18,96.0,97.6,135,72,13
+32683852,45129,2,chest pain,"Chest pain, Dyspnea",57,18,100.0,98.5,132,71,0
+36567551,48885,2,blood in mouth,BLOOD IN MOUTH,74,16,96.0,98.5,133,81,0
+30384773,48922,2,lightheaded,"Lightheaded, Palpitations",85,16,96.0,98.5,101,67,0
+39164095,49600,2,general weakness,GENERAL WEAKNESS,102,20,100.0,97.2,182,97,0
+35775258,52945,2,cough,"Cough, Fever",73,18,94.0,98.1,124,53,3
+31882189,55479,2,back pain,Back pain,82,14,97.0,98.5,127,98,8
+33842796,56272,2,n,n/v/d,109,20,99.0,98.0,100,53,0
+39994772,57225,2,hyperglycemia,HYPERGLYCEMIA,76,16,100.0,96.8,130,30,
+39651086,57797,2,pneumonia,Pneumonia,79,18,97.0,100.2,143,70,0
+34049491,58339,2,dizziness,"Dizziness, Dyspnea",80,19,100.0,98.9,128,69,0
+32873400,58920,2,right eye visual changes,RIGHT EYE VISUAL CHANGES,76,20,99.0,97.8,116,84,7
+32974946,59334,2,dizziness,"Dizziness, Palpitations",113,22,98.0,99.2,170,90,0
+38431669,64140,2,dyspnea,Dyspnea,105,24,94.0,98.7,184,72,7
+36348713,64326,2,motorcycle accident,Motorcycle accident,98,18,97.0,98.4,106,93,7
+31881868,64388,2,etoh,"ETOH, s/p Fall, Vomiting",50,16,96.0,95.8,100,70,
+39386184,65241,2,coffee ground emisis,COFFEE GROUND EMISIS,97,20,99.0,97.9,100,57,6
+30042865,68178,2,r,R/O CVA,80,,97.0,98.0,158,90,0
+32150560,68230,2,chest pain cardiac features,CHEST PAIN (CARDIAC FEATURES),89,18,98.0,97.9,145,88,5
+34954776,68545,2,dyspnea,"Dyspnea, Hemoptysis, PE",104,22,94.0,99.2,170,94,0
+34595783,69213,2,sob cp,SOB CP,108,20,92.0,100.5,136,76,5
+36049455,70404,2,abn labs,ABN LABS/CP,60,18,98.0,97.3,158,56,1
+33118296,72625,2,headache,"Headache, Back pain",114,16,100.0,98.2,128,78,8
+37896819,73203,2,abnormal labs,Abnormal labs,80,18,100.0,98.5,156,98,0
+30022721,77764,2,facial swelling,"Facial swelling, Sore throat",60,20,98.0,98.1,169,73,10
+35775231,78062,2,bleeding from dialysis catheter,BLEEDING FROM DIALYSIS CATHETER,88,15,100.0,98.7,202,106,0
+32937570,78947,2,chest pain,"Chest pain, Transfer",80,16,96.0,98.0,163,81,5
+37066903,81760,2,abd pain,Abd pain,100,18,96.0,98.5,138,105,5
+32069656,86560,2,dyspnea,Dyspnea,73,18,96.0,98.8,120,67,0
+37113235,88309,2,chest pain,Chest pain,71,18,96.0,97.9,110,65,3
+31268035,89068,2,sdh,"SDH, Transfer",91,16,96.0,97.2,184,93,4
+36575649,89654,2,rci,RCI,102,17,98.0,98.6,120,68,0
+30699861,91145,2,head injury,"Head injury, Headache, Lightheaded",67,17,100.0,97.5,131,95,4
+33387805,92335,2,si,SI,70,20,100.0,98.0,165,90,0
+38828894,92658,2,sob,SOB,62,18,97.0,97.6,160,66,9
+31081943,93365,2,hypercalcemia,HYPERCALCEMIA,84,20,100.0,98.8,103,67,
+30547322,93535,2,abnormal ekg,"Abnormal EKG, ETOH",88,16,94.0,99.7,131,68,0
+32601577,94099,2,chest pain cardiac features,CHEST PAIN (CARDIAC FEATURES),92,20,100.0,97.7,119,70,7
+36870223,94920,2,fatigue,"Fatigue, Unresponsive",88,16,96.0,96.7,126,58,0
+30897068,96806,2,cough,"Cough, Malaise",57,18,95.0,97.9,97,47,0
+38192028,97367,2,abnormal labs,ABNORMAL LABS,75,18,97.0,97.6,145,62,4
+32087256,98441,2,brbpr,BRBPR,67,18,98.0,96.6,139,47,0
+33411973,100340,2,r weakness,"R Weakness, Slurred speech",85,20,97.0,98.2,104,60,0
+33538890,103542,2,abnormal labs,"Abnormal labs, Chest pain",87,22,100.0,100.1,149,73,0
+33966006,105967,2,brbpr,BRBPR,96,16,100.0,98.6,99,71,0
+35916420,106891,2,fever,"Fever, Neutropenia",101,20,100.0,101.7,114,66,0
+36507882,113096,2,hypertension,HYPERTENSION,62,16,99.0,98.6,214,85,0
+36410695,113686,2,overdose,"Overdose, SI",111,15,100.0,96.7,144,92,0
+34792556,116102,2,abnormal mri,Abnormal MRI,118,18,98.0,98.2,121,93,2
+39250689,116412,2,abd pain,"Abd pain, N/V",114,16,94.0,38.2,168,81,10
+31659217,119371,2,headache,"Headache, Transfer",78,14,,98.1,138,74,6
+32423485,121122,2,dizziness,Dizziness,66,18,99.0,97.9,116,59,0
+33395312,121540,2,etoh,"ETOH, Unsteady gait",80,16,97.0,99.4,124,84,0
+33874996,123856,2,chest pain,Chest pain,78,16,99.0,97.4,112,93,5
+39140412,125098,2,unsteady gait,"Unsteady gait, Vomiting",60,20,99.0,96.2,133,78,0
+35730050,125971,2,pain,Pain,73,18,99.0,97.9,,,9
+38295824,132771,2,neuro eval,NEURO EVAL,64,22,94.0,96.6,207,110,13
+33957408,133500,2,hyperglycemia,Hyperglycemia,107,19,100.0,98.2,140,93,0
+38440501,135254,2,allergic reaction,Allergic reaction,129,18,97.0,99.8,125,79,0
+37494931,136667,2,transfer,"Transfer, Abnormal CT, Chest pain",80,16,98.0,97.3,131,74,5
+33747326,140660,2,n,n/v/d,76,18,99.0,98.6,134,60,9
+33410006,141331,2,abdominal distention,"Abdominal distention, Arm swelling, B Leg swelling",115,18,99.0,98.0,156,115,5
+32547705,141816,2,dyspnea,"Dyspnea, Lightheaded, Anemia",85,18,100.0,99.8,105,74,0
+36946985,142415,2,sdh,SDH,75,18,97.0,97.8,144,88,5
+35060998,143662,2,complete heartblock,COMPLETE HEARTBLOCK,70,20,97.0,97.8,155,71,0
+34560058,144873,2,s,"s/p Fall, Dizziness",66,16,98.0,98.5,157,53,10
+38502758,145501,2,dyspnea,"Dyspnea, Leg swelling",68,18,100.0,97.9,129,76,8
+33845007,146352,2,hematemesis,"Hematemesis, N/V",114,18,96.0,99.7,143,88,9
+33347343,150346,2,hot,HOT AND LOW,91,15,96.0,100.0,133,76,
+32699225,151345,2,altered ms,ALTERED MS,74,16,94.0,96.6,97,64,13
+32874794,152371,2,dyspnea,"Dyspnea, PE, Transfer",80,16,95.0,98.3,145,90,0
+34633003,155312,2,s,"s/p Fall, Transfer",80,18,99.0,98.0,131,62,2
+35643652,156635,2,palpitations,Palpitations,104,16,100.0,97.5,164,110,0
+39015130,157815,2,chest pain,"Chest pain, Dyspnea on exertion",60,18,100.0,97.7,153,78,0
+37117413,162289,2,epistaxis,EPISTAXIS,88,16,96.0,97.8,141,59,0
+35394832,165761,2,headache,"Headache, Numbness",65,16,98.0,99.2,139,80,2
+30646774,171462,2,dyspnea on exertion,"Dyspnea on exertion, Transfer",74,24,96.0,98.0,108,66,0
+34346656,174189,2,n,"N/V, Weakness",82,20,100.0,96.8,153,82,10
+39929892,176142,2,ich,"ICH, Transfer",64,16,99.0,97.6,122,57,2
+36015139,180761,2,chest pain,Chest pain,110,20,100.0,98.1,116,90,8
+33740462,181296,2,s,"s/p Fall, Back pain, L Shoulder injury",92,18,99.0,97.4,123,78,4
+31590768,185267,2,l leg pain,L Leg pain,88,18,96.0,98.2,127,78,4
+38167034,187136,2,abdominal distention,"Abdominal distention, Dyspnea",102,28,99.0,99.4,107,51,0
+37882951,187229,2,unknown,___,89,12,98.0,98.6,127,82,0
+32716380,187639,2,tremors,TREMORS,72,14,99.0,,101,73,0
+36696967,188569,2,visual changes,"Visual changes, Transfer",83,20,95.0,97.9,118,72,4
+35685707,189522,2,back pain,"Back pain, Transfer",65,18,97.0,98.4,131,71,5
+38128805,190363,2,r hip pain,"R Hip pain, s/p Fall",96,16,96.0,97.8,189,86,10
+37435229,191531,2,chest pain cardiac features,CHEST PAIN (CARDIAC FEATURES),83,18,100.0,99.0,121,83,10
+31171534,192921,2,chest pain,Chest pain,66,16,97.0,97.7,135,81,0
+33117437,196112,2,abnormal labs,"Abnormal labs, Anemia",95,17,100.0,97.0,123,60,0
+33140925,196778,2,hallucinations,Hallucinations,70,18,100.0,98.2,167,96,4
+39137937,198147,2,n,"N/V, Weakness",56,16,99.0,97.6,172,68,13
+35828104,198892,2,fever,FEVER,88,20,92.0,100.2,101,60,0
+36546589,199672,2,blood,BLOOD AND BODY FLUID EXPOSURE,63,18,98.0,96.9,146,82,0
+32343410,200545,2,nausea,NAUSEA/HYPERGLYCEMIA,113,18,97.0,98.7,167,91,0
+37424531,200968,2,brbpr,BRBPR,70,18,89.0,97.9,149,59,0
+38851087,203064,2,jaundice,"Jaundice, RLQ abdominal pain",80,18,100.0,98.0,128,45,3
+32454299,204243,2,syncope,SYNCOPE,87,16,97.0,97.5,138,79,0
+35874872,206314,2,abnormal ct,"Abnormal CT, Aphasia",93,18,98.0,97.9,162,73,8
+32273261,209260,2,abd pain,"Abd pain, n/v/d",90,16,95.0,97.4,125,69,9
+33105639,211651,2,l sided deficits,L SIDED DEFICITS,66,20,100.0,99.0,160,62,0
+36487694,213631,2,fall,FALL,100,18,98.0,101.0,122,52,10
+38307847,213695,2,anemia,Anemia,70,20,100.0,98.6,142,60,0
+35721950,217765,2,allergic rxn,ALLERGIC RXN,80,18,100.0,98.2,102,75,0
+31169619,219680,2,hypertension,Hypertension,108,18,100.0,97.9,195,111,0
+35839515,220030,2,fatigue,"Fatigue, Fever, Urinary incontinence",79,18,93.0,98.3,110,46,10
+38965089,221958,2,elevated inr,Elevated INR,80,18,97.0,98.1,127,60,8
+37691673,234598,2,si,SI,85,16,100.0,98.4,135,92,8
+38879125,234998,2,head injury,"Head injury, s/p Fall",70,16,97.0,97.8,136,76,7
+33253427,237521,2,sob,SOB,70,,100.0,99.2,98,55,0
+35874586,241976,2,chest pain,Chest pain,73,14,100.0,97.8,181,72,4
+38884832,245245,2,dizziness,"Dizziness, Palpitations",98,20,99.0,98.1,148,100,0
+37793154,246302,2,fever,"Fever, Abd pain",112,18,96.0,98.0,127,90,4
+37455194,248750,2,luq abd pain,"LUQ abd pain, Melena",111,18,100.0,98.8,118,82,0
+35535424,251461,2,altered mental status,"Altered mental status, MVC",117,16,95.0,98.0,115,79,0
+34650715,252187,2,n,N/V,94,16,100.0,97.2,168,87,6
+36143510,252473,2,abd pain,"Abd pain, N/V, Weakness",88,18,100.0,97.6,106,60,7
+32989457,257758,2,chest pain,"Chest pain, Transfer",77,18,100.0,97.8,109,60,2
+37818631,262262,2,hypertension,HYPERTENSION,70,16,97.0,97.5,219,114,6
+37601099,264203,2,abd pain,"Abd pain, Overdose",125,18,97.0,98.6,117,88,7
+31204499,266844,2,dyspnea,"Dyspnea, N/V",82,19,100.0,98.4,131,72,0
+38394118,275342,2,dyspnea,"Dyspnea, Altered mental status, Transfer",80,22,100.0,96.2,123,83,13
+33633379,282216,2,anemia,"Anemia, Weakness",71,18,100.0,97.8,150,77,0
+37925341,292977,2,altered mental status,"Altered mental status, Transfer",80,18,100.0,98.8,148,74,13
+33130217,294455,2,chest pain,CHEST PAIN,118,16,98.0,98.8,116,67,8
+30148058,299116,2,syncope,SYNCOPE/PRESYNCOPE,62,18,100.0,97.4,112,61,0
+34640709,304052,2,abd pain,"Abd pain, Pregnant",75,18,100.0,98.5,166,100,7
+31857407,306852,2,rci,RCI,71,18,98.0,97.4,119,75,0
+33491918,307519,2,anemia,"Anemia, ETOH, ___",131,18,98.0,99.1,123,78,4
+33568099,308119,2,l leg pain,L Leg pain,84,18,99.0,98.6,125,80,8
+39593640,308243,2,abd pain,"Abd pain, Melena, Weakness",64,16,99.0,96.5,158,94,13
+33560010,308729,2,dyspnea,"Dyspnea, Abd pain",85,28,95.0,97.4,131,77,8
+32213564,319579,2,epigastric pain,EPIGASTRIC PAIN,126,28,99.0,102.2,154,87,13
+38236015,320726,2,head bleed,HEAD BLEED,72,15,96.0,98.4,143,76,5
+38540380,321097,2,failure to thrive,"Failure to thrive, Hypotension",80,14,97.0,97.8,123,61,0
+31397251,322513,2,chest pain,Chest pain,88,16,98.0,97.4,128,83,0
+37808403,328793,2,dizziness,"Dizziness, Palpitations",120,18,96.0,96.9,148,80,0
+35918397,332657,2,dyspnea,"Dyspnea, Fever, s/p Fall",98,19,99.0,100.3,127,62,0
+30926158,332792,2,chest pain,Chest pain,97,16,97.0,98.0,154,88,6
+39982363,333097,2,seizure,"Seizure, Transfer",58,16,99.0,96.6,106,62,0
+35788019,336766,2,dizziness,"Dizziness, Dyspnea, Lightheaded",85,20,96.0,97.0,123,80,0
+38718310,337233,2,nausea,NAUSEA/HYPOXIC ON RA,51,22,100.0,98.0,116,55,0
+31658914,340165,2,lightheaded,Lightheaded,78,18,98.0,97.0,131,68,0
+31321047,341114,2,chest pain,Chest pain,94,14,100.0,98.8,182,89,13
+32795192,342295,2,h,"H/A ,FACIAL DROOP",98,18,98.0,99.6,173,78,13
+34367150,345349,2,vision changes,Vision changes,70,16,96.0,97.4,148,59,0
+30576882,346082,2,dyspnea,Dyspnea,100,20,100.0,97.02,159,73,0
+34340372,347294,2,palpitations,Palpitations,101,18,99.0,97.2,129,90,0
+36121838,348845,2,nstemi,"NSTEMI, Transfer",74,18,98.0,97.9,152,63,0
+36497519,348895,2,chest pain,"Chest pain, Dyspnea",42,20,94.0,99.3,149,63,7
+32660136,350776,2,cough,"Cough, Seizure",112,18,95.0,98.3,167,97,0
+33493063,351333,2,abnormal labs,"Abnormal labs, Transfer",104,18,95.0,98.6,162,105,0
+35781031,351343,2,abd pain,Abd pain,92,18,97.0,98.6,108,60,8
+35104980,352109,2,chest pain,Chest pain,88,18,100.0,98.3,111,55,5
+38832953,353822,2,si,SI,100,18,100.0,98.5,146,82,0
+39075599,364001,2,chest pain,"Chest pain, Rash",87,17,98.0,99.4,149,88,8
+39368175,377794,2,upper back pain,"Upper back pain, Abd pain",74,16,97.0,98.0,151,73,5
+38073270,377826,2,palpitations,Palpitations,81,16,100.0,98.0,131,80,1
+32401375,381584,2,dyspnea,Dyspnea,71,22,98.0,97.8,110,60,0
+33864525,383406,2,sore throat,SORE THROAT,95,18,95.0,98.2,143,93,8
+37586263,384988,2,hyperglycemia,Hyperglycemia,80,16,100.0,98.8,135,68,0
+35839184,385416,2,melena,"Melena, Dyspnea",59,22,100.0,97.5,145,58,0
+39738209,385596,2,si,"SI, Depression",108,18,96.0,97.8,138,85,7
+35469620,385796,2,s,s/p Fall,61,18,95.0,96.4,154,71,
+33891349,386429,2,hypotension,"Hypotension, Presyncope",77,18,97.0,97.0,98,66,0
+38634740,389553,2,stress,STRESS,109,18,96.0,97.2,187,83,0
+37626168,392896,2,allergic reaction,ALLERGIC REACTION,133,20,100.0,98.4,147,95,0
+39625992,393539,2,arm pain,"Arm pain, Chest pain",117,16,100.0,97.6,136,72,8
+39099967,395616,2,chest pain,Chest pain,76,18,96.0,98.8,181,60,0
+37348029,397065,2,hallucinations,"Hallucinations, Nausea",77,16,98.0,96.4,162,80,0
+36289114,402608,2,abscess,"Abscess, Fever",104,20,96.0,100.3,113,79,0
+36135049,404501,2,hypotension,"Hypotension, Lethargy",78,18,98.0,98.0,89,42,0
+36842120,406780,2,seizure,Seizure,121,18,99.0,97.8,142,85,13
+37325698,410468,2,chest pain,Chest pain,73,18,100.0,97.0,144,75,3
+37242342,415264,2,rci,RCI,102,17,97.0,98.5,133,74,0
+36528797,420713,2,rlq abdominal pain,RLQ abdominal pain,109,18,98.0,98.1,130,75,8
+35148361,2644,3,headache,"Headache, Hypertension",73,16,99.0,97.0,208,109,6
+36503021,3125,3,n,"n/v/d, Syncope",83,16,94.0,98.2,162,92,6
+34896839,5881,3,s,S/P FALL,105,18,96.0,97.4,160,99,5
+38150661,8463,3,mvc,MVC,115,16,99.0,97.8,133,79,6
+32017472,9358,3,l flank pain,L Flank pain,105,20,100.0,98.6,135,91,10
+38856674,9868,3,etoh,"ETOH, Unable to ambulate, Unresponsive",100,16,95.0,97.0,133,77,0
+34538511,16922,3,s,S/P MECHANICAL FALL,100,16,98.0,97.6,132,79,0
+34457732,17369,3,hand cramping,HAND CRAMPING,115,18,100.0,98.8,132,95,0
+37585073,20130,3,fever,FEVER/STIFF NECK,109,18,99.0,97.0,133,82,8
+33170489,22153,3,etoh,ETOH,106,16,100.0,97.4,139,75,0
+31031547,22891,3,abnormal labs,Abnormal labs,103,18,98.0,98.65,97,61,0
+36909191,28936,3,syncope,"Syncope, Dizziness",75,16,100.0,98.2,117,63,8
+30056330,32469,3,chest pain,Chest pain,94,18,99.0,97.9,131,83,2
+38813035,32759,3,s,"s/p Fall, ETOH",,,,,,,13
+33330911,33422,3,dyspnea,"Dyspnea, Transfer",69,20,99.0,98.0,130,50,2
+32573503,36612,3,vomiting,"Vomiting, Epigastric pain",101,18,100.0,97.1,135,82,5
+35811874,36770,3,etoh,ETOH,92,16,100.0,98.0,150,67,0
+30145195,36819,3,bilateral leg swelling,BILATERAL LEG SWELLING,96,20,100.0,98.3,132,58,5
+32490278,37639,3,r foot pain,"R Foot pain, Wound eval",67,16,97.0,97.6,116,48,9
+37179895,47182,3,chest pain,"Chest pain, Dyspnea",80,17,100.0,99.0,130,81,0
+33074856,48626,3,buttock pain,BUTTOCK PAIN,99,18,100.0,99.5,105,61,5
+39518119,49644,3,unknown,___,80,18,98.0,97.8,146,94,0
+34397761,54909,3,gtube eval,gtube eval,69,18,96.0,97.5,116,46,0
+36718995,56870,3,abdo pain,ABDO PAIN,107,18,100.0,100.1,143,77,7
+36271496,59185,3,head injury,Head injury,87,18,94.0,97.6,111,64,5
+36570436,60395,3,asthma exacerbation,ASTHMA EXACERBATION,114,20,100.0,97.1,152,92,10
+31215765,62407,3,bizzare behavior,"BIZZARE BEHAVIOR, Headache",58,14,100.0,98.0,110,72,4
+31631334,62610,3,back pain,Back pain,108,18,98.0,98.6,151,85,7
+37134113,66828,3,s,S/P FALL HEAD ABRASION,102,16,97.0,97.3,122,63,0
+38019903,66971,3,swollen foot,SWOLLEN FOOT,85,16,100.0,98.4,143,79,7
+38793243,69200,3,r leg swelling,"R Leg swelling, Rash",85,16,100.0,97.4,116,83,0
+36839460,70947,3,abd pain,"Abd pain, Pregnant",68,16,100.0,97.2,115,71,7
+33120696,72519,3,l knee pain,L Knee pain,75,17,100.0,97.0,128,81,7
+31637424,72648,3,substance use,SUBSTANCE USE,81,20,97.0,98.0,108,65,13
+39796878,76738,3,toe inj,TOE INJ,92,16,98.0,98.6,158,76,6
+35879281,79171,3,cough,"Cough, Dyspnea",89,18,97.0,97.9,129,88,0
+31976229,79697,3,abdominal pain,ABDOMINAL PAIN,122,16,100.0,98.4,135,76,10
+30396151,80423,3,toe pain,Toe pain,83,16,98.0,98.2,150,88,5
+32160214,86767,3,assault,"Assault, R Eye pain",102,18,100.0,97.2,125,94,1
+33710901,87323,3,headache,"Headache, N/V",94,18,95.0,98.3,144,84,4
+31661714,89369,3,back pain,BACK PAIN/DOE,118,18,100.0,96.5,144,81,6
+38283598,90157,3,abnormal labs,Abnormal labs,86,20,100.0,97.0,181,78,0
+30858740,90239,3,shoulder injury,SHOULDER INJURY,100,22,100.0,97.0,137,80,10
+31495874,93229,3,rt fp,RT FP,77,16,93.0,99.6,117,67,0
+31023393,94176,3,mvc,MVC,110,18,100.0,98.0,154,81,0
+34184923,95413,3,s,s/p Fall,88,20,100.0,97.2,176,76,0
+35819915,98795,3,r hip pain,R Hip pain,85,17,96.0,97.1,115,55,10
+32506501,102878,3,lip swelling,LIP SWELLING,80,16,100.0,98.2,176,102,6
+33442493,103741,3,n,N/V,83,16,100.0,98.0,152,78,8
+37385348,104277,3,abd pain,Abd pain,127,16,100.0,,149,96,9
+34344934,107747,3,abd pain,"Abd pain, Vomiting",101,16,98.0,98.0,107,94,3
+30372132,111701,3,passed out,PASSED OUT,80,12,99.0,98.0,105,68,0
+35201623,112301,3,abd pain,"Abd pain, Hypertension",57,20,100.0,98.7,163,69,2
+34877189,112592,3,r ankle pain,"R Ankle pain, Wound eval",100,16,99.0,,138,78,4
+30845235,113624,3,abd pain,"Abd pain, N/V",61,16,99.0,96.1,116,91,7
+38930334,113694,3,abd pain,Abd pain,84,16,99.0,97.0,145,120,10
+30078413,116987,3,r flank pain,"R Flank pain, Kidney stone",88,16,95.0,97.7,202,74,0
+39055227,117208,3,anxiety,ANXIETY,113,22,100.0,97.0,138,70,0
+34340286,121848,3,ecchymosis,ECCHYMOSIS/EDEMA TOES,65,20,100.0,96.7,165,91,0
+36478078,125083,3,cough,"Cough, Dyspnea",76,26,94.0,98.8,121,78,0
+34202466,127742,3,ped struck,Ped struck,75,16,99.0,97.9,115,98,7
+32292723,128415,3,cough,Cough,85,18,100.0,99.2,110,68,13
+30871086,129620,3,etoh,ETOH,90,18,99.0,98.6,147,99,
+32218572,133652,3,anxious,ANXIOUS,89,16,98.0,97.4,143,83,0
+30283107,134375,3,l knee injury,L Knee injury,100,18,98.0,97.2,130,88,10
+34392631,138240,3,r ear bleeding,R EAR BLEEDING,69,16,100.0,97.4,149,83,0
+32955195,144077,3,ili,ILI,86,20,97.0,98.6,195,90,
+31006737,145733,3,left leg pain,LEFT LEG PAIN,76,18,100.0,98.3,115,54,5
+32039143,148047,3,n,N/V,100,18,100.0,97.6,155,115,8
+36279622,148275,3,anorexia,ANOREXIA/ NOT EATING,76,16,100.0,98.4,111,68,4
+36631831,150146,3,abd pain,"Abd pain, Urinary retention",90,20,98.0,97.6,153,100,10
+36714587,152459,3,low abd pain,LOW ABD PAIN/VOM,68,16,100.0,97.0,120,80,7
+36996731,154584,3,back pain,Back pain,93,18,100.0,98.6,142,81,10
+34190007,155384,3,jtube eval,Jtube eval,66,18,97.0,98.3,120,51,0
+37879433,156554,3,rlq abdominal pain,RLQ abdominal pain,104,16,97.0,97.8,148,99,10
+31283798,162478,3,chest pain,CHEST PAIN,90,18,100.0,98.8,109,76,0
+39427518,162643,3,hd catheter blockage,HD CATHETER BLOCKAGE,65,18,100.0,98.2,160,50,0
+36174254,163502,3,n,"N/V, Weakness",92,18,96.0,98.2,153,76,0
+31118466,167138,3,r leg pain,R Leg pain,104,18,100.0,97.2,143,113,10
+36260877,171689,3,trip,TRIP AND FALL,76,17,97.0,99.0,156,80,1
+39966814,175626,3,r foot abscess,R Foot abscess,82,20,99.0,99.7,136,71,5
+37468002,176335,3,r rib pain,"R Rib pain, s/p Fall",114,18,100.0,98.8,120,68,9
+37679214,179192,3,n,N/V /DIZZINESS,65,16,100.0,97.8,169,81,5
+33938302,179978,3,seizure,Seizure,62,16,99.0,97.2,137,56,10
+38042547,183694,3,abd pain,"Abd pain, Leg pain",106,18,100.0,97.6,115,71,5
+36433613,184198,3,unable to ambulate,UNABLE TO AMBULATE,98,16,100.0,98.8,138,113,0
+35205593,186800,3,s,s/p Fall,77,14,96.0,97.1,111,52,0
+37876370,187853,3,bilat leg pain,BILAT LEG PAIN,80,16,100.0,97.2,138,60,10
+33857376,188190,3,cough,"Cough, Chest pain",101,22,100.0,97.7,128,78,0
+38823929,188366,3,finger injury,Finger injury,63,16,99.0,98.2,112,67,2
+34544681,194892,3,s,S/P FALL,77,14,100.0,98.2,128,71,8
+36534961,207639,3,anxiety,Anxiety,72,18,100.0,97.8,128,77,0
+30156747,207874,3,total body pain,TOTAL BODY PAIN,74,18,100.0,97.4,132,76,10
+34608466,213793,3,etoh,"ETOH, Unable to ambulate",106,16,98.0,97.3,110,73,0
+31558725,215180,3,headache,Headache,80,18,100.0,96.0,126,69,8
+37319882,216507,3,requesting detox,REQUESTING DETOX,93,12,94.0,98.0,119,75,
+38487231,217883,3,mental status changes,MENTAL STATUS CHANGES,68,16,98.0,98.4,125,70,13
+31255620,219559,3,llq abdominal pain,"LLQ abdominal pain, Rash",75,18,98.0,98.1,146,88,10
+30611525,220087,3,abdominal distention,Abdominal distention,104,17,100.0,97.5,112,88,0
+34725653,222304,3,abd pain,Abd pain,93,16,100.0,98.5,145,95,6
+38700784,223340,3,dysuria,Dysuria,68,18,100.0,98.6,127,65,7
+38202956,224117,3,nausea,"Nausea, Upper abdominal pain",88,15,100.0,98.7,124,77,7
+36354486,229321,3,l ankle injury,L Ankle injury,94,15,97.0,97.4,173,97,9
+32616218,233008,3,llq abdominal pain,LLQ abdominal pain,70,14,100.0,97.6,111,76,6
+32384781,233791,3,s,s/p Fall,80,16,95.0,96.8,145,80,10
+30546072,234980,3,s,S/P MVC,99,18,100.0,97.4,121,96,6
+37576889,238066,3,asthma exacerbation,Asthma exacerbation,82,20,100.0,98.3,116,76,0
+39473381,238128,3,abd pain,"Abd pain, Lower abdominal pain",56,20,100.0,98.1,121,75,9
+32698246,243491,3,abd pain,"Abd pain, Pregnant",101,18,100.0,96.8,118,69,7
+33806667,248238,3,y,Y,89,16,100.0,97.7,122,96,3
+37705990,249860,3,s,s/p Fall,76,16,97.0,98.9,158,98,0
+32957906,255437,3,altered mental status,Altered mental status,70,18,98.0,98.4,119,57,
+31890575,259093,3,r ear pain,R Ear pain,97,16,96.0,97.6,135,98,4
+35187200,259877,3,anxiety,"Anxiety, Dehydration",89,15,100.0,97.1,130,65,0
+31446120,260486,3,s,S/P MVC,78,14,97.0,98.2,129,89,5
+34158232,266245,3,abd pain,"Abd pain, n/v/d",114,20,100.0,99.8,119,64,8
+39278273,268124,3,abd pain,Abd pain,68,18,100.0,97.8,124,66,9
+30366703,270238,3,right foot injury,RIGHT FOOT INJURY,66,16,100.0,97.3,145,80,6
+36342140,272352,3,l hip fracture,"L Hip fracture, Transfer",93,16,97.0,98.3,163,101,0
+36789164,272396,3,chest pain,"Chest pain, Dyspnea, Sore throat",68,17,100.0,97.9,125,91,8
+39515866,272811,3,headache,Headache,97,20,100.0,97.9,167,97,10
+39304610,274903,3,allergic reaction,Allergic reaction,94,20,100.0,,137,77,3
+36302704,275123,3,epistaxis,Epistaxis,103,18,100.0,98.1,125,57,0
+35774787,276319,3,admit for ect,ADMIT FOR ECT,84,16,98.0,97.6,145,53,0
+34872072,276750,3,fever,"Fever, Transfer",68,18,100.0,98.5,114,84,0
+39174507,278760,3,n,N/V,105,16,100.0,97.3,125,80,4
+39384903,279047,3,positive blood cultures,Positive blood cultures,86,18,96.0,97.7,156,77,0
+38989282,282968,3,lower abdominal pain,Lower abdominal pain,85,18,98.0,98.5,108,58,5
+34579906,284039,3,chest pain,"Chest pain, ETOH, Lightheaded",97,16,98.0,99.1,131,83,0
+30426462,284765,3,depression,Depression,97,18,100.0,98.2,116,72,9
+33030719,286619,3,palpitations,PALPITATIONS,88,18,97.0,96.6,123,75,0
+35193005,288785,3,vomiting,"Vomiting, Lightheaded, Abd pain",58,18,100.0,97.7,125,75,0
+35230080,290707,3,hip disloc,HIP DISLOC/FX,80,16,94.0,96.4,129,82,
+31636838,291558,3,back pain,BACK PAIN,75,18,98.0,97.0,149,91,10
+32170443,291752,3,rlq abdominal pain,RLQ abdominal pain,75,18,100.0,97.8,187,97,4
+33443894,291780,3,finger injury,Finger injury,84,16,99.0,98.0,145,76,0
+37551909,293167,3,abd pain,"Abd pain, Detox, Nausea",100,16,100.0,98.3,126,85,0
+31448843,297366,3,constipation,Constipation,83,20,100.0,98.0,113,62,8
+39639695,298582,3,gen weakness,GEN WEAKNESS,76,18,100.0,98.2,119,65,0
+38509567,302477,3,wound eval,Wound eval,60,14,99.0,97.9,130,87,8
+33773733,304476,3,l leg pain,L LEG PAIN,75,18,97.0,96.8,127,72,7
+36008649,306613,3,dizziness,"Dizziness, Insect bite",77,16,99.0,96.6,122,86,0
+33041283,310164,3,neck pain,"Neck pain, R Eye pain",90,16,100.0,98.5,121,79,5
+38475127,310309,3,wound eval,Wound eval,86,18,97.0,97.1,134,78,10
+32656155,312547,3,abd pain,Abd pain,73,22,99.0,98.4,139,84,6
+31661524,314134,3,chest pain cardiac features,CHEST PAIN (CARDIAC FEATURES),88,18,100.0,98.6,150,82,8
+31784915,317257,3,head injury,Head injury,60,20,100.0,97.9,112,70,7
+30657817,319478,3,decubitis,DECUBITIS,80,16,94.0,99.0,134,74,0
+38150032,320895,3,headache,Headache,86,16,95.0,100.0,176,101,5
+34682612,325390,3,presyncope,Presyncope,101,19,97.0,99.6,125,81,0
+38344287,327117,3,r flank pain,R Flank pain,102,18,99.0,96.8,102,62,10
+32846493,328657,3,rectal pain,Rectal pain,81,16,100.0,98.0,161,100,9
+33245321,334002,3,altered mental status,Altered mental status,71,16,97.0,97.8,141,76,13
+35591810,335959,3,s,s/p Fall,94,16,98.0,97.3,119,64,5
+36033929,336779,3,nausea,"NAUSEA, VOMITING, DIARRHEA",83,18,99.0,100.7,108,50,0
+38070319,339910,3,l leg pain,L Leg pain,82,16,100.0,99.1,135,78,
+31331115,340521,3,s,"s/p Fall, Head injury, L Elbow pain",85,18,100.0,100.1,117,73,4
+32103874,340851,3,abd pain,Abd pain,74,16,98.0,97.6,137,61,10
+31451899,353023,3,vaginal bleeding,Vaginal bleeding,66,20,100.0,98.0,126,86,5
+35867703,353974,3,l leg pain,"L Leg pain, L Leg swelling",64,18,99.0,97.8,134,61,7
+35299240,354350,3,anxiety,Anxiety,97,18,100.0,96.2,126,82,0
+32036663,354894,3,right knee injury,RIGHT KNEE INJURY,83,18,99.0,98.2,124,106,8
+36489368,354898,3,seizure,Seizure,100,24,98.0,97.9,114,72,13
+39198495,357730,3,eating disorder,EATING DISORDER,76,16,100.0,97.8,107,69,0
+38524800,358746,3,super pubic pain,SUPER PUBIC PAIN,84,18,100.0,97.6,148,77,10
+33310374,358961,3,back pain,Back pain,70,16,98.0,97.9,147,80,10
+37782462,361235,3,lightheaded,Lightheaded,104,17,98.0,97.6,130,96,0
+31917889,361535,3,multiple complaints,MULTIPLE COMPLAINTS,94,16,96.0,97.0,141,90,0
+34090504,362970,3,l flank pain,L Flank pain,70,16,100.0,98.5,131,91,9
+35460267,364486,3,bilat leg swelling,BILAT LEG SWELLING,70,14,98.0,97.4,147,104,0
+35959915,366505,3,l eye pain,L Eye pain,76,16,100.0,97.3,111,73,7
+39624680,366706,3,ear pain,"Ear pain, Sore throat",85,18,99.0,99.9,133,88,8
+31061041,367806,3,right flank pain,RIGHT FLANK PAIN,85,18,99.0,97.3,111,66,6
+34753774,367862,3,palpitations,Palpitations,77,16,99.0,97.9,116,92,7
+37160777,372629,3,l flank pain x 1 year,L FLANK PAIN X 1 YEAR,106,18,97.0,97.6,158,94,4
+38884230,374590,3,jaundice,"Jaundice, Abdominal distention",108,18,98.0,98.1,165,78,0
+39371557,376589,3,r hip pain,"R Hip pain, s/p Fall",67,14,99.0,97.8,155,80,10
+39923747,382237,3,ruq abdominal pain,RUQ abdominal pain,93,18,98.0,97.6,142,61,6
+31004954,384137,3,abd pain,"Abd pain, Constipation",80,14,97.0,98.9,117,64,8
+30541669,389529,3,mvc,"MVC, R Chest pain, R Shoulder pain",99,17,100.0,98.2,121,81,2
+31602216,391174,3,abcess,?ABCESS,98,16,100.0,98.9,154,85,10
+39875601,394449,3,abd pain,"Abd pain, N/V",105,18,100.0,98.9,111,83,5
+38251543,395063,3,abd pain,Abd pain,85,20,97.0,98.8,170,98,6
+36347152,395279,3,pain in left shoulder,PAIN IN LEFT SHOULDER,80,14,98.0,98.0,143,75,6
+36267902,395761,3,rash,Rash,80,18,98.0,97.3,95,48,0
+39586274,398508,3,abd pain,Abd pain,81,18,100.0,97.1,114,79,4
+31821052,398990,3,r knee pain,"R Knee pain, R Knee swelling",67,18,97.0,98.4,109,51,
+33855469,406520,3,med refill,MED REFILL,80,16,100.0,97.4,115,69,0
+35523169,407837,3,abd pain,ABD PAIN,82,20,97.0,97.0,120,83,9
+34116313,408041,3,cp,CP,70,22,96.0,99.0,144,67,0
+38682360,410589,3,etoh,"ETOH, Unable to ambulate",110,16,97.0,97.3,114,74,0
+33120390,410937,3,abd pain,"Abd pain, HYPOKALEMIA",60,18,96.0,98.3,160,84,
+34979666,411330,3,r knee pain,R Knee pain,88,20,100.0,97.2,155,77,8
+39713940,412956,3,n,"N/V, Abd pain",77,19,100.0,98.0,113,77,7
+36528968,413800,3,a fib,A FIB,63,18,100.0,96.4,184,91,0
+38893510,418866,3,r leg swelling,R Leg swelling,100,16,100.0,98.0,113,79,4
+38011526,419074,3,n,n/v/d,108,18,98.0,98.0,146,88,7
+35716569,420289,3,headache,Headache,70,18,100.0,97.7,129,85,9
+30438132,421800,3,dizziness,"Dizziness, Lightheaded",74,16,100.0,97.4,118,76,0
+36045486,424212,3,ili,ILI,94,18,99.0,101.0,136,75,4
+33168875,2204,4,pain left great toe,PAIN LEFT GREAT TOE,84,14,99.0,98.3,146,94,7
+36283525,3440,4,r eye pain,R Eye pain,63,18,100.0,98.0,121,70,6
+32739283,3752,4,rabies vaccine,Rabies Vaccine,87,18,99.0,97.2,118,61,0
+33277526,4872,4,l foot pain,L Foot pain,62,16,98.0,97.4,115,94,10
+35237206,6126,4,lt hand pain,LT HAND PAIN,98,16,99.0,98.0,142,78,5
+32257356,7198,4,malaise,Malaise,73,16,100.0,99.7,123,77,0
+33783465,10498,4,back pain,Back pain,89,16,100.0,98.6,144,84,7
+33370927,10576,4,l foot splinter,L FOOT SPLINTER,81,15,99.0,97.6,144,94,8
+39848526,13222,4,back pain,BACK PAIN,111,18,100.0,97.6,164,98,9
+31737501,18628,4,r hand injury,R Hand injury,78,18,100.0,97.8,143,90,5
+38379537,19197,4,mvc,"MVC, Neck pain",73,18,98.0,98.6,148,73,7
+39217382,20850,4,burn,Burn,86,16,100.0,97.6,132,79,7
+33328348,24217,4,b leg swelling,B Leg swelling,64,18,100.0,98.6,134,86,1
+33085184,24541,4,arm laceration,ARM LACERATION,76,16,97.0,98.7,135,88,2
+34720605,28839,4,r knee pain,R Knee pain,78,16,100.0,97.4,130,86,10
+32855864,29582,4,finger laceration,Finger laceration,81,18,99.0,99.1,127,62,6
+36486328,32989,4,rash,Rash,83,18,99.0,98.5,115,71,0
+38404688,37003,4,back pain,BACK PAIN,68,16,100.0,98.4,114,67,8
+39478924,41511,4,r knee pain,R Knee pain,85,15,100.0,96.8,129,72,6
+36134603,42714,4,upper extremity injury,UPPER EXTREMITY INJURY,79,14,100.0,97.8,128,83,6
+37546385,42963,4,sore throat,Sore throat,68,18,99.0,97.3,132,54,
+33299439,43682,4,eye redness,Eye redness,79,18,100.0,97.9,135,96,2
+34715359,44388,4,r foot pain,R Foot pain,86,16,100.0,97.1,,,10
+32568805,44640,4,lower lip lesion,LOWER LIP LESION,82,20,100.0,98.2,132,79,6
+38555026,49334,4,rash,Rash,97,17,99.0,97.4,118,73,0
+35020230,50012,4,dental pain,Dental pain,90,19,100.0,98.6,122,73,10
+30248313,50853,4,lac to left thumb,LAC TO LEFT THUMB,70,16,100.0,99.0,110,68,2
+37929418,51126,4,finger laceration,Finger laceration,90,18,100.0,97.9,163,111,0
+37499698,52570,4,l ear pain,L Ear pain,51,18,100.0,97.2,130,68,8
+38409751,53948,4,r inguinal pain,R Inguinal pain,74,18,100.0,97.6,127,68,0
+34951160,56058,4,r knee pain,R Knee pain,86,18,100.0,97.0,158,92,10
+36936423,56858,4,staples removal,Staples removal,69,18,100.0,98.6,138,73,0
+30837391,58648,4,s,S/P MVC,62,18,97.0,98.0,134,99,4
+35967106,64347,4,laceration,Laceration,69,18,98.0,98.4,105,75,9
+33513892,65531,4,finger laceration,Finger laceration,68,18,99.0,98.4,122,78,5
+39935869,65608,4,r ear pain,R Ear pain,63,14,100.0,97.8,145,79,6
+39761455,74754,4,dog bite,Dog bite,110,19,100.0,98.5,159,115,0
+33001917,76373,4,back pain,"Back pain, MVC",56,18,99.0,97.3,141,93,6
+30409199,79746,4,l foot pain,L Foot pain,76,16,100.0,96.5,133,91,9
+32279446,82428,4,back pain,Back pain,94,18,99.0,96.9,130,79,10
+37176734,83476,4,l neck pain,"L Neck pain, MVC",70,16,100.0,97.7,136,64,5
+34368240,85108,4,lower back pain,Lower back pain,82,16,100.0,98.3,131,72,9
+36645919,85557,4,finger swelling,Finger swelling,55,20,100.0,98.1,139,81,8
+34381145,86066,4,anxiety,"Anxiety, N/V",88,16,100.0,98.7,125,82,0
+33683250,87370,4,l leg pain,L Leg pain,62,18,98.0,,102,78,5
+33145287,90011,4,l foot pain,L Foot pain,77,16,98.0,98.4,159,86,10
+33858951,90039,4,lower back pain,Lower back pain,82,18,97.0,97.8,161,87,9
+31997696,95927,4,gu problem,GU PROBLEM,85,20,99.0,98.5,105,75,0
+31299987,99166,4,tick bite,Tick bite,78,16,99.0,99.0,199,117,6
+37688026,100182,4,right knee pain,RIGHT KNEE PAIN,80,18,96.0,97.8,126,85,9
+36521298,100285,4,lbp,LBP,108,18,97.0,99.0,150,81,7
+34259871,100564,4,rash,Rash,102,16,97.0,98.6,106,88,0
+35687264,100598,4,pain,Pain,75,16,99.0,99.5,157,73,8
+36092652,101084,4,neck pain,"Neck pain, Epistaxis",85,18,99.0,98.3,132,84,6
+33224556,101771,4,ear pain,"Ear pain, R Arm pain",81,16,99.0,98.5,119,77,7
+31158800,104128,4,l foot injury,L Foot injury,100,15,98.0,97.7,142,91,8
+36617555,109746,4,diarrhea,DIARRHEA,85,16,100.0,97.5,136,99,0
+36463050,113053,4,etoh,"ETOH, Unable to ambulate",96,18,100.0,97.4,144,77,0
+30712118,121256,4,finger laceration,Finger laceration,76,18,99.0,98.3,124,78,10
+39836995,121751,4,wound check,WOUND CHECK,58,18,96.0,98.0,167,96,2
+38394311,129044,4,vaginal discharge,Vaginal discharge,91,18,100.0,98.0,110,58,0
+32332132,133907,4,back pain,Back pain,86,18,100.0,98.6,148,90,7
+30100718,134246,4,l leg injury,L LEG INJURY,80,16,100.0,97.9,146,93,
+36524785,140347,4,finger pain,Finger pain,83,16,98.0,97.0,125,79,10
+37118083,140844,4,headache,Headache,69,20,100.0,98.4,129,67,9
+32392927,141344,4,r eye redness,"R Eye redness, R Eye swelling",62,18,,98.2,113,68,2
+36545116,149208,4,l ankle injury,L Ankle injury,76,16,99.0,99.0,122,58,3
+36960721,151285,4,right ear bump,"RIGHT EAR ""BUMP""",94,20,99.0,97.8,140,82,0
+38456856,153174,4,etoh,"ETOH, Unable to ambulate",86,16,98.0,97.8,133,77,0
+30471858,154960,4,chills,CHILLS,75,16,100.0,98.2,106,55,9
+37626216,155792,4,rash,Rash,102,18,100.0,97.6,131,94,0
+35299179,157806,4,rash,Rash,58,20,100.0,98.1,125,78,0
+31068255,161372,4,lumps,"LUMPS, BUMPS, CALLUSES",90,16,100.0,98.6,123,79,9
+37493847,161653,4,b ear pain,B Ear pain,77,18,97.0,97.1,122,82,3
+31321627,165983,4,neck pain,Neck pain,92,16,100.0,97.2,134,89,8
+36988831,176547,4,sore throat,"Sore throat, R Ear pain",110,18,99.0,98.0,131,78,7
+33052572,177638,4,l elbow pain,L Elbow pain,59,18,100.0,97.9,141,76,8
+31579328,178727,4,eye swelling,Eye swelling,99,18,99.0,97.9,144,82,0
+36270009,182498,4,l wrist injury,L WRIST INJURY,63,16,99.0,97.0,124,70,6
+37261502,183281,4,lower back pain,Lower back pain,90,18,98.0,99.2,129,84,10
+31412030,188277,4,head injury,Head injury,62,15,,98.1,131,95,7
+33150435,191737,4,gtube eval,GTUBE EVAL,104,18,98.0,97.9,114,75,0
+34575282,194088,4,finger lac,FINGER LAC,98,16,99.0,98.0,130,60,0
+35842460,194898,4,back pain,Back pain,73,18,100.0,98.1,109,61,10
+39725393,195561,4,back pain,Back pain,71,18,100.0,97.8,154,73,8
+39578172,197507,4,back pain,"Back pain, R Leg pain",77,14,100.0,98.7,95,57,8
+35223444,198302,4,l hip pain,"L Hip pain, L Leg pain",72,16,97.0,98.6,175,92,10
+34161491,198848,4,uti,UTI,66,16,100.0,97.2,156,68,8
+38744379,199374,4,rash,Rash,93,14,99.0,98.2,104,58,5
+35192084,200416,4,l leg pain,L Leg pain,97,18,100.0,97.9,142,125,7
+31587854,201855,4,dysuria,DYSURIA,77,14,100.0,98.1,107,66,0
+37595040,201936,4,cough,Cough,68,16,98.0,97.8,175,69,0
+30806520,204638,4,r eye pain,R Eye pain,89,18,100.0,97.7,187,121,0
+37790867,204830,4,suture removal,SUTURE REMOVAL,64,16,100.0,97.3,114,69,0
+34534781,205141,4,lower back pain,"Lower back pain, MVC",83,18,99.0,98.0,147,89,6
+37373600,208689,4,heel abrasion,HEEL ABRASION,90,16,100.0,98.6,120,71,6
+31065563,210085,4,l foot injury,L Foot injury,98,16,99.0,97.0,129,87,5
+39370208,212010,4,l ankle pain,L Ankle pain,95,16,98.0,97.1,124,81,10
+35258722,213920,4,l thumb pain,L Thumb pain,90,16,100.0,97.2,119,71,4
+38477134,216533,4,l shoulder pain,L Shoulder pain,81,18,99.0,97.8,130,81,8
+35702337,217364,4,hearing loss,HEARING LOSS,95,18,100.0,97.8,164,97,0
+35318728,218364,4,needs home 02,NEEDS HOME 02,100,17,100.0,98.6,150,90,0
+38290080,219183,4,suture removal,SUTURE REMOVAL,85,18,100.0,98.7,115,79,
+30462978,221771,4,n,n/v/d,65,20,100.0,97.3,113,94,10
+31845129,222106,4,rib pain,RIB PAIN,81,18,99.0,97.2,117,76,5
+33169306,222204,4,r finger injury,R Finger injury,97,16,100.0,98.8,126,76,7
+30759818,222249,4,r wrist pain,R Wrist pain,87,18,100.0,97.5,142,69,7
+34940708,225628,4,l wrist pain,"L Wrist pain, s/p Fall",104,15,100.0,96.0,156,93,7
+34866591,226639,4,suture removal,SUTURE REMOVAL,71,16,99.0,97.7,178,96,2
+37739643,227200,4,ng tube confirmation,NG TUBE CONFIRMATION,76,18,97.0,97.8,180,79,0
+33785134,229943,4,back pain,Back pain,77,16,100.0,97.9,140,85,7
+31773195,235705,4,found sleeping at bus stop,FOUND SLEEPING AT BUS STOP,97,16,100.0,97.0,126,93,0
+35089681,236085,4,finger injury,Finger injury,83,18,100.0,98.3,153,60,5
+36987232,239023,4,dental pain,DENTAL PAIN,111,16,100.0,97.1,158,90,9
+34630419,241222,4,ankle pain,ANKLE PAIN,75,16,100.0,97.0,127,74,6
+34591823,245798,4,sore throat,Sore throat,65,16,100.0,98.1,135,73,7
+39563873,246331,4,l eye pain,L Eye pain,73,16,99.0,96.5,152,86,3
+38627065,246888,4,right hip pain,RIGHT HIP PAIN,94,20,96.0,98.0,118,58,9
+37811985,249475,4,r eye pain,R Eye pain,65,16,100.0,98.2,139,78,5
+38220405,250820,4,nose laceration,"Nose laceration, s/p Fall",90,18,100.0,97.7,152,77,6
+38761773,251105,4,port evaluation,PORT EVALUATION,89,18,100.0,98.8,158,102,0
+39875378,251849,4,s,"s/p Fall, Head lac",69,18,98.0,99.2,125,87,5
+30471575,261417,4,toe pain,Toe pain,93,18,100.0,98.3,125,87,7
+31693310,265461,4,picc line eval,PICC line eval,84,16,99.0,98.31,154,96,0
+31861987,265664,4,r eyelid pain,R EYELID PAIN,60,18,98.0,97.8,123,74,5
+39281599,267143,4,r hand pain,R Hand pain,54,16,98.0,98.7,125,62,8
+33705914,269745,4,l thumb laceration,L Thumb laceration,71,16,100.0,96.9,147,78,9
+35884677,270191,4,r knee injury,"R Knee injury, R Shoulder injury",87,18,99.0,98.0,122,63,8
+32780322,272043,4,finger injury,Finger injury,88,16,99.0,97.6,149,95,7
+31883069,273661,4,bat exposure,BAT EXPOSURE,80,18,100.0,97.2,101,75,0
+39645360,276847,4,right hand injury,RIGHT HAND INJURY,90,18,99.0,98.3,125,86,9
+31224385,279898,4,l ear fb,L EAR FB,71,17,100.0,97.6,150,92,0
+33320482,280756,4,lumps,"LUMPS, BUMPS, CALLUSES",86,16,96.0,97.8,152,71,0
+33174570,286552,4,sore throat,"Sore throat, ILI",110,18,100.0,97.7,127,80,10
+37821996,292293,4,chin lac,CHIN LAC,96,16,95.0,97.2,142,97,2
+34461174,293917,4,r knee pain,R Knee pain,69,18,97.0,96.1,149,75,8
+39524222,294524,4,l eye pain,L Eye pain,60,16,100.0,97.0,108,63,5
+39168669,295716,4,r index finger laceration,R INDEX FINGER LACERATION,50,20,98.0,99.9,134,62,2
+34730352,296448,4,lower back pain,LOWER BACK PAIN,80,18,100.0,98.1,121,73,10
+35585054,296854,4,l facial pain,L FACIAL PAIN,97,18,99.0,98.6,111,73,8
+37712274,297115,4,dysuria,Dysuria,83,16,100.0,99.4,105,65,4
+38626807,299430,4,right leg injury,RIGHT LEG INJURY,74,18,97.0,98.8,153,73,8
+39762675,300664,4,r ear pain,R Ear pain,81,16,100.0,97.7,125,76,3
+34499794,301106,4,cough,Cough,90,16,96.0,98.7,142,84,0
+36146428,302695,4,l eye swelling,L Eye swelling,91,18,98.0,97.1,140,80,
+35862358,305237,4,mvc,"MVC, Back pain",76,16,98.0,98.7,136,67,8
+33832820,308546,4,r knee injury,R Knee injury,83,16,100.0,98.4,170,82,3
+31361874,310530,4,r knee pain,R Knee pain,86,15,99.0,97.1,151,81,8
+31278452,310713,4,lower back pain,"Lower back pain, MVC",72,16,100.0,97.8,126,86,8
+34427714,310947,4,eye redness,"Eye redness, Productive cough, Sore throat",112,16,100.0,99.2,146,81,8
+33707025,311048,4,lower back pain,Lower back pain,58,16,100.0,97.4,136,75,8
+30534084,317730,4,back pain,BACK PAIN,88,14,100.0,97.0,108,77,8
+37063685,317979,4,back pain,Back pain,72,16,96.0,99.0,129,57,10
+39739987,318305,4,l shoulder pain,L Shoulder pain,67,16,99.0,96.8,122,77,9
+34111179,320664,4,etoh,ETOH,99,16,100.0,98.5,99,74,0
+39404602,323699,4,l hand injury,L Hand injury,71,18,100.0,98.0,106,63,0
+36465893,324374,4,neck swelling,NECK SWELLING,73,18,100.0,98.0,117,51,2
+32715619,325156,4,mvc,MVC,64,16,100.0,99.0,124,74,8
+35150898,326633,4,r thumb injury,R Thumb injury,83,15,100.0,97.6,124,110,8
+34069804,326868,4,bilateral hand pain,BILATERAL HAND PAIN,80,18,100.0,98.0,158,90,5
+38276364,327124,4,r knee pain,R Knee pain,75,16,100.0,98.6,119,55,9
+36139961,329484,4,r knee pain,R Knee pain,95,18,99.0,97.4,142,88,6
+38040792,337078,4,l hand injury,L Hand injury,95,18,99.0,97.0,141,81,9
+31103838,339074,4,knee pain,KNEE PAIN,63,18,97.0,98.2,127,61,13
+34584592,340904,4,right eye pain,RIGHT EYE PAIN,75,16,100.0,97.2,138,86,2
+37168427,348926,4,unknown cc,UNKNOWN-CC,102,14,100.0,98.0,136,92,10
+33313164,352665,4,l ear pain,L Ear pain,90,20,100.0,98.2,120,82,8
+32139153,353870,4,s,s/p Fall,60,16,100.0,98.2,119,87,9
+34845747,361378,4,l ankle injury,L Ankle injury,94,16,100.0,97.9,108,71,9
+36748085,361407,4,dysuria,"Dysuria, Urinary frequency",96,18,100.0,98.6,137,90,0
+36654661,361544,4,lbp,LBP,60,16,99.0,97.5,134,73,13
+36171910,368216,4,dilaysis cath eval,DILAYSIS CATH EVAL,81,18,100.0,97.5,134,80,1
+33059360,369258,4,mvc,"MVC, Neck pain",63,18,100.0,98.0,136,100,6
+32914974,371787,4,r elbow pain,"R Elbow pain, s/p Fall",71,15,96.0,96.5,159,70,3
+31909796,371851,4,laceration,"Laceration, s/p Fall",88,18,100.0,97.5,116,74,2
+36910909,372803,4,mvc,MVC,93,18,98.0,97.5,,,6
+39765682,374489,4,sore throat,SORE THROAT,66,14,99.0,98.4,140,72,6
+38901806,375640,4,l arm pain,L Arm pain,71,16,99.0,97.1,121,58,7
+38975727,376878,4,ear pain,Ear pain,98,18,98.0,95.9,116,84,0
+30437343,378539,4,mvc,MVC,72,15,95.0,98.7,133,75,0
+31808871,380344,4,r eye pain,R Eye pain,88,18,96.0,98.0,143,66,3
+34274975,387199,4,finger laceration,Finger laceration,56,18,100.0,98.4,130,82,2
+35961465,387475,4,unknown cc,UNKNOWN-CC,110,16,99.0,96.3,178,88,10
+31476975,389289,4,r arm injury,R Arm injury,88,16,100.0,98.2,132,108,4
+31530208,391291,4,right arm pain,RIGHT ARM PAIN,109,16,98.0,97.8,138,70,8
+35710612,394627,4,neck pain,Neck pain,78,18,98.0,97.8,96,62,1
+30430326,397894,4,l thumb injury,L Thumb injury,118,17,99.0,99.4,142,80,0
+39244233,398566,4,s,s/p Fall,83,18,98.0,97.7,120,69,10
+31081367,399648,4,finger lac,FINGER LAC,69,16,100.0,96.6,140,72,3
+30350102,399787,4,l eye pain,L Eye pain,93,19,100.0,97.2,126,78,6
+32184579,400346,4,buttock pain,"Buttock pain, s/p Fall",98,18,99.0,98.4,109,77,6
+33156803,401734,4,mvc,MVC,100,16,98.0,97.1,139,86,9
+39691145,402759,4,dysuria,"Dysuria, Pelvic pain",88,18,99.0,97.8,124,60,2
+30275373,405557,4,foley insertion,Foley insertion,90,16,97.0,97.8,157,49,0
+30565674,406775,4,r wrist pain,R Wrist pain,90,16,100.0,97.4,106,74,8
+33086587,416203,4,l hand injury,L Hand injury,72,16,100.0,99.0,139,65,2
+36102042,417703,4,dental pain,DENTAL PAIN,61,16,98.0,97.2,129,79,8
+37227418,420637,4,l foot pain,L Foot pain,66,16,100.0,98.4,128,78,8
+39803479,422609,4,back pain,Back pain,51,18,95.0,98.3,101,63,10
+39145234,422619,4,gu eval,GU EVAL,85,16,100.0,97.7,101,48,0
+38908026,1434,5,foley cath eval,FOLEY CATH EVAL,65,16,94.0,97.9,114,61,0
+37557199,2665,5,splinter,SPLINTER,73,16,98.0,97.6,106,62,3
+36802223,3533,5,bug bites,?BUG BITES,72,16,98.0,99.2,145,94,0
+35868014,7529,5,insect bite,Insect bite,94,16,100.0,97.2,128,69,2
+36798537,8832,5,r wrist pain,"R Wrist pain, WORK NOTE",74,16,98.0,97.2,119,59,5
+30937551,8981,5,for eval,FOR EVAL,68,16,100.0,97.8,145,72,0
+31235791,12868,5,eye redness,Eye redness,69,16,100.0,98.7,140,85,0
+38757993,14711,5,med refill,Med refill,99,16,100.0,97.0,133,62,0
+32404086,15418,5,si,SI,116,16,99.0,96.3,141,119,0
+33377492,16078,5,l ear pain,L Ear pain,54,16,100.0,96.7,149,80,4
+30147786,19075,5,insect bite,Insect bite,102,19,100.0,97.8,152,102,7
+32880775,19100,5,nasal congestion,NASAL CONGESTION,87,18,98.0,96.0,114,71,0
+38358506,19980,5,finger laceration,Finger laceration,92,20,100.0,97.3,150,101,0
+32267143,24175,5,left elbow injury,LEFT ELBOW INJURY,97,,100.0,98.0,120,78,5
+38068102,32533,5,std,?STD,65,16,97.0,98.4,144,76,0
+39034005,34558,5,r wrist pain,R   WRIST   PAIN,61,20,99.0,98.1,118,75,5
+33701889,35632,5,med refill,Med refill,104,20,100.0,97.7,122,89,0
+34019058,39813,5,medication refill,MEDICATION REFILL,104,16,98.0,97.5,123,87,0
+35598005,40599,5,lump on back,LUMP ON BACK,66,14,99.0,98.0,117,57,0
+37118334,44157,5,sinus pain,Sinus pain,76,18,100.0,97.8,124,83,0
+30306072,45107,5,medical clearance,MEDICAL CLEARANCE,92,18,97.0,97.8,135,70,0
+38047926,47507,5,med refill,MED REFILL,88,18,97.0,98.0,183,112,10
+30066590,48051,5,sore throat,Sore throat,70,19,100.0,98.3,118,72,0
+35302562,49856,5,pain,"Pain, Transfer",,,,,,,0
+38087483,50983,5,finger reddness,FINGER  REDDNESS,100,20,95.0,98.2,130,90,7
+31815829,51232,5,ring removal,RING REMOVAL,74,16,99.0,98.2,106,59,2
+32586598,54993,5,influenza like illness,INFLUENZA LIKE ILLNESS,110,15,100.0,97.8,139,87,1
+37444531,55710,5,rx refill,RX REFILL,75,16,100.0,97.0,156,103,0
+37115969,57561,5,med refill,MED REFILL,72,16,100.0,97.3,118,70,0
+31153545,60304,5,wound re eval,WOUND RE-EVAL,54,18,100.0,97.8,120,58,0
+35839711,61905,5,requesting pain medication,REQUESTING PAIN MEDICATION,106,18,100.0,98.0,139,80,7
+31654974,67583,5,facial rash,FACIAL RASH,90,15,100.0,97.0,147,88,0
+35555088,68850,5,suture removal,Suture removal,100,17,100.0,97.2,131,81,0
+39388237,69846,5,r finger injury,R Finger injury,74,14,100.0,98.2,124,66,2
+38047131,76208,5,needs rx,NEEDS RX,87,15,99.0,98.0,155,94,0
+35835844,78294,5,blood,BLOOD AND BODY FLUID EXPOSURE,94,16,99.0,99.3,185,121,0
+33510777,78858,5,med refill,Med refill,76,18,100.0,98.2,116,79,0
+36875919,81157,5,vaginal pain,Vaginal pain,96,18,100.0,96.8,133,73,0
+38296775,81353,5,detox,Detox,,,,,,,0
+38136325,81632,5,rabies vaccine,RABIES VACCINE,73,12,100.0,99.0,124,79,0
+31303417,82731,5,l knee pain,L Knee pain,67,18,,97.6,123,70,2
+30174749,84540,5,suture removal,Suture removal,78,18,99.0,98.6,136,72,0
+35346148,86236,5,social eval,SOCIAL EVAL,74,16,100.0,98.3,135,82,0
+34838415,86447,5,l foot pain,L Foot pain,115,18,99.0,98.7,143,74,6
+32047769,90864,5,l ankle pain,L Ankle pain,100,18,100.0,97.6,117,66,4
+31060290,93006,5,l eye swelling,L Eye swelling,60,14,98.0,97.4,119,69,0
+37217959,93116,5,l ear pain,L Ear pain,106,15,100.0,99.7,131,81,9
+35705838,96104,5,wound eval,Wound eval,98,18,99.0,97.5,141,69,0
+39982081,96207,5,l ankle pain,L Ankle pain,91,18,100.0,97.5,150,94,0
+35130449,98129,5,suture removal,SUTURE REMOVAL,90,14,100.0,96.7,134,84,0
+30026796,99741,5,head injury,Head injury,72,18,100.0,97.0,121,81,2
+35845099,100957,5,bilat eyelid redness,BILAT EYELID REDNESS,66,15,100.0,98.0,130,93,0
+37668190,101915,5,r foot pain,R Foot pain,82,14,100.0,97.6,131,78,5
+32898227,103252,5,suture removal,SUTURE REMOVAL,73,16,98.0,97.8,127,63,0
+36614668,105827,5,suture removal,Suture removal,57,17,100.0,98.8,111,87,0
+37634780,112379,5,l shoulder pain,L Shoulder pain,82,18,100.0,97.1,124,77,7
+39932381,114305,5,dental pain,Dental pain,70,18,100.0,97.6,125,73,7
+36884255,115665,5,laceration,Laceration,75,16,99.0,98.0,148,81,0
+32790996,120366,5,abscess,"Abscess, Dental pain",64,20,,98.4,157,84,9
+33346117,122891,5,dental pain,Dental pain,77,18,100.0,98.5,157,84,5
+35814524,126294,5,suture removal,SUTURE REMOVAL,98,16,99.0,97.0,118,72,0
+39661134,128078,5,suture removal,SUTURE REMOVAL,91,16,99.0,96.4,138,103,0
+31544562,128459,5,dental pain,Dental pain,89,18,100.0,97.2,138,89,10
+37105701,132467,5,knee pain,KNEE PAIN,63,16,96.0,97.2,118,69,2
+30294473,132638,5,mvc,MVC,79,14,100.0,97.5,138,83,7
+35247808,138800,5,back pain,Back pain,,,,,,,0
+32346099,141486,5,med refill,MED REFILL,54,18,98.0,98.4,146,73,0
+30430812,144563,5,lip larceration,LIP  LARCERATION,58,20,100.0,98.0,180,91,0
+33791486,146509,5,wound eval,WOUND EVAL,70,14,99.0,97.4,121,72,2
+38012766,147487,5,finger injury,Finger injury,73,16,100.0,98.3,112,72,4
+32656442,151895,5,suture removal,Suture removal,60,16,99.0,98.7,130,66,0
+31640489,154563,5,bite,Bite,106,14,99.0,98.4,127,78,6
+39114577,156650,5,suture removal,SUTURE REMOVAL,53,18,100.0,97.6,122,62,0
+34450970,158396,5,suture removal,Suture removal,77,18,100.0,97.2,132,77,0
+39285357,160534,5,wound eval,Wound eval,84,18,98.0,98.2,146,71,3
+35999333,160598,5,social work evaluation,SOCIAL WORK EVALUATION,72,16,100.0,97.6,95,55,0
+36614075,163135,5,rash,Rash,59,18,100.0,97.9,148,80,0
+34950586,163246,5,left finger pain,LEFT FINGER PAIN,63,16,100.0,97.9,108,70,7
+30144342,165987,5,wound eval,Wound eval,80,16,96.0,96.7,124,73,6
+36764629,167043,5,ili,ILI,58,18,100.0,98.1,133,63,0
+39070298,167089,5,lab request,Lab request,87,16,100.0,97.2,127,86,0
+35051391,168526,5,bilateral foot pain,BILATERAL FOOT PAIN,101,16,99.0,98.7,113,82,10
+31165124,169190,5,dog bite,Dog bite,73,18,100.0,96.5,130,89,0
+38314972,170444,5,toe pain,TOE PAIN,114,16,100.0,98.2,127,74,0
+37460698,170499,5,removal,REMOVAL ___/SUTURES,74,16,97.0,98.4,133,74,0
+32786491,171020,5,med refill,Med refill,72,18,100.0,97.5,126,75,0
+36903917,176640,5,med refill,Med refill,61,16,100.0,97.4,112,64,0
+35767707,178269,5,pain med script,PAIN MED SCRIPT,67,20,97.0,97.7,158,99,5
+37617853,183022,5,eye redness,Eye redness,78,16,100.0,97.3,128,73,0
+35593573,187481,5,right arm pain,RIGHT ARM PAIN,77,16,100.0,98.2,95,66,4
+33572508,190340,5,r knee larceration,R KNEE  LARCERATION,87,20,,98.2,130,87,3
+31928646,192238,5,r wrist burn,R  WRIST  BURN,79,20,100.0,98.0,131,68,
+39770090,192388,5,requesting rabies vaccine,REQUESTING RABIES VACCINE,87,18,97.0,99.8,105,70,0
+38131930,194054,5,medication refill,MEDICATION REFILL,72,16,100.0,97.2,132,73,6
+37943890,198195,5,wants tramadol,WANTS TRAMADOL,100,18,100.0,98.0,138,85,9
+39766166,198573,5,bilateral leg pain,BILATERAL LEG PAIN,70,16,100.0,97.8,122,77,3
+32013392,198903,5,foot pain,Foot pain,75,14,97.0,98.0,136,71,0
+31086493,199540,5,stitches removed,STITCHES REMOVED,74,16,99.0,97.8,110,71,0
+37847400,200859,5,insect bite,Insect bite,60,16,100.0,96.7,187,92,0
+36722802,200896,5,left leg laceration,LEFT LEG LACERATION,68,20,95.0,97.8,153,110,0
+30542597,201527,5,fingernail pain,FINGERNAIL PAIN,72,16,100.0,96.8,118,66,0
+38084147,205408,5,removal,REMOVAL ___/SUTURES,73,20,97.0,98.1,170,69,0
+33244987,205428,5,suture removal,Suture removal,90,16,100.0,99.3,129,73,0
+38232582,208054,5,difficulty ambulating,DIFFICULTY AMBULATING,74,16,99.0,97.1,109,59,0
+33131351,209771,5,lower back pain,Lower back pain,104,18,96.0,97.8,150,98,10
+34852318,211125,5,unknown,___,70,18,100.0,98.8,122,76,0
+32248499,212540,5,assault,Assault,79,18,98.0,98.8,135,87,0
+38671813,213152,5,suture removal,SUTURE REMOVAL,69,18,98.0,98.4,143,89,0
+36402140,214830,5,back pain,Back pain,98,14,98.0,98.8,94,79,10
+35724887,215121,5,suture removal,Suture removal,78,16,100.0,98.7,139,81,0
+36135432,218660,5,med refill,Med refill,97,16,100.0,98.1,136,75,0
+31568692,223878,5,suture removal,Suture removal,67,18,,,,,0
+32149289,226545,5,finger laceration,Finger laceration,74,18,100.0,98.5,152,83,0
+34506268,234440,5,finger laceration,Finger laceration,56,17,100.0,96.7,120,87,0
+34378319,239657,5,pregnant,?PREGNANT,83,14,100.0,98.5,103,61,0
+35744326,243911,5,left hand eval,LEFT HAND EVAL,80,16,100.0,97.9,155,72,0
+31460164,245054,5,r hand injury,R Hand injury,98,16,100.0,98.3,124,84,1
+33197641,249234,5,b eye eval,B Eye eval,74,16,100.0,97.8,141,78,0
+33435751,250146,5,rabies vaccine,Rabies Vaccine,73,18,100.0,97.5,97,56,0
+37054546,251191,5,unknown,___,86,18,100.0,98.1,137,85,9
+37917956,257588,5,ear eval,EAR EVAL,81,16,100.0,97.4,138,83,0
+32693680,260124,5,staples removal,Staples removal,98,18,98.0,97.0,114,75,0
+31538587,271309,5,wound eval,Wound eval,70,18,99.0,98.4,110,95,0
+39449924,272866,5,hair eval,HAIR EVAL,77,16,100.0,97.0,163,98,8
+38446332,274225,5,requesting place to stay overnight,REQUESTING PLACE TO STAY OVERNIGHT,78,18,98.0,98.0,122,60,0
+38872569,274724,5,paronychia,Paronychia,95,14,98.0,97.6,138,73,10
+34816329,274818,5,sinus pain,Sinus pain,77,16,100.0,97.8,126,84,8
+33869368,275379,5,lower back pain,Lower back pain,82,18,100.0,97.8,126,71,10
+31687370,279623,5,right eye infection,RIGHT EYE INFECTION,70,14,100.0,98.1,112,64,3
+32625713,284288,5,dental pain,Dental pain,75,18,98.0,97.7,123,58,0
+34367423,286307,5,dyspnea,DYSPNEA,86,16,100.0,96.4,133,97,0
+37985317,287613,5,suture removal,Suture removal,90,16,98.0,97.9,103,61,0
+33904185,287731,5,suture removal,SUTURE REMOVAL,75,14,98.0,97.7,132,76,0
+37728900,291957,5,needlestick,Needlestick,85,16,100.0,96.8,177,105,0
+34351766,291989,5,work note,"WORK NOTE, Wound eval",79,12,100.0,99.0,126,76,0
+38019326,292058,5,dental pain,Dental pain,111,16,99.0,99.1,195,88,5
+30041195,292743,5,laceration to right index finger,LACERATION TO RIGHT INDEX FINGER,54,16,99.0,98.7,113,70,4
+33120396,293403,5,suture removal,SUTURE REMOVAL,81,16,99.0,98.8,143,77,0
+30399904,295053,5,med refill,MED REFILL,109,18,99.0,97.0,192,96,0
+30600977,297015,5,removal,REMOVAL ___/SUTURES,70,20,100.0,97.0,114,57,0
+36758337,301195,5,med refill,Med refill,98,16,100.0,97.2,120,63,0
+39104299,301722,5,foot pain,Foot pain,70,18,96.0,98.0,129,74,5
+38723806,302305,5,requesting rabies vaccine,REQUESTING RABIES VACCINE,86,18,99.0,98.6,118,85,0
+38892835,305523,5,lab draw,LAB DRAW,,,,,,,0
+31527561,310006,5,med refill,Med refill,79,16,100.0,97.9,116,68,0
+33361458,310041,5,suture removal,SUTURE REMOVAL,55,14,96.0,98.5,122,63,0
+33968379,310091,5,suture removal,Suture removal,80,16,99.0,98.5,137,76,0
+30036228,317097,5,r ear pain,R Ear pain,84,14,99.0,98.2,132,77,6
+34189281,317117,5,l foot pain,L Foot pain,,,,,,,3
+33587876,318111,5,right finger pain,RIGHT FINGER PAIN,74,14,98.0,98.0,114,71,3
+38587965,318251,5,sore throat,SORE THROAT,88,16,100.0,98.4,129,73,0
+38914717,324900,5,r eye pain,R Eye pain,78,14,98.0,98.0,126,91,7
+35942414,329488,5,medication refill,MEDICATION REFILL,72,16,96.0,97.8,187,108,6
+32190285,334381,5,wound eval,WOUND EVAL,87,16,97.0,,123,74,4
+33267608,334802,5,l inguinal pain,L Inguinal pain,66,16,100.0,98.1,137,88,5
+30226086,337254,5,dental pain,DENTAL PAIN,72,18,100.0,97.9,140,93,10
+35418392,337694,5,l eye pain,L Eye pain,58,14,100.0,98.0,171,95,6
+36542228,343893,5,jtube eval,Jtube eval,78,16,97.0,97.7,135,69,0
+32439371,344597,5,nasal congestion,NASAL CONGESTION / HAY FEVER,102,16,100.0,,157,97,0
+33000853,344678,5,tooth ache,TOOTH ACHE,85,16,100.0,98.2,162,100,10
+36943830,348059,5,medication refill,MEDICATION REFILL,77,16,96.0,95.8,156,80,4
+32377662,357242,5,prescription med request,PRESCRIPTION MED REQUEST,86,20,100.0,98.0,146,61,0
+33802325,357484,5,med refill,Med refill,84,16,99.0,98.0,158,88,0
+31133833,357818,5,r wrist pain,R Wrist pain,50,18,100.0,98.2,129,66,6
+30550122,358088,5,substance use,Substance use,116,16,100.0,97.8,120,81,0
+30199774,358346,5,wound eval,Wound eval,80,16,99.0,97.1,137,91,9
+31636183,358459,5,leg laceration,Leg laceration,92,14,100.0,98.0,139,89,0
+34871105,360307,5,med refill,"MED REFILL, PAIN",95,16,100.0,98.4,151,135,10
+31309370,363381,5,l finger pain,L Finger pain,86,14,98.0,96.8,129,76,5
+36198856,364629,5,r,R/O  EXPOSURE,88,20,100.0,98.0,130,89,0
+39536362,364964,5,med refill,Med refill,92,18,100.0,97.4,132,93,0
+38928882,366809,5,suture removal,Suture removal,98,16,98.0,97.9,129,74,0
+39448670,367704,5,bilat shoulder pain,BILAT SHOULDER PAIN,69,16,100.0,98.4,137,80,2
+30460491,373391,5,l foot pain,L Foot pain,82,14,98.0,97.4,102,77,3
+39308334,374410,5,rt arm burn,RT ARM BURN,73,14,100.0,98.4,137,83,2
+36510249,375332,5,splinter,SPLINTER,81,16,99.0,97.9,185,79,2
+32357678,381959,5,rx refill,RX REFILL,85,18,98.0,98.2,139,85,0
+37132645,382567,5,staples removal,Staples removal,118,18,97.0,97.6,150,95,0
+33718242,384741,5,s,S/P ARM FELL ASLEEP,108,18,100.0,98.0,146,92,7
+36318461,384774,5,dental pain,DENTAL PAIN,94,20,100.0,99.2,127,67,8
+32115857,387419,5,l foot pain,L Foot pain,102,15,99.0,97.0,163,93,9
+33696999,387443,5,pain,Pain,70,16,100.0,98.0,134,74,10
+36354167,387478,5,toe pain,Toe pain,104,18,97.0,97.8,183,93,10
+37625975,387785,5,ng tube removal,NG TUBE REMOVAL,97,16,98.0,97.8,110,65,0
+39944457,395656,5,lump r hand,LUMP R HAND,66,20,100.0,98.1,129,82,0
+38928253,399040,5,suture removal,Suture removal,75,18,100.0,97.9,139,59,0
+37628280,400429,5,tetanus booster,Tetanus booster,64,16,99.0,97.9,121,86,0
+38158268,401876,5,rash,Rash,76,16,99.0,,135,82,0
+38119756,402230,5,bilat ear irritation,BILAT EAR IRRITATION,87,18,100.0,99.1,157,84,0
+32888392,402392,5,finger itch,FINGER ITCH,89,15,94.0,95.6,161,72,0
+30076930,405798,5,suture removal,Suture removal,74,16,100.0,98.1,125,69,0
+31273145,407699,5,l wrist injury,L WRIST INJURY,110,16,98.0,98.8,122,80,6
+32611148,411860,5,med refill,Med refill,98,18,100.0,97.8,145,88,3
+38360152,412570,5,fatigue,FATIGUE,89,16,96.0,98.2,150,96,0
+35247183,412723,5,medical clearance,MEDICAL CLEARANCE,82,16,100.0,97.9,134,100,0
+32381168,415527,5,staples removal,Staples removal,74,16,100.0,97.5,133,69,0
+33311911,416520,5,suture removal,Suture removal,100,16,100.0,96.0,154,93,0
+31292015,420286,5,med refill,Med refill,104,16,98.0,97.5,128,69,0
+31001932,421849,5,hematuria,Hematuria,103,16,93.0,97.0,98,68,0
+36066563,423412,5,med refill,MED REFILL,72,18,100.0,97.8,142,76,0

@@ -1,0 +1,961 @@
+stay_id,source_row,complaint_bucket,chief_complaint_text,actual_esi,predicted_esi,exact_match,within_one_level,over_triage,under_triage,critical_under_triage,label_en,extraction_method
+38797992,944,sob,SOB/ABNL LABS,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+38807028,5483,ped struck,Ped struck,1,3,False,False,False,True,True,Urgent,keyword_offline
+37474721,5826,dyspnea,Dyspnea,1,2,False,True,False,True,True,Emergent,keyword_offline
+31053010,8511,s,"s/p Fall, Transfer",1,4,False,False,False,True,True,Less Urgent,keyword_offline
+37075847,12215,hypotension,Hypotension,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+37258585,14463,dizziness,DIZZINESS,1,2,False,True,False,True,True,Emergent,keyword_offline
+37164028,18837,back pain,BACK PAIN,1,2,False,True,False,True,True,Emergent,keyword_offline
+31436959,21138,finger pain,Finger pain,1,4,False,False,False,True,True,Less Urgent,keyword_offline
+36375819,22567,abd pain,"Abd pain, Tachycardia",1,2,False,True,False,True,True,Emergent,keyword_offline
+32916658,26007,abnormal labs,"Abnormal labs, Lethargy",1,2,False,True,False,True,True,Emergent,keyword_offline
+34472471,29009,fever,Fever,1,2,False,True,False,True,True,Emergent,keyword_offline
+35227569,30766,labor,LABOR,1,2,False,True,False,True,True,Emergent,keyword_offline
+37505852,33604,unresponsive,Unresponsive,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+36407532,36455,hypotension,"Hypotension, Weakness",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+30214932,45489,kicked in the head,KICKED IN THE HEAD,1,2,False,True,False,True,True,Emergent,keyword_offline
+38520111,47160,dyspnea,Dyspnea,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+35996712,47503,wound dehisc s,WOUND DEHISC S/P ASSAULT,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+32745952,49607,weakness,Weakness,1,3,False,False,False,True,True,Urgent,keyword_offline
+38933038,51320,abdominal distention,"Abdominal distention, BRBPR",1,2,False,True,False,True,True,Emergent,keyword_offline
+31728998,57250,l arm numbness,L Arm numbness,1,3,False,False,False,True,True,Urgent,keyword_offline
+39249315,57696,dyspnea,"Dyspnea, Hypoxia",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+39119518,61605,fever,"Fever, Tachycardia",1,2,False,True,False,True,True,Emergent,keyword_offline
+36326961,62718,altered level of consciousness,ALTERED LEVEL OF CONSCIOUSNESS,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+30331642,63373,dyspnea,"Dyspnea, Transfer",1,2,False,True,False,True,True,Emergent,keyword_offline
+39900135,65817,abd pain,"Abd pain, SBO, Transfer",1,2,False,True,False,True,True,Emergent,keyword_offline
+34319220,66715,s,s/p Fall,1,2,False,True,False,True,True,Emergent,keyword_offline
+39595844,69144,tachycardia,Tachycardia,1,2,False,True,False,True,True,Emergent,keyword_offline
+31913036,69880,altered mental status,Altered mental status,1,2,False,True,False,True,True,Emergent,keyword_offline
+38069888,70895,mvc,"MVC, Pregnant",1,3,False,False,False,True,True,Urgent,keyword_offline
+33194101,72832,s,"s/p cardiac arrest, Transfer",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+35368396,74620,dyspnea,Dyspnea,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+35803509,75484,l side weakness,L SIDE WEAKNESS,1,3,False,False,False,True,True,Urgent,keyword_offline
+36250886,75606,hematuria,"Hematuria, Tachycardia, Fever",1,2,False,True,False,True,True,Emergent,keyword_offline
+35783115,76003,altered mental status,"Altered mental status, APHASIA",1,2,False,True,False,True,True,Emergent,keyword_offline
+35878013,80219,mvc,"MVC, Transfer",1,3,False,False,False,True,True,Urgent,keyword_offline
+30130255,80344,dyspnea,Dyspnea,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+31635040,86534,tachycardia,Tachycardia,1,2,False,True,False,True,True,Emergent,keyword_offline
+39900420,86716,left facial droop,LEFT FACIAL DROOP/NUMBNESS,1,2,False,True,False,True,True,Emergent,keyword_offline
+32419722,88421,sah,"SAH, Transfer",1,3,False,False,False,True,True,Urgent,keyword_offline
+35570144,100966,pna,PNA,1,2,False,True,False,True,True,Emergent,keyword_offline
+32928905,104694,agitation,"Agitation, Substance use",1,2,False,True,False,True,True,Emergent,keyword_offline
+33991080,113589,arm laceration,Arm laceration,1,4,False,False,False,True,True,Less Urgent,keyword_offline
+39437552,115699,transfer,"Transfer, Dyspnea, Tachycardia",1,3,False,False,False,True,True,Urgent,keyword_offline
+32155991,115826,allergic reaction,Allergic reaction,1,2,False,True,False,True,True,Emergent,keyword_offline
+33495537,116710,altered mental status,"Altered mental status, Hypotension",1,2,False,True,False,True,True,Emergent,keyword_offline
+39658245,117131,found down,"Found down, Elevated troponin, MCA INFARCT",1,3,False,False,False,True,True,Urgent,keyword_offline
+31509661,120391,tachycardia,Tachycardia,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+31647149,126352,unresponsive,Unresponsive,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+32668367,130919,dyspnea,"Dyspnea, Tachycardia",1,2,False,True,False,True,True,Emergent,keyword_offline
+33515662,131313,gi bleed,"GI bleed, Transfer",1,2,False,True,False,True,True,Emergent,keyword_offline
+35950112,131746,dyspnea,"Dyspnea, Hypotension, Bradycardia",1,2,False,True,False,True,True,Emergent,keyword_offline
+31549637,135325,dizziness,"Dizziness, Headache",1,4,False,False,False,True,True,Less Urgent,keyword_offline
+34314732,141109,chest pain,Chest pain,1,2,False,True,False,True,True,Emergent,keyword_offline
+37996924,141317,numbness,"Numbness, PAIN",1,4,False,False,False,True,True,Less Urgent,keyword_offline
+36011039,143401,weakness,WEAKNESS,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+30103360,143973,r chest pain,R Chest pain,1,2,False,True,False,True,True,Emergent,keyword_offline
+37121544,144410,seizure,Seizure,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+37504277,145846,tachycardia,"Tachycardia, Hypokalemia",1,3,False,False,False,True,True,Urgent,keyword_offline
+30267678,146016,cp,CP,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+32650561,146362,dizziness,Dizziness,1,3,False,False,False,True,True,Urgent,keyword_offline
+37892295,148757,l shoulder pain,L Shoulder pain,1,2,False,True,False,True,True,Emergent,keyword_offline
+35368400,153641,s,"s/p Fall, Abd pain, Transfer",1,4,False,False,False,True,True,Less Urgent,keyword_offline
+33067776,157745,facial injury,FACIAL INJURY,1,3,False,False,False,True,True,Urgent,keyword_offline
+37936823,159040,allergic reaction,"Allergic reaction, Tachycardia",1,2,False,True,False,True,True,Emergent,keyword_offline
+33407817,161258,dyspnea,"Dyspnea, Tachypnea",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+36337129,162384,mental status change,MENTAL  STATUS CHANGE,1,3,False,False,False,True,True,Urgent,keyword_offline
+39946304,163019,overdose,OVERDOSE,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+37198675,163020,s,"s/p Fall, Transfer",1,4,False,False,False,True,True,Less Urgent,keyword_offline
+35735055,163794,seizures,SEIZURES,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+30392921,167353,back pain,Back pain,1,2,False,True,False,True,True,Emergent,keyword_offline
+33372601,169979,sdh,"SDH, Transfer",1,2,False,True,False,True,True,Emergent,keyword_offline
+33755074,170717,respiratory distress,RESPIRATORY DISTRESS,1,2,False,True,False,True,True,Emergent,keyword_offline
+39868701,176684,vision changes,VISION CHANGES,1,3,False,False,False,True,True,Urgent,keyword_offline
+32022763,177991,s,s/p Fall,1,4,False,False,False,True,True,Less Urgent,keyword_offline
+30107753,187297,seizure,"Seizure, Transfer",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+37519173,189497,transfer,Transfer,1,2,False,True,False,True,True,Emergent,keyword_offline
+31753819,189771,abnormal ekg,Abnormal EKG,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+35508481,190589,altered mental status,Altered mental status,1,2,False,True,False,True,True,Emergent,keyword_offline
+34488255,192396,smoke inhalation,Smoke inhalation,1,3,False,False,False,True,True,Urgent,keyword_offline
+33371809,196496,mvc,"MVC, Transfer",1,3,False,False,False,True,True,Urgent,keyword_offline
+34157055,197213,altered mental status,Altered mental status,1,2,False,True,False,True,True,Emergent,keyword_offline
+34495210,197619,finger laceration,Finger laceration,1,2,False,True,False,True,True,Emergent,keyword_offline
+38719003,198554,altered mental status,Altered mental status,1,2,False,True,False,True,True,Emergent,keyword_offline
+35938694,199086,hypoxia,Hypoxia,1,2,False,True,False,True,True,Emergent,keyword_offline
+38438583,201492,headache,"Headache, Numbness",1,4,False,False,False,True,True,Less Urgent,keyword_offline
+38579354,209358,allergic reaction,Allergic reaction,1,4,False,False,False,True,True,Less Urgent,keyword_offline
+35873721,219124,weakness,WEAKNESS,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+39843786,221698,head injury,HEAD INJURY,1,2,False,True,False,True,True,Emergent,keyword_offline
+39223203,224865,chest pain,"Chest pain, STEMI",1,2,False,True,False,True,True,Emergent,keyword_offline
+35639676,233968,n,"N/V, Headache, Dizziness",1,2,False,True,False,True,True,Emergent,keyword_offline
+37295571,243396,cva,"CVA, Transfer",1,2,False,True,False,True,True,Emergent,keyword_offline
+32590666,245535,ha,HA,1,3,False,False,False,True,True,Urgent,keyword_offline
+38862369,249079,cva,"CVA, R/O CVA",1,2,False,True,False,True,True,Emergent,keyword_offline
+33010343,250265,brbpr,"BRBPR, Urinary retention",1,2,False,True,False,True,True,Emergent,keyword_offline
+31930963,251172,unknown cc,UNKNOWN-CC,1,3,False,False,False,True,True,Urgent,keyword_offline
+31432567,252286,cardiac arrest,"Cardiac arrest, Transfer",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+32057168,255298,chest pain,Chest pain,1,2,False,True,False,True,True,Emergent,keyword_offline
+39883739,256940,abd pain,Abd pain,1,2,False,True,False,True,True,Emergent,keyword_offline
+35436665,257396,hypotension,Hypotension,1,3,False,False,False,True,True,Urgent,keyword_offline
+38209558,260165,mvc,MVC,1,2,False,True,False,True,True,Emergent,keyword_offline
+35305839,262441,weakness,Weakness,1,3,False,False,False,True,True,Urgent,keyword_offline
+35409015,263689,n,"N,V,D",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+38719743,263891,gunshot wound,Gunshot wound,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+38564454,265504,ha,HA/FACIAL DROOP,1,2,False,True,False,True,True,Emergent,keyword_offline
+39238185,270857,dizziness,"Dizziness, Headache, R Facial numbness",1,2,False,True,False,True,True,Emergent,keyword_offline
+39401808,271318,lethargy,Lethargy,1,2,False,True,False,True,True,Emergent,keyword_offline
+37095569,271717,od,OD/OBTUNDED,1,3,False,False,False,True,True,Urgent,keyword_offline
+37579688,273921,palpitations,"Palpitations, Tachycardia",1,2,False,True,False,True,True,Emergent,keyword_offline
+32765204,276098,mcc,MCC,1,3,False,False,False,True,True,Urgent,keyword_offline
+35638078,277932,s,"s/p Fall, Transfer",1,4,False,False,False,True,True,Less Urgent,keyword_offline
+36361897,278061,overdose,"Overdose, SI",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+36130591,278573,dizzy,DIZZY,1,3,False,False,False,True,True,Urgent,keyword_offline
+39228800,280600,sore throat,SORE THROAT,1,2,False,True,False,True,True,Emergent,keyword_offline
+34321811,284123,cp,CP/DIZZY,1,3,False,False,False,True,True,Urgent,keyword_offline
+32588020,286391,dyspnea,"Dyspnea, Hypoxia",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+37439598,287510,cardiac arrest,Cardiac arrest,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+33201212,290978,transfer,Transfer,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+33281955,295439,altered mental status,Altered mental status,1,2,False,True,False,True,True,Emergent,keyword_offline
+34737772,295531,rci,RCI,1,3,False,False,False,True,True,Urgent,keyword_offline
+39908620,296965,unknown cc,UNKNOWN-CC,1,3,False,False,False,True,True,Urgent,keyword_offline
+31041143,297325,syncope,Syncope,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+38748301,298825,motorcycle accident,"Motorcycle accident, Transfer",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+34028107,302454,auto bike collision,Auto bike collision,1,3,False,False,False,True,True,Urgent,keyword_offline
+35643674,304873,dyspnea,"Dyspnea, Transfer",1,2,False,True,False,True,True,Emergent,keyword_offline
+36006461,304874,sob chest pain,SOB CHEST PAIN,1,2,False,True,False,True,True,Emergent,keyword_offline
+32324819,304967,unable to swallow,UNABLE TO SWALLOW,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+35962113,305602,dyspnea on exertion,"Dyspnea on exertion, Bradycardia",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+39236503,306472,bleeding left arm,BLEEDING LEFT ARM,1,3,False,False,False,True,True,Urgent,keyword_offline
+34157409,306962,dyspnea,Dyspnea,1,2,False,True,False,True,True,Emergent,keyword_offline
+33413658,308247,cva,CVA,1,2,False,True,False,True,True,Emergent,keyword_offline
+35052780,309367,respiratory distress,"Respiratory distress, Transfer",1,2,False,True,False,True,True,Emergent,keyword_offline
+33379643,311972,hand inj,HAND INJ,1,3,False,False,False,True,True,Urgent,keyword_offline
+34837066,313606,black stools,"BLACK STOOLS, LETHARGY",1,2,False,True,False,True,True,Emergent,keyword_offline
+36534019,318822,altered mental status,"Altered mental status, Hypoglycemia",1,2,False,True,False,True,True,Emergent,keyword_offline
+36671211,320608,vicodan overdose,VICODAN OVERDOSE,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+34504811,321914,aaa,"AAA, Dyspnea, Transfer",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+38257153,322056,dyspnea,"Dyspnea, Hypoxia, Hypotension",1,3,False,False,False,True,True,Urgent,keyword_offline
+39286539,322294,dyspnea,Dyspnea,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+31402016,325150,transfer,Transfer,1,2,False,True,False,True,True,Emergent,keyword_offline
+35288939,327535,abd pain,ABD PAIN,1,2,False,True,False,True,True,Emergent,keyword_offline
+30564382,330830,tachy,TACHY,1,2,False,True,False,True,True,Emergent,keyword_offline
+37780116,339004,pregnant,PREGNANT W/ ABD CRAMPING,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+35258442,343084,s,"s/p Fall, Transfer",1,2,False,True,False,True,True,Emergent,keyword_offline
+37861534,346773,s,S/P UNRESPONSIVE,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+35759239,354316,gunshot wound,Gunshot wound,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+38818079,357979,syncope,"Syncope, Hypotension",1,2,False,True,False,True,True,Emergent,keyword_offline
+34792431,358584,chest pain,"Chest pain, Dyspnea",1,2,False,True,False,True,True,Emergent,keyword_offline
+31745522,363659,allergic reaction,Allergic reaction,1,4,False,False,False,True,True,Less Urgent,keyword_offline
+38293828,363957,detox,Detox,1,2,False,True,False,True,True,Emergent,keyword_offline
+36816482,367073,tachycardia,"Tachycardia, Wound eval",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+36426210,371746,weakness,Weakness,1,3,False,False,False,True,True,Urgent,keyword_offline
+39195367,372728,cavernous venous thrombosis,CAVERNOUS VENOUS THROMBOSIS/TRANSFER,1,2,False,True,False,True,True,Emergent,keyword_offline
+36653388,377083,aaa leak,AAA LEAK,1,3,False,False,False,True,True,Urgent,keyword_offline
+37437649,383824,palpitations,PALPITATIONS/IRREGULAR HEART BEAT,1,2,False,True,False,True,True,Emergent,keyword_offline
+34794880,384299,hypoglycemi,HYPOGLYCEMI,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+34367081,386067,tachycardia,TACHYCARDIA,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+30453143,391227,dizziness,Dizziness,1,3,False,False,False,True,True,Urgent,keyword_offline
+34991501,391547,aortic disection,AORTIC DISECTION,1,3,False,False,False,True,True,Urgent,keyword_offline
+30118302,393004,altered mental status,"Altered mental status, Hypoglycemia",1,2,False,True,False,True,True,Emergent,keyword_offline
+32850512,393544,sob,SOB,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+34008220,395543,dyspnea,DYSPNEA,1,1,True,True,False,False,False,Resuscitation,keyword_offline
+39922925,399530,altered level of consciousness,ALTERED LEVEL OF CONSCIOUSNESS,1,3,False,False,False,True,True,Urgent,keyword_offline
+31637421,403611,tachycardia,"Tachycardia, Hypotension",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+37709324,405216,bicycle struck,BICYCLE STRUCK,1,3,False,False,False,True,True,Urgent,keyword_offline
+38221800,406798,mvc,MVC,1,3,False,False,False,True,True,Urgent,keyword_offline
+36314766,407308,transfer,Transfer,1,3,False,False,False,True,True,Urgent,keyword_offline
+36946057,408063,altered mental status,Altered mental status,1,2,False,True,False,True,True,Emergent,keyword_offline
+32322498,409294,feels anxious,FEELS ANXIOUS,1,2,False,True,False,True,True,Emergent,keyword_offline
+39297588,409810,seizure,"Seizure, Bradycardia",1,1,True,True,False,False,False,Resuscitation,keyword_offline
+37278292,411055,headache,HEADACHE,1,4,False,False,False,True,True,Less Urgent,keyword_offline
+30071746,416303,n,"N/V, Altered mental status, Hypoxia",1,2,False,True,False,True,True,Emergent,keyword_offline
+36383306,417843,vaginal bleeding,"Vaginal bleeding, Rash, Lower abdominal pain",1,2,False,True,False,True,True,Emergent,keyword_offline
+38305610,418364,altered mental status,Altered mental status,1,2,False,True,False,True,True,Emergent,keyword_offline
+33884772,419290,allergic reaction,Allergic reaction,1,4,False,False,False,True,True,Less Urgent,keyword_offline
+39484187,422241,altered mental status,Altered mental status,1,2,False,True,False,True,True,Emergent,keyword_offline
+30166565,423750,altered mental status,Altered mental status,1,2,False,True,False,True,True,Emergent,keyword_offline
+32872776,423776,dyspnea,"Dyspnea, Hypoxia, Palpitations, Abnormal EKG",1,2,False,True,False,True,True,Emergent,keyword_offline
+37603834,424800,fever,FEVER/COUGH,1,2,False,True,False,True,True,Emergent,keyword_offline
+33056680,425020,respiratory distress,RESPIRATORY DISTRESS,1,2,False,True,False,True,True,Emergent,keyword_offline
+35420907,26,s,s/p Fall,2,4,False,False,False,True,True,Less Urgent,keyword_offline
+37323830,884,s,"s/p Fall, SDH",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+38249627,1638,confusion,"Confusion, Fatigue",2,3,False,True,False,True,True,Urgent,keyword_offline
+30288544,2391,abd pain,"Abd pain, BRBPR",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+36382399,4846,dysuria,"Dysuria, Hyperglycemia",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+36486686,6445,c spine fracture,"C-spine fracture, Transfer",2,3,False,True,False,True,True,Urgent,keyword_offline
+35980110,6833,chest pain,"Chest pain, ILI",2,2,True,True,False,False,False,Emergent,keyword_offline
+30511643,7654,dyspnea,DYSPNEA,2,2,True,True,False,False,False,Emergent,keyword_offline
+39670875,8025,abd pain,"Abd pain, N/V",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+32790240,9255,headache,"Headache, Fever, Transfer",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+30991538,10611,vag bleeding,VAG BLEEDING,2,2,True,True,False,False,False,Emergent,keyword_offline
+31855341,11375,abd pain,"Abd pain, Nausea",2,2,True,True,False,False,False,Emergent,keyword_offline
+31394872,12875,shoulder injury,Shoulder injury,2,2,True,True,False,False,False,Emergent,keyword_offline
+37958179,13261,llq abdominal pain,LLQ abdominal pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+33470915,16692,s,"s/p Fall, L Elbow pain",2,2,True,True,False,False,False,Emergent,keyword_offline
+36673492,19961,l facial swelling,"L Facial swelling, Lip swelling",2,3,False,True,False,True,True,Urgent,keyword_offline
+38937343,21762,facial swelling,"Facial swelling, R Arm swelling",2,3,False,True,False,True,True,Urgent,keyword_offline
+30989869,22828,requesting evaluation,REQUESTING EVALUATION,2,3,False,True,False,True,True,Urgent,keyword_offline
+34422814,23896,seizure,"Seizure, Slurred speech",2,2,True,True,False,False,False,Emergent,keyword_offline
+34118500,24340,abdominal pain back pain,ABDOMINAL PAIN BACK PAIN,2,3,False,True,False,True,True,Urgent,keyword_offline
+38826859,27496,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+39458847,35815,abd pain,Abd pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+38528924,39395,dyspnea,"Dyspnea, N/V, Weakness",2,3,False,True,False,True,True,Urgent,keyword_offline
+32683852,45129,chest pain,"Chest pain, Dyspnea",2,2,True,True,False,False,False,Emergent,keyword_offline
+36567551,48885,blood in mouth,BLOOD IN MOUTH,2,3,False,True,False,True,True,Urgent,keyword_offline
+30384773,48922,lightheaded,"Lightheaded, Palpitations",2,2,True,True,False,False,False,Emergent,keyword_offline
+39164095,49600,general weakness,GENERAL WEAKNESS,2,3,False,True,False,True,True,Urgent,keyword_offline
+35775258,52945,cough,"Cough, Fever",2,3,False,True,False,True,True,Urgent,keyword_offline
+31882189,55479,back pain,Back pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+33842796,56272,n,n/v/d,2,3,False,True,False,True,True,Urgent,keyword_offline
+39994772,57225,hyperglycemia,HYPERGLYCEMIA,2,3,False,True,False,True,True,Urgent,keyword_offline
+39651086,57797,pneumonia,Pneumonia,2,3,False,True,False,True,True,Urgent,keyword_offline
+34049491,58339,dizziness,"Dizziness, Dyspnea",2,3,False,True,False,True,True,Urgent,keyword_offline
+32873400,58920,right eye visual changes,RIGHT EYE VISUAL CHANGES,2,3,False,True,False,True,True,Urgent,keyword_offline
+32974946,59334,dizziness,"Dizziness, Palpitations",2,2,True,True,False,False,False,Emergent,keyword_offline
+38431669,64140,dyspnea,Dyspnea,2,3,False,True,False,True,True,Urgent,keyword_offline
+36348713,64326,motorcycle accident,Motorcycle accident,2,1,False,True,True,False,False,Resuscitation,keyword_offline
+31881868,64388,etoh,"ETOH, s/p Fall, Vomiting",2,3,False,True,False,True,True,Urgent,keyword_offline
+39386184,65241,coffee ground emisis,COFFEE GROUND EMISIS,2,3,False,True,False,True,True,Urgent,keyword_offline
+30042865,68178,r,R/O CVA,2,2,True,True,False,False,False,Emergent,keyword_offline
+32150560,68230,chest pain cardiac features,CHEST PAIN (CARDIAC FEATURES),2,2,True,True,False,False,False,Emergent,keyword_offline
+34954776,68545,dyspnea,"Dyspnea, Hemoptysis, PE",2,2,True,True,False,False,False,Emergent,keyword_offline
+34595783,69213,sob cp,SOB CP,2,3,False,True,False,True,True,Urgent,keyword_offline
+36049455,70404,abn labs,ABN LABS/CP,2,3,False,True,False,True,True,Urgent,keyword_offline
+33118296,72625,headache,"Headache, Back pain",2,2,True,True,False,False,False,Emergent,keyword_offline
+37896819,73203,abnormal labs,Abnormal labs,2,3,False,True,False,True,True,Urgent,keyword_offline
+30022721,77764,facial swelling,"Facial swelling, Sore throat",2,2,True,True,False,False,False,Emergent,keyword_offline
+35775231,78062,bleeding from dialysis catheter,BLEEDING FROM DIALYSIS CATHETER,2,3,False,True,False,True,True,Urgent,keyword_offline
+32937570,78947,chest pain,"Chest pain, Transfer",2,2,True,True,False,False,False,Emergent,keyword_offline
+37066903,81760,abd pain,Abd pain,2,4,False,False,False,True,True,Less Urgent,keyword_offline
+32069656,86560,dyspnea,Dyspnea,2,3,False,True,False,True,True,Urgent,keyword_offline
+37113235,88309,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+31268035,89068,sdh,"SDH, Transfer",2,3,False,True,False,True,True,Urgent,keyword_offline
+36575649,89654,rci,RCI,2,3,False,True,False,True,True,Urgent,keyword_offline
+30699861,91145,head injury,"Head injury, Headache, Lightheaded",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+33387805,92335,si,SI,2,3,False,True,False,True,True,Urgent,keyword_offline
+38828894,92658,sob,SOB,2,2,True,True,False,False,False,Emergent,keyword_offline
+31081943,93365,hypercalcemia,HYPERCALCEMIA,2,3,False,True,False,True,True,Urgent,keyword_offline
+30547322,93535,abnormal ekg,"Abnormal EKG, ETOH",2,3,False,True,False,True,True,Urgent,keyword_offline
+32601577,94099,chest pain cardiac features,CHEST PAIN (CARDIAC FEATURES),2,2,True,True,False,False,False,Emergent,keyword_offline
+36870223,94920,fatigue,"Fatigue, Unresponsive",2,1,False,True,True,False,False,Resuscitation,keyword_offline
+30897068,96806,cough,"Cough, Malaise",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+38192028,97367,abnormal labs,ABNORMAL LABS,2,3,False,True,False,True,True,Urgent,keyword_offline
+32087256,98441,brbpr,BRBPR,2,3,False,True,False,True,True,Urgent,keyword_offline
+33411973,100340,r weakness,"R Weakness, Slurred speech",2,2,True,True,False,False,False,Emergent,keyword_offline
+33538890,103542,abnormal labs,"Abnormal labs, Chest pain",2,2,True,True,False,False,False,Emergent,keyword_offline
+33966006,105967,brbpr,BRBPR,2,3,False,True,False,True,True,Urgent,keyword_offline
+35916420,106891,fever,"Fever, Neutropenia",2,3,False,True,False,True,True,Urgent,keyword_offline
+36507882,113096,hypertension,HYPERTENSION,2,3,False,True,False,True,True,Urgent,keyword_offline
+36410695,113686,overdose,"Overdose, SI",2,1,False,True,True,False,False,Resuscitation,keyword_offline
+34792556,116102,abnormal mri,Abnormal MRI,2,3,False,True,False,True,True,Urgent,keyword_offline
+39250689,116412,abd pain,"Abd pain, N/V",2,2,True,True,False,False,False,Emergent,keyword_offline
+31659217,119371,headache,"Headache, Transfer",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+32423485,121122,dizziness,Dizziness,2,3,False,True,False,True,True,Urgent,keyword_offline
+33395312,121540,etoh,"ETOH, Unsteady gait",2,3,False,True,False,True,True,Urgent,keyword_offline
+33874996,123856,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+39140412,125098,unsteady gait,"Unsteady gait, Vomiting",2,3,False,True,False,True,True,Urgent,keyword_offline
+35730050,125971,pain,Pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+33957408,133500,hyperglycemia,Hyperglycemia,2,3,False,True,False,True,True,Urgent,keyword_offline
+38440501,135254,allergic reaction,Allergic reaction,2,4,False,False,False,True,True,Less Urgent,keyword_offline
+37494931,136667,transfer,"Transfer, Abnormal CT, Chest pain",2,2,True,True,False,False,False,Emergent,keyword_offline
+33747326,140660,n,n/v/d,2,2,True,True,False,False,False,Emergent,keyword_offline
+33410006,141331,abdominal distention,"Abdominal distention, Arm swelling, B Leg swelling",2,3,False,True,False,True,True,Urgent,keyword_offline
+32547705,141816,dyspnea,"Dyspnea, Lightheaded, Anemia",2,3,False,True,False,True,True,Urgent,keyword_offline
+36946985,142415,sdh,SDH,2,3,False,True,False,True,True,Urgent,keyword_offline
+35060998,143662,complete heartblock,COMPLETE HEARTBLOCK,2,3,False,True,False,True,True,Urgent,keyword_offline
+34560058,144873,s,"s/p Fall, Dizziness",2,2,True,True,False,False,False,Emergent,keyword_offline
+38502758,145501,dyspnea,"Dyspnea, Leg swelling",2,2,True,True,False,False,False,Emergent,keyword_offline
+33845007,146352,hematemesis,"Hematemesis, N/V",2,2,True,True,False,False,False,Emergent,keyword_offline
+33347343,150346,hot,HOT AND LOW,2,3,False,True,False,True,True,Urgent,keyword_offline
+32874794,152371,dyspnea,"Dyspnea, PE, Transfer",2,3,False,True,False,True,True,Urgent,keyword_offline
+34633003,155312,s,"s/p Fall, Transfer",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+35643652,156635,palpitations,Palpitations,2,2,True,True,False,False,False,Emergent,keyword_offline
+39015130,157815,chest pain,"Chest pain, Dyspnea on exertion",2,2,True,True,False,False,False,Emergent,keyword_offline
+37117413,162289,epistaxis,EPISTAXIS,2,3,False,True,False,True,True,Urgent,keyword_offline
+35394832,165761,headache,"Headache, Numbness",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+30646774,171462,dyspnea on exertion,"Dyspnea on exertion, Transfer",2,3,False,True,False,True,True,Urgent,keyword_offline
+34346656,174189,n,"N/V, Weakness",2,2,True,True,False,False,False,Emergent,keyword_offline
+39929892,176142,ich,"ICH, Transfer",2,3,False,True,False,True,True,Urgent,keyword_offline
+36015139,180761,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+33740462,181296,s,"s/p Fall, Back pain, L Shoulder injury",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+31590768,185267,l leg pain,L Leg pain,2,4,False,False,False,True,True,Less Urgent,keyword_offline
+38167034,187136,abdominal distention,"Abdominal distention, Dyspnea",2,1,False,True,True,False,False,Resuscitation,keyword_offline
+37882951,187229,unknown,___,2,3,False,True,False,True,True,Urgent,keyword_offline
+32716380,187639,tremors,TREMORS,2,3,False,True,False,True,True,Urgent,keyword_offline
+36696967,188569,visual changes,"Visual changes, Transfer",2,3,False,True,False,True,True,Urgent,keyword_offline
+35685707,189522,back pain,"Back pain, Transfer",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+38128805,190363,r hip pain,"R Hip pain, s/p Fall",2,2,True,True,False,False,False,Emergent,keyword_offline
+37435229,191531,chest pain cardiac features,CHEST PAIN (CARDIAC FEATURES),2,2,True,True,False,False,False,Emergent,keyword_offline
+31171534,192921,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+33117437,196112,abnormal labs,"Abnormal labs, Anemia",2,3,False,True,False,True,True,Urgent,keyword_offline
+33140925,196778,hallucinations,Hallucinations,2,2,True,True,False,False,False,Emergent,keyword_offline
+35828104,198892,fever,FEVER,2,3,False,True,False,True,True,Urgent,keyword_offline
+36546589,199672,blood,BLOOD AND BODY FLUID EXPOSURE,2,4,False,False,False,True,True,Less Urgent,keyword_offline
+32343410,200545,nausea,NAUSEA/HYPERGLYCEMIA,2,3,False,True,False,True,True,Urgent,keyword_offline
+37424531,200968,brbpr,BRBPR,2,2,True,True,False,False,False,Emergent,keyword_offline
+38851087,203064,jaundice,"Jaundice, RLQ abdominal pain",2,3,False,True,False,True,True,Urgent,keyword_offline
+32454299,204243,syncope,SYNCOPE,2,3,False,True,False,True,True,Urgent,keyword_offline
+35874872,206314,abnormal ct,"Abnormal CT, Aphasia",2,2,True,True,False,False,False,Emergent,keyword_offline
+32273261,209260,abd pain,"Abd pain, n/v/d",2,2,True,True,False,False,False,Emergent,keyword_offline
+33105639,211651,l sided deficits,L SIDED DEFICITS,2,3,False,True,False,True,True,Urgent,keyword_offline
+36487694,213631,fall,FALL,2,2,True,True,False,False,False,Emergent,keyword_offline
+38307847,213695,anemia,Anemia,2,3,False,True,False,True,True,Urgent,keyword_offline
+35721950,217765,allergic rxn,ALLERGIC RXN,2,3,False,True,False,True,True,Urgent,keyword_offline
+31169619,219680,hypertension,Hypertension,2,3,False,True,False,True,True,Urgent,keyword_offline
+35839515,220030,fatigue,"Fatigue, Fever, Urinary incontinence",2,2,True,True,False,False,False,Emergent,keyword_offline
+38965089,221958,elevated inr,Elevated INR,2,2,True,True,False,False,False,Emergent,keyword_offline
+37691673,234598,si,SI,2,2,True,True,False,False,False,Emergent,keyword_offline
+38879125,234998,head injury,"Head injury, s/p Fall",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+33253427,237521,sob,SOB,2,3,False,True,False,True,True,Urgent,keyword_offline
+35874586,241976,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+38884832,245245,dizziness,"Dizziness, Palpitations",2,2,True,True,False,False,False,Emergent,keyword_offline
+37793154,246302,fever,"Fever, Abd pain",2,3,False,True,False,True,True,Urgent,keyword_offline
+37455194,248750,luq abd pain,"LUQ abd pain, Melena",2,2,True,True,False,False,False,Emergent,keyword_offline
+35535424,251461,altered mental status,"Altered mental status, MVC",2,2,True,True,False,False,False,Emergent,keyword_offline
+34650715,252187,n,N/V,2,3,False,True,False,True,True,Urgent,keyword_offline
+36143510,252473,abd pain,"Abd pain, N/V, Weakness",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+32989457,257758,chest pain,"Chest pain, Transfer",2,2,True,True,False,False,False,Emergent,keyword_offline
+37818631,262262,hypertension,HYPERTENSION,2,3,False,True,False,True,True,Urgent,keyword_offline
+37601099,264203,abd pain,"Abd pain, Overdose",2,1,False,True,True,False,False,Resuscitation,keyword_offline
+31204499,266844,dyspnea,"Dyspnea, N/V",2,3,False,True,False,True,True,Urgent,keyword_offline
+33633379,282216,anemia,"Anemia, Weakness",2,3,False,True,False,True,True,Urgent,keyword_offline
+33130217,294455,chest pain,CHEST PAIN,2,2,True,True,False,False,False,Emergent,keyword_offline
+30148058,299116,syncope,SYNCOPE/PRESYNCOPE,2,3,False,True,False,True,True,Urgent,keyword_offline
+34640709,304052,abd pain,"Abd pain, Pregnant",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+31857407,306852,rci,RCI,2,3,False,True,False,True,True,Urgent,keyword_offline
+33491918,307519,anemia,"Anemia, ETOH, ___",2,2,True,True,False,False,False,Emergent,keyword_offline
+33568099,308119,l leg pain,L Leg pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+33560010,308729,dyspnea,"Dyspnea, Abd pain",2,2,True,True,False,False,False,Emergent,keyword_offline
+38236015,320726,head bleed,HEAD BLEED,2,3,False,True,False,True,True,Urgent,keyword_offline
+38540380,321097,failure to thrive,"Failure to thrive, Hypotension",2,3,False,True,False,True,True,Urgent,keyword_offline
+31397251,322513,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+37808403,328793,dizziness,"Dizziness, Palpitations",2,2,True,True,False,False,False,Emergent,keyword_offline
+35918397,332657,dyspnea,"Dyspnea, Fever, s/p Fall",2,3,False,True,False,True,True,Urgent,keyword_offline
+30926158,332792,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+39982363,333097,seizure,"Seizure, Transfer",2,1,False,True,True,False,False,Resuscitation,keyword_offline
+35788019,336766,dizziness,"Dizziness, Dyspnea, Lightheaded",2,3,False,True,False,True,True,Urgent,keyword_offline
+38718310,337233,nausea,NAUSEA/HYPOXIC ON RA,2,3,False,True,False,True,True,Urgent,keyword_offline
+31658914,340165,lightheaded,Lightheaded,2,3,False,True,False,True,True,Urgent,keyword_offline
+34367150,345349,vision changes,Vision changes,2,3,False,True,False,True,True,Urgent,keyword_offline
+30576882,346082,dyspnea,Dyspnea,2,3,False,True,False,True,True,Urgent,keyword_offline
+34340372,347294,palpitations,Palpitations,2,2,True,True,False,False,False,Emergent,keyword_offline
+36121838,348845,nstemi,"NSTEMI, Transfer",2,2,True,True,False,False,False,Emergent,keyword_offline
+36497519,348895,chest pain,"Chest pain, Dyspnea",2,2,True,True,False,False,False,Emergent,keyword_offline
+32660136,350776,cough,"Cough, Seizure",2,1,False,True,True,False,False,Resuscitation,keyword_offline
+33493063,351333,abnormal labs,"Abnormal labs, Transfer",2,3,False,True,False,True,True,Urgent,keyword_offline
+35781031,351343,abd pain,Abd pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+35104980,352109,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+38832953,353822,si,SI,2,3,False,True,False,True,True,Urgent,keyword_offline
+39075599,364001,chest pain,"Chest pain, Rash",2,2,True,True,False,False,False,Emergent,keyword_offline
+39368175,377794,upper back pain,"Upper back pain, Abd pain",2,4,False,False,False,True,True,Less Urgent,keyword_offline
+38073270,377826,palpitations,Palpitations,2,2,True,True,False,False,False,Emergent,keyword_offline
+32401375,381584,dyspnea,Dyspnea,2,3,False,True,False,True,True,Urgent,keyword_offline
+33864525,383406,sore throat,SORE THROAT,2,2,True,True,False,False,False,Emergent,keyword_offline
+37586263,384988,hyperglycemia,Hyperglycemia,2,3,False,True,False,True,True,Urgent,keyword_offline
+35839184,385416,melena,"Melena, Dyspnea",2,2,True,True,False,False,False,Emergent,keyword_offline
+39738209,385596,si,"SI, Depression",2,3,False,True,False,True,True,Urgent,keyword_offline
+35469620,385796,s,s/p Fall,2,4,False,False,False,True,True,Less Urgent,keyword_offline
+33891349,386429,hypotension,"Hypotension, Presyncope",2,3,False,True,False,True,True,Urgent,keyword_offline
+38634740,389553,stress,STRESS,2,3,False,True,False,True,True,Urgent,keyword_offline
+37626168,392896,allergic reaction,ALLERGIC REACTION,2,2,True,True,False,False,False,Emergent,keyword_offline
+39625992,393539,arm pain,"Arm pain, Chest pain",2,2,True,True,False,False,False,Emergent,keyword_offline
+39099967,395616,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+37348029,397065,hallucinations,"Hallucinations, Nausea",2,2,True,True,False,False,False,Emergent,keyword_offline
+36289114,402608,abscess,"Abscess, Fever",2,3,False,True,False,True,True,Urgent,keyword_offline
+36135049,404501,hypotension,"Hypotension, Lethargy",2,2,True,True,False,False,False,Emergent,keyword_offline
+37325698,410468,chest pain,Chest pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+37242342,415264,rci,RCI,2,3,False,True,False,True,True,Urgent,keyword_offline
+36528797,420713,rlq abdominal pain,RLQ abdominal pain,2,2,True,True,False,False,False,Emergent,keyword_offline
+35148361,2644,headache,"Headache, Hypertension",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36503021,3125,n,"n/v/d, Syncope",3,3,True,True,False,False,False,Urgent,keyword_offline
+34896839,5881,s,S/P FALL,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+38150661,8463,mvc,MVC,3,3,True,True,False,False,False,Urgent,keyword_offline
+32017472,9358,l flank pain,L Flank pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+38856674,9868,etoh,"ETOH, Unable to ambulate, Unresponsive",3,1,False,False,True,False,False,Resuscitation,keyword_offline
+34538511,16922,s,S/P MECHANICAL FALL,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+34457732,17369,hand cramping,HAND CRAMPING,3,3,True,True,False,False,False,Urgent,keyword_offline
+37585073,20130,fever,FEVER/STIFF NECK,3,2,False,True,True,False,False,Emergent,keyword_offline
+33170489,22153,etoh,ETOH,3,3,True,True,False,False,False,Urgent,keyword_offline
+31031547,22891,abnormal labs,Abnormal labs,3,3,True,True,False,False,False,Urgent,keyword_offline
+36909191,28936,syncope,"Syncope, Dizziness",3,2,False,True,True,False,False,Emergent,keyword_offline
+30056330,32469,chest pain,Chest pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+33330911,33422,dyspnea,"Dyspnea, Transfer",3,3,True,True,False,False,False,Urgent,keyword_offline
+32573503,36612,vomiting,"Vomiting, Epigastric pain",3,3,True,True,False,False,False,Urgent,keyword_offline
+35811874,36770,etoh,ETOH,3,3,True,True,False,False,False,Urgent,keyword_offline
+30145195,36819,bilateral leg swelling,BILATERAL LEG SWELLING,3,3,True,True,False,False,False,Urgent,keyword_offline
+32490278,37639,r foot pain,"R Foot pain, Wound eval",3,2,False,True,True,False,False,Emergent,keyword_offline
+37179895,47182,chest pain,"Chest pain, Dyspnea",3,2,False,True,True,False,False,Emergent,keyword_offline
+33074856,48626,buttock pain,BUTTOCK PAIN,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+39518119,49644,unknown,___,3,3,True,True,False,False,False,Urgent,keyword_offline
+34397761,54909,gtube eval,gtube eval,3,3,True,True,False,False,False,Urgent,keyword_offline
+36718995,56870,abdo pain,ABDO PAIN,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36271496,59185,head injury,Head injury,3,3,True,True,False,False,False,Urgent,keyword_offline
+36570436,60395,asthma exacerbation,ASTHMA EXACERBATION,3,2,False,True,True,False,False,Emergent,keyword_offline
+31215765,62407,bizzare behavior,"BIZZARE BEHAVIOR, Headache",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+31631334,62610,back pain,Back pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+37134113,66828,s,S/P FALL HEAD ABRASION,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+38019903,66971,swollen foot,SWOLLEN FOOT,3,3,True,True,False,False,False,Urgent,keyword_offline
+38793243,69200,r leg swelling,"R Leg swelling, Rash",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36839460,70947,abd pain,"Abd pain, Pregnant",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+33120696,72519,l knee pain,L Knee pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+39796878,76738,toe inj,TOE INJ,3,3,True,True,False,False,False,Urgent,keyword_offline
+35879281,79171,cough,"Cough, Dyspnea",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+31976229,79697,abdominal pain,ABDOMINAL PAIN,3,2,False,True,True,False,False,Emergent,keyword_offline
+30396151,80423,toe pain,Toe pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+32160214,86767,assault,"Assault, R Eye pain",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+33710901,87323,headache,"Headache, N/V",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+31661714,89369,back pain,BACK PAIN/DOE,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+38283598,90157,abnormal labs,Abnormal labs,3,3,True,True,False,False,False,Urgent,keyword_offline
+30858740,90239,shoulder injury,SHOULDER INJURY,3,2,False,True,True,False,False,Emergent,keyword_offline
+31495874,93229,rt fp,RT FP,3,3,True,True,False,False,False,Urgent,keyword_offline
+31023393,94176,mvc,MVC,3,3,True,True,False,False,False,Urgent,keyword_offline
+34184923,95413,s,s/p Fall,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+35819915,98795,r hip pain,R Hip pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+32506501,102878,lip swelling,LIP SWELLING,3,3,True,True,False,False,False,Urgent,keyword_offline
+33442493,103741,n,N/V,3,2,False,True,True,False,False,Emergent,keyword_offline
+37385348,104277,abd pain,Abd pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+34344934,107747,abd pain,"Abd pain, Vomiting",3,3,True,True,False,False,False,Urgent,keyword_offline
+30372132,111701,passed out,PASSED OUT,3,3,True,True,False,False,False,Urgent,keyword_offline
+35201623,112301,abd pain,"Abd pain, Hypertension",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+34877189,112592,r ankle pain,"R Ankle pain, Wound eval",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+30845235,113624,abd pain,"Abd pain, N/V",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+38930334,113694,abd pain,Abd pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+30078413,116987,r flank pain,"R Flank pain, Kidney stone",3,3,True,True,False,False,False,Urgent,keyword_offline
+39055227,117208,anxiety,ANXIETY,3,3,True,True,False,False,False,Urgent,keyword_offline
+34340286,121848,ecchymosis,ECCHYMOSIS/EDEMA TOES,3,3,True,True,False,False,False,Urgent,keyword_offline
+36478078,125083,cough,"Cough, Dyspnea",3,2,False,True,True,False,False,Emergent,keyword_offline
+34202466,127742,ped struck,Ped struck,3,3,True,True,False,False,False,Urgent,keyword_offline
+30871086,129620,etoh,ETOH,3,3,True,True,False,False,False,Urgent,keyword_offline
+32218572,133652,anxious,ANXIOUS,3,3,True,True,False,False,False,Urgent,keyword_offline
+30283107,134375,l knee injury,L Knee injury,3,2,False,True,True,False,False,Emergent,keyword_offline
+34392631,138240,r ear bleeding,R EAR BLEEDING,3,3,True,True,False,False,False,Urgent,keyword_offline
+32955195,144077,ili,ILI,3,3,True,True,False,False,False,Urgent,keyword_offline
+31006737,145733,left leg pain,LEFT LEG PAIN,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+32039143,148047,n,N/V,3,2,False,True,True,False,False,Emergent,keyword_offline
+36279622,148275,anorexia,ANOREXIA/ NOT EATING,3,3,True,True,False,False,False,Urgent,keyword_offline
+36631831,150146,abd pain,"Abd pain, Urinary retention",3,2,False,True,True,False,False,Emergent,keyword_offline
+36714587,152459,low abd pain,LOW ABD PAIN/VOM,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36996731,154584,back pain,Back pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+34190007,155384,jtube eval,Jtube eval,3,3,True,True,False,False,False,Urgent,keyword_offline
+37879433,156554,rlq abdominal pain,RLQ abdominal pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+31283798,162478,chest pain,CHEST PAIN,3,2,False,True,True,False,False,Emergent,keyword_offline
+39427518,162643,hd catheter blockage,HD CATHETER BLOCKAGE,3,3,True,True,False,False,False,Urgent,keyword_offline
+36174254,163502,n,"N/V, Weakness",3,3,True,True,False,False,False,Urgent,keyword_offline
+31118466,167138,r leg pain,R Leg pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+36260877,171689,trip,TRIP AND FALL,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+39966814,175626,r foot abscess,R Foot abscess,3,3,True,True,False,False,False,Urgent,keyword_offline
+37468002,176335,r rib pain,"R Rib pain, s/p Fall",3,2,False,True,True,False,False,Emergent,keyword_offline
+37679214,179192,n,N/V /DIZZINESS,3,3,True,True,False,False,False,Urgent,keyword_offline
+33938302,179978,seizure,Seizure,3,1,False,False,True,False,False,Resuscitation,keyword_offline
+38042547,183694,abd pain,"Abd pain, Leg pain",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36433613,184198,unable to ambulate,UNABLE TO AMBULATE,3,3,True,True,False,False,False,Urgent,keyword_offline
+35205593,186800,s,s/p Fall,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+37876370,187853,bilat leg pain,BILAT LEG PAIN,3,2,False,True,True,False,False,Emergent,keyword_offline
+33857376,188190,cough,"Cough, Chest pain",3,2,False,True,True,False,False,Emergent,keyword_offline
+38823929,188366,finger injury,Finger injury,3,3,True,True,False,False,False,Urgent,keyword_offline
+34544681,194892,s,S/P FALL,3,2,False,True,True,False,False,Emergent,keyword_offline
+36534961,207639,anxiety,Anxiety,3,3,True,True,False,False,False,Urgent,keyword_offline
+30156747,207874,total body pain,TOTAL BODY PAIN,3,2,False,True,True,False,False,Emergent,keyword_offline
+34608466,213793,etoh,"ETOH, Unable to ambulate",3,3,True,True,False,False,False,Urgent,keyword_offline
+31558725,215180,headache,Headache,3,2,False,True,True,False,False,Emergent,keyword_offline
+37319882,216507,requesting detox,REQUESTING DETOX,3,3,True,True,False,False,False,Urgent,keyword_offline
+31255620,219559,llq abdominal pain,"LLQ abdominal pain, Rash",3,2,False,True,True,False,False,Emergent,keyword_offline
+30611525,220087,abdominal distention,Abdominal distention,3,3,True,True,False,False,False,Urgent,keyword_offline
+34725653,222304,abd pain,Abd pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+38700784,223340,dysuria,Dysuria,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+38202956,224117,nausea,"Nausea, Upper abdominal pain",3,3,True,True,False,False,False,Urgent,keyword_offline
+36354486,229321,l ankle injury,L Ankle injury,3,2,False,True,True,False,False,Emergent,keyword_offline
+32616218,233008,llq abdominal pain,LLQ abdominal pain,3,3,True,True,False,False,False,Urgent,keyword_offline
+32384781,233791,s,s/p Fall,3,2,False,True,True,False,False,Emergent,keyword_offline
+30546072,234980,s,S/P MVC,3,3,True,True,False,False,False,Urgent,keyword_offline
+37576889,238066,asthma exacerbation,Asthma exacerbation,3,3,True,True,False,False,False,Urgent,keyword_offline
+39473381,238128,abd pain,"Abd pain, Lower abdominal pain",3,2,False,True,True,False,False,Emergent,keyword_offline
+32698246,243491,abd pain,"Abd pain, Pregnant",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+33806667,248238,y,Y,3,3,True,True,False,False,False,Urgent,keyword_offline
+37705990,249860,s,s/p Fall,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+32957906,255437,altered mental status,Altered mental status,3,2,False,True,True,False,False,Emergent,keyword_offline
+31890575,259093,r ear pain,R Ear pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+35187200,259877,anxiety,"Anxiety, Dehydration",3,3,True,True,False,False,False,Urgent,keyword_offline
+31446120,260486,s,S/P MVC,3,3,True,True,False,False,False,Urgent,keyword_offline
+34158232,266245,abd pain,"Abd pain, n/v/d",3,2,False,True,True,False,False,Emergent,keyword_offline
+39278273,268124,abd pain,Abd pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+30366703,270238,right foot injury,RIGHT FOOT INJURY,3,3,True,True,False,False,False,Urgent,keyword_offline
+36342140,272352,l hip fracture,"L Hip fracture, Transfer",3,2,False,True,True,False,False,Emergent,keyword_offline
+36789164,272396,chest pain,"Chest pain, Dyspnea, Sore throat",3,2,False,True,True,False,False,Emergent,keyword_offline
+39515866,272811,headache,Headache,3,2,False,True,True,False,False,Emergent,keyword_offline
+39304610,274903,allergic reaction,Allergic reaction,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36302704,275123,epistaxis,Epistaxis,3,3,True,True,False,False,False,Urgent,keyword_offline
+35774787,276319,admit for ect,ADMIT FOR ECT,3,3,True,True,False,False,False,Urgent,keyword_offline
+34872072,276750,fever,"Fever, Transfer",3,3,True,True,False,False,False,Urgent,keyword_offline
+39174507,278760,n,N/V,3,3,True,True,False,False,False,Urgent,keyword_offline
+39384903,279047,positive blood cultures,Positive blood cultures,3,3,True,True,False,False,False,Urgent,keyword_offline
+38989282,282968,lower abdominal pain,Lower abdominal pain,3,3,True,True,False,False,False,Urgent,keyword_offline
+34579906,284039,chest pain,"Chest pain, ETOH, Lightheaded",3,2,False,True,True,False,False,Emergent,keyword_offline
+30426462,284765,depression,Depression,3,2,False,True,True,False,False,Emergent,keyword_offline
+33030719,286619,palpitations,PALPITATIONS,3,2,False,True,True,False,False,Emergent,keyword_offline
+35193005,288785,vomiting,"Vomiting, Lightheaded, Abd pain",3,3,True,True,False,False,False,Urgent,keyword_offline
+35230080,290707,hip disloc,HIP DISLOC/FX,3,3,True,True,False,False,False,Urgent,keyword_offline
+31636838,291558,back pain,BACK PAIN,3,2,False,True,True,False,False,Emergent,keyword_offline
+32170443,291752,rlq abdominal pain,RLQ abdominal pain,3,3,True,True,False,False,False,Urgent,keyword_offline
+33443894,291780,finger injury,Finger injury,3,3,True,True,False,False,False,Urgent,keyword_offline
+37551909,293167,abd pain,"Abd pain, Detox, Nausea",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+31448843,297366,constipation,Constipation,3,2,False,True,True,False,False,Emergent,keyword_offline
+39639695,298582,gen weakness,GEN WEAKNESS,3,3,True,True,False,False,False,Urgent,keyword_offline
+38509567,302477,wound eval,Wound eval,3,2,False,True,True,False,False,Emergent,keyword_offline
+33773733,304476,l leg pain,L LEG PAIN,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36008649,306613,dizziness,"Dizziness, Insect bite",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+33041283,310164,neck pain,"Neck pain, R Eye pain",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+38475127,310309,wound eval,Wound eval,3,2,False,True,True,False,False,Emergent,keyword_offline
+32656155,312547,abd pain,Abd pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+31661524,314134,chest pain cardiac features,CHEST PAIN (CARDIAC FEATURES),3,2,False,True,True,False,False,Emergent,keyword_offline
+31784915,317257,head injury,Head injury,3,3,True,True,False,False,False,Urgent,keyword_offline
+30657817,319478,decubitis,DECUBITIS,3,3,True,True,False,False,False,Urgent,keyword_offline
+38150032,320895,headache,Headache,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+34682612,325390,presyncope,Presyncope,3,3,True,True,False,False,False,Urgent,keyword_offline
+38344287,327117,r flank pain,R Flank pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+32846493,328657,rectal pain,Rectal pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+35591810,335959,s,s/p Fall,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36033929,336779,nausea,"NAUSEA, VOMITING, DIARRHEA",3,3,True,True,False,False,False,Urgent,keyword_offline
+38070319,339910,l leg pain,L Leg pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+31331115,340521,s,"s/p Fall, Head injury, L Elbow pain",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+32103874,340851,abd pain,Abd pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+31451899,353023,vaginal bleeding,Vaginal bleeding,3,3,True,True,False,False,False,Urgent,keyword_offline
+35867703,353974,l leg pain,"L Leg pain, L Leg swelling",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+35299240,354350,anxiety,Anxiety,3,3,True,True,False,False,False,Urgent,keyword_offline
+32036663,354894,right knee injury,RIGHT KNEE INJURY,3,2,False,True,True,False,False,Emergent,keyword_offline
+39198495,357730,eating disorder,EATING DISORDER,3,3,True,True,False,False,False,Urgent,keyword_offline
+38524800,358746,super pubic pain,SUPER PUBIC PAIN,3,2,False,True,True,False,False,Emergent,keyword_offline
+33310374,358961,back pain,Back pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+37782462,361235,lightheaded,Lightheaded,3,3,True,True,False,False,False,Urgent,keyword_offline
+31917889,361535,multiple complaints,MULTIPLE COMPLAINTS,3,3,True,True,False,False,False,Urgent,keyword_offline
+34090504,362970,l flank pain,L Flank pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+35460267,364486,bilat leg swelling,BILAT LEG SWELLING,3,3,True,True,False,False,False,Urgent,keyword_offline
+35959915,366505,l eye pain,L Eye pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+39624680,366706,ear pain,"Ear pain, Sore throat",3,2,False,True,True,False,False,Emergent,keyword_offline
+31061041,367806,right flank pain,RIGHT FLANK PAIN,3,3,True,True,False,False,False,Urgent,keyword_offline
+34753774,367862,palpitations,Palpitations,3,2,False,True,True,False,False,Emergent,keyword_offline
+37160777,372629,l flank pain x 1 year,L FLANK PAIN X 1 YEAR,3,3,True,True,False,False,False,Urgent,keyword_offline
+38884230,374590,jaundice,"Jaundice, Abdominal distention",3,3,True,True,False,False,False,Urgent,keyword_offline
+39371557,376589,r hip pain,"R Hip pain, s/p Fall",3,2,False,True,True,False,False,Emergent,keyword_offline
+39923747,382237,ruq abdominal pain,RUQ abdominal pain,3,3,True,True,False,False,False,Urgent,keyword_offline
+31004954,384137,abd pain,"Abd pain, Constipation",3,2,False,True,True,False,False,Emergent,keyword_offline
+30541669,389529,mvc,"MVC, R Chest pain, R Shoulder pain",3,2,False,True,True,False,False,Emergent,keyword_offline
+31602216,391174,abcess,?ABCESS,3,2,False,True,True,False,False,Emergent,keyword_offline
+39875601,394449,abd pain,"Abd pain, N/V",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+38251543,395063,abd pain,Abd pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36347152,395279,pain in left shoulder,PAIN IN LEFT SHOULDER,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36267902,395761,rash,Rash,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+39586274,398508,abd pain,Abd pain,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+31821052,398990,r knee pain,"R Knee pain, R Knee swelling",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+33855469,406520,med refill,MED REFILL,3,4,False,True,False,True,False,Less Urgent,keyword_offline
+35523169,407837,abd pain,ABD PAIN,3,2,False,True,True,False,False,Emergent,keyword_offline
+34116313,408041,cp,CP,3,3,True,True,False,False,False,Urgent,keyword_offline
+38682360,410589,etoh,"ETOH, Unable to ambulate",3,3,True,True,False,False,False,Urgent,keyword_offline
+33120390,410937,abd pain,"Abd pain, HYPOKALEMIA",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+34979666,411330,r knee pain,R Knee pain,3,2,False,True,True,False,False,Emergent,keyword_offline
+39713940,412956,n,"N/V, Abd pain",3,4,False,True,False,True,False,Less Urgent,keyword_offline
+36528968,413800,a fib,A FIB,3,3,True,True,False,False,False,Urgent,keyword_offline
+38893510,418866,r leg swelling,R Leg swelling,3,3,True,True,False,False,False,Urgent,keyword_offline
+38011526,419074,n,n/v/d,3,3,True,True,False,False,False,Urgent,keyword_offline
+35716569,420289,headache,Headache,3,2,False,True,True,False,False,Emergent,keyword_offline
+30438132,421800,dizziness,"Dizziness, Lightheaded",3,3,True,True,False,False,False,Urgent,keyword_offline
+36045486,424212,ili,ILI,3,3,True,True,False,False,False,Urgent,keyword_offline
+33168875,2204,pain left great toe,PAIN LEFT GREAT TOE,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+36283525,3440,r eye pain,R Eye pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+32739283,3752,rabies vaccine,Rabies Vaccine,4,3,False,True,True,False,False,Urgent,keyword_offline
+33277526,4872,l foot pain,L Foot pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+35237206,6126,lt hand pain,LT HAND PAIN,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+32257356,7198,malaise,Malaise,4,3,False,True,True,False,False,Urgent,keyword_offline
+33783465,10498,back pain,Back pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+33370927,10576,l foot splinter,L FOOT SPLINTER,4,2,False,False,True,False,False,Emergent,keyword_offline
+39848526,13222,back pain,BACK PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+31737501,18628,r hand injury,R Hand injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+38379537,19197,mvc,"MVC, Neck pain",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+39217382,20850,burn,Burn,4,1,False,False,True,False,False,Resuscitation,keyword_offline
+33328348,24217,b leg swelling,B Leg swelling,4,3,False,True,True,False,False,Urgent,keyword_offline
+33085184,24541,arm laceration,ARM LACERATION,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+34720605,28839,r knee pain,R Knee pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+32855864,29582,finger laceration,Finger laceration,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+36486328,32989,rash,Rash,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38404688,37003,back pain,BACK PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+39478924,41511,r knee pain,R Knee pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+36134603,42714,upper extremity injury,UPPER EXTREMITY INJURY,4,3,False,True,True,False,False,Urgent,keyword_offline
+37546385,42963,sore throat,Sore throat,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+33299439,43682,eye redness,Eye redness,4,3,False,True,True,False,False,Urgent,keyword_offline
+34715359,44388,r foot pain,R Foot pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+32568805,44640,lower lip lesion,LOWER LIP LESION,4,3,False,True,True,False,False,Urgent,keyword_offline
+38555026,49334,rash,Rash,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+35020230,50012,dental pain,Dental pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+30248313,50853,lac to left thumb,LAC TO LEFT THUMB,4,3,False,True,True,False,False,Urgent,keyword_offline
+37929418,51126,finger laceration,Finger laceration,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+37499698,52570,l ear pain,L Ear pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+38409751,53948,r inguinal pain,R Inguinal pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+34951160,56058,r knee pain,R Knee pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+36936423,56858,staples removal,Staples removal,4,3,False,True,True,False,False,Urgent,keyword_offline
+30837391,58648,s,S/P MVC,4,3,False,True,True,False,False,Urgent,keyword_offline
+35967106,64347,laceration,Laceration,4,2,False,False,True,False,False,Emergent,keyword_offline
+33513892,65531,finger laceration,Finger laceration,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+39935869,65608,r ear pain,R Ear pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+39761455,74754,dog bite,Dog bite,4,3,False,True,True,False,False,Urgent,keyword_offline
+33001917,76373,back pain,"Back pain, MVC",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+30409199,79746,l foot pain,L Foot pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+32279446,82428,back pain,Back pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+37176734,83476,l neck pain,"L Neck pain, MVC",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+34368240,85108,lower back pain,Lower back pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+36645919,85557,finger swelling,Finger swelling,4,2,False,False,True,False,False,Emergent,keyword_offline
+34381145,86066,anxiety,"Anxiety, N/V",4,3,False,True,True,False,False,Urgent,keyword_offline
+33683250,87370,l leg pain,L Leg pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+33145287,90011,l foot pain,L Foot pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+33858951,90039,lower back pain,Lower back pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+31997696,95927,gu problem,GU PROBLEM,4,3,False,True,True,False,False,Urgent,keyword_offline
+31299987,99166,tick bite,Tick bite,4,3,False,True,True,False,False,Urgent,keyword_offline
+37688026,100182,right knee pain,RIGHT KNEE PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+36521298,100285,lbp,LBP,4,3,False,True,True,False,False,Urgent,keyword_offline
+34259871,100564,rash,Rash,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+35687264,100598,pain,Pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+36092652,101084,neck pain,"Neck pain, Epistaxis",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+33224556,101771,ear pain,"Ear pain, R Arm pain",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+31158800,104128,l foot injury,L Foot injury,4,2,False,False,True,False,False,Emergent,keyword_offline
+36617555,109746,diarrhea,DIARRHEA,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+36463050,113053,etoh,"ETOH, Unable to ambulate",4,3,False,True,True,False,False,Urgent,keyword_offline
+30712118,121256,finger laceration,Finger laceration,4,2,False,False,True,False,False,Emergent,keyword_offline
+39836995,121751,wound check,WOUND CHECK,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38394311,129044,vaginal discharge,Vaginal discharge,4,3,False,True,True,False,False,Urgent,keyword_offline
+32332132,133907,back pain,Back pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+30100718,134246,l leg injury,L LEG INJURY,4,3,False,True,True,False,False,Urgent,keyword_offline
+36524785,140347,finger pain,Finger pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+37118083,140844,headache,Headache,4,2,False,False,True,False,False,Emergent,keyword_offline
+32392927,141344,r eye redness,"R Eye redness, R Eye swelling",4,3,False,True,True,False,False,Urgent,keyword_offline
+36545116,149208,l ankle injury,L Ankle injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+36960721,151285,right ear bump,"RIGHT EAR ""BUMP""",4,3,False,True,True,False,False,Urgent,keyword_offline
+38456856,153174,etoh,"ETOH, Unable to ambulate",4,3,False,True,True,False,False,Urgent,keyword_offline
+30471858,154960,chills,CHILLS,4,2,False,False,True,False,False,Emergent,keyword_offline
+37626216,155792,rash,Rash,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+35299179,157806,rash,Rash,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+31068255,161372,lumps,"LUMPS, BUMPS, CALLUSES",4,2,False,False,True,False,False,Emergent,keyword_offline
+37493847,161653,b ear pain,B Ear pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+31321627,165983,neck pain,Neck pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+36988831,176547,sore throat,"Sore throat, R Ear pain",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+33052572,177638,l elbow pain,L Elbow pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+31579328,178727,eye swelling,Eye swelling,4,3,False,True,True,False,False,Urgent,keyword_offline
+36270009,182498,l wrist injury,L WRIST INJURY,4,3,False,True,True,False,False,Urgent,keyword_offline
+37261502,183281,lower back pain,Lower back pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+31412030,188277,head injury,Head injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+33150435,191737,gtube eval,GTUBE EVAL,4,3,False,True,True,False,False,Urgent,keyword_offline
+34575282,194088,finger lac,FINGER LAC,4,3,False,True,True,False,False,Urgent,keyword_offline
+35842460,194898,back pain,Back pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+39725393,195561,back pain,Back pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+39578172,197507,back pain,"Back pain, R Leg pain",4,2,False,False,True,False,False,Emergent,keyword_offline
+35223444,198302,l hip pain,"L Hip pain, L Leg pain",4,2,False,False,True,False,False,Emergent,keyword_offline
+34161491,198848,uti,UTI,4,2,False,False,True,False,False,Emergent,keyword_offline
+38744379,199374,rash,Rash,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+35192084,200416,l leg pain,L Leg pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+31587854,201855,dysuria,DYSURIA,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+37595040,201936,cough,Cough,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+30806520,204638,r eye pain,R Eye pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+37790867,204830,suture removal,SUTURE REMOVAL,4,3,False,True,True,False,False,Urgent,keyword_offline
+34534781,205141,lower back pain,"Lower back pain, MVC",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+37373600,208689,heel abrasion,HEEL ABRASION,4,3,False,True,True,False,False,Urgent,keyword_offline
+31065563,210085,l foot injury,L Foot injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+39370208,212010,l ankle pain,L Ankle pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+35258722,213920,l thumb pain,L Thumb pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38477134,216533,l shoulder pain,L Shoulder pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+35702337,217364,hearing loss,HEARING LOSS,4,3,False,True,True,False,False,Urgent,keyword_offline
+35318728,218364,needs home 02,NEEDS HOME 02,4,3,False,True,True,False,False,Urgent,keyword_offline
+38290080,219183,suture removal,SUTURE REMOVAL,4,3,False,True,True,False,False,Urgent,keyword_offline
+30462978,221771,n,n/v/d,4,2,False,False,True,False,False,Emergent,keyword_offline
+31845129,222106,rib pain,RIB PAIN,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+33169306,222204,r finger injury,R Finger injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+30759818,222249,r wrist pain,R Wrist pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+34940708,225628,l wrist pain,"L Wrist pain, s/p Fall",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+34866591,226639,suture removal,SUTURE REMOVAL,4,3,False,True,True,False,False,Urgent,keyword_offline
+37739643,227200,ng tube confirmation,NG TUBE CONFIRMATION,4,3,False,True,True,False,False,Urgent,keyword_offline
+33785134,229943,back pain,Back pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+31773195,235705,found sleeping at bus stop,FOUND SLEEPING AT BUS STOP,4,3,False,True,True,False,False,Urgent,keyword_offline
+35089681,236085,finger injury,Finger injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+36987232,239023,dental pain,DENTAL PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+34630419,241222,ankle pain,ANKLE PAIN,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+34591823,245798,sore throat,Sore throat,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+39563873,246331,l eye pain,L Eye pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38627065,246888,right hip pain,RIGHT HIP PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+37811985,249475,r eye pain,R Eye pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38220405,250820,nose laceration,"Nose laceration, s/p Fall",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38761773,251105,port evaluation,PORT EVALUATION,4,3,False,True,True,False,False,Urgent,keyword_offline
+39875378,251849,s,"s/p Fall, Head lac",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+30471575,261417,toe pain,Toe pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+31693310,265461,picc line eval,PICC line eval,4,3,False,True,True,False,False,Urgent,keyword_offline
+31861987,265664,r eyelid pain,R EYELID PAIN,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+39281599,267143,r hand pain,R Hand pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+33705914,269745,l thumb laceration,L Thumb laceration,4,2,False,False,True,False,False,Emergent,keyword_offline
+35884677,270191,r knee injury,"R Knee injury, R Shoulder injury",4,2,False,False,True,False,False,Emergent,keyword_offline
+32780322,272043,finger injury,Finger injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+31883069,273661,bat exposure,BAT EXPOSURE,4,3,False,True,True,False,False,Urgent,keyword_offline
+39645360,276847,right hand injury,RIGHT HAND INJURY,4,2,False,False,True,False,False,Emergent,keyword_offline
+31224385,279898,l ear fb,L EAR FB,4,3,False,True,True,False,False,Urgent,keyword_offline
+33320482,280756,lumps,"LUMPS, BUMPS, CALLUSES",4,3,False,True,True,False,False,Urgent,keyword_offline
+33174570,286552,sore throat,"Sore throat, ILI",4,2,False,False,True,False,False,Emergent,keyword_offline
+37821996,292293,chin lac,CHIN LAC,4,3,False,True,True,False,False,Urgent,keyword_offline
+34461174,293917,r knee pain,R Knee pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+39524222,294524,l eye pain,L Eye pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+39168669,295716,r index finger laceration,R INDEX FINGER LACERATION,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+34730352,296448,lower back pain,LOWER BACK PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+35585054,296854,l facial pain,L FACIAL PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+37712274,297115,dysuria,Dysuria,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38626807,299430,right leg injury,RIGHT LEG INJURY,4,2,False,False,True,False,False,Emergent,keyword_offline
+39762675,300664,r ear pain,R Ear pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+34499794,301106,cough,Cough,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+36146428,302695,l eye swelling,L Eye swelling,4,3,False,True,True,False,False,Urgent,keyword_offline
+35862358,305237,mvc,"MVC, Back pain",4,2,False,False,True,False,False,Emergent,keyword_offline
+33832820,308546,r knee injury,R Knee injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+31361874,310530,r knee pain,R Knee pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+31278452,310713,lower back pain,"Lower back pain, MVC",4,2,False,False,True,False,False,Emergent,keyword_offline
+34427714,310947,eye redness,"Eye redness, Productive cough, Sore throat",4,2,False,False,True,False,False,Emergent,keyword_offline
+33707025,311048,lower back pain,Lower back pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+30534084,317730,back pain,BACK PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+37063685,317979,back pain,Back pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+39739987,318305,l shoulder pain,L Shoulder pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+34111179,320664,etoh,ETOH,4,3,False,True,True,False,False,Urgent,keyword_offline
+39404602,323699,l hand injury,L Hand injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+36465893,324374,neck swelling,NECK SWELLING,4,3,False,True,True,False,False,Urgent,keyword_offline
+32715619,325156,mvc,MVC,4,2,False,False,True,False,False,Emergent,keyword_offline
+35150898,326633,r thumb injury,R Thumb injury,4,2,False,False,True,False,False,Emergent,keyword_offline
+34069804,326868,bilateral hand pain,BILATERAL HAND PAIN,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38276364,327124,r knee pain,R Knee pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+36139961,329484,r knee pain,R Knee pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38040792,337078,l hand injury,L Hand injury,4,2,False,False,True,False,False,Emergent,keyword_offline
+34584592,340904,right eye pain,RIGHT EYE PAIN,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+37168427,348926,unknown cc,UNKNOWN-CC,4,2,False,False,True,False,False,Emergent,keyword_offline
+33313164,352665,l ear pain,L Ear pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+32139153,353870,s,s/p Fall,4,2,False,False,True,False,False,Emergent,keyword_offline
+34845747,361378,l ankle injury,L Ankle injury,4,2,False,False,True,False,False,Emergent,keyword_offline
+36748085,361407,dysuria,"Dysuria, Urinary frequency",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+36171910,368216,dilaysis cath eval,DILAYSIS CATH EVAL,4,3,False,True,True,False,False,Urgent,keyword_offline
+33059360,369258,mvc,"MVC, Neck pain",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+32914974,371787,r elbow pain,"R Elbow pain, s/p Fall",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+31909796,371851,laceration,"Laceration, s/p Fall",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+36910909,372803,mvc,MVC,4,3,False,True,True,False,False,Urgent,keyword_offline
+39765682,374489,sore throat,SORE THROAT,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38901806,375640,l arm pain,L Arm pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+38975727,376878,ear pain,Ear pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+30437343,378539,mvc,MVC,4,3,False,True,True,False,False,Urgent,keyword_offline
+31808871,380344,r eye pain,R Eye pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+34274975,387199,finger laceration,Finger laceration,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+35961465,387475,unknown cc,UNKNOWN-CC,4,2,False,False,True,False,False,Emergent,keyword_offline
+31476975,389289,r arm injury,R Arm injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+31530208,391291,right arm pain,RIGHT ARM PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+35710612,394627,neck pain,Neck pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+30430326,397894,l thumb injury,L Thumb injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+39244233,398566,s,s/p Fall,4,2,False,False,True,False,False,Emergent,keyword_offline
+31081367,399648,finger lac,FINGER LAC,4,3,False,True,True,False,False,Urgent,keyword_offline
+30350102,399787,l eye pain,L Eye pain,4,4,True,True,False,False,False,Less Urgent,keyword_offline
+32184579,400346,buttock pain,"Buttock pain, s/p Fall",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+33156803,401734,mvc,MVC,4,2,False,False,True,False,False,Emergent,keyword_offline
+39691145,402759,dysuria,"Dysuria, Pelvic pain",4,4,True,True,False,False,False,Less Urgent,keyword_offline
+30275373,405557,foley insertion,Foley insertion,4,3,False,True,True,False,False,Urgent,keyword_offline
+30565674,406775,r wrist pain,R Wrist pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+33086587,416203,l hand injury,L Hand injury,4,3,False,True,True,False,False,Urgent,keyword_offline
+36102042,417703,dental pain,DENTAL PAIN,4,2,False,False,True,False,False,Emergent,keyword_offline
+37227418,420637,l foot pain,L Foot pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+39803479,422609,back pain,Back pain,4,2,False,False,True,False,False,Emergent,keyword_offline
+39145234,422619,gu eval,GU EVAL,4,3,False,True,True,False,False,Urgent,keyword_offline
+38908026,1434,foley cath eval,FOLEY CATH EVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+37557199,2665,splinter,SPLINTER,5,3,False,False,True,False,False,Urgent,keyword_offline
+36802223,3533,bug bites,?BUG BITES,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+35868014,7529,insect bite,Insect bite,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+36798537,8832,r wrist pain,"R Wrist pain, WORK NOTE",5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30937551,8981,for eval,FOR EVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+31235791,12868,eye redness,Eye redness,5,3,False,False,True,False,False,Urgent,keyword_offline
+38757993,14711,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32404086,15418,si,SI,5,3,False,False,True,False,False,Urgent,keyword_offline
+33377492,16078,l ear pain,L Ear pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30147786,19075,insect bite,Insect bite,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32880775,19100,nasal congestion,NASAL CONGESTION,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38358506,19980,finger laceration,Finger laceration,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32267143,24175,left elbow injury,LEFT ELBOW INJURY,5,3,False,False,True,False,False,Urgent,keyword_offline
+38068102,32533,std,?STD,5,3,False,False,True,False,False,Urgent,keyword_offline
+39034005,34558,r wrist pain,R   WRIST   PAIN,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+33701889,35632,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+34019058,39813,medication refill,MEDICATION REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+35598005,40599,lump on back,LUMP ON BACK,5,3,False,False,True,False,False,Urgent,keyword_offline
+37118334,44157,sinus pain,Sinus pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30306072,45107,medical clearance,MEDICAL CLEARANCE,5,3,False,False,True,False,False,Urgent,keyword_offline
+38047926,47507,med refill,MED REFILL,5,2,False,False,True,False,False,Emergent,keyword_offline
+30066590,48051,sore throat,Sore throat,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+35302562,49856,pain,"Pain, Transfer",5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38087483,50983,finger reddness,FINGER  REDDNESS,5,3,False,False,True,False,False,Urgent,keyword_offline
+31815829,51232,ring removal,RING REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+32586598,54993,influenza like illness,INFLUENZA LIKE ILLNESS,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+37444531,55710,rx refill,RX REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+37115969,57561,med refill,MED REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+31153545,60304,wound re eval,WOUND RE-EVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+35839711,61905,requesting pain medication,REQUESTING PAIN MEDICATION,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+31654974,67583,facial rash,FACIAL RASH,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+35555088,68850,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+39388237,69846,r finger injury,R Finger injury,5,3,False,False,True,False,False,Urgent,keyword_offline
+38047131,76208,needs rx,NEEDS RX,5,3,False,False,True,False,False,Urgent,keyword_offline
+35835844,78294,blood,BLOOD AND BODY FLUID EXPOSURE,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+33510777,78858,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+36875919,81157,vaginal pain,Vaginal pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38296775,81353,detox,Detox,5,3,False,False,True,False,False,Urgent,keyword_offline
+38136325,81632,rabies vaccine,RABIES VACCINE,5,3,False,False,True,False,False,Urgent,keyword_offline
+31303417,82731,l knee pain,L Knee pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30174749,84540,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+35346148,86236,social eval,SOCIAL EVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+34838415,86447,l foot pain,L Foot pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32047769,90864,l ankle pain,L Ankle pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+31060290,93006,l eye swelling,L Eye swelling,5,3,False,False,True,False,False,Urgent,keyword_offline
+37217959,93116,l ear pain,L Ear pain,5,2,False,False,True,False,False,Emergent,keyword_offline
+35705838,96104,wound eval,Wound eval,5,3,False,False,True,False,False,Urgent,keyword_offline
+39982081,96207,l ankle pain,L Ankle pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+35130449,98129,suture removal,SUTURE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+30026796,99741,head injury,Head injury,5,3,False,False,True,False,False,Urgent,keyword_offline
+35845099,100957,bilat eyelid redness,BILAT EYELID REDNESS,5,3,False,False,True,False,False,Urgent,keyword_offline
+37668190,101915,r foot pain,R Foot pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32898227,103252,suture removal,SUTURE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+36614668,105827,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+37634780,112379,l shoulder pain,L Shoulder pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+39932381,114305,dental pain,Dental pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+36884255,115665,laceration,Laceration,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32790996,120366,abscess,"Abscess, Dental pain",5,2,False,False,True,False,False,Emergent,keyword_offline
+33346117,122891,dental pain,Dental pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+35814524,126294,suture removal,SUTURE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+39661134,128078,suture removal,SUTURE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+31544562,128459,dental pain,Dental pain,5,2,False,False,True,False,False,Emergent,keyword_offline
+37105701,132467,knee pain,KNEE PAIN,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30294473,132638,mvc,MVC,5,3,False,False,True,False,False,Urgent,keyword_offline
+35247808,138800,back pain,Back pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32346099,141486,med refill,MED REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30430812,144563,lip larceration,LIP  LARCERATION,5,3,False,False,True,False,False,Urgent,keyword_offline
+33791486,146509,wound eval,WOUND EVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+38012766,147487,finger injury,Finger injury,5,3,False,False,True,False,False,Urgent,keyword_offline
+32656442,151895,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+31640489,154563,bite,Bite,5,3,False,False,True,False,False,Urgent,keyword_offline
+39114577,156650,suture removal,SUTURE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+34450970,158396,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+39285357,160534,wound eval,Wound eval,5,3,False,False,True,False,False,Urgent,keyword_offline
+35999333,160598,social work evaluation,SOCIAL WORK EVALUATION,5,3,False,False,True,False,False,Urgent,keyword_offline
+36614075,163135,rash,Rash,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+34950586,163246,left finger pain,LEFT FINGER PAIN,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30144342,165987,wound eval,Wound eval,5,3,False,False,True,False,False,Urgent,keyword_offline
+36764629,167043,ili,ILI,5,3,False,False,True,False,False,Urgent,keyword_offline
+39070298,167089,lab request,Lab request,5,3,False,False,True,False,False,Urgent,keyword_offline
+35051391,168526,bilateral foot pain,BILATERAL FOOT PAIN,5,2,False,False,True,False,False,Emergent,keyword_offline
+31165124,169190,dog bite,Dog bite,5,3,False,False,True,False,False,Urgent,keyword_offline
+38314972,170444,toe pain,TOE PAIN,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+37460698,170499,removal,REMOVAL ___/SUTURES,5,3,False,False,True,False,False,Urgent,keyword_offline
+32786491,171020,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+36903917,176640,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+35767707,178269,pain med script,PAIN MED SCRIPT,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+37617853,183022,eye redness,Eye redness,5,3,False,False,True,False,False,Urgent,keyword_offline
+35593573,187481,right arm pain,RIGHT ARM PAIN,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+33572508,190340,r knee larceration,R KNEE  LARCERATION,5,3,False,False,True,False,False,Urgent,keyword_offline
+31928646,192238,r wrist burn,R  WRIST  BURN,5,1,False,False,True,False,False,Resuscitation,keyword_offline
+39770090,192388,requesting rabies vaccine,REQUESTING RABIES VACCINE,5,3,False,False,True,False,False,Urgent,keyword_offline
+38131930,194054,medication refill,MEDICATION REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+37943890,198195,wants tramadol,WANTS TRAMADOL,5,2,False,False,True,False,False,Emergent,keyword_offline
+39766166,198573,bilateral leg pain,BILATERAL LEG PAIN,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32013392,198903,foot pain,Foot pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+31086493,199540,stitches removed,STITCHES REMOVED,5,3,False,False,True,False,False,Urgent,keyword_offline
+37847400,200859,insect bite,Insect bite,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+36722802,200896,left leg laceration,LEFT LEG LACERATION,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30542597,201527,fingernail pain,FINGERNAIL PAIN,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38084147,205408,removal,REMOVAL ___/SUTURES,5,3,False,False,True,False,False,Urgent,keyword_offline
+33244987,205428,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+38232582,208054,difficulty ambulating,DIFFICULTY AMBULATING,5,3,False,False,True,False,False,Urgent,keyword_offline
+33131351,209771,lower back pain,Lower back pain,5,2,False,False,True,False,False,Emergent,keyword_offline
+34852318,211125,unknown,___,5,3,False,False,True,False,False,Urgent,keyword_offline
+32248499,212540,assault,Assault,5,3,False,False,True,False,False,Urgent,keyword_offline
+38671813,213152,suture removal,SUTURE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+36402140,214830,back pain,Back pain,5,2,False,False,True,False,False,Emergent,keyword_offline
+35724887,215121,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+36135432,218660,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+31568692,223878,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+32149289,226545,finger laceration,Finger laceration,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+34506268,234440,finger laceration,Finger laceration,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+34378319,239657,pregnant,?PREGNANT,5,3,False,False,True,False,False,Urgent,keyword_offline
+35744326,243911,left hand eval,LEFT HAND EVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+31460164,245054,r hand injury,R Hand injury,5,3,False,False,True,False,False,Urgent,keyword_offline
+33197641,249234,b eye eval,B Eye eval,5,3,False,False,True,False,False,Urgent,keyword_offline
+33435751,250146,rabies vaccine,Rabies Vaccine,5,3,False,False,True,False,False,Urgent,keyword_offline
+37054546,251191,unknown,___,5,2,False,False,True,False,False,Emergent,keyword_offline
+37917956,257588,ear eval,EAR EVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+32693680,260124,staples removal,Staples removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+31538587,271309,wound eval,Wound eval,5,3,False,False,True,False,False,Urgent,keyword_offline
+39449924,272866,hair eval,HAIR EVAL,5,2,False,False,True,False,False,Emergent,keyword_offline
+38446332,274225,requesting place to stay overnight,REQUESTING PLACE TO STAY OVERNIGHT,5,3,False,False,True,False,False,Urgent,keyword_offline
+38872569,274724,paronychia,Paronychia,5,2,False,False,True,False,False,Emergent,keyword_offline
+34816329,274818,sinus pain,Sinus pain,5,2,False,False,True,False,False,Emergent,keyword_offline
+33869368,275379,lower back pain,Lower back pain,5,2,False,False,True,False,False,Emergent,keyword_offline
+31687370,279623,right eye infection,RIGHT EYE INFECTION,5,3,False,False,True,False,False,Urgent,keyword_offline
+32625713,284288,dental pain,Dental pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+34367423,286307,dyspnea,DYSPNEA,5,3,False,False,True,False,False,Urgent,keyword_offline
+37985317,287613,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+33904185,287731,suture removal,SUTURE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+37728900,291957,needlestick,Needlestick,5,3,False,False,True,False,False,Urgent,keyword_offline
+34351766,291989,work note,"WORK NOTE, Wound eval",5,3,False,False,True,False,False,Urgent,keyword_offline
+38019326,292058,dental pain,Dental pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30041195,292743,laceration to right index finger,LACERATION TO RIGHT INDEX FINGER,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+33120396,293403,suture removal,SUTURE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+30399904,295053,med refill,MED REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30600977,297015,removal,REMOVAL ___/SUTURES,5,3,False,False,True,False,False,Urgent,keyword_offline
+36758337,301195,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+39104299,301722,foot pain,Foot pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38723806,302305,requesting rabies vaccine,REQUESTING RABIES VACCINE,5,3,False,False,True,False,False,Urgent,keyword_offline
+38892835,305523,lab draw,LAB DRAW,5,3,False,False,True,False,False,Urgent,keyword_offline
+31527561,310006,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+33361458,310041,suture removal,SUTURE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+33968379,310091,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+30036228,317097,r ear pain,R Ear pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+34189281,317117,l foot pain,L Foot pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+33587876,318111,right finger pain,RIGHT FINGER PAIN,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38587965,318251,sore throat,SORE THROAT,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38914717,324900,r eye pain,R Eye pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+35942414,329488,medication refill,MEDICATION REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32190285,334381,wound eval,WOUND EVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+33267608,334802,l inguinal pain,L Inguinal pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30226086,337254,dental pain,DENTAL PAIN,5,2,False,False,True,False,False,Emergent,keyword_offline
+35418392,337694,l eye pain,L Eye pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+36542228,343893,jtube eval,Jtube eval,5,3,False,False,True,False,False,Urgent,keyword_offline
+32439371,344597,nasal congestion,NASAL CONGESTION / HAY FEVER,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+33000853,344678,tooth ache,TOOTH ACHE,5,2,False,False,True,False,False,Emergent,keyword_offline
+36943830,348059,medication refill,MEDICATION REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+32377662,357242,prescription med request,PRESCRIPTION MED REQUEST,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+33802325,357484,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+31133833,357818,r wrist pain,R Wrist pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30550122,358088,substance use,Substance use,5,3,False,False,True,False,False,Urgent,keyword_offline
+30199774,358346,wound eval,Wound eval,5,2,False,False,True,False,False,Emergent,keyword_offline
+31636183,358459,leg laceration,Leg laceration,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+34871105,360307,med refill,"MED REFILL, PAIN",5,2,False,False,True,False,False,Emergent,keyword_offline
+31309370,363381,l finger pain,L Finger pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+36198856,364629,r,R/O  EXPOSURE,5,3,False,False,True,False,False,Urgent,keyword_offline
+39536362,364964,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38928882,366809,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+39448670,367704,bilat shoulder pain,BILAT SHOULDER PAIN,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+30460491,373391,l foot pain,L Foot pain,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+39308334,374410,rt arm burn,RT ARM BURN,5,1,False,False,True,False,False,Resuscitation,keyword_offline
+36510249,375332,splinter,SPLINTER,5,3,False,False,True,False,False,Urgent,keyword_offline
+32357678,381959,rx refill,RX REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+37132645,382567,staples removal,Staples removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+33718242,384741,s,S/P ARM FELL ASLEEP,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+36318461,384774,dental pain,DENTAL PAIN,5,2,False,False,True,False,False,Emergent,keyword_offline
+32115857,387419,l foot pain,L Foot pain,5,2,False,False,True,False,False,Emergent,keyword_offline
+33696999,387443,pain,Pain,5,2,False,False,True,False,False,Emergent,keyword_offline
+36354167,387478,toe pain,Toe pain,5,2,False,False,True,False,False,Emergent,keyword_offline
+37625975,387785,ng tube removal,NG TUBE REMOVAL,5,3,False,False,True,False,False,Urgent,keyword_offline
+39944457,395656,lump r hand,LUMP R HAND,5,3,False,False,True,False,False,Urgent,keyword_offline
+38928253,399040,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+37628280,400429,tetanus booster,Tetanus booster,5,3,False,False,True,False,False,Urgent,keyword_offline
+38158268,401876,rash,Rash,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38119756,402230,bilat ear irritation,BILAT EAR IRRITATION,5,3,False,False,True,False,False,Urgent,keyword_offline
+32888392,402392,finger itch,FINGER ITCH,5,3,False,False,True,False,False,Urgent,keyword_offline
+30076930,405798,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+31273145,407699,l wrist injury,L WRIST INJURY,5,3,False,False,True,False,False,Urgent,keyword_offline
+32611148,411860,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+38360152,412570,fatigue,FATIGUE,5,3,False,False,True,False,False,Urgent,keyword_offline
+35247183,412723,medical clearance,MEDICAL CLEARANCE,5,3,False,False,True,False,False,Urgent,keyword_offline
+32381168,415527,staples removal,Staples removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+33311911,416520,suture removal,Suture removal,5,3,False,False,True,False,False,Urgent,keyword_offline
+31292015,420286,med refill,Med refill,5,4,False,True,True,False,False,Less Urgent,keyword_offline
+31001932,421849,hematuria,Hematuria,5,1,False,False,True,False,False,Resuscitation,keyword_offline
+36066563,423412,med refill,MED REFILL,5,4,False,True,True,False,False,Less Urgent,keyword_offline

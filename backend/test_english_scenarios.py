@@ -7,6 +7,7 @@ Designed for extended agent validation sessions
 
 import sys
 import os
+import argparse
 sys.path.append(os.path.join(os.getcwd(), 'backend'))
 
 # Ensure offline tests do not pull HuggingFace models
@@ -34,6 +35,10 @@ def run_test(engine, test_case: dict) -> dict:
     passed = actual_level == expected
     critical_undertriage = expected <= 2 and actual_level > expected
     over_triage = actual_level < expected  # Not critical but worth noting
+    guardrails_fired = [
+        item for item in (getattr(result, "reasoning_en", None) or [])
+        if str(item).startswith("GUARDRAIL_")
+    ]
     
     return {
         "name": test_case["name"],
@@ -44,7 +49,8 @@ def run_test(engine, test_case: dict) -> dict:
         "passed": passed,
         "critical_undertriage": critical_undertriage,
         "over_triage": over_triage,
-        "complaint": patient.chief_complaint_text
+        "complaint": patient.chief_complaint_text,
+        "guardrails_fired": guardrails_fired,
     }
 
 # =============================================================================
@@ -430,14 +436,22 @@ ENGLISH_SCENARIOS = [
 ]
 
 def main():
+    parser = argparse.ArgumentParser(description="Run SAFE-Triage English scenario tests.")
+    parser.add_argument("--use-ai", action="store_true", help="Enable Gemini-assisted categorization")
+    parser.add_argument("--limit", type=int, default=0, help="Run only the first N scenarios")
+    parser.add_argument("--json-out", default="", help="Optional path to write a summary JSON")
+    args = parser.parse_args()
+
+    selected_scenarios = ENGLISH_SCENARIOS[: args.limit] if args.limit and args.limit > 0 else ENGLISH_SCENARIOS
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print("=" * 70)
     print(f"SAFE-Triage English Clinical Scenarios Test Suite")
     print(f"Started: {timestamp}")
-    print(f"Total Scenarios: {len(ENGLISH_SCENARIOS)}")
+    print(f"Total Scenarios: {len(selected_scenarios)}")
+    print(f"Mode: {'AI-assisted' if args.use_ai else 'Deterministic only'}")
     print("=" * 70)
     
-    engine = DeterministicTriageEngine(use_ai=False)
+    engine = DeterministicTriageEngine(use_ai=args.use_ai)
     
     results = {
         "passed": [],
@@ -452,7 +466,7 @@ def main():
     
     print("\n" + "-" * 70)
     
-    for i, test in enumerate(ENGLISH_SCENARIOS, 1):
+    for i, test in enumerate(selected_scenarios, 1):
         result = run_test(engine, test)
         
         # Categorize result
@@ -475,7 +489,7 @@ def main():
             level_stats[result["expected"]]["fail"] += 1
             status = f"{YELLOW}❌ MISMATCH{RESET}"
         
-        print(f"[{i:3}/{len(ENGLISH_SCENARIOS)}] {status}: {result['name']}")
+        print(f"[{i:3}/{len(selected_scenarios)}] {status}: {result['name']}")
         print(f"         Expected: L{result['expected']} | Got: L{result['actual']} | Category: {result['matched_category']}")
         
         if not result["passed"]:
@@ -488,7 +502,7 @@ def main():
     print("SUMMARY")
     print("=" * 70)
     
-    total = len(ENGLISH_SCENARIOS)
+    total = len(selected_scenarios)
     passed = len(results["passed"])
     failed = len(results["failed"])
     critical = len(results["critical_undertriage"])
@@ -531,6 +545,22 @@ def main():
             print(f"  • {r['name']}")
             print(f"    Expected: L{r['expected']} → Got: L{r['actual']}")
             print()
+
+    if args.json_out:
+        payload = {
+            "timestamp": timestamp,
+            "mode": "ai" if args.use_ai else "deterministic",
+            "total": total,
+            "passed": passed,
+            "failed": failed,
+            "critical_undertriage": critical,
+            "over_triage": over,
+            "pass_rate": round((passed / total) * 100, 2) if total else 0.0,
+            "results": results,
+        }
+        with open(args.json_out, "w", encoding="utf-8") as handle:
+            json.dump(payload, handle, ensure_ascii=False, indent=2)
+        print(f"\nJSON summary written to: {args.json_out}")
     
     # Exit code
     if critical > 0:

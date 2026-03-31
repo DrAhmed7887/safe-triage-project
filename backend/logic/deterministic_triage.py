@@ -60,6 +60,7 @@ from dataclasses import dataclass
 from enum import Enum
 import os
 import json
+import re
 import time
 from dotenv import load_dotenv
 
@@ -95,6 +96,676 @@ def _get_genai():
         import google.generativeai as _genai
         genai = _genai
     return genai
+
+
+def _normalize_guardrail_text(complaint_text: str) -> str:
+    """Normalize complaint text for narrow, text-only safety guardrails."""
+    normalized = (complaint_text or "").strip().lower()
+    normalized = normalized.replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
+    normalized = normalized.replace("ى", "ي")
+    return " ".join(normalized.split())
+
+
+def _contains_any(text: str, phrases: List[str]) -> bool:
+    return any(phrase in text for phrase in phrases)
+
+
+def _first_int_match(text: str, patterns: List[str]) -> Optional[int]:
+    for pattern in patterns:
+        match = re.search(pattern, text)
+        if match:
+            try:
+                return int(match.group(1))
+            except (TypeError, ValueError):
+                continue
+    return None
+
+
+def _text_has_tachycardia_signal(text: str) -> bool:
+    if _contains_any(
+        text,
+        [
+            "tachycardia",
+            "rapid pulse",
+            "rapid heart rate",
+            "heart racing",
+            "fast pulse",
+            "fast heart rate",
+            "نبض سريع",
+            "تسرع قلب",
+        ],
+    ):
+        return True
+    hr_value = _first_int_match(
+        text,
+        [
+            r"\bhr\s*[:=]?\s*(\d{2,3})\b",
+            r"\bheart rate\s*[:=]?\s*(\d{2,3})\b",
+        ],
+    )
+    return bool(hr_value is not None and hr_value > 100)
+
+
+def _text_has_hypotension_signal(text: str) -> bool:
+    if _contains_any(
+        text,
+        [
+            "hypotensive",
+            "low bp",
+            "low blood pressure",
+            "sbp < 90",
+            "ضغط واطي",
+            "ضغط منخفض",
+            "هبوط ضغط",
+        ],
+    ):
+        return True
+    systolic_value = _first_int_match(
+        text,
+        [
+            r"\bsbp\s*[:=]?\s*(\d{2,3})\b",
+            r"\bbp\s*[:=]?\s*(\d{2,3})/\d{2,3}\b",
+            r"\bblood pressure\s*[:=]?\s*(\d{2,3})/\d{2,3}\b",
+        ],
+    )
+    return bool(systolic_value is not None and systolic_value < 90)
+
+
+def _text_has_altered_mental_status_signal(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "confused",
+            "altered",
+            "unresponsive",
+            "drowsy",
+            "lethargic",
+            "disoriented",
+            "not acting right",
+            "مشوش",
+            "ملخبط",
+            "مش واعي",
+            "مش بيرد",
+            "خامل",
+        ],
+    )
+
+
+def _text_has_sepsis_signal(text: str) -> bool:
+    return _contains_any(text, ["sepsis", "urosepsis", "septic", "sirs", "تعفن", "انتان"])
+
+
+def _text_has_hypoxia_signal(text: str) -> bool:
+    if _contains_any(
+        text,
+        [
+            "low oxygen",
+            "can't breathe",
+            "cannot breathe",
+            "hypoxic",
+            "مش قادر يتنفس",
+            "مش عارف ياخد نفسه",
+            "نقص اكسجين",
+        ],
+    ):
+        return True
+    spo2_value = _first_int_match(
+        text,
+        [
+            r"\bspo2\s*[:=]?\s*(\d{2,3})\b",
+            r"\bo2 sat(?:uration)?\s*[:=]?\s*(\d{2,3})\b",
+            r"\boxygen saturation\s*[:=]?\s*(\d{2,3})\b",
+        ],
+    )
+    return bool(spo2_value is not None and spo2_value < 94)
+
+
+def _text_has_tachypnea_signal(text: str) -> bool:
+    if _contains_any(
+        text,
+        [
+            "fast breathing",
+            "tachypneic",
+            "tachypnea",
+            "respiratory distress",
+            "breathing fast",
+            "تنفس سريع",
+            "ضيق تنفس شديد",
+        ],
+    ):
+        return True
+    rr_value = _first_int_match(
+        text,
+        [
+            r"\brr\s*[:=]?\s*(\d{1,2})\b",
+            r"\bresp(?:iratory)? rate\s*[:=]?\s*(\d{1,2})\b",
+        ],
+    )
+    return bool(rr_value is not None and rr_value > 22)
+
+
+def _text_has_fever_signal(text: str) -> bool:
+    if _contains_any(text, ["fever", "febrile", "حمى", "سخونية", "حرارة"]):
+        return True
+    temp_value = _first_int_match(
+        text,
+        [
+            r"\btemp(?:erature)?\s*[:=]?\s*(\d{2})(?:\.\d+)?\b",
+        ],
+    )
+    return bool(temp_value is not None and temp_value >= 38)
+
+
+def _text_has_syncope_signal(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "syncope",
+            "near syncope",
+            "passed out",
+            "fainted",
+            "blacked out",
+            "fell out",
+            "اغمى عليه",
+            "اغمي عليه",
+            "فقد الوعي",
+            "قرب يغمى عليه",
+        ],
+    )
+
+
+UTI_CATEGORY_FAMILIES = [
+    "uti",
+    "urinary tract",
+    "pyelonephritis",
+    "urosepsis",
+    "dysuria",
+    "urinary infection",
+    "kidney infection",
+]
+
+PNEUMONIA_CATEGORY_FAMILIES = [
+    "pneumonia",
+    "lower respiratory",
+    "lung infection",
+    "community acquired pneumonia",
+    "cap ",
+    "respiratory infection",
+]
+
+DEHYDRATION_CATEGORY_FAMILIES = [
+    "dehydration",
+    "vomiting and diarrhea",
+    "gastroenteritis",
+    "fluid loss",
+    "poor oral intake",
+    "nausea vomiting diarrhea",
+]
+
+CELLULITIS_CATEGORY_FAMILIES = [
+    "cellulitis",
+    "skin infection",
+    "soft tissue infection",
+    "wound infection",
+    "erysipelas",
+]
+
+LACERATION_CATEGORY_FAMILIES = [
+    "laceration",
+    "wound",
+    "cut",
+    "laceration needs sutures",
+    "facial laceration",
+    "hand laceration",
+]
+
+INSTABILITY_SIGNALS = [
+    # Hemodynamic
+    "hypotension", "hypotensive", "low blood pressure", "sbp",
+    "bp 8", "bp 7", "bp 6", "systolic",
+    # Tachycardia
+    "tachycardia", "heart rate over 100", "hr over 100",
+    "hr 1", "rapid pulse", "racing heart",
+    # Respiratory compromise
+    "respiratory distress", "can't breathe", "cannot breathe",
+    "shortness of breath at rest", "low spo2", "spo2 drop", "oxygen desaturation",
+    "hypoxia", "hypoxic", "tachypnea", "breathing fast",
+    # Neurological
+    "altered", "unresponsive", "unconscious", "not responding",
+    "confused", "disoriented", "loss of consciousness", "syncope",
+    "passed out", "fainted",
+    # Hemorrhage
+    "uncontrolled bleeding", "spurting", "massive blood loss",
+    "hematemesis", "bright red blood", "won't stop bleeding",
+    # Explicit severity
+    "sepsis", "septic", "shock", "in shock",
+    "cardiac arrest", "not breathing", "no pulse",
+    "acute stroke", "facial droop", "arm weakness", "slurred speech",
+    "dissection", "aortic dissection", "ectopic", "ruptured",
+    "anaphylaxis", "anaphylactic",
+    "suicide attempt", "overdose", "ingested",
+    "dka", "diabetic ketoacidosis",
+    # Neurological / meningeal
+    "worst headache", "thunderclap", "meningitis", "nuchal rigidity",
+    "stiff neck", "photophobia", "light sensitivity",
+    # Neurological — stroke / TIA / focal deficit
+    "wake up deficit", "wake-up deficit", "focal deficit", "focal neurological",
+    "aphasia", "hemiplegia", "hemiparesis", "tia", "transient ischemic",
+    "sudden weakness", "sudden numbness", "sudden vision loss",
+    "neurological symptoms", "resolved neurological",
+    # Stroke — motor/speech deficit language
+    "unable to move", "can't move", "cannot move",
+    "can't speak", "cannot speak", "unable to speak",
+    "can't speak clearly", "can't talk", "cannot talk",
+    "one sided weakness", "one-sided weakness",
+    "right side weakness", "left side weakness",
+    "left sided weakness", "right sided weakness",
+    "left-sided weakness", "right-sided weakness",
+    "arm weakness", "leg weakness", "facial weakness",
+    "woke up unable", "woke up and couldn't",
+    "flaccid", "gaze deviation", "gaze preference",
+    "hemibody", "dense hemiplegia",
+    # Cardiac
+    "chest pain", "crushing", "pressure in chest", "diaphoresis",
+    "sweating with pain", "jaw pain", "radiation to arm",
+    # Metabolic emergency — DKA / hyperglycemia
+    "fruity breath", "blood sugar over", "blood sugar 5", "blood sugar 6",
+    "blood sugar 7", "blood sugar 8", "glucose over", "glucose 5", "glucose 6",
+    "ketoacidosis", "diabetic emergency", "diabetic crisis",
+    # Obstetric / surgical emergency
+    "ectopic", "ruptured", "peritonitis", "rigid abdomen",
+    # Obstetric emergency — vaginal bleeding in pregnancy
+    "vaginal bleeding", "bleeding in pregnancy", "pregnant and bleeding",
+    "bleeding while pregnant", "obstetric bleeding", "antepartum bleeding",
+    "placenta", "miscarriage", "ectopic bleeding",
+    # Psychiatric / toxicology emergency
+    "suicide attempt", "overdose", "self harm", "ingested pills",
+    # Psychiatric emergency — suicidal ideation with plan
+    "suicidal ideation", "suicidal with plan", "plan to harm",
+    "wants to die", "active suicidal", "thinking about suicide",
+    "intent to", "plan to kill", "means to harm",
+    # Suicidal ideation with plan — intent language
+    "wants to kill", "kill himself", "kill herself",
+    "kill themselves", "has a plan", "suicidal plan",
+    "method to harm", "means and plan", "plan to end",
+    "going to kill",
+    # Urological emergency — testicular torsion
+    "testicular torsion", "torsion", "testicle pain sudden",
+    "scrotal pain sudden", "testicular pain",
+    # Orthopedic emergency — open fractures require ESI 2
+    "open fracture", "compound fracture", "bone exposed",
+    "open tibia", "open femur", "open humerus",
+    "open left tibia", "open right tibia",
+    "open left femur", "open right femur",
+    # Transfer patients (inter-facility) often have instability
+    "transferred to", "transferred from", "transfer from",
+    "was transferred",
+]
+
+NON_URGENT_SIGNALS = [
+    "routine", "physical exam", "sports physical", "work note",
+    "medication refill", "prescription", "referral",
+    "dandruff", "shampoo", "cosmetic", "elective",
+    "chronic", "years", "months", "follow up", "follow-up",
+    "check up", "checkup", "blood pressure check", "bp check",
+    "insomnia", "can't sleep", "cannot sleep", "trouble sleeping",
+    "sleep problem", "sleep difficulty",
+    "flu-like", "flu like", "influenza", "runny nose",
+    "body aches", "mild body", "feels like flu",
+]
+
+LIFE_THREAT_SIGNALS = [
+    # Cardiac arrest / pulselessness
+    "cardiac arrest",
+    "not breathing",
+    "no pulse",
+    "pulseless",
+    "vital signs were absent",
+    "vitals absent",
+    "found down",
+    "found unresponsive",
+    # Airway / breathing failure
+    "respiratory distress",
+    "respiratory failure",
+    "acute respiratory failure",
+    "can't breathe",
+    "cannot breathe",
+    "airway obstruction",
+    "complete airway obstruction",
+    "apneic",
+    "intubated",
+    "on ventilator",
+    "mechanical ventilation",
+    "requires intubation",
+    "bipap",
+    # Consciousness
+    "unresponsive",
+    "unconscious",
+    "not responding",
+    "obtunded",
+    "comatose",
+    "gcs 3",
+    "gcs 4",
+    "gcs 5",
+    "gcs 6",
+    "gcs 7",
+    "gcs 8",
+    "no response to pain",
+    # Shock / hemodynamic collapse
+    "shock",
+    "in shock",
+    "hemodynamically unstable",
+    "hemodynamic instability",
+    "severe hypotension",
+    "decompensated",
+    # Hemorrhage
+    "uncontrolled bleeding",
+    "spurting",
+    "massive blood loss",
+    "hematemesis",
+    "bright red blood",
+    "won't stop bleeding",
+    "exsanguinating",
+    # Anaphylaxis
+    "anaphylaxis",
+    "anaphylactic",
+    # Trauma
+    "major trauma",
+    "ejected from vehicle",
+    "multiple injuries",
+    "motor vehicle collision",
+    "motor vehicle accident",
+    "mvc",
+    "high speed",
+    "pedestrian struck",
+    "rollover",
+    "gunshot wound",
+    "stab wound",
+    "evisceration",
+    "pulsatile abdominal mass",
+    "ruptured aaa",
+    "aaa",
+    # Ingestion / toxicology
+    "caustic",
+    "drain cleaner",
+    "drooling",
+    "intentional overdose",
+    "toxic ingestion",
+    # Seizure
+    "status epilepticus",
+    "continuous seizure",
+    "seizure not stopping",
+    "tonic-clonic seizure",
+    "tonic clonic seizure",
+    "seizure activity",
+    "active seizure",
+    # Transfer patients with critical conditions
+    "transfer",  # patients transferred between facilities are often ESI 1-2
+    # Altered mental status (when in combination with other signals)
+    "altered mental status",
+    # Pulmonary / vascular emergencies
+    "pulmonary embolism",
+    "saddle embolus",
+    "acute worsening dyspnea",
+    "acute worsening shortness",
+    "acute exacerbation",
+    "acute decompensation",
+]
+
+CLEAR_NON_URGENT_SIGNALS = [
+    "routine",
+    "physical exam",
+    "sports physical",
+    "work note",
+    "medication refill",
+    "prescription",
+    "referral",
+    "dandruff",
+    "elective",
+    "follow up",
+    "follow-up",
+    "check up",
+    "checkup",
+    "blood pressure check",
+    "bp check",
+]
+
+
+def guardrail_uti_pyelonephritis(complaint_text: str, ai_category: str, proposed_esi: int) -> Tuple[int, str]:
+    """Cap AI-only UTI/pyelo escalation to ESI 3 unless sepsis criteria are explicit."""
+    category_lower = str(ai_category or "").lower()
+    if not any(family in category_lower for family in UTI_CATEGORY_FAMILIES):
+        return proposed_esi, "PASS"
+    if proposed_esi >= 3:
+        return proposed_esi, "PASS"
+    text = _normalize_guardrail_text(complaint_text)
+    if not _contains_any(
+        text,
+        [
+            "uti",
+            "urinary",
+            "urination",
+            "pee",
+            "dysuria",
+            "pyelonephritis",
+            "burning with urination",
+            "burning when i pee",
+            "back pain",
+            "بول",
+        ],
+    ):
+        return proposed_esi, "PASS"
+
+    has_sepsis_criteria = any(
+        [
+            _text_has_tachycardia_signal(text),
+            _text_has_hypotension_signal(text),
+            _text_has_altered_mental_status_signal(text),
+            _text_has_sepsis_signal(text),
+        ]
+    )
+    if not has_sepsis_criteria:
+        return 3, "GUARDRAIL_UTI: No sepsis criteria detected - capped at ESI 3"
+    return proposed_esi, "PASS"
+
+
+def guardrail_pneumonia_stable(complaint_text: str, ai_category: str, proposed_esi: int) -> Tuple[int, str]:
+    """Cap stable pneumonia-like complaints to ESI 3 unless hypoxia/tachypnea/AMS is explicit."""
+    category_lower = str(ai_category or "").lower()
+    if not any(family in category_lower for family in PNEUMONIA_CATEGORY_FAMILIES):
+        return proposed_esi, "PASS"
+    if proposed_esi >= 3:
+        return proposed_esi, "PASS"
+    text = _normalize_guardrail_text(complaint_text)
+    if not (
+        "pneumonia" in text
+        or ("cough" in text and "sputum" in text)
+        or ("productive cough" in text)
+        or ("سعال" in text and "بلغم" in text)
+    ):
+        return proposed_esi, "PASS"
+
+    severe_respiratory_signal = any(
+        [
+            _text_has_hypoxia_signal(text),
+            _text_has_tachypnea_signal(text),
+            _text_has_altered_mental_status_signal(text),
+        ]
+    )
+    if not severe_respiratory_signal:
+        return 3, "GUARDRAIL_PNEUMONIA: No hypoxia, tachypnea, or AMS detected - capped at ESI 3"
+    return proposed_esi, "PASS"
+
+
+def guardrail_dehydration_moderate(complaint_text: str, ai_category: str, proposed_esi: int) -> Tuple[int, str]:
+    """Cap moderate dehydration to ESI 3 unless instability or syncope is explicit."""
+    category_lower = str(ai_category or "").lower()
+    if not any(family in category_lower for family in DEHYDRATION_CATEGORY_FAMILIES):
+        return proposed_esi, "PASS"
+    if proposed_esi >= 3:
+        return proposed_esi, "PASS"
+    text = _normalize_guardrail_text(complaint_text)
+    if not _contains_any(
+        text,
+        [
+            "dehydration",
+            "vomiting and diarrhea",
+            "vomiting",
+            "diarrhea",
+            "not urinating much",
+            "dry",
+            "جفاف",
+            "اسهال",
+            "قيء",
+            "ترجيع",
+        ],
+    ):
+        return proposed_esi, "PASS"
+
+    instability_signal = any(
+        [
+            _text_has_syncope_signal(text),
+            _text_has_tachycardia_signal(text),
+            _text_has_hypotension_signal(text),
+            _text_has_altered_mental_status_signal(text),
+        ]
+    )
+    if not instability_signal:
+        return 3, "GUARDRAIL_DEHYDRATION: No syncope, instability, or AMS detected - capped at ESI 3"
+    return proposed_esi, "PASS"
+
+
+def guardrail_cellulitis_spreading(complaint_text: str, ai_category: str, proposed_esi: int) -> Tuple[int, str]:
+    """Cap spreading cellulitis to ESI 3 unless systemic signs are explicitly present."""
+    category_lower = str(ai_category or "").lower()
+    if not any(family in category_lower for family in CELLULITIS_CATEGORY_FAMILIES):
+        return proposed_esi, "PASS"
+    if proposed_esi >= 3:
+        return proposed_esi, "PASS"
+    text = _normalize_guardrail_text(complaint_text)
+    spreading_signal = _contains_any(
+        text,
+        [
+            "spreading",
+            "getting bigger",
+            "red streaks",
+            "worsening redness",
+            "يمتد",
+            "بينتشر",
+            "بيكبر",
+        ],
+    )
+    cellulitis_signal = _contains_any(
+        text,
+        [
+            "cellulitis",
+            "red swollen",
+            "infected skin",
+            "leg infection",
+            "التهاب نسيج خلوي",
+            "احمرار وتورم",
+        ],
+    )
+    if not (spreading_signal and cellulitis_signal):
+        return proposed_esi, "PASS"
+
+    has_systemic_sign = any(
+        [
+            _text_has_fever_signal(text),
+            _text_has_tachycardia_signal(text),
+            _text_has_sepsis_signal(text),
+        ]
+    )
+    if not has_systemic_sign:
+        return 3, "GUARDRAIL_CELLULITIS: Spreading without systemic signs - capped at ESI 3"
+    return proposed_esi, "PASS"
+
+
+def guardrail_laceration_needs_sutures(complaint_text: str, ai_category: str, proposed_esi: int) -> Tuple[int, str]:
+    """Cap lacerations needing repair to ESI 3 unless active hemorrhage is explicit."""
+    category_lower = str(ai_category or "").lower()
+    if not any(family in category_lower for family in LACERATION_CATEGORY_FAMILIES):
+        return proposed_esi, "PASS"
+    if proposed_esi >= 3:
+        return proposed_esi, "PASS"
+    text = _normalize_guardrail_text(complaint_text)
+    if not _contains_any(
+        text,
+        [
+            "laceration",
+            "cut",
+            "stitches",
+            "sutures",
+            "wound repair",
+            "جرح",
+            "غرز",
+            "خياطة",
+        ],
+    ):
+        return proposed_esi, "PASS"
+
+    active_hemorrhage_signal = _contains_any(
+        text,
+        [
+            "uncontrolled bleeding",
+            "spurting",
+            "won't stop bleeding",
+            "arterial",
+            "massive blood loss",
+            "active hemorrhage",
+            "bleeding heavily",
+            "نزيف شديد",
+            "النزيف مش بيوقف",
+            "دم نافور",
+        ],
+    ) or _text_has_tachycardia_signal(text) or _text_has_hypotension_signal(text)
+    if not active_hemorrhage_signal:
+        return 3, "GUARDRAIL_LACERATION: Repair-only laceration without hemorrhage - capped at ESI 3"
+    return proposed_esi, "PASS"
+
+
+def apply_safety_guardrails(complaint_text: str, ai_category: str, proposed_esi: int) -> Tuple[int, List[str]]:
+    """Apply narrow AI over-triage guardrails before NEWS2 and downstream deterministic floors."""
+    final_esi = proposed_esi
+    fired_reasons: List[str] = []
+    guardrail_functions = [
+        guardrail_uti_pyelonephritis,
+        guardrail_pneumonia_stable,
+        guardrail_dehydration_moderate,
+        guardrail_cellulitis_spreading,
+        guardrail_laceration_needs_sutures,
+    ]
+    for guardrail in guardrail_functions:
+        final_esi, reason = guardrail(complaint_text, ai_category, final_esi)
+        if reason != "PASS":
+            fired_reasons.append(reason)
+    return final_esi, fired_reasons
+
+
+def apply_severity_ceiling(complaint_text: str, proposed_esi: int) -> Tuple[int, str]:
+    """
+    Universal post-guardrail ceiling for AI-derived severity.
+
+    This applies only to the AI classification path before NEWS2 and the
+    downstream deterministic ESI floors. It never suppresses high NEWS2 or
+    deterministic overrides that run after this step.
+    """
+    text = _normalize_guardrail_text(complaint_text)
+    has_instability_signal = _contains_any(text, INSTABILITY_SIGNALS)
+
+    non_urgent_matches = [signal for signal in NON_URGENT_SIGNALS if signal in text]
+    clearly_non_urgent = _contains_any(text, CLEAR_NON_URGENT_SIGNALS) or len(non_urgent_matches) >= 2
+
+    if proposed_esi <= 3 and clearly_non_urgent and not has_instability_signal:
+        return 4, "CEILING_NON_URGENT: No acute signals - capped at ESI 4"
+
+    if proposed_esi == 1 and not _contains_any(text, LIFE_THREAT_SIGNALS):
+        return 2, "CEILING_ESI1: No life-threat signals - capped at ESI 2"
+
+    if proposed_esi == 2 and not has_instability_signal:
+        return 3, "CEILING_ESI2: No instability signals - capped at ESI 3"
+
+    return proposed_esi, "PASS"
 
 # Try to import dynamic keyword database
 try:
@@ -596,7 +1267,10 @@ class ESI5Criteria:
 
         if age < 18 or age > 65:
             return {"eligible": False, "reason": "age_out_of_range", "recommended_esi": 4}
-        if news2_plus_total > 0:
+        # NEWS2 ≤ 1 is acceptable for ESI 5 — a single point from a borderline
+        # vital (e.g., temp 37.6°C) is not clinically significant for non-acute
+        # presentations like medication refills or suture removals.
+        if news2_plus_total > 1:
             return {"eligible": False, "reason": "abnormal_vitals", "recommended_esi": 4}
         if pain_score > 2:
             return {"eligible": False, "reason": "significant_pain", "recommended_esi": 4}
@@ -1186,7 +1860,7 @@ class AISymptomClassifier:
             try:
                 genai = _get_genai()
                 genai.configure(api_key=self._api_key)
-                self.model = genai.GenerativeModel('gemini-2.0-flash')
+                self.model = genai.GenerativeModel('gemini-2.5-flash')
                 self._genai_loaded = True
                 print("[AI] Gemini model loaded on first use")
             except Exception as e:
@@ -1301,8 +1975,29 @@ class AISymptomClassifier:
         text_lower = text.lower()
         normalized_text = text_lower.replace("أ", "ا")
 
+        # Strip negated phrases to prevent false keyword matches.
+        # Clinical vignettes often contain "denies X, Y, Z" and "no pain"
+        # which should not trigger keyword classification.
+        # The pattern removes from negation word to next sentence boundary
+        # (period or semicolon), handling comma-separated denial lists.
+        # NOTE: "no" alone is excluded because "no pulse" / "no breathing"
+        # are real life-threat signals. We handle "no pain" / "no fever"
+        # etc. via the "reported no" and specific "no + benign" patterns.
+        _NEGATION_RE = re.compile(
+            r'\b(?:denies?|negative for|absent|ruled out)\b[^.;]*(?:[.;]|$)'
+        )
+        _NO_BENIGN_RE = re.compile(
+            r'\b(?:reported no|no)\s+(?:pain|fever|cough|bleeding|vomiting|nausea|headache|diarrhea|rash|swelling)\b'
+        )
+        normalized_text = _NEGATION_RE.sub('', normalized_text)
+        normalized_text = _NO_BENIGN_RE.sub('', normalized_text)
+        text_lower = _NEGATION_RE.sub('', text_lower)
+        text_lower = _NO_BENIGN_RE.sub('', text_lower)
+
         # Guardrail: abdominal pain + fever is a high-risk combination (ESI 2 pathway).
-        fever_tokens = ["سخونية", "حمى", "حرارة", "fever", "temp", "high fever"]
+        # NOTE: "temp" removed — it false-positives on "temperature 98.3" in
+        # clinical vignettes.  Use explicit fever terms only.
+        fever_tokens = ["سخونية", "حمى", "حرارة", "fever", "febrile", "high fever"]
         abdominal_tokens = ["بطني", "وجع بطن", "الم بطن", "ألم بطن", "stomach pain", "abdominal pain", "مغص"]
         if any(token in normalized_text for token in fever_tokens) and any(
             token in normalized_text for token in abdominal_tokens
@@ -1383,7 +2078,7 @@ class AISymptomClassifier:
             "active_seizure": ["seizure", "تشنج", "صرع", "بيترعش", "تشنجات"],
             "choking": ["choking", "شرقان", "حاجة في زوره", "مش قادر يبلع", "شرقت", "شرق", 
                        "اختناق", "مش قادرة تاخد نفس", "حاجة واقفة في زوره"],
-            "severe_trauma": ["gunshot", "stab", "طعن", "رصاص", "حادثة", "accident", "اتضرب"],
+            "severe_trauma": ["gunshot", "stab wound", "stabbed", "stabbing", "طعن", "رصاص", "حادثة", "accident", "اتضرب"],
             "anaphylaxis": ["anaphylaxis", "صدمة تحسسية", "حساسية شديدة", "شفايفه ورمت"],
             "poisoning_overdose": ["overdose", "poison", "تسمم", "جرعة زيادة", "أخد دوا كتير", 
                                   "بلع دوا", "شرب دوا", "أخد حبوب كتير", "جرعة زايدة"],
@@ -1435,9 +2130,13 @@ class AISymptomClassifier:
                     return category
         
         # Level 3 keywords
+        # NOTE: order matters — specific categories before broad ones.
+        # "abscess" must precede "bleeding" to prevent perianal/rectal
+        # abscess vignettes from matching moderate_bleeding via "bloody".
         level3_keywords = {
-            "abdominal_pain_moderate": ["abdominal pain", "stomach pain", "ألم بطن", "بطني بتوجعني", 
-                                        "معدتي", "مغص", "وجع بطن"],
+            "abdominal_pain_moderate": ["abdominal pain", "stomach pain", "abscess",
+                                        "ألم بطن", "بطني بتوجعني",
+                                        "معدتي", "مغص", "وجع بطن", "خراج"],
             "fever_with_symptoms": ["fever", "سخونية", "حرارة", "سخن"],
             "vomiting_dehydration": ["vomiting", "بيرجع", "استفراغ", "ترجيع"],
             "moderate_bleeding": ["bleeding", "بينزف", "نزيف", "دم"],
@@ -1476,7 +2175,7 @@ class AISymptomClassifier:
         level5_keywords = {
             "prescription_refill": ["refill", "prescription", "روشتة", "تجديد", "الدوا خلص", "عايز دوا"],
             "medical_certificate": ["certificate", "تقرير", "شهادة", "إجازة مرضية"],
-            "suture_removal": ["remove stitches", "فك غرز", "فك الغرز"],
+            "suture_removal": ["remove stitches", "suture removal", "فك غرز", "فك الغرز"],
             "chronic_stable": ["follow up", "متابعة", "كشف"],
             "minor_complaint": ["check up", "فحص", "اطمن"],
         }
@@ -1837,6 +2536,51 @@ class ESIResourcePredictor:
             - rationale: explanation
             - esi_level: suggested ESI level (3, 4, or 5)
         """
+        complaint_lower = _normalize_guardrail_text(chief_complaint)
+
+        active_hemorrhage_signal = _contains_any(
+            complaint_lower,
+            [
+                "uncontrolled bleeding",
+                "spurting",
+                "won't stop bleeding",
+                "arterial",
+                "massive blood loss",
+                "active hemorrhage",
+                "bleeding heavily",
+            ],
+        ) or _text_has_tachycardia_signal(complaint_lower) or _text_has_hypotension_signal(complaint_lower)
+
+        needs_laceration_repair = (
+            (
+                "facial laceration" in complaint_lower
+                or (
+                    _contains_any(complaint_lower, ["laceration", "cut"])
+                    and _contains_any(complaint_lower, ["sutures", "stitches", "repair"])
+                )
+            )
+            and not active_hemorrhage_signal
+        )
+        if needs_laceration_repair:
+            return {
+                "count": 1,
+                "resources": ["laceration_repair"],
+                "rationale": "Repair-only laceration needs one ED resource but remains urgent",
+                "esi_level": 3,
+            }
+
+        uncomplicated_heartburn = _contains_any(
+            complaint_lower,
+            ["heartburn", "gerd", "acid reflux"],
+        ) and not _contains_any(complaint_lower, INSTABILITY_SIGNALS)
+        if uncomplicated_heartburn:
+            return {
+                "count": 1,
+                "resources": ["ecg"],
+                "rationale": "Heartburn without alarm features typically needs one resource",
+                "esi_level": 4,
+            }
+
         # Check multi-resource categories first
         if category in MULTI_RESOURCE_CATEGORIES:
             info = MULTI_RESOURCE_CATEGORIES[category]
@@ -1885,8 +2629,6 @@ class ESIResourcePredictor:
             rationale = "Geriatric patient - broader workup likely"
         
         # Check complaint text for resource hints
-        complaint_lower = chief_complaint.lower()
-        
         # Keywords suggesting labs needed
         if any(word in complaint_lower for word in ["سخونية", "fever", "infection", "حرارة"]):
             if "labs" not in resources:
@@ -2226,19 +2968,7 @@ class DeterministicTriageEngine:
         if isinstance(vitals, dict):
             vitals = VitalsWrapper(vitals)
         
-        # Step 1: Calculate NEWS2 (Deterministic) - AUDIT FIX: Pass new parameters
-        news2_result = self.news2_calculator.calculate(
-            vitals,
-            age=age,
-            is_copd=is_copd,
-            on_supplemental_o2=on_supplemental_o2,
-            consciousness=consciousness
-        )
-        news2_plus_result = calculate_news2_plus(news2_result, vitals)
-        news2_effective_total = int(news2_plus_result["news2_plus_total"])
-        news2_effective_level = int(news2_plus_result["triage_level"])
-        
-        # Step 2: Classify complaint (allow explicit override from upstream AI/RAG)
+        # Step 1: Classify complaint (allow explicit override from upstream AI/RAG)
         category_override = patient_data.get("category_override")
         if category_override in SYMPTOM_CATEGORIES:
             category = category_override
@@ -2256,6 +2986,33 @@ class DeterministicTriageEngine:
             extraction_method = getattr(self.ai_classifier, "last_extraction_method", "keyword_offline")
         category_info = SYMPTOM_CATEGORIES.get(category, SYMPTOM_CATEGORIES["unclear"])
         category_level = category_info.esi_level
+        category_requires_immediate_intervention = category_info.requires_immediate_intervention
+
+        ai_guardrail_reasons: List[str] = []
+        if extraction_method in ("gemini_online", "keyword_offline", "egybert_offline"):
+            ai_proposed_esi = 1 if category_requires_immediate_intervention else category_level
+            guarded_esi, ai_guardrail_reasons = apply_safety_guardrails(complaint, category, ai_proposed_esi)
+            ceiling_esi, ceiling_reason = apply_severity_ceiling(complaint, guarded_esi)
+            if ceiling_reason != "PASS":
+                ai_guardrail_reasons.append(ceiling_reason)
+            final_ai_esi = max(guarded_esi, ceiling_esi)
+            if final_ai_esi > ai_proposed_esi:
+                # These guardrails only suppress AI-driven escalation. NEWS2 and deterministic
+                # modifiers still run after this and can independently force ESI 1/2.
+                category_requires_immediate_intervention = False
+                category_level = max(category_level, final_ai_esi)
+
+        # Step 2: Calculate NEWS2 (Deterministic) after AI guardrails settle the category ceiling.
+        news2_result = self.news2_calculator.calculate(
+            vitals,
+            age=age,
+            is_copd=is_copd,
+            on_supplemental_o2=on_supplemental_o2,
+            consciousness=consciousness
+        )
+        news2_plus_result = calculate_news2_plus(news2_result, vitals)
+        news2_effective_total = int(news2_plus_result["news2_plus_total"])
+        news2_effective_level = int(news2_plus_result["triage_level"])
 
         complaint_lower = str(complaint or "").lower()
         normalized_complaint = (
@@ -2278,6 +3035,82 @@ class DeterministicTriageEngine:
             "حرقان صدر",
             "حارق بالصدر",
             "ضغط على الصدر",
+        ]
+        syncope_tokens = [
+            "syncope",
+            "passed out",
+            "fainted",
+            "blacked out",
+            "lost consciousness",
+            "passed out briefly",
+            "اغمى عليه",
+            "اغمي عليه",
+            "اغمى عليا",
+            "اغمي عليا",
+            "دوخ ووقع",
+            "فقد الوعي",
+        ]
+        dissection_specific_tokens = [
+            "tearing",
+            "ripping",
+            "ripped",
+            "radiates to back",
+            "to the back",
+            "back pain",
+            "pulsatile",
+            "pulse difference",
+            "sudden severe back pain",
+            "يمتد للظهر",
+            "للظهر",
+            "ظهره بيوجعه",
+            "ظهره واجعه",
+            "الم شديد مفاجئ",
+            "ألم شديد مفاجئ",
+        ]
+        gi_bleed_tokens = [
+            "hematemesis",
+            "coffee ground",
+            "melena",
+            "black tarry stools",
+            "tarry stools",
+            "black stool",
+            "قىء دم",
+            "قيء دم",
+            "بيرجع دم",
+            "يرجع دم",
+            "براز اسود",
+            "براز أسود",
+        ]
+        gi_bleed_action_tokens = [
+            "vomit",
+            "vomiting",
+            "throwing up",
+            "throw up",
+            "throwing blood",
+            "بيرجع",
+            "يرجع",
+            "قيء",
+            "قىء",
+        ]
+        gi_bleed_blood_tokens = [
+            "blood",
+            "bloody",
+            "دم",
+        ]
+        massive_bleed_tokens = [
+            "large amounts",
+            "massive",
+            "profuse",
+            "feeling faint",
+            "faint",
+            "soaking",
+            "near syncope",
+            "كمية كبيرة",
+            "دم كتير",
+            "غزير",
+            "هيغمى عليه",
+            "هيغمي عليه",
+            "دوخة شديدة",
         ]
         atypical_gi_tokens = [
             "indigestion",
@@ -2305,11 +3138,35 @@ class DeterministicTriageEngine:
             "ضعف",
         ]
         has_chest_discomfort = any(token in normalized_complaint for token in chest_discomfort_tokens)
+        has_syncope_signal = any(token in normalized_complaint for token in syncope_tokens)
+        has_dissection_specific_signal = any(token in normalized_complaint for token in dissection_specific_tokens)
+        has_gi_bleed_signal = any(token in normalized_complaint for token in gi_bleed_tokens) or (
+            any(token in normalized_complaint for token in gi_bleed_action_tokens)
+            and any(token in normalized_complaint for token in gi_bleed_blood_tokens)
+        )
+        has_massive_bleed_signal = any(token in normalized_complaint for token in massive_bleed_tokens)
         has_atypical_gi = any(token in normalized_complaint for token in atypical_gi_tokens)
         has_autonomic_fatigue = any(token in normalized_complaint for token in autonomic_fatigue_tokens)
+
+        # AI guardrail: protect massive GI bleed from being softened to generic GI bleed.
+        if category == "gi_bleed" and has_gi_bleed_signal:
+            hemodynamically_unstable = bool(
+                (vitals.sbp is not None and vitals.sbp <= 90)
+                or (vitals.hr is not None and vitals.hr >= 120)
+            )
+            if hemodynamically_unstable or has_massive_bleed_signal:
+                category = "severe_bleeding"
+                category_info = SYMPTOM_CATEGORIES.get(category, category_info)
+                category_level = category_info.esi_level
+
+        # AI guardrail: chest pain + syncope should not become dissection without classic descriptors.
+        if category == "aortic_dissection" and has_chest_discomfort and has_syncope_signal and not has_dissection_specific_signal:
+            category = "chest_pain_cardiac"
+            category_info = SYMPTOM_CATEGORIES.get(category, category_info)
+            category_level = category_info.esi_level
         
         # Step 3: Apply clinical modifiers (Deterministic rules)
-        modifiers = []
+        modifiers = ai_guardrail_reasons.copy()
         modifier_level = 5  # Start with lowest urgency
 
         # ===== PEDIATRIC MODIFIERS (AUDIT FIX - CRITICAL) =====
@@ -2363,10 +3220,53 @@ class DeterministicTriageEngine:
             modifiers.append("مسن مع ألم صدر / Elderly with chest pain")
         
         # ===== PAIN SCORE MODIFIER =====
-        if vitals.pain_score and vitals.pain_score >= 8:
-            modifier_level = min(modifier_level, 2)
+        # ESI v4: Severe pain (≥8/10) triggers ESI 2 EXCEPT for isolated
+        # musculoskeletal/extremity complaints where high pain scores are
+        # common and do not indicate a high-risk situation.
+        # Reference: ESI v4 Handbook, Decision Point B — "severe pain/distress"
+        # applies to conditions like chest pain, abdominal pain, headache,
+        # NOT isolated extremity injuries (wrist, ankle, foot, knee pain).
+        _EXTREMITY_CATEGORIES = frozenset({
+            "mild_pain", "minor_trauma", "fracture_deformity",
+            "back_pain_chronic", "laceration_simple",
+        })
+        _EXTREMITY_CC_TOKENS = (
+            "wrist", "ankle", "foot", "knee", "elbow", "finger",
+            "toe", "hand", "arm", "leg", "shoulder", "hip",
+        )
+        complaint_lower_for_pain = (complaint or "").lower()
+        is_extremity = (
+            category in _EXTREMITY_CATEGORIES
+            and any(tok in complaint_lower_for_pain for tok in _EXTREMITY_CC_TOKENS)
+        )
+        if vitals.pain_score and vitals.pain_score >= 8 and not is_extremity:
+            # Pain ≥8 with instability signals → ESI 2 (emergent).
+            # Pain ≥8 without instability signals → ESI 3 (urgent).
+            # This prevents over-triage of stable patients with high pain
+            # (e.g., pelvic pain 9/10 with normal vitals → ESI 3, not 2).
+            complaint_for_pain_check = _normalize_guardrail_text(complaint or "")
+            has_pain_instability = _contains_any(complaint_for_pain_check, INSTABILITY_SIGNALS)
+            if has_pain_instability or vitals.pain_score >= 10:
+                modifier_level = min(modifier_level, 2)
+            else:
+                modifier_level = min(modifier_level, 3)
             modifiers.append(f"ألم شديد {vitals.pain_score}/10 / Severe pain")
         
+        # ===== MODERATE PAIN WITH SWELLING MODIFIER =====
+        # Pain ≥7 with swelling suggests need for imaging (DVT, fracture,
+        # infection) → 2+ resources → ESI 3 minimum.
+        _SWELLING_TOKENS = ("swelling", "edema", "swollen", "ورم", "تورم", "وارم")
+        if (
+            vitals.pain_score and vitals.pain_score >= 7
+            and category in ("mild_pain", "minor_trauma")
+            and any(tok in complaint_lower_for_pain for tok in _SWELLING_TOKENS)
+        ):
+            modifier_level = min(modifier_level, 3)
+            modifiers.append(
+                f"ألم {vitals.pain_score}/10 مع تورم - يحتاج تصوير / "
+                f"Pain {vitals.pain_score}/10 with swelling - imaging likely needed"
+            )
+
         # ===== CARDIAC HISTORY MODIFIER =====
         if patient_data.get('history_cardiac') and category in [
             "chest_pain_cardiac", "chest_pain_noncardiac", "respiratory_distress"
@@ -2430,7 +3330,7 @@ class DeterministicTriageEngine:
         )
         
         # Level 1 override: Immediate life-threat categories
-        if category_info.requires_immediate_intervention:
+        if category_requires_immediate_intervention:
             final_level = 1
         # Level 2 already determined by high-risk modifiers or NEWS2
         elif preliminary_level <= 2:
@@ -2454,6 +3354,7 @@ class DeterministicTriageEngine:
             )
             
             resource_count = resource_result["count"]
+            suggested_resource_level = int(resource_result.get("esi_level", 5))
             
             # ESI Decision Points D & E
             if resource_count >= 2:
@@ -2464,9 +3365,16 @@ class DeterministicTriageEngine:
                 else:
                     modifiers.append(f"موارد متعددة: {resource_count} / Multiple resources: {resource_count}")
             elif resource_count == 1:
+                if suggested_resource_level == 3:
+                    final_level = 3
+                    resources_ar, resources_en = format_resource_list(resource_result["resources"])
+                    if resources_en:
+                        modifiers.append(f"مورد عاجل واحد: {resources_ar} / One urgent resource: {resources_en}")
+                    else:
+                        modifiers.append("مورد عاجل واحد / One urgent resource")
                 # SPECIAL CASE: 'unclear' category should default to Level 3 even with 1 resource
                 # to align with "Ambiguous defaults to L3" principle
-                if category == "unclear":
+                elif category == "unclear":
                     final_level = 3
                     modifiers.append("حالة غير واضحة - اختيار المستوى 3 كإجراء وقائي / Ambiguous - defaulting to Level 3")
                 else:
@@ -2483,6 +3391,12 @@ class DeterministicTriageEngine:
                 else:
                     final_level = 5  # Non-urgent - no resources
                 modifiers.append("بدون موارد طوارئ / No ED resources needed")
+
+            # Enforce modifier ceiling: if clinical modifiers indicate a
+            # higher acuity (e.g., pain+swelling → ESI 3), the resource
+            # prediction should not override to a lower acuity.
+            if modifier_level < final_level:
+                final_level = modifier_level
 
             if final_level == 5:
                 esi5_check = ESI5Criteria.is_eligible(
@@ -2501,6 +3415,148 @@ class DeterministicTriageEngine:
         final_level, esi_v5_alerts = self.apply_esi_v5_compliance(
             patient_data, vitals, final_level
         )
+
+        # =================================================================
+        # CRITICAL VITAL-SIGN SAFETY FLOOR — ESI 1 ESCALATION
+        # =================================================================
+        # Regardless of keyword/AI classification, extreme vital signs
+        # MUST escalate to ESI 1 (resuscitation). These are physiological
+        # states where delayed intervention risks death.
+        #
+        # Thresholds based on:
+        #   - ESI v4 Handbook: "Does the patient require immediate
+        #     life-saving intervention?"
+        #   - NEWS2: score of 3 in any single parameter = urgent review
+        #   - Clinical consensus: SBP < 80, RR > 35, HR extremes
+        # =================================================================
+        vital_esi1_reasons = []
+        if vitals and vitals.sbp is not None and vitals.sbp < 80:
+            vital_esi1_reasons.append(
+                f"ضغط دم انقباضي خطير ({vitals.sbp}) / "
+                f"Critical SBP ({vitals.sbp} < 80) - hemodynamic collapse"
+            )
+        if vitals and vitals.rr is not None and vitals.rr >= 35:
+            vital_esi1_reasons.append(
+                f"معدل تنفس خطير ({vitals.rr}) / "
+                f"Critical RR ({vitals.rr} >= 35) - respiratory failure"
+            )
+        if vitals and vitals.hr is not None and vitals.hr >= 150:
+            vital_esi1_reasons.append(
+                f"نبض قلب خطير ({vitals.hr}) / "
+                f"Critical HR ({vitals.hr} >= 150) - unstable tachycardia"
+            )
+        if vitals and vitals.hr is not None and vitals.hr < 40:
+            vital_esi1_reasons.append(
+                f"بطء قلب خطير ({vitals.hr}) / "
+                f"Critical bradycardia (HR {vitals.hr} < 40)"
+            )
+        if vitals and vitals.spo2 is not None and vitals.spo2 < 85:
+            vital_esi1_reasons.append(
+                f"نقص أكسجين خطير ({vitals.spo2}%) / "
+                f"Critical hypoxia (SpO2 {vitals.spo2}% < 85%)"
+            )
+
+        if vital_esi1_reasons and final_level > 1:
+            final_level = 1
+            for reason in vital_esi1_reasons:
+                modifiers.append(f"🚨 {reason}")
+
+        # =================================================================
+        # VITAL-SIGN SAFETY FLOOR — ESI 2 ESCALATION
+        # =================================================================
+        # Less extreme but still dangerous vital signs force ESI 2 minimum.
+        # =================================================================
+        vital_esi2_reasons = []
+        if vitals and vitals.sbp is not None and vitals.sbp < 90 and final_level > 2:
+            vital_esi2_reasons.append(
+                f"ضغط دم منخفض ({vitals.sbp}) / "
+                f"Hypotension (SBP {vitals.sbp} < 90)"
+            )
+        if vitals and vitals.hr is not None and vitals.hr >= 130 and final_level > 2:
+            vital_esi2_reasons.append(
+                f"تسارع القلب ({vitals.hr}) / "
+                f"Significant tachycardia (HR {vitals.hr} >= 130)"
+            )
+        if vitals and vitals.spo2 is not None and vitals.spo2 < 90 and final_level > 2:
+            vital_esi2_reasons.append(
+                f"نقص أكسجين ({vitals.spo2}%) / "
+                f"Hypoxia (SpO2 {vitals.spo2}% < 90%)"
+            )
+
+        if vital_esi2_reasons and final_level > 2:
+            final_level = 2
+            for reason in vital_esi2_reasons:
+                modifiers.append(f"⚠️ {reason}")
+
+        # =================================================================
+        # TEXT-BASED LIFE-THREAT SAFETY FLOOR — ESI 1 ESCALATION
+        # =================================================================
+        # If the clinical text contains explicit life-threat signals
+        # (e.g., "intubated", "cardiac arrest", "unresponsive",
+        # "hemodynamically unstable", "overdose", "seizure activity"),
+        # force ESI 1 regardless of what keyword classification produced.
+        #
+        # This is the counterpart to apply_severity_ceiling: the ceiling
+        # prevents FALSE escalation to ESI 1, while this floor prevents
+        # FALSE de-escalation away from ESI 1.
+        # =================================================================
+        if final_level > 1:
+            complaint_lower = _normalize_guardrail_text(complaint or "")
+            life_threat_matches = [
+                sig for sig in LIFE_THREAT_SIGNALS if sig in complaint_lower
+            ]
+            # Require at least one strong signal. "transfer" alone is not
+            # sufficient — it must be paired with another life-threat signal.
+            strong_matches = [
+                m for m in life_threat_matches
+                if m not in ("transfer", "altered mental status")
+            ]
+            if strong_matches:
+                final_level = 1
+                top_signals = strong_matches[:3]
+                modifiers.append(
+                    f"🚨 إشارات تهديد الحياة: {', '.join(top_signals)} / "
+                    f"Life-threat signals detected: {', '.join(top_signals)} → ESI 1"
+                )
+
+        # =================================================================
+        # TEXT-BASED INSTABILITY SAFETY FLOOR — ESI 2 ESCALATION
+        # =================================================================
+        # If the text contains instability signals (stroke symptoms, etc.)
+        # and the case is currently ESI 3+, escalate to ESI 2.
+        # =================================================================
+        if final_level > 2:
+            complaint_lower = _normalize_guardrail_text(complaint or "")
+            instability_matches = [
+                sig for sig in INSTABILITY_SIGNALS if sig in complaint_lower
+            ]
+            # Filter out weak/ambiguous signals
+            strong_instability = [
+                m for m in instability_matches
+                if m not in ("tia", "spo2", "transferred to", "was transferred", "transfer from")
+            ]
+            # Some signals are definitive ESI 2 on their own (no threshold needed)
+            DEFINITIVE_ESI2_SIGNALS = frozenset({
+                "open fracture", "compound fracture", "bone exposed",
+                "open tibia", "open femur", "open humerus",
+                "open left tibia", "open right tibia",
+                "open left femur", "open right femur",
+                "acute stroke", "facial droop", "hemiplegia", "hemiparesis",
+                "flaccid", "gaze deviation",
+                "sepsis", "septic",
+                "anaphylaxis", "anaphylactic",
+                "dissection", "aortic dissection",
+                "testicular torsion",
+            })
+            has_definitive = any(m in DEFINITIVE_ESI2_SIGNALS for m in strong_instability)
+
+            if has_definitive or len(strong_instability) >= 2:
+                final_level = 2
+                top_signals = strong_instability[:3]
+                modifiers.append(
+                    f"⚠️ إشارات عدم استقرار: {', '.join(top_signals)} / "
+                    f"Instability signals: {', '.join(top_signals)} → ESI 2"
+                )
 
         # Offline fallback safety policy for unrecognized complaints.
         requires_review = False
@@ -2566,7 +3622,7 @@ class DeterministicTriageEngine:
             if alert_text:
                 all_alerts_en.append(f"⚠️ {alert_text}")
 
-        if category_info.esi_level <= 2:
+        if category_level <= 2:
             all_alerts_ar.append(f"⚠️ {category_info.name_ar}")
             all_alerts_en.append(f"⚠️ {category_info.name_en}")
         

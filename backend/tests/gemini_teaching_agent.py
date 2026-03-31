@@ -83,7 +83,7 @@ class GeminiTeachingAgent:
             raise ValueError("GEMINI_API_KEY not found in environment")
         
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-2.0-flash')
+        self.model = genai.GenerativeModel('gemini-2.5-flash')
         
         # Triage engine (will be recreated after keyword updates)
         self.engine = DeterministicTriageEngine()

@@ -1,0 +1,122 @@
+{
+  "dataset_summary": {
+    "triage_path": "/Users/ahmedzayed/Projects/safe-triage-project/mimic-iv-ed-2.2/ed/triage.csv.gz",
+    "rows_total": 425087,
+    "non_null_chiefcomplaint": 425065,
+    "non_null_acuity": 418100,
+    "usable_rows": 418084,
+    "unique_complaint_buckets": 15209,
+    "acuity_distribution": {
+      "1": 24015,
+      "2": 139407,
+      "3": 225061,
+      "4": 28502,
+      "5": 1099
+    }
+  },
+  "sample_summary": {
+    "requested_cases": 200,
+    "selected_cases": 200,
+    "seed": 42,
+    "max_per_complaint_bucket": 0,
+    "level_targets": {
+      "1": 40,
+      "2": 40,
+      "3": 40,
+      "4": 40,
+      "5": 40
+    },
+    "level_selected": {
+      "1": 40,
+      "2": 40,
+      "3": 40,
+      "4": 40,
+      "5": 40
+    },
+    "top_complaint_buckets": [
+      [
+        "dizziness",
+        6
+      ],
+      [
+        "suture removal",
+        6
+      ],
+      [
+        "mvc",
+        5
+      ],
+      [
+        "chest pain",
+        5
+      ],
+      [
+        "etoh",
+        5
+      ],
+      [
+        "headache",
+        4
+      ],
+      [
+        "altered mental status",
+        4
+      ],
+      [
+        "dyspnea",
+        4
+      ],
+      [
+        "s",
+        4
+      ],
+      [
+        "abd pain",
+        4
+      ],
+      [
+        "back pain",
+        4
+      ],
+      [
+        "hypotension",
+        3
+      ],
+      [
+        "n",
+        3
+      ],
+      [
+        "allergic reaction",
+        3
+      ],
+      [
+        "palpitations",
+        3
+      ],
+      [
+        "cough",
+        3
+      ],
+      [
+        "neck pain",
+        3
+      ],
+      [
+        "finger laceration",
+        3
+      ],
+      [
+        "med refill",
+        3
+      ],
+      [
+        "unresponsive",
+        2
+      ]
+    ]
+  },
+  "artifacts": {
+    "sample_csv": "/Users/ahmedzayed/Projects/safe-triage-project/backend/tests/benchmark_outputs/mimic_replay_smoke_20260330_191927.sample.csv"
+  }
+}
