@@ -79,7 +79,7 @@ DEFAULT_KEYWORDS = {
         "respiratory_arrest": {
             "keywords": [
                 # English - PHASE 2: Added intubation/airway
-                "not breathing", "stopped breathing", "apnea", "respiratory arrest",
+                "not breathing", "stopped breathing", "apneic", "apnea episode", "respiratory arrest",
                 "respiratory failure", "intubation", "needs tube", "needs intubation",
                 "bag valve mask", "bvm", "airway obstruction", "blue face",
                 "cyanosis", "cyanotic",

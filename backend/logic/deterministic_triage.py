@@ -328,7 +328,7 @@ INSTABILITY_SIGNALS = [
     "hr 1", "rapid pulse", "racing heart",
     # Respiratory compromise
     "respiratory distress", "can't breathe", "cannot breathe",
-    "shortness of breath at rest", "spo2", "oxygen saturation",
+    "shortness of breath at rest", "low spo2", "spo2 drop", "oxygen desaturation",
     "hypoxia", "hypoxic", "tachypnea", "breathing fast",
     # Neurological
     "altered", "unresponsive", "unconscious", "not responding",
@@ -378,7 +378,7 @@ INSTABILITY_SIGNALS = [
     "vaginal bleeding", "bleeding in pregnancy", "pregnant and bleeding",
     "bleeding while pregnant", "obstetric bleeding", "antepartum bleeding",
     "placenta", "miscarriage", "ectopic bleeding",
-    # Psychiatric emergency
+    # Psychiatric / toxicology emergency
     "suicide attempt", "overdose", "self harm", "ingested pills",
     # Psychiatric emergency — suicidal ideation with plan
     "suicidal ideation", "suicidal with plan", "plan to harm",
@@ -489,7 +489,6 @@ LIFE_THREAT_SIGNALS = [
     "caustic",
     "drain cleaner",
     "drooling",
-    "overdose",
     "intentional overdose",
     "toxic ingestion",
     # Seizure
@@ -509,7 +508,6 @@ LIFE_THREAT_SIGNALS = [
     "saddle embolus",
     "acute worsening dyspnea",
     "acute worsening shortness",
-    "acute exacerbation",
     "acute decompensation",
 ]
 
@@ -1268,7 +1266,10 @@ class ESI5Criteria:
 
         if age < 18 or age > 65:
             return {"eligible": False, "reason": "age_out_of_range", "recommended_esi": 4}
-        if news2_plus_total > 0:
+        # NEWS2 ≤ 1 is acceptable for ESI 5 — a single point from a borderline
+        # vital (e.g., temp 37.6°C) is not clinically significant for non-acute
+        # presentations like medication refills or suture removals.
+        if news2_plus_total > 1:
             return {"eligible": False, "reason": "abnormal_vitals", "recommended_esi": 4}
         if pain_score > 2:
             return {"eligible": False, "reason": "significant_pain", "recommended_esi": 4}
@@ -1973,8 +1974,42 @@ class AISymptomClassifier:
         text_lower = text.lower()
         normalized_text = text_lower.replace("أ", "ا")
 
+        # Strip negated phrases to prevent false keyword matches.
+        # Clinical vignettes contain "denies X, Y, Z" where X/Y/Z should
+        # not trigger keyword classification.
+        #
+        # IMPORTANT: We only strip known benign denial terms, NOT
+        # everything to the sentence boundary.  A greedy sentence-level
+        # strip would delete true-positive symptoms that follow a comma
+        # (e.g., "denies fever, sudden testicular pain" must keep the
+        # high-risk phrase).
+        _DENIED_TERMS = (
+            r"(?:fever|cough|chills|nausea|vomiting|diarrhea|headache|"
+            r"rash|bleeding|bloody stools|chest pain|abdominal pain|"
+            r"shortness of breath|drainage|weight loss|weight changes|"
+            r"dysuria|hematuria|pain|swelling)"
+        )
+        # Match "denies <term>" and optional ", <term>" continuations
+        _NEGATION_RE = re.compile(
+            r'\b(?:denies?|negative for)\s+'
+            + _DENIED_TERMS
+            + r'(?:\s*,\s*' + _DENIED_TERMS + r')*'
+            + r'(?:\s*,?\s*(?:and|or)\s+' + _DENIED_TERMS + r')?',
+            re.IGNORECASE,
+        )
+        # Handle "reported no <benign term>" and "no <benign term>"
+        _NO_BENIGN_RE = re.compile(
+            r'\b(?:reported no|no)\s+(?:pain|fever|cough|bleeding|vomiting|nausea|headache|diarrhea|rash|swelling)\b'
+        )
+        normalized_text = _NEGATION_RE.sub('', normalized_text)
+        normalized_text = _NO_BENIGN_RE.sub('', normalized_text)
+        text_lower = _NEGATION_RE.sub('', text_lower)
+        text_lower = _NO_BENIGN_RE.sub('', text_lower)
+
         # Guardrail: abdominal pain + fever is a high-risk combination (ESI 2 pathway).
-        fever_tokens = ["سخونية", "حمى", "حرارة", "fever", "temp", "high fever"]
+        # NOTE: "temp" removed — it false-positives on "temperature 98.3" in
+        # clinical vignettes.  Use explicit fever terms only.
+        fever_tokens = ["سخونية", "حمى", "حرارة", "fever", "febrile", "high fever"]
         abdominal_tokens = ["بطني", "وجع بطن", "الم بطن", "ألم بطن", "stomach pain", "abdominal pain", "مغص"]
         if any(token in normalized_text for token in fever_tokens) and any(
             token in normalized_text for token in abdominal_tokens
@@ -2055,7 +2090,7 @@ class AISymptomClassifier:
             "active_seizure": ["seizure", "تشنج", "صرع", "بيترعش", "تشنجات"],
             "choking": ["choking", "شرقان", "حاجة في زوره", "مش قادر يبلع", "شرقت", "شرق", 
                        "اختناق", "مش قادرة تاخد نفس", "حاجة واقفة في زوره"],
-            "severe_trauma": ["gunshot", "stab", "طعن", "رصاص", "حادثة", "accident", "اتضرب"],
+            "severe_trauma": ["gunshot", "stab wound", "stabbed", "stabbing", "طعن", "رصاص", "حادثة", "accident", "اتضرب"],
             "anaphylaxis": ["anaphylaxis", "صدمة تحسسية", "حساسية شديدة", "شفايفه ورمت"],
             "poisoning_overdose": ["overdose", "poison", "تسمم", "جرعة زيادة", "أخد دوا كتير", 
                                   "بلع دوا", "شرب دوا", "أخد حبوب كتير", "جرعة زايدة"],
@@ -2107,9 +2142,13 @@ class AISymptomClassifier:
                     return category
         
         # Level 3 keywords
+        # NOTE: order matters — specific categories before broad ones.
+        # "abscess" must precede "bleeding" to prevent perianal/rectal
+        # abscess vignettes from matching moderate_bleeding via "bloody".
         level3_keywords = {
-            "abdominal_pain_moderate": ["abdominal pain", "stomach pain", "ألم بطن", "بطني بتوجعني", 
-                                        "معدتي", "مغص", "وجع بطن"],
+            "abdominal_pain_moderate": ["abdominal pain", "stomach pain", "abscess",
+                                        "ألم بطن", "بطني بتوجعني",
+                                        "معدتي", "مغص", "وجع بطن", "خراج"],
             "fever_with_symptoms": ["fever", "سخونية", "حرارة", "سخن"],
             "vomiting_dehydration": ["vomiting", "بيرجع", "استفراغ", "ترجيع"],
             "moderate_bleeding": ["bleeding", "بينزف", "نزيف", "دم"],
@@ -2148,7 +2187,7 @@ class AISymptomClassifier:
         level5_keywords = {
             "prescription_refill": ["refill", "prescription", "روشتة", "تجديد", "الدوا خلص", "عايز دوا"],
             "medical_certificate": ["certificate", "تقرير", "شهادة", "إجازة مرضية"],
-            "suture_removal": ["remove stitches", "فك غرز", "فك الغرز"],
+            "suture_removal": ["remove stitches", "suture removal", "فك غرز", "فك الغرز"],
             "chronic_stable": ["follow up", "متابعة", "كشف"],
             "minor_complaint": ["check up", "فحص", "اطمن"],
         }
@@ -2962,7 +3001,7 @@ class DeterministicTriageEngine:
         category_requires_immediate_intervention = category_info.requires_immediate_intervention
 
         ai_guardrail_reasons: List[str] = []
-        if extraction_method == "gemini_online":
+        if extraction_method in ("gemini_online", "keyword_offline", "egybert_offline"):
             ai_proposed_esi = 1 if category_requires_immediate_intervention else category_level
             guarded_esi, ai_guardrail_reasons = apply_safety_guardrails(complaint, category, ai_proposed_esi)
             ceiling_esi, ceiling_reason = apply_severity_ceiling(complaint, guarded_esi)
@@ -3193,10 +3232,53 @@ class DeterministicTriageEngine:
             modifiers.append("مسن مع ألم صدر / Elderly with chest pain")
         
         # ===== PAIN SCORE MODIFIER =====
-        if vitals.pain_score and vitals.pain_score >= 8:
-            modifier_level = min(modifier_level, 2)
+        # ESI v4: Severe pain (≥8/10) triggers ESI 2 EXCEPT for isolated
+        # musculoskeletal/extremity complaints where high pain scores are
+        # common and do not indicate a high-risk situation.
+        # Reference: ESI v4 Handbook, Decision Point B — "severe pain/distress"
+        # applies to conditions like chest pain, abdominal pain, headache,
+        # NOT isolated extremity injuries (wrist, ankle, foot, knee pain).
+        _EXTREMITY_CATEGORIES = frozenset({
+            "mild_pain", "minor_trauma", "fracture_deformity",
+            "back_pain_chronic", "laceration_simple",
+        })
+        _EXTREMITY_CC_TOKENS = (
+            "wrist", "ankle", "foot", "knee", "elbow", "finger",
+            "toe", "hand", "arm", "leg", "shoulder", "hip",
+        )
+        complaint_lower_for_pain = (complaint or "").lower()
+        is_extremity = (
+            category in _EXTREMITY_CATEGORIES
+            and any(tok in complaint_lower_for_pain for tok in _EXTREMITY_CC_TOKENS)
+        )
+        if vitals.pain_score and vitals.pain_score >= 8 and not is_extremity:
+            # Pain ≥8 with instability signals → ESI 2 (emergent).
+            # Pain ≥8 without instability signals → ESI 3 (urgent).
+            # This prevents over-triage of stable patients with high pain
+            # (e.g., pelvic pain 9/10 with normal vitals → ESI 3, not 2).
+            complaint_for_pain_check = _normalize_guardrail_text(complaint or "")
+            has_pain_instability = _contains_any(complaint_for_pain_check, INSTABILITY_SIGNALS)
+            if has_pain_instability or vitals.pain_score >= 10:
+                modifier_level = min(modifier_level, 2)
+            else:
+                modifier_level = min(modifier_level, 3)
             modifiers.append(f"ألم شديد {vitals.pain_score}/10 / Severe pain")
         
+        # ===== MODERATE PAIN WITH SWELLING MODIFIER =====
+        # Pain ≥7 with swelling suggests need for imaging (DVT, fracture,
+        # infection) → 2+ resources → ESI 3 minimum.
+        _SWELLING_TOKENS = ("swelling", "edema", "swollen", "ورم", "تورم", "وارم")
+        if (
+            vitals.pain_score and vitals.pain_score >= 7
+            and category in ("mild_pain", "minor_trauma")
+            and any(tok in complaint_lower_for_pain for tok in _SWELLING_TOKENS)
+        ):
+            modifier_level = min(modifier_level, 3)
+            modifiers.append(
+                f"ألم {vitals.pain_score}/10 مع تورم - يحتاج تصوير / "
+                f"Pain {vitals.pain_score}/10 with swelling - imaging likely needed"
+            )
+
         # ===== CARDIAC HISTORY MODIFIER =====
         if patient_data.get('history_cardiac') and category in [
             "chest_pain_cardiac", "chest_pain_noncardiac", "respiratory_distress"
@@ -3321,6 +3403,12 @@ class DeterministicTriageEngine:
                 else:
                     final_level = 5  # Non-urgent - no resources
                 modifiers.append("بدون موارد طوارئ / No ED resources needed")
+
+            # Enforce modifier ceiling: if clinical modifiers indicate a
+            # higher acuity (e.g., pain+swelling → ESI 3), the resource
+            # prediction should not override to a lower acuity.
+            if modifier_level < final_level:
+                final_level = modifier_level
 
             if final_level == 5:
                 esi5_check = ESI5Criteria.is_eligible(
