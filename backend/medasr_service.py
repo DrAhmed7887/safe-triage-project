@@ -46,18 +46,17 @@ if USE_VERTEX_SPEECH:
     except Exception as e:
         print(f"[ASR] WARNING: google-cloud-speech not available: {e}")
 
-# Optional: Google Gemini API (google-genai)
+# Optional: Google Gemini API (google-generativeai)
 api_key = os.getenv("GEMINI_API_KEY")
 genai = None
-client = None
 try:
-    from google import genai as _genai
+    import google.generativeai as _genai
     genai = _genai
 except Exception as e:
-    print(f"[Gemini] WARNING: google-genai not available: {e}")
+    print(f"[Gemini] WARNING: google-generativeai not available: {e}")
 
 if api_key and genai:
-    client = genai.Client(api_key=api_key)
+    genai.configure(api_key=api_key)
     print("[Gemini] API configured")
 elif not api_key:
     print("[Gemini] WARNING: No API key found")
@@ -79,7 +78,7 @@ class MedASRService:
             except Exception as e:
                 print(f"[ASR] Failed to init Speech-to-Text: {e}")
 
-        if not self.available and client is not None:
+        if not self.available and genai is not None and api_key:
             self.provider = "gemini"
             self.available = True
             print("[ASR] Using Gemini multimodal")
@@ -317,33 +316,22 @@ class MedASRService:
         return re.fullmatch(r"[a-zA-Z\\s\\.,!?'-]+", cleaned) is not None
 
     def _transcribe_with_gemini(self, audio_path: str, content_type: Optional[str] = None) -> dict:
-        if not client:
+        if not genai:
             return {"success": False, "error": "Gemini API not configured"}
         try:
             with open(audio_path, "rb") as f:
                 audio_data = f.read()
 
             mime_type = content_type or "audio/webm"
-            audio_b64 = base64.b64encode(audio_data).decode("utf-8")
 
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=[
-                    {
-                        "parts": [
-                            {
-                                "inline_data": {
-                                    "mime_type": mime_type,
-                                    "data": audio_b64,
-                                }
-                            },
-                            {
-                                "text": "Transcribe this audio exactly. Detect whether it is Arabic or English and return the transcription in that same language. Return ONLY the transcription."
-                            },
-                        ]
-                    }
-                ],
-            )
+            model = genai.GenerativeModel("gemini-2.5-flash")
+            response = model.generate_content([
+                {
+                    "mime_type": mime_type,
+                    "data": audio_data,
+                },
+                "Transcribe this audio exactly. Detect whether it is Arabic or English and return the transcription in that same language. Return ONLY the transcription.",
+            ])
 
             transcription = response.text.strip()
             return {"success": True, "transcription": transcription}
