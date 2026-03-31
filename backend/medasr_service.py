@@ -1,3 +1,4 @@
+import base64
 import os
 import re
 from typing import Optional, List, Tuple
@@ -322,18 +323,25 @@ class MedASRService:
             with open(audio_path, "rb") as f:
                 audio_data = f.read()
 
-            mime_type = content_type or "audio/wav"
+            mime_type = content_type or "audio/webm"
+            audio_b64 = base64.b64encode(audio_data).decode("utf-8")
 
             response = client.models.generate_content(
-                model="gemini-2.0-flash",
+                model="gemini-2.5-flash",
                 contents=[
                     {
-                        "inline_data": {
-                            "mime_type": mime_type,
-                            "data": audio_data,
-                        }
-                    },
-                    "Transcribe this audio exactly. Detect whether it is Arabic or English and return the transcription in that same language. Return ONLY the transcription.",
+                        "parts": [
+                            {
+                                "inline_data": {
+                                    "mime_type": mime_type,
+                                    "data": audio_b64,
+                                }
+                            },
+                            {
+                                "text": "Transcribe this audio exactly. Detect whether it is Arabic or English and return the transcription in that same language. Return ONLY the transcription."
+                            },
+                        ]
+                    }
                 ],
             )
 
