@@ -54,7 +54,10 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 DEFAULT_TRIAGE_PATH = ROOT_DIR / "mimic-iv-ed-2.2" / "ed" / "triage.csv.gz"
+DEFAULT_EDSTAYS_PATH = ROOT_DIR / "mimic-iv-ed-2.2" / "ed" / "edstays.csv.gz"
+DEFAULT_VITALSIGN_PATH = ROOT_DIR / "mimic-iv-ed-2.2" / "ed" / "vitalsign.csv.gz"
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parent / "benchmark_outputs"
+DEFAULT_PATIENTS_PATH = ROOT_DIR / "mimic-iv-ed-2.2" / "patients.csv.gz"
 NON_INFORMATIVE_COMPLAINT_TOKENS = {
     "s",
     "p",
@@ -72,6 +75,11 @@ class ReplayCase:
     complaint_bucket: str
     actual_esi: int
     vitals: Dict[str, Any]
+    gender: Optional[str] = None           # From edstays: "F" or "M"
+    age: Optional[float] = None             # From patients: anchor_age (real age)
+    arrival_transport: Optional[str] = None  # From edstays: AMBULANCE, WALK IN, etc.
+    disposition: Optional[str] = None        # From edstays: ADMITTED, HOME, etc.
+    worst_vitals: Optional[Dict[str, Any]] = None  # From vitalsign: most abnormal readings
 
 
 def parse_args() -> argparse.Namespace:
@@ -129,6 +137,29 @@ def parse_args() -> argparse.Namespace:
         "--tag",
         default=None,
         help="Optional custom suffix for output filenames",
+    )
+    parser.add_argument(
+        "--enrich",
+        action="store_true",
+        help="Join edstays.csv + vitalsign.csv for real gender and worst vitals",
+    )
+    parser.add_argument(
+        "--edstays-path",
+        type=Path,
+        default=DEFAULT_EDSTAYS_PATH,
+        help="Path to MIMIC-IV-ED edstays.csv.gz",
+    )
+    parser.add_argument(
+        "--vitalsign-path",
+        type=Path,
+        default=DEFAULT_VITALSIGN_PATH,
+        help="Path to MIMIC-IV-ED vitalsign.csv.gz",
+    )
+    parser.add_argument(
+        "--patients-path",
+        type=Path,
+        default=DEFAULT_PATIENTS_PATH,
+        help="Path to MIMIC-IV core patients.csv.gz (hosp module) for real anchor_age",
     )
     return parser.parse_args()
 
@@ -189,6 +220,230 @@ def normalize_bucket(chief_complaint: str) -> str:
     if informative_tokens:
         return " ".join(informative_tokens[:4])
     return " ".join(tokens[:4]) or "unknown"
+
+
+def load_edstays_lookup(edstays_path: Path) -> Dict[str, Dict[str, str]]:
+    """Build stay_id -> {subject_id, gender, arrival_transport, disposition} lookup from edstays."""
+    lookup: Dict[str, Dict[str, str]] = {}
+    with gzip.open(edstays_path, "rt", newline="") as handle:
+        reader = csv.DictReader(handle)
+        for row in reader:
+            stay_id = row.get("stay_id", "").strip()
+            if stay_id:
+                lookup[stay_id] = {
+                    "subject_id": row.get("subject_id", "").strip(),
+                    "gender": row.get("gender", "").strip(),
+                    "arrival_transport": row.get("arrival_transport", "").strip(),
+                    "disposition": row.get("disposition", "").strip(),
+                }
+    return lookup
+
+
+def load_patients_lookup(patients_path: Path) -> Dict[str, float]:
+    """Build subject_id -> anchor_age lookup from MIMIC-IV core patients.csv.gz.
+
+    anchor_age is the patient's age at the anchor_year. Since MIMIC shifts dates
+    by a random offset within ±3 years of anchor_year, anchor_age is a close
+    approximation of the true age at ED visit — accurate enough for age-based
+    triage modifiers (pediatric <3, elderly >=65).
+    """
+    lookup: Dict[str, float] = {}
+    if not patients_path.exists():
+        return lookup
+    with gzip.open(patients_path, "rt", newline="") as handle:
+        reader = csv.DictReader(handle)
+        for row in reader:
+            subject_id = row.get("subject_id", "").strip()
+            anchor_age_raw = row.get("anchor_age", "").strip()
+            if subject_id and anchor_age_raw:
+                parsed = parse_float(anchor_age_raw)
+                if parsed is not None:
+                    lookup[subject_id] = parsed
+    return lookup
+
+
+def load_worst_vitals(vitalsign_path: Path, stay_ids: set) -> Dict[str, Dict[str, Any]]:
+    """Build stay_id -> worst (most abnormal) vitals from serial readings.
+
+    For triage, "worst" means the most clinically concerning value:
+    - HR: highest (tachycardia) or lowest (bradycardia) — whichever is farther from normal (80)
+    - RR: highest (tachypnea) or lowest — whichever is farther from normal (16)
+    - SpO2: lowest (desaturation)
+    - SBP: lowest (hypotension) — more dangerous than hypertension for acute triage
+    - Temp: highest (fever) or lowest (hypothermia) — whichever is farther from normal (37°C/98.6°F)
+    - Pain: highest
+    """
+    # Collect all readings per stay
+    readings: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+
+    with gzip.open(vitalsign_path, "rt", newline="") as handle:
+        reader = csv.DictReader(handle)
+        for row in reader:
+            stay_id = row.get("stay_id", "").strip()
+            if stay_id not in stay_ids:
+                continue
+            vitals = {
+                "hr": parse_float(row.get("heartrate", "")),
+                "rr": parse_float(row.get("resprate", "")),
+                "spo2": parse_float(row.get("o2sat", "")),
+                "temp": parse_float(row.get("temperature", "")),
+                "sbp": parse_float(row.get("sbp", "")),
+                "dbp": parse_float(row.get("dbp", "")),
+                "pain_score": parse_float(row.get("pain", "")),
+            }
+            readings[stay_id].append(vitals)
+
+    worst: Dict[str, Dict[str, Any]] = {}
+    for stay_id, all_readings in readings.items():
+        w: Dict[str, Any] = {}
+
+        # HR: most abnormal (farthest from 80 bpm)
+        hr_vals = [r["hr"] for r in all_readings if r["hr"] is not None]
+        if hr_vals:
+            w["hr"] = int(round(max(hr_vals, key=lambda v: abs(v - 80))))
+
+        # RR: most abnormal (farthest from 16)
+        rr_vals = [r["rr"] for r in all_readings if r["rr"] is not None]
+        if rr_vals:
+            w["rr"] = int(round(max(rr_vals, key=lambda v: abs(v - 16))))
+
+        # SpO2: lowest (worst desaturation)
+        spo2_vals = [r["spo2"] for r in all_readings if r["spo2"] is not None]
+        if spo2_vals:
+            w["spo2"] = min(spo2_vals)
+
+        # SBP: lowest (worst hypotension)
+        sbp_vals = [r["sbp"] for r in all_readings if r["sbp"] is not None]
+        if sbp_vals:
+            w["sbp"] = int(round(min(sbp_vals)))
+
+        # DBP: lowest
+        dbp_vals = [r["dbp"] for r in all_readings if r["dbp"] is not None]
+        if dbp_vals:
+            w["dbp"] = int(round(min(dbp_vals)))
+
+        # Temp: most abnormal (farthest from 98.6°F)
+        temp_vals = [r["temp"] for r in all_readings if r["temp"] is not None]
+        if temp_vals:
+            w["temp"] = max(temp_vals, key=lambda v: abs(v - 98.6))
+
+        # Pain: highest
+        pain_vals = [r["pain_score"] for r in all_readings if r["pain_score"] is not None]
+        if pain_vals:
+            w["pain_score"] = sanitize_pain_score(int(round(max(pain_vals))))
+
+        if w:
+            worst[stay_id] = w
+
+    return worst
+
+
+def enrich_cases(
+    cases: List[ReplayCase],
+    edstays_path: Path,
+    vitalsign_path: Path,
+    patients_path: Optional[Path] = None,
+) -> Tuple[List[ReplayCase], Dict[str, Any]]:
+    """Enrich replay cases with real demographics and worst vitals."""
+    print("Loading edstays lookup...")
+    edstays_lookup = load_edstays_lookup(edstays_path)
+    print(f"  Loaded {len(edstays_lookup):,} edstays records")
+
+    # Load patients table for real anchor_age if path provided and exists
+    patients_lookup: Dict[str, float] = {}
+    if patients_path is not None and patients_path.exists():
+        print(f"Loading patients age lookup from {patients_path.name}...")
+        patients_lookup = load_patients_lookup(patients_path)
+        print(f"  Loaded {len(patients_lookup):,} patient ages")
+    else:
+        print("  patients.csv.gz not found — age will use placeholder (--patients-path to enable)")
+
+    stay_ids = {case.stay_id for case in cases}
+    print("Loading worst vitals for sampled cases...")
+    worst_vitals_lookup = load_worst_vitals(vitalsign_path, stay_ids)
+    print(f"  Loaded worst vitals for {len(worst_vitals_lookup):,} stays")
+
+    enriched_gender = 0
+    enriched_age = 0
+    enriched_transport = 0
+    enriched_vitals = 0
+    enriched_cases: List[ReplayCase] = []
+
+    for case in cases:
+        ed_info = edstays_lookup.get(case.stay_id)
+        wv = worst_vitals_lookup.get(case.stay_id)
+
+        new_gender = None
+        new_age: Optional[float] = None
+        new_transport = None
+        new_disposition = None
+
+        if ed_info:
+            new_gender = ed_info.get("gender") or None
+            new_transport = ed_info.get("arrival_transport") or None
+            new_disposition = ed_info.get("disposition") or None
+            if new_gender:
+                enriched_gender += 1
+            if new_transport:
+                enriched_transport += 1
+            # Join to patients via subject_id for real age
+            subject_id = ed_info.get("subject_id", "")
+            if subject_id and subject_id in patients_lookup:
+                new_age = patients_lookup[subject_id]
+                enriched_age += 1
+
+        # Merge worst vitals with triage vitals: use worst where available
+        merged_vitals = dict(case.vitals)
+        if wv:
+            enriched_vitals += 1
+            for key, val in wv.items():
+                if val is not None:
+                    triage_val = case.vitals.get(key)
+                    if triage_val is None:
+                        merged_vitals[key] = val
+                    elif key == "spo2":
+                        merged_vitals[key] = min(val, triage_val)
+                    elif key in ("sbp", "dbp"):
+                        merged_vitals[key] = min(val, triage_val)
+                    elif key == "pain_score":
+                        merged_vitals[key] = max(val, triage_val)
+                    elif key == "hr":
+                        merged_vitals[key] = max(val, triage_val, key=lambda v: abs(v - 80))
+                    elif key == "rr":
+                        merged_vitals[key] = max(val, triage_val, key=lambda v: abs(v - 16))
+                    elif key == "temp":
+                        merged_vitals[key] = max(val, triage_val, key=lambda v: abs(v - 98.6))
+
+        enriched_cases.append(
+            ReplayCase(
+                stay_id=case.stay_id,
+                source_row=case.source_row,
+                complaint=case.complaint,
+                complaint_bucket=case.complaint_bucket,
+                actual_esi=case.actual_esi,
+                vitals=merged_vitals,
+                gender=new_gender,
+                age=new_age,
+                arrival_transport=new_transport,
+                disposition=new_disposition,
+                worst_vitals=wv,
+            )
+        )
+
+    enrich_summary = {
+        "enriched_gender": enriched_gender,
+        "enriched_age": enriched_age,
+        "enriched_transport": enriched_transport,
+        "enriched_worst_vitals": enriched_vitals,
+        "total_cases": len(cases),
+        "age_coverage_pct": round(enriched_age / len(cases) * 100, 1) if cases else 0.0,
+    }
+    print(
+        f"  Enriched: {enriched_gender} genders, {enriched_age} ages "
+        f"({enrich_summary['age_coverage_pct']}%), {enriched_transport} transports, "
+        f"{enriched_vitals} worst vitals"
+    )
+    return enriched_cases, enrich_summary
 
 
 def load_replay_cases(triage_path: Path) -> Tuple[List[ReplayCase], Dict[str, Any]]:
@@ -438,7 +693,7 @@ def run_replay(
     os.environ.setdefault("DISABLE_RAG", "true")
     engine = DeterministicTriageEngine(use_ai=False)
 
-    gender_value = Gender.MALE if default_gender == "male" else Gender.FEMALE
+    default_gender_value = Gender.MALE if default_gender == "male" else Gender.FEMALE
 
     predictions: List[Dict[str, Any]] = []
     failures: List[Dict[str, Any]] = []
@@ -451,13 +706,29 @@ def run_replay(
 
     for case in cases:
         try:
-            patient = PatientInput(
-                age=default_age,
-                gender=gender_value,
-                chief_complaint_text=case.complaint,
-                vitals=Vitals(**case.vitals),
-                consciousness="A",
-            )
+            # Use real gender from edstays if available
+            if case.gender == "F":
+                case_gender = Gender.FEMALE
+            elif case.gender == "M":
+                case_gender = Gender.MALE
+            else:
+                case_gender = default_gender_value
+
+            # Use ambulance arrival as a signal (arrived_by_ambulance field)
+            arrived_by_ambulance = (case.arrival_transport or "").upper() == "AMBULANCE"
+
+            patient_kwargs: Dict[str, Any] = {
+                "age": case.age if case.age is not None else default_age,
+                "gender": case_gender,
+                "chief_complaint_text": case.complaint,
+                "vitals": Vitals(**case.vitals),
+                "consciousness": "A",
+            }
+            # Only pass arrived_by_ambulance if the engine supports it
+            if arrived_by_ambulance:
+                patient_kwargs["arrived_by_ambulance"] = True
+
+            patient = PatientInput(**patient_kwargs)
             result = engine.evaluate(patient)
             predicted = int(getattr(result.level, "value", result.level))
             exact = predicted == case.actual_esi
@@ -493,6 +764,9 @@ def run_replay(
                     "critical_under_triage": critical_under,
                     "label_en": getattr(result, "label_en", ""),
                     "extraction_method": getattr(result, "extraction_method", ""),
+                    "gender": case.gender or "",
+                    "arrival_transport": case.arrival_transport or "",
+                    "disposition": case.disposition or "",
                 }
             )
         except Exception as exc:  # pragma: no cover - runtime-dependent
@@ -524,11 +798,7 @@ def run_replay(
             for actual, counter in sorted(confusion.items())
         },
         "top_miss_buckets": top_miss_buckets(predictions),
-        "notes": [
-            "Replay used complaint text and triage vitals from MIMIC-IV-ED.",
-            "Age/gender were neutral placeholders because the local ED extract does not include demographics.",
-            "This is suitable for retrospective replay benchmarking, not for claiming prospective clinical validation.",
-        ],
+        "notes": _build_replay_notes(cases),
         "failures_preview": failures[:20],
     }
     return {
@@ -536,6 +806,36 @@ def run_replay(
         "predictions": predictions,
         "failures": failures,
     }
+
+
+def _build_replay_notes(cases: Iterable[ReplayCase]) -> List[str]:
+    cases_list = list(cases) if not isinstance(cases, list) else cases
+    has_gender = any(c.gender is not None for c in cases_list)
+    has_real_age = any(c.age is not None for c in cases_list)
+    if has_gender and has_real_age:
+        return [
+            "Replay used complaint text from MIMIC-IV-ED triage table.",
+            "Real age (anchor_age) joined from MIMIC-IV core patients.csv.gz via edstays.subject_id. "
+            "Pediatric (<3) and elderly (>=65) age modifiers fully active.",
+            "Gender enriched from edstays.csv.gz.",
+            "Vitals merged: worst (most abnormal) reading from vitalsign.csv.gz combined with triage vitals.",
+            "Arrival transport from edstays used for arrived_by_ambulance flag.",
+            "This is suitable for retrospective replay benchmarking, not for claiming prospective clinical validation.",
+        ]
+    if has_gender:
+        return [
+            "Replay used complaint text from MIMIC-IV-ED triage table.",
+            "Demographics (gender) enriched from edstays.csv.gz. Age used neutral placeholder — "
+            "run with --patients-path to enable real age and activate age-based modifiers.",
+            "Vitals merged: worst (most abnormal) reading from vitalsign.csv.gz combined with triage vitals.",
+            "Arrival transport from edstays used for arrived_by_ambulance flag.",
+            "This is suitable for retrospective replay benchmarking, not for claiming prospective clinical validation.",
+        ]
+    return [
+        "Replay used complaint text and triage vitals from MIMIC-IV-ED.",
+        "Age/gender were neutral placeholders because the local ED extract does not include demographics.",
+        "This is suitable for retrospective replay benchmarking, not for claiming prospective clinical validation.",
+    ]
 
 
 def top_miss_buckets(predictions: Iterable[Dict[str, Any]]) -> List[Tuple[str, int]]:
@@ -572,7 +872,20 @@ def main() -> int:
         max_per_bucket=args.max_per_complaint_bucket,
     )
 
-    prefix = make_output_prefix(args.output_dir, args.tag, args.target_cases)
+    # Enrich with real demographics and worst vitals if requested
+    enrich_summary = None
+    if args.enrich:
+        sampled_cases, enrich_summary = enrich_cases(
+            sampled_cases,
+            edstays_path=args.edstays_path,
+            vitalsign_path=args.vitalsign_path,
+            patients_path=args.patients_path,
+        )
+
+    tag = args.tag
+    if tag is None and args.enrich:
+        tag = f"enriched-{args.target_cases}"
+    prefix = make_output_prefix(args.output_dir, tag, args.target_cases)
     sample_csv_path = prefix.with_suffix(".sample.csv")
     summary_json_path = prefix.with_suffix(".summary.json")
     predictions_csv_path = prefix.with_suffix(".predictions.csv")
@@ -586,6 +899,8 @@ def main() -> int:
             "sample_csv": str(sample_csv_path),
         },
     }
+    if enrich_summary:
+        payload["enrich_summary"] = enrich_summary
 
     if not args.sample_only:
         replay_result = run_replay(

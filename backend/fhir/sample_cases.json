@@ -1,0 +1,122 @@
+[
+  {
+    "patient": {
+      "patient_id": "MRN-2024-00147",
+      "patient_name": "Mohamed Ahmed",
+      "age": 58,
+      "gender": "male"
+    },
+    "input": {
+      "chief_complaint_text": "ألم شديد في الصدر مع ضيق في التنفس",
+      "chief_complaint_english": "Severe chest pain with shortness of breath",
+      "vitals": { "hr": 112, "rr": 24, "spo2": 91.0, "temp": 37.2, "sbp": 85, "dbp": 55, "pain_score": 9, "gcs": 15 },
+      "history_cardiac": true,
+      "arrived_by_ambulance": true,
+      "on_supplemental_o2": true,
+      "consciousness": "A"
+    },
+    "result": {
+      "level": 1, "esi_level": 1, "color_code": "red",
+      "label_en": "Resuscitation", "label_ar": "إنعاش",
+      "time_to_physician": "Immediate (0 min)",
+      "red_flags": ["chest_pain_cardiac_history", "hypotension", "tachycardia", "hypoxia"],
+      "icd10_code": "I21.9", "icd10_description": "Acute myocardial infarction, unspecified"
+    }
+  },
+  {
+    "patient": {
+      "patient_id": "MRN-2024-00231",
+      "patient_name": "Fatma Hassan",
+      "age": 34,
+      "gender": "female"
+    },
+    "input": {
+      "chief_complaint_text": "صداع شديد من 3 أيام مع ترجيع",
+      "chief_complaint_english": "Severe headache for 3 days with vomiting",
+      "vitals": { "hr": 88, "rr": 18, "spo2": 98.0, "temp": 37.8, "sbp": 145, "dbp": 92, "pain_score": 8, "gcs": 15 },
+      "history_cardiac": false,
+      "arrived_by_ambulance": false,
+      "on_supplemental_o2": false,
+      "consciousness": "A"
+    },
+    "result": {
+      "level": 2, "esi_level": 2, "color_code": "orange",
+      "label_en": "Emergent", "label_ar": "طارئ",
+      "time_to_physician": "Within 10 minutes",
+      "red_flags": ["severe_headache", "hypertension"],
+      "icd10_code": "R51.9", "icd10_description": "Headache, unspecified"
+    }
+  },
+  {
+    "patient": {
+      "patient_id": "MRN-2024-00445",
+      "patient_name": "Omar Khaled",
+      "age": 5,
+      "gender": "male"
+    },
+    "input": {
+      "chief_complaint_text": "سخونية عالية وكحة من يومين",
+      "chief_complaint_english": "High fever and cough for 2 days",
+      "vitals": { "hr": 130, "rr": 28, "spo2": 96.0, "temp": 39.5, "sbp": 95, "dbp": 60, "pain_score": 3, "gcs": 15 },
+      "history_cardiac": false,
+      "arrived_by_ambulance": false,
+      "on_supplemental_o2": false,
+      "consciousness": "A"
+    },
+    "result": {
+      "level": 3, "esi_level": 3, "color_code": "yellow",
+      "label_en": "Urgent", "label_ar": "عاجل",
+      "time_to_physician": "Within 30 minutes",
+      "red_flags": ["pediatric_high_fever"],
+      "icd10_code": "J06.9", "icd10_description": "Acute upper respiratory infection, unspecified"
+    }
+  },
+  {
+    "patient": {
+      "patient_id": "MRN-2024-00512",
+      "patient_name": "Nadia Ibrahim",
+      "age": 27,
+      "gender": "female"
+    },
+    "input": {
+      "chief_complaint_text": "جرح في الإيد من السكينة",
+      "chief_complaint_english": "Hand laceration from knife",
+      "vitals": { "hr": 78, "rr": 16, "spo2": 99.0, "temp": 36.8, "sbp": 120, "dbp": 78, "pain_score": 5, "gcs": 15 },
+      "history_cardiac": false,
+      "arrived_by_ambulance": false,
+      "on_supplemental_o2": false,
+      "consciousness": "A"
+    },
+    "result": {
+      "level": 4, "esi_level": 4, "color_code": "green",
+      "label_en": "Less Urgent", "label_ar": "أقل إلحاحاً",
+      "time_to_physician": "Within 60 minutes",
+      "red_flags": [],
+      "icd10_code": "S61.9", "icd10_description": "Open wound of hand, unspecified"
+    }
+  },
+  {
+    "patient": {
+      "patient_id": "MRN-2024-00678",
+      "patient_name": "Youssef Ali",
+      "age": 22,
+      "gender": "male"
+    },
+    "input": {
+      "chief_complaint_text": "عايز تقرير طبي للشغل",
+      "chief_complaint_english": "Needs medical report for work",
+      "vitals": { "hr": 72, "rr": 14, "spo2": 99.0, "temp": 36.6, "sbp": 118, "dbp": 75, "pain_score": 0, "gcs": 15 },
+      "history_cardiac": false,
+      "arrived_by_ambulance": false,
+      "on_supplemental_o2": false,
+      "consciousness": "A"
+    },
+    "result": {
+      "level": 5, "esi_level": 5, "color_code": "blue",
+      "label_en": "Non-Urgent", "label_ar": "غير طارئ",
+      "time_to_physician": "Within 120 minutes",
+      "red_flags": [],
+      "icd10_code": "Z02.9", "icd10_description": "Encounter for administrative examination, unspecified"
+    }
+  }
+]

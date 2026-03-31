@@ -1,0 +1,59 @@
+{
+  "patient": {
+    "patient_id": "MRN-2024-00147",
+    "patient_name": "Mohamed Ahmed",
+    "age": 58,
+    "gender": "male"
+  },
+  "input": {
+    "chief_complaint_text": "ألم شديد في الصدر مع ضيق في التنفس",
+    "chief_complaint_english": "Severe chest pain with shortness of breath",
+    "vitals": {
+      "hr": 112,
+      "rr": 24,
+      "spo2": 91.0,
+      "temp": 37.2,
+      "sbp": 85,
+      "dbp": 55,
+      "pain_score": 9,
+      "gcs": 15,
+      "blood_glucose": null
+    },
+    "history_cardiac": true,
+    "history_stroke": false,
+    "immuno_compromised": false,
+    "arrived_by_ambulance": true,
+    "on_supplemental_o2": true,
+    "consciousness": "A"
+  },
+  "result": {
+    "level": 1,
+    "esi_level": 1,
+    "color_code": "red",
+    "label_en": "Resuscitation",
+    "label_ar": "إنعاش",
+    "description_en": "Immediate life-threatening condition requiring resuscitation",
+    "description_ar": "حالة تهدد الحياة فوراً وتحتاج إنعاش",
+    "action_en": "Immediate physician assessment, activate resuscitation team",
+    "action_ar": "تقييم طبيب فوري، تفعيل فريق الإنعاش",
+    "time_to_physician": "Immediate (0 min)",
+    "red_flags": ["chest_pain_cardiac_history", "hypotension", "tachycardia", "hypoxia"],
+    "reasoning_en": [
+      "ESI-1: Chest pain with cardiac history",
+      "NEWS2 score 11 (HIGH clinical risk)",
+      "Hemodynamic instability: SBP 85 mmHg"
+    ],
+    "confidence": "High",
+    "news2_override": true,
+    "safety_floors_applied": ["cardiac_chest_pain_floor"],
+    "icd10_code": "I21.9",
+    "icd10_description": "Acute myocardial infarction, unspecified",
+    "icd10_category": "Ischaemic heart diseases"
+  },
+  "metadata": {
+    "timestamp": "2026-03-31T14:30:00Z",
+    "system_version": "2.4.0",
+    "extraction_method": "gemini_online",
+    "hospital_id": "EGY-HOSP-001"
+  }
+}

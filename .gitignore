@@ -65,3 +65,24 @@ backend/egybert_model/*.safetensors
 
 # Legacy local-only files
 test_ai.py
+
+# MIMIC-IV data (PHI - never commit)
+mimic-iv-ed-2.2/
+mimic-iv-ext-triage-instruction-corpus-1.0.0/
+
+# Virtual environments
+.venv*/
+
+# Benchmark outputs (generated, large)
+backend/tests/benchmark_outputs/
+
+# Test patch data files
+english_ai_*.json
+mimic_*.json
+
+# Local presentation/doc files
+*.pptx
+landing-preview.html
+Screenshot*.png
+8043391978AZ.pdf
+SAFE.pdf
