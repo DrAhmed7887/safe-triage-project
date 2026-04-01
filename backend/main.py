@@ -4399,3 +4399,6 @@ def triage(data: dict):
     bundle = build_bundle(resources)
 
     return bundle
+@app.post("/export-system-wide")
+def export_system_wide():
+    return {"message": "Export endpoint placeholder"}
