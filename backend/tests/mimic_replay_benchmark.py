@@ -605,7 +605,8 @@ def apply_engine_fair_filter(cases: List[ReplayCase]) -> Tuple[List[ReplayCase],
 
     Excludes cases where the engine fundamentally lacks input signal:
     1. Complaint text resolves to 'unclear' (no keyword match → engine flying blind)
-    2. Fewer than 3 core vitals present (NEWS2 can't meaningfully score)
+    2. Fewer than 5 core vitals present (NEWS2 needs all vitals for accurate scoring;
+       missing vitals silently score as 0, biasing toward lower acuity)
 
     This filter requires importing the backend classification engine.
     """
@@ -633,7 +634,7 @@ def apply_engine_fair_filter(cases: List[ReplayCase]) -> Tuple[List[ReplayCase],
     for case in cases:
         # Check vitals completeness
         core_count = sum(1 for k in _CORE_VITAL_KEYS if case.vitals.get(k) is not None)
-        has_vitals = core_count >= 3
+        has_vitals = core_count >= 5  # require ALL 5 core vitals for clean benchmark
 
         # Check if engine can classify the complaint
         category = _engine.ai_classifier._fallback_keyword_match(case.complaint)
@@ -1071,27 +1072,25 @@ def write_predictions_csv(path: Path, predictions: Iterable[Dict[str, Any]]) -> 
 def main() -> int:
     args = parse_args()
     cases, dataset_summary = load_replay_cases(args.triage_path)
-    sampled_cases, sample_summary = sample_cases(
-        cases=cases,
-        target_cases=args.target_cases,
-        seed=args.seed,
-        max_per_bucket=args.max_per_complaint_bucket,
-    )
 
-    # Enrich with real demographics and worst vitals if requested
+    # ── Phase 0: Enrich BEFORE filtering so filters have vitals/demographics ──
     enrich_summary = None
-    if args.enrich or args.clean_only or args.clean_all_esi:
-        sampled_cases, enrich_summary = enrich_cases(
-            sampled_cases,
+    if args.enrich or args.clean_only or args.clean_all_esi or args.engine_fair:
+        cases, enrich_summary = enrich_cases(
+            cases,
             edstays_path=args.edstays_path,
             vitalsign_path=args.vitalsign_path,
             patients_path=args.patients_path,
         )
 
-    # Phase 2: heuristic filter — strip impossible label/presentation combos
+    # ── Phase 1: Apply ALL filters on the full pool BEFORE sampling ──────────
+    # This ensures ESI balance is preserved after filtering (previous approach
+    # sampled first, then filtered — destroying the balanced distribution).
+
+    # Heuristic filter — strip impossible label/presentation combos
     heuristic_filter_summary = None
     if args.heuristic_filter:
-        sampled_cases, heuristic_filter_summary = apply_heuristic_filter(sampled_cases)
+        cases, heuristic_filter_summary = apply_heuristic_filter(cases)
         removed = heuristic_filter_summary["total_in"] - heuristic_filter_summary["total_out"]
         print(
             f"Heuristic filter removed {removed} impossible cases "
@@ -1100,13 +1099,13 @@ def main() -> int:
             f"{heuristic_filter_summary['removed_esi5_critical_vitals']} ESI5-critical-vitals)"
         )
 
-    # Phase 1: clean filter — keep only outcome-confirmed cases
+    # Clean filter — keep only outcome-confirmed cases
     clean_filter_summary = None
     use_all_esi = args.clean_all_esi
     use_clean = args.clean_only or use_all_esi
 
     if use_clean:
-        sampled_cases, clean_filter_summary = apply_clean_filter(sampled_cases, all_esi=use_all_esi)
+        cases, clean_filter_summary = apply_clean_filter(cases, all_esi=use_all_esi)
         kept_by_level = clean_filter_summary.get("kept_by_level", {})
         level_str = ", ".join(f"ESI {k}={v}" for k, v in sorted(kept_by_level.items()))
         mode_label = "all-ESI" if use_all_esi else "critical+non-urgent"
@@ -1118,10 +1117,10 @@ def main() -> int:
             print("ERROR: No cases remain after clean filter. Check that disposition data is available.")
             return 1
 
-    # Engine-fair filter: only keep cases the engine can meaningfully evaluate
+    # Engine-fair filter — require classifiable complaint + all 5 core vitals
     engine_fair_summary = None
     if args.engine_fair:
-        sampled_cases, engine_fair_summary = apply_engine_fair_filter(sampled_cases)
+        cases, engine_fair_summary = apply_engine_fair_filter(cases)
         if not engine_fair_summary.get("skipped"):
             excluded = engine_fair_summary["total_in"] - engine_fair_summary["total_out"]
             print(
@@ -1131,6 +1130,14 @@ def main() -> int:
                 f"{engine_fair_summary['excluded_both']} both) "
                 f"from {engine_fair_summary['total_in']}"
             )
+
+    # ── Phase 2: Sample from the FILTERED pool (ESI balance preserved) ───────
+    sampled_cases, sample_summary = sample_cases(
+        cases=cases,
+        target_cases=args.target_cases,
+        seed=args.seed,
+        max_per_bucket=args.max_per_complaint_bucket,
+    )
 
     tag = args.tag
     if tag is None:
