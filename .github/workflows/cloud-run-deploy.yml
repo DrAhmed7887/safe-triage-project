@@ -102,12 +102,14 @@ jobs:
             --tag "${REVISION_TAG}" \
             --update-env-vars "PYTHONUNBUFFERED=1,GEMINI_API_KEY=${GEMINI_API_KEY},PROJECT_ID=${PROJECT_ID},FIREBASE_PROJECT_ID=${PROJECT_ID},ALERT_FRONTEND_URL=${FRONTEND_URL}" \
             --format='value(status.latestCreatedRevisionName)')"
-          candidate_url="$(gcloud run services describe "${SERVICE_NAME}" \
+          test -n "${deployed_revision}"
+          # Build the tagged URL deterministically. Cloud Run tagged URLs
+          # follow the pattern: https://{tag}---{service_url_without_scheme}
+          service_url="$(gcloud run services describe "${SERVICE_NAME}" \
             --region "${REGION}" \
             --project "${PROJECT_ID}" \
-            --format="value(status.traffic[?tag==\"${REVISION_TAG}\"].url)")"
-          test -n "${deployed_revision}"
-          test -n "${candidate_url}"
+            --format='value(status.url)')"
+          candidate_url="https://${REVISION_TAG}---${service_url#https://}"
           echo "Candidate revision: ${deployed_revision}"
           echo "Candidate URL: ${candidate_url}"
           echo "CANDIDATE_REVISION=${deployed_revision}" >> "${GITHUB_ENV}"
