@@ -23,6 +23,27 @@ MEDICAL_HINTS_AR = [
     "صداع",
     "دم في البراز",
     "انتحار",
+    # Egyptian dialect medical phrases
+    "حاسس بألم",
+    "مش قادر أمشي",
+    "رجلي بتوجعني",
+    "عندي كحة",
+    "بطني واجعاني",
+    "حاسس بضيق في التنفس",
+    "جسمي بيسخن",
+    "عندي إسهال",
+    "حاسس بوجع في صدري",
+    "رأسي بتوجعني",
+    "عندي حرقان في البول",
+    "حاسس بتنميل",
+    "عيني بتوجعني",
+    "ضهري بيوجعني",
+    "حاسس بغثيان",
+    "عندي ورم",
+    "مش قادر آكل",
+    "بنزف",
+    "حاسس بدوخة شديدة",
+    "عندي ألم في الكلى",
 ]
 
 MEDICAL_HINTS_EN = [
@@ -36,6 +57,16 @@ MEDICAL_HINTS_EN = [
     "headache",
     "blood in stool",
     "suicidal ideation",
+    "difficulty breathing",
+    "back pain",
+    "urinary tract infection",
+    "numbness",
+    "swelling",
+    "bleeding",
+    "fracture",
+    "trauma",
+    "allergic reaction",
+    "kidney pain",
 ]
 
 # Optional: Google Cloud Speech-to-Text
@@ -101,27 +132,15 @@ class MedASRService:
         if self.provider == "speech":
             requested_lang = (language_code or "").strip().lower()
             if requested_lang in {"auto", "auto-detect", "detect", "auto_detect"}:
-                ar_result = self._transcribe_with_speech(
+                # Single API call with ar-EG as primary + en-US as alternative
+                # Chirp 2 handles multi-language detection natively — no need for two calls
+                result = self._transcribe_with_speech(
                     audio_path,
                     "ar-EG",
                     content_type,
                     alternative_languages=["en-US"],
                 )
-                en_result = self._transcribe_with_speech(
-                    audio_path,
-                    "en-US",
-                    content_type,
-                    alternative_languages=["ar-EG"],
-                )
-
-                if ar_result.get("success") and not en_result.get("success"):
-                    return ar_result
-                if en_result.get("success") and not ar_result.get("success"):
-                    return en_result
-                if not ar_result.get("success") and not en_result.get("success"):
-                    return ar_result if ar_result.get("error") else en_result
-
-                return self._select_best_transcription(ar_result, en_result)
+                return result
 
             # Manual language selection: do NOT provide alternatives to avoid swaps
             return self._transcribe_with_speech(
@@ -308,13 +327,6 @@ class MedASRService:
         latin_chars = re.findall(r"[A-Za-z]", text)
         return len(latin_chars) / max(len(text), 1)
 
-    @staticmethod
-    def _looks_english(text: str) -> bool:
-        cleaned = (text or "").strip()
-        if not cleaned:
-            return False
-        return re.fullmatch(r"[a-zA-Z\\s\\.,!?'-]+", cleaned) is not None
-
     def _transcribe_with_gemini(self, audio_path: str, content_type: Optional[str] = None) -> dict:
         if not genai:
             return {"success": False, "error": "Gemini API not configured"}
@@ -330,10 +342,27 @@ class MedASRService:
                     "mime_type": mime_type,
                     "data": audio_data,
                 },
-                "Transcribe this audio exactly. Detect whether it is Arabic or English and return the transcription in that same language. Return ONLY the transcription.",
+                (
+                    "You are a medical transcription assistant in an Egyptian emergency department. "
+                    "Transcribe this audio EXACTLY as spoken — do NOT add, infer, or hallucinate words that were not said. "
+                    "The audio may be in Egyptian Arabic dialect (العامية المصرية), Modern Standard Arabic, or English. "
+                    "Common medical phrases include: صدري بيوجعني، مش قادر اتنفس، بطني بتوجعني، عندي سخونية. "
+                    "If the audio is unclear or silent, return exactly: [unclear audio]. "
+                    "Return ONLY the transcription text, nothing else."
+                ),
             ])
 
             transcription = response.text.strip()
+            # Guard against hallucinated transcriptions
+            if transcription.lower() in ("[unclear audio]", ""):
+                return {"success": False, "error": "Audio unclear — please speak closer to the microphone | الصوت غير واضح"}
+            # Heuristic: if audio is very short but transcription is very long, likely hallucinated
+            # WebM/Opus compresses to ~6-12 KB/s, so divide by ~8000 for rough seconds estimate
+            # (NOT 16000 which assumes raw PCM — compressed audio is much smaller per second)
+            audio_seconds = len(audio_data) / 8000  # rough estimate for compressed WebM/Opus
+            if audio_seconds < 2 and len(transcription) > 200:
+                print(f"[Gemini] WARNING: possible hallucination — ~{audio_seconds:.1f}s audio produced {len(transcription)} chars")
+                return {"success": False, "error": "Transcription unreliable — please try again | التفريغ غير موثوق — حاول مرة أخرى"}
             return {"success": True, "transcription": transcription}
         except Exception as e:
             print(f"[Gemini] ERROR: {str(e)}")

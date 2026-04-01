@@ -141,8 +141,18 @@ export default function TriageForm({ onResult }) {
     const [isRecording, setIsRecording] = useState(false);
     const [isTranscribing, setIsTranscribing] = useState(false);
     const [voiceLanguage, setVoiceLanguage] = useState('auto');
+    const [savedVoiceNotes, setSavedVoiceNotes] = useState([]);
+    const [recordingSeconds, setRecordingSeconds] = useState(0);
+    const [audioLevel, setAudioLevel] = useState(0);
+    const [pendingAudioBlob, setPendingAudioBlob] = useState(null);
+    const [pendingAudioUrl, setPendingAudioUrl] = useState(null);
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
+    const recordingTimerRef = useRef(null);
+    const audioContextRef = useRef(null);
+    const analyserRef = useRef(null);
+    const animationFrameRef = useRef(null);
+    const MAX_RECORDING_SECONDS = 60;
 
     // ==================== COMPUTED VALUES ====================
     
@@ -288,40 +298,126 @@ export default function TriageForm({ onResult }) {
     
     /**
      * Start audio recording for voice-to-text transcription
-     * Uses Web Audio API with Gemini AI backend
+     * Uses Web Audio API with noise suppression + echo cancellation for noisy ED environments
      */
     const startRecording = async () => {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            // Audio constraints optimized for noisy emergency department environments
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    noiseSuppression: true,
+                    echoCancellation: true,
+                    autoGainControl: true,
+                    channelCount: 1,
+                    sampleRate: 48000,
+                }
+            });
+
+            // Set up audio level visualization via Web Audio API
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const source = audioCtx.createMediaStreamSource(stream);
+            const analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 256;
+            analyser.smoothingTimeConstant = 0.5;
+            source.connect(analyser);
+            audioContextRef.current = audioCtx;
+            analyserRef.current = analyser;
+
+            const updateLevel = () => {
+                if (!analyserRef.current) return;
+                const data = new Uint8Array(analyserRef.current.frequencyBinCount);
+                analyserRef.current.getByteFrequencyData(data);
+                const avg = data.reduce((sum, v) => sum + v, 0) / data.length;
+                setAudioLevel(Math.min(avg / 128, 1)); // normalize 0-1
+                animationFrameRef.current = requestAnimationFrame(updateLevel);
+            };
+            updateLevel();
+
             mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
             audioChunksRef.current = [];
-            
+
             mediaRecorderRef.current.ondataavailable = (e) => {
                 if (e.data.size > 0) audioChunksRef.current.push(e.data);
             };
-            
-            mediaRecorderRef.current.onstop = async () => {
+
+            mediaRecorderRef.current.onstop = () => {
                 const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-                await transcribeAudio(audioBlob);
+                const url = URL.createObjectURL(audioBlob);
+                setPendingAudioBlob(audioBlob);
+                setPendingAudioUrl(url);
                 stream.getTracks().forEach(track => track.stop());
             };
-            
+
             mediaRecorderRef.current.start();
             setIsRecording(true);
+            setPendingAudioBlob(null);
+            setPendingAudioUrl(null);
+            setRecordingSeconds(0);
+
+            // Recording timer with auto-stop at MAX_RECORDING_SECONDS
+            recordingTimerRef.current = setInterval(() => {
+                setRecordingSeconds(prev => {
+                    if (prev + 1 >= MAX_RECORDING_SECONDS) {
+                        stopRecording();
+                        return MAX_RECORDING_SECONDS;
+                    }
+                    return prev + 1;
+                });
+            }, 1000);
         } catch (err) {
             setError('Microphone access denied. Please allow microphone permission. | تم رفض صلاحية الميكروفون. يرجى السماح بالوصول.');
         }
     };
 
     /**
-     * Stop recording and trigger transcription
+     * Stop recording — shows playback preview before transcription
      */
     const stopRecording = () => {
-        if (mediaRecorderRef.current && isRecording) {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
             mediaRecorderRef.current.stop();
-            setIsRecording(false);
         }
+        setIsRecording(false);
+        clearInterval(recordingTimerRef.current);
+        recordingTimerRef.current = null;
+        // Clean up audio level monitoring
+        if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+        if (audioContextRef.current) {
+            audioContextRef.current.close().catch(() => {});
+            audioContextRef.current = null;
+        }
+        analyserRef.current = null;
+        setAudioLevel(0);
     };
+
+    /**
+     * Submit pending audio for transcription (after playback preview)
+     */
+    const submitPendingAudio = async () => {
+        if (!pendingAudioBlob) return;
+        await transcribeAudio(pendingAudioBlob);
+        if (pendingAudioUrl) URL.revokeObjectURL(pendingAudioUrl);
+        setPendingAudioBlob(null);
+        setPendingAudioUrl(null);
+    };
+
+    /**
+     * Discard pending audio without transcribing
+     */
+    const discardPendingAudio = () => {
+        if (pendingAudioUrl) URL.revokeObjectURL(pendingAudioUrl);
+        setPendingAudioBlob(null);
+        setPendingAudioUrl(null);
+    };
+
+    // Cleanup timer and audio context on unmount
+    useEffect(() => {
+        return () => {
+            clearInterval(recordingTimerRef.current);
+            if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+            if (audioContextRef.current) audioContextRef.current.close().catch(() => {});
+            if (pendingAudioUrl) URL.revokeObjectURL(pendingAudioUrl);
+        };
+    }, []);
 
     /**
      * Send audio to backend for Gemini AI transcription
@@ -333,16 +429,25 @@ export default function TriageForm({ onResult }) {
             const formDataUpload = new FormData();
             formDataUpload.append('audio', audioBlob, 'recording.webm');
             formDataUpload.append('language', voiceLanguage || 'auto');
-            
+            formDataUpload.append('patient_id', formData.patient_id || '');
+            formDataUpload.append('save_recording', 'true');
+
             const response = await axios.post(`${API_URL}/transcribe`, formDataUpload);
-            
+
             if (response.data.success) {
                 setFormData(prev => ({
                     ...prev,
-                    chief_complaint_text: prev.chief_complaint_text 
-                        ? `${prev.chief_complaint_text} ${response.data.transcription}` 
+                    chief_complaint_text: prev.chief_complaint_text
+                        ? `${prev.chief_complaint_text} ${response.data.transcription}`
                         : response.data.transcription
                 }));
+                if (response.data.voice_note_id) {
+                    setSavedVoiceNotes(prev => [...prev, {
+                        id: response.data.voice_note_id,
+                        transcription: response.data.transcription,
+                        timestamp: new Date().toISOString(),
+                    }]);
+                }
             }
         } catch (err) {
             const backendDetail = err?.response?.data?.detail || err?.response?.data?.error;
@@ -815,26 +920,36 @@ export default function TriageForm({ onResult }) {
                         <label className="text-sm font-medium text-slate-700">
                             Describe symptoms | صف الأعراض
                         </label>
-                        <button 
-                            type="button" 
-                            onClick={isRecording ? stopRecording : startRecording} 
-                            disabled={isTranscribing}
-                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                                isRecording 
-                                    ? 'bg-red-500 text-white animate-pulse'
-                                    : isTranscribing 
-                                        ? 'bg-amber-100 text-amber-700'
-                                        : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
-                            }`}
-                        >
-                            {isTranscribing ? (
-                                <><Loader2 className="w-3.5 h-3.5 animate-spin" />Transcribing... | جاري التفريغ...</>
-                            ) : isRecording ? (
-                                <><MicOff className="w-3.5 h-3.5" />Stop | إيقاف</>
-                            ) : (
-                                <><Mic className="w-3.5 h-3.5" />Voice Input | إدخال صوتي</>
+                        <div className="flex items-center gap-2">
+                            {isRecording && (
+                                <span className="text-xs font-mono text-red-600 tabular-nums">
+                                    {Math.floor(recordingSeconds / 60).toString().padStart(2, '0')}:{(recordingSeconds % 60).toString().padStart(2, '0')}
+                                    <span className="text-red-400 ml-1">/ {Math.floor(MAX_RECORDING_SECONDS / 60)}:{(MAX_RECORDING_SECONDS % 60).toString().padStart(2, '0')}</span>
+                                </span>
                             )}
-                        </button>
+                            <button
+                                type="button"
+                                onClick={isRecording ? stopRecording : startRecording}
+                                disabled={isTranscribing || !!pendingAudioBlob}
+                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                                    isRecording
+                                        ? 'bg-red-500 text-white animate-pulse'
+                                        : isTranscribing
+                                            ? 'bg-amber-100 text-amber-700'
+                                            : pendingAudioBlob
+                                                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                                : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
+                                }`}
+                            >
+                                {isTranscribing ? (
+                                    <><Loader2 className="w-3.5 h-3.5 animate-spin" />Transcribing... | جاري التفريغ...</>
+                                ) : isRecording ? (
+                                    <><MicOff className="w-3.5 h-3.5" />Stop | إيقاف</>
+                                ) : (
+                                    <><Mic className="w-3.5 h-3.5" />Voice Input | إدخال صوتي</>
+                                )}
+                            </button>
+                        </div>
                     </div>
 
                     <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-600">
@@ -849,12 +964,60 @@ export default function TriageForm({ onResult }) {
                             <option value="en-US">🇬🇧 English | إنجليزي</option>
                         </select>
                     </div>
-                    
-                    {/* Recording Indicator */}
+
+                    {/* Recording Indicator with Audio Level */}
                     {isRecording && (
-                        <div className="mb-3 p-2.5 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700 text-sm">
-                            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                            Recording... Speak now | جاري التسجيل...
+                        <div className="mb-3 p-2.5 bg-red-50 border border-red-200 rounded-lg">
+                            <div className="flex items-center gap-2 text-red-700 text-sm mb-2">
+                                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                                Recording... Speak now | جاري التسجيل...
+                            </div>
+                            {/* Audio Level Meter */}
+                            <div className="flex items-center gap-2">
+                                <Mic className="w-3.5 h-3.5 text-red-400" />
+                                <div className="flex-1 h-2 bg-red-100 rounded-full overflow-hidden">
+                                    <div
+                                        className="h-full rounded-full transition-all duration-100"
+                                        style={{
+                                            width: `${Math.max(audioLevel * 100, 2)}%`,
+                                            backgroundColor: audioLevel > 0.7 ? '#ef4444' : audioLevel > 0.3 ? '#f59e0b' : '#22c55e',
+                                        }}
+                                    />
+                                </div>
+                                <span className="text-xs text-red-400 w-6 text-right">{Math.round(audioLevel * 100)}%</span>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Playback Preview — shown after recording, before transcription */}
+                    {pendingAudioBlob && !isRecording && !isTranscribing && (
+                        <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                            <p className="text-xs font-semibold text-blue-700 mb-2">
+                                Review recording before transcription | راجع التسجيل قبل التفريغ
+                            </p>
+                            <audio
+                                src={pendingAudioUrl}
+                                controls
+                                className="w-full h-8 mb-2"
+                                style={{ colorScheme: 'light' }}
+                            />
+                            <div className="flex gap-2">
+                                <button
+                                    type="button"
+                                    onClick={submitPendingAudio}
+                                    className="flex-1 flex items-center justify-center gap-1 px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-medium hover:bg-emerald-600 transition-colors"
+                                >
+                                    <ChevronRight className="w-3.5 h-3.5" />
+                                    Transcribe | تفريغ
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={discardPendingAudio}
+                                    className="flex items-center justify-center gap-1 px-3 py-1.5 bg-slate-200 text-slate-600 rounded-lg text-xs font-medium hover:bg-slate-300 transition-colors"
+                                >
+                                    Discard | تجاهل
+                                </button>
+                            </div>
                         </div>
                     )}
                     
@@ -869,6 +1032,25 @@ export default function TriageForm({ onResult }) {
                     <p className="text-xs text-slate-500 mt-2">
                         🎤 Voice transcription (Auto Arabic/English) | تفريغ صوتي تلقائي (عربي/إنجليزي)
                     </p>
+
+                    {savedVoiceNotes.length > 0 && (
+                        <div className="mt-3 p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg">
+                            <p className="text-xs font-semibold text-emerald-700 mb-1.5">
+                                Saved Voice Notes ({savedVoiceNotes.length}) | الملاحظات الصوتية المحفوظة
+                            </p>
+                            <ul className="space-y-1">
+                                {savedVoiceNotes.map((note, idx) => (
+                                    <li key={note.id || idx} className="text-xs text-emerald-800 flex items-start gap-1.5">
+                                        <span className="text-emerald-500 mt-0.5">🎙</span>
+                                        <span className="truncate" dir="auto">{note.transcription}</span>
+                                        <span className="text-emerald-400 whitespace-nowrap ml-auto">
+                                            {new Date(note.timestamp).toLocaleTimeString()}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </SectionCard>
 
                 {/* ===== SECTION 3: Vital Signs (NEWS2) ===== */}
