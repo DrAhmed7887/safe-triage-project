@@ -60,6 +60,32 @@ export default function LandingPage() {
         []
     );
 
+    const heroStats = useMemo(
+        () => [
+            {
+                value: '0/76',
+                label: 'ESI-1 Patients Missed',
+                qualifier: 'across 3 expert-validated benchmarks',
+            },
+            {
+                value: '0%',
+                label: 'Critical Under-triage',
+                qualifier: 'MIETIC + ESI Handbook (246 cases)',
+            },
+            {
+                value: '1,858',
+                label: 'Arabic Medical Terms',
+                qualifier: 'Egyptian dialect keywords',
+            },
+            {
+                value: '97.2%',
+                label: 'Exact ESI Match',
+                qualifier: 'MIETIC gold standard (35/36)',
+            },
+        ],
+        []
+    );
+
     const scrollToId = (id) => {
         setMenuOpen(false);
         const el = document.getElementById(id);
@@ -213,26 +239,16 @@ export default function LandingPage() {
 
                     <div className="st-container st-hero-stats-wrap">
                         <div className="st-hero-stats">
-                            <div className="st-hero-stat">
-                                <div className="st-num">0%</div>
-                                <div className="st-stat-label">Under-triage rate</div>
-                                <div className="st-qualifier">in 138 internal validation cases</div>
-                            </div>
-                            <div className="st-hero-stat">
-                                <div className="st-num">&lt;0.5s</div>
-                                <div className="st-stat-label">Response time</div>
-                                <div className="st-qualifier">warm start latency</div>
-                            </div>
-                            <div className="st-hero-stat">
-                                <div className="st-num">6,370</div>
-                                <div className="st-stat-label">SNOMED-CT concepts</div>
-                                <div className="st-qualifier">via UMLS Metathesaurus</div>
-                            </div>
-                            <div className="st-hero-stat">
-                                <div className="st-num">0.82-0.86</div>
-                                <div className="st-stat-label">Projected AUROC</div>
-                                <div className="st-qualifier">hybrid ESI + NEWS2 + AI model</div>
-                            </div>
+                            {heroStats.map((stat) => (
+                                <div key={stat.label} className="st-hero-stat">
+                                    <div className="st-num">{stat.value}</div>
+                                    <div className="st-stat-label">{stat.label}</div>
+                                    <div className="st-qualifier">{stat.qualifier}</div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="st-validation-banner">
+                            0 resuscitation patients missed across 76 expert-validated ESI-1 cases (MIETIC + ESI Handbook + KTAS) · Validated on 1,508 cases from US and Korean EDs · ESI v5 + NEWS2 hybrid · Matches Korean nurse safety on external KTAS dataset (2.9% vs 3.6% critical under-triage)
                         </div>
                     </div>
                 </section>
@@ -380,19 +396,55 @@ export default function LandingPage() {
                             </div>
 
                             <div className="st-panel">
-                                <h3>Why Hybrid Outperforms Single Systems</h3>
+                                <h3>Head-to-Head: SAFE-Triage vs Human Nurses</h3>
+                                <table className="st-table" aria-label="Human vs SAFE-Triage comparison table">
+                                    <thead>
+                                        <tr><th>Metric</th><th>Human Nurses</th><th>MIETIC (n=36)</th><th>ESI Handbook (n=210)</th><th>KTAS External (n=1,262)</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>ESI-1 Patients Missed</strong></td>
+                                            <td className="st-bad-cell">5–15%</td>
+                                            <td className="st-good-cell">0/14 (0%) ✓</td>
+                                            <td className="st-good-cell">0/36 (0%) ✓</td>
+                                            <td className="st-good-cell">0/26 (0%) ✓</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Exact ESI Match</td>
+                                            <td>61.3%</td>
+                                            <td className="st-good-cell">97.2% ✓</td>
+                                            <td>51.4%†</td>
+                                            <td>37.8%‡</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Within-1 Accuracy</td>
+                                            <td>82.9%</td>
+                                            <td className="st-good-cell">100.0% ✓</td>
+                                            <td className="st-good-cell">86.7% ✓</td>
+                                            <td className="st-good-cell">82.6% ✓</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Critical Under-triage</td>
+                                            <td className="st-bad-cell">5–15%</td>
+                                            <td className="st-good-cell">0.0% ✓</td>
+                                            <td className="st-good-cell">0.0% ✓</td>
+                                            <td className="st-good-cell">2.9% ✓</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Arabic / Dialect Support</td>
+                                            <td className="st-bad-cell">Limited</td>
+                                            <td className="st-good-cell">Full (1,858 terms)</td>
+                                            <td>N/A (English only)</td>
+                                            <td>N/A (English only)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p className="st-footnote">† ESI Handbook: official AHRQ training vignettes (TriageAgent EMNLP 2024, 210 cases). ‡ KTAS External: 1,262 Korean ED patients, expert-validated by 3 triage specialists. Lower exact match on KTAS/Handbook reflects cross-protocol validation (ESI engine applied to KTAS labels) and the engine's conservative safety bias — it over-triages rather than under-triages. Human nurse figures from published ED reliability studies.</p>
                                 <div style={{ marginTop: 12 }}>
-                                    <div style={{ padding: 12, background: 'var(--st-off-white)', borderRadius: 8, marginBottom: 10, borderLeft: '3px solid var(--st-red)' }}>
-                                        <strong style={{ color: 'var(--st-red)' }}>ESI Strength:</strong> holistic clinical assessment. <em>Weakness:</em> subjective variability.
-                                    </div>
-                                    <div style={{ padding: 12, background: 'var(--st-off-white)', borderRadius: 8, marginBottom: 10, borderLeft: '3px solid var(--st-green)' }}>
-                                        <strong style={{ color: 'var(--st-green)' }}>NEWS2 Strength:</strong> objective vital-sign scoring. <em>Weakness:</em> reduced symptom context.
-                                    </div>
-                                    <div style={{ padding: 12, background: 'var(--st-teal-light)', borderRadius: 8, borderLeft: '3px solid var(--st-teal-dark)' }}>
-                                        <strong style={{ color: 'var(--st-teal-dark)' }}>SAFE-Triage Hybrid:</strong> AI symptom extraction + NEWS2 scoring + deterministic ESI + MedGemma QA safety layer.
+                                    <div style={{ padding: 10, background: 'var(--st-teal-light)', borderRadius: 8, borderLeft: '3px solid var(--st-teal-dark)' }}>
+                                        <strong style={{ color: 'var(--st-teal-dark)' }}>Key safety result:</strong> Zero resuscitation-level (ESI-1) patients missed across 76 expert-validated cases from 3 independent benchmarks spanning US and Korean EDs. The engine matches Korean nurse safety performance on external data (2.9% vs 3.6% critical under-triage).
                                     </div>
                                 </div>
-                                <p className="st-footnote">NEWS2 greater than or equal to 7 triggers ESI 1 in SAFE-Triage regardless of complaint.</p>
                             </div>
                         </div>
                     </div>
@@ -413,7 +465,7 @@ export default function LandingPage() {
                                 <div className="st-cost-row"><div className="st-cost-cell">ED Length of Stay</div><div className="st-cost-cell"><span className="st-bad">~184 min</span> to <span className="st-good">~51 min</span></div></div>
                                 <div className="st-cost-row"><div className="st-cost-cell">ED Mortality Rate</div><div className="st-cost-cell"><span className="st-bad">15.7%</span> to <span className="st-good">10.7%</span></div></div>
                                 <div className="st-cost-row"><div className="st-cost-cell">Triage Discrimination</div><div className="st-cost-cell"><span className="st-bad">AUROC 0.67 to 0.80</span> to <span className="st-good">AUROC 0.82 to 0.86</span></div></div>
-                                <div className="st-cost-row"><div className="st-cost-cell">Under-Triage</div><div className="st-cost-cell"><span className="st-good">0% in initial 138 validation cases</span></div></div>
+                                <div className="st-cost-row"><div className="st-cost-cell">Under-Triage</div><div className="st-cost-cell"><span className="st-good">0/76 resuscitation patients missed across 3 expert-validated benchmarks (MIETIC + ESI Handbook + KTAS External)</span></div></div>
                                 <div className="st-cost-row"><div className="st-cost-cell">Arabic Support</div><div className="st-cost-cell"><span className="st-good">Egyptian dialect support with AI + keyword safety net</span></div></div>
                                 <div className="st-cost-row"><div className="st-cost-cell">Safety Alignment</div><div className="st-cost-cell"><span className="st-good">Designed to align with GAHAR safety requirements</span></div></div>
                             </div>
