@@ -780,10 +780,10 @@ Return this exact JSON structure:
 
         if not snomed_results:
             return {
-                "snomed_code": "413350009",
-                "snomed_term": "Finding with explicit context (finding)",
-                "snomed_codes": ["413350009"],
-                "snomed_terms": ["Finding with explicit context"],
+                "snomed_code": None,
+                "snomed_term": None,
+                "snomed_codes": [],
+                "snomed_terms": [],
                 "category": "unclear_needs_evaluation",
                 "icd10_coding": {
                     "primary_code": "R69",

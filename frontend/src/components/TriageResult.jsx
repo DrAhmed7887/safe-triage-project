@@ -468,7 +468,7 @@ export default function TriageResult({ result, onReset }) {
 
                 <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400">
                     <span>Confidence: <span className="font-medium text-slate-600">{result.confidence}</span></span>
-                    <span>ID: {Math.random().toString(36).substr(2, 9).toUpperCase()}</span>
+                    <span>ID: {result.patient_id || 'N/A'}</span>
                 </div>
             </div>
         </div>

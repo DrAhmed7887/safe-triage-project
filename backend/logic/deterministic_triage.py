@@ -319,6 +319,13 @@ LACERATION_CATEGORY_FAMILIES = [
     "hand laceration",
 ]
 
+# Signals shared between INSTABILITY_SIGNALS and LIFE_THREAT_SIGNALS.
+# Defined once to prevent drift — changes here propagate to both lists.
+_SHARED_CRITICAL_SIGNALS = (
+    "somnolent", "listless", "mottled", "floppy",
+    "not acting right", "obtunded", "drooling",
+)
+
 INSTABILITY_SIGNALS = [
     # Hemodynamic
     "hypotension", "hypotensive", "low blood pressure", "sbp",
@@ -401,9 +408,10 @@ INSTABILITY_SIGNALS = [
     "transferred to", "transferred from", "transfer from",
     "was transferred",
     # ── ESI Handbook-derived signals (batch fix) ─────────────────────
+    # NOTE: Signals also in LIFE_THREAT_SIGNALS are sourced from _SHARED_CRITICAL_SIGNALS
+    # to avoid drift. Signals unique to instability (ESI 2) are listed here directly.
     # Altered mental status / appearance
-    "somnolent", "lethargic", "lethargy", "obtunded",
-    "listless", "not acting right", "floppy", "limp",
+    "lethargic", "lethargy", "limp",
     # Psychiatric/violence — ESI 2 regardless of vitals
     "threatening to kill", "threatening to harm", "out of control",
     "sexually assaulted", "sexual assault",
@@ -419,14 +427,14 @@ INSTABILITY_SIGNALS = [
     # Compartment syndrome
     "cast is cutting", "cutting off circulation", "swollen and the cast",
     # Dysphagia with airway concern
-    "barely swallow", "drooling", "peritonsillar",
+    "barely swallow", "peritonsillar",
     "voice is different", "muffled voice",
     # Neonatal / infant alarm
-    "mottled", "sunken fontanel",
+    "sunken fontanel",
     # Psychotic / dangerous behaviour
     "screaming about", "end of the world",
     "standing in traffic",
-]
+] + list(_SHARED_CRITICAL_SIGNALS)
 
 NON_URGENT_SIGNALS = [
     "routine", "physical exam", "sports physical", "work note",
@@ -536,13 +544,11 @@ LIFE_THREAT_SIGNALS = [
     "acute worsening shortness",
     "acute decompensation",
     # ── ESI Handbook life-threat signals (batch fix) ─────────────────
-    # Pediatric / neonatal red flags
-    "somnolent", "listless", "mottled", "floppy",
-    "not acting right",
+    # Shared signals sourced from _SHARED_CRITICAL_SIGNALS (defined above INSTABILITY_SIGNALS)
     # Pediatric hit by car / pedestrian struck (high-energy mechanism)
     "hit by a car", "hit by car", "struck by a car",
     "ped struck", "pedestrian hit", "pedestrian struck",
-]
+] + list(_SHARED_CRITICAL_SIGNALS)
 
 CLEAR_NON_URGENT_SIGNALS = [
     "routine",

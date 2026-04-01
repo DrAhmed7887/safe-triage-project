@@ -1,5 +1,6 @@
 import os
 import html
+import hashlib
 import asyncio
 from enum import Enum
 from datetime import datetime
@@ -72,14 +73,12 @@ def _alert_title(payload: Dict[str, Any]) -> str:
     level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
     esi_level = str(payload.get("esi_level", ""))
     level_label = str(level).replace("_", " ")
-    patient_ref = _phi_safe_patient_ref(str(payload.get("patient_id", "")))
     return f"{_alert_banner(level)} SAFE-Triage {level_label} | ESI {esi_level}"
 
 
 def _alert_body(payload: Dict[str, Any]) -> str:
     """HIPAA-safe push notification body (visible on lock screen).
     No complaint, no vitals, no patient_id — just a prompt to check the dashboard."""
-    level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
     patient_ref = _phi_safe_patient_ref(str(payload.get("patient_id", "")))
     return f"{patient_ref} requires attention. Tap to review on dashboard. | يتطلب مراجعة. اضغط لفتح لوحة المعلومات."
 
@@ -96,7 +95,6 @@ def _phi_safe_patient_ref(patient_id: str) -> str:
     """Return a truncated hash of patient_id for HIPAA-safe references outside the secure dashboard."""
     if not patient_id or patient_id == "Unknown":
         return "Case"
-    import hashlib
     return f"Case #{hashlib.sha256(patient_id.encode()).hexdigest()[:6].upper()}"
 
 

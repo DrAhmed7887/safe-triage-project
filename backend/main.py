@@ -80,7 +80,12 @@ app = FastAPI(title="SAFE-Triage AI System", version="2.0.0")
 # CORS Setup
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://safe-triage-ai.web.app",
+        "https://safe-triage-ai.firebaseapp.com",
+        "http://localhost:5173",  # Vite dev server
+        "http://localhost:3000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -2677,7 +2682,8 @@ async def transcribe_audio(
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"[ERROR] Internal server error: {e}", flush=True)
+        raise HTTPException(status_code=500, detail="An internal error occurred. Contact support.")
     finally:
         if tmp_path and os.path.exists(tmp_path):
             try:
@@ -2736,8 +2742,8 @@ async def alert_queue_status():
 
 
 @app.post("/test-alert")
-def test_alert():
-    """Send a test alert to verify push + email delivery."""
+def test_alert(user: dict = Depends(require_firebase_user)):
+    """Send a test alert to verify push + email delivery. Requires authentication."""
     payload = {
         "alert_level": AlertLevel.CODE_RED,
         "patient_id": "PT-001",
@@ -2984,7 +2990,8 @@ def triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
         
         return result_dict
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"[ERROR] Internal server error: {e}", flush=True)
+        raise HTTPException(status_code=500, detail="An internal error occurred. Contact support.")
 
 @app.post("/ai-triage")
 def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
@@ -4043,7 +4050,8 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"[ERROR] Internal server error: {e}", flush=True)
+        raise HTTPException(status_code=500, detail="An internal error occurred. Contact support.")
 
 
 @app.post("/triage-pure-ai")
@@ -4148,7 +4156,8 @@ def triage_pure_ai(patient: PatientInput):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"[ERROR] Internal server error: {e}", flush=True)
+        raise HTTPException(status_code=500, detail="An internal error occurred. Contact support.")
 
 
 @app.get("/patients")
@@ -4352,7 +4361,8 @@ def daily_summary_report(
             headers={"Content-Disposition": f"attachment; filename={filename}"},
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"[ERROR] Internal server error: {e}", flush=True)
+        raise HTTPException(status_code=500, detail="An internal error occurred. Contact support.")
 
 
 @app.post("/export-triage")
