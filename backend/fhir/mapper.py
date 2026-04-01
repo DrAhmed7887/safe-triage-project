@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 
 
+
 def generate_id():
     return str(uuid.uuid4())
 
@@ -124,7 +125,38 @@ def map_condition(data, patient_id):
         }
     }
 
+# -----------------------------
+# NEWS2 Observation
+# -----------------------------
+def map_news2(data, patient_id, encounter_id):
+    news2 = data.get("news2")
 
+    if news2 is None:
+        return None
+
+    return {
+        "resourceType": "Observation",
+        "id": generate_id(),
+        "status": "final",
+        "code": {
+            "coding": [{
+                "system": "http://loinc.org",
+                "code": "76418-5",
+                "display": "NEWS2 score"
+            }]
+        },
+        "subject": {
+            "reference": f"Patient/{patient_id}"
+        },
+        "encounter": {
+            "reference": f"Encounter/{encounter_id}"
+        },
+        "valueQuantity": {
+            "value": news2,
+            "unit": "score",
+            "system": "http://unitsofmeasure.org"
+        }
+    }
 # -----------------------------
 # Main Mapper
 # -----------------------------
@@ -134,4 +166,10 @@ def map_to_fhir(data):
     observations = map_observations(data, patient["id"], encounter["id"])
     condition = map_condition(data, patient["id"])
 
-    return [patient, encounter, *observations, condition]
+    news2_obs = map_news2(data, patient["id"], encounter["id"])
+    resources = [patient, encounter, *observations, condition]
+
+    if news2_obs:
+        resources.append(news2_obs)
+
+    return resources
