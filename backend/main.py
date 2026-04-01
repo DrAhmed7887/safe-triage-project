@@ -4332,8 +4332,7 @@ def medgemma_status():
         healthy = client.test_connection()
         return {
             "service": "MedGemma QA",
-            "model": client.model,
-            "provider": "Dr7.ai",
+            "provider": client.provider,
             "status": "operational" if healthy else "degraded",
             "api_accessible": healthy,
             "error_detail": None if healthy else client.last_error,
@@ -4342,9 +4341,129 @@ def medgemma_status():
     except Exception as exc:
         return {
             "service": "MedGemma QA",
-            "provider": "Dr7.ai",
+            "provider": "VertexAI-MedGemma",
             "status": "error",
             "api_accessible": False,
+            "error": str(exc),
+            "gahar_notice": GAHAR_NOTICE,
+        }
+
+
+@app.get("/medgemma/dashboard", tags=["MedGemma QA"])
+def medgemma_dashboard(days: int = 7):
+    """
+    MedGemma QA dashboard data — aggregated flagged-case analytics.
+    Returns severity breakdown, pattern trends, daily summary, and recent flags.
+    HIPAA-compliant: no PHI, only aggregate counts and pattern names.
+    """
+    try:
+        from google.cloud import bigquery as bq
+
+        client = bq.Client(project=os.getenv("PROJECT_ID", "safe-triage-ai"))
+        table = os.getenv(
+            "MEDGEMMA_TABLE_ID",
+            "safe-triage-ai.safe_triage_audit.medgemma_flagged_cases",
+        )
+
+        # Severity breakdown (KPI cards)
+        severity_query = f"""
+            SELECT
+                severity,
+                COUNT(*) AS total,
+                ROUND(AVG(confidence), 3) AS avg_confidence,
+                COUNTIF(disaster_alert_sent = TRUE) AS alerts_sent
+            FROM `{table}`
+            WHERE review_timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL {days} DAY)
+            GROUP BY severity
+            ORDER BY
+                CASE severity WHEN 'Critical' THEN 1 WHEN 'Moderate' THEN 2 ELSE 3 END
+        """
+
+        # Pattern frequency
+        pattern_query = f"""
+            SELECT
+                pattern,
+                severity,
+                COUNT(*) AS occurrences,
+                ROUND(AVG(confidence), 3) AS avg_confidence
+            FROM `{table}`
+            WHERE review_timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL {days} DAY)
+            GROUP BY pattern, severity
+            ORDER BY occurrences DESC
+            LIMIT 20
+        """
+
+        # Daily trend
+        daily_query = f"""
+            SELECT
+                DATE(review_timestamp) AS review_date,
+                COUNT(*) AS total_flags,
+                COUNTIF(severity = 'Critical') AS critical,
+                COUNTIF(severity = 'Moderate') AS moderate,
+                COUNTIF(severity = 'Low') AS low
+            FROM `{table}`
+            WHERE review_timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL {days} DAY)
+            GROUP BY review_date
+            ORDER BY review_date DESC
+        """
+
+        # Recent flags (last 20, no PHI — only pattern + severity + time)
+        recent_query = f"""
+            SELECT
+                review_timestamp,
+                severity,
+                confidence,
+                pattern,
+                recommended_action,
+                esi_recommendation,
+                model_used,
+                disaster_alert_sent
+            FROM `{table}`
+            WHERE review_timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL {days} DAY)
+            ORDER BY review_timestamp DESC
+            LIMIT 20
+        """
+
+        def _rows_to_dicts(query_job):
+            return [dict(row) for row in query_job.result()]
+
+        severity_data = _rows_to_dicts(client.query(severity_query))
+        pattern_data = _rows_to_dicts(client.query(pattern_query))
+        daily_data = _rows_to_dicts(client.query(daily_query))
+        recent_data = _rows_to_dicts(client.query(recent_query))
+
+        # Convert dates/timestamps to ISO strings for JSON serialization
+        for row in daily_data:
+            if row.get("review_date"):
+                row["review_date"] = str(row["review_date"])
+        for row in recent_data:
+            if row.get("review_timestamp"):
+                row["review_timestamp"] = row["review_timestamp"].isoformat()
+
+        total_flags = sum(s.get("total", 0) for s in severity_data)
+        critical_total = next(
+            (s["total"] for s in severity_data if s.get("severity") == "Critical"), 0
+        )
+
+        return {
+            "period_days": days,
+            "total_flags": total_flags,
+            "critical_total": critical_total,
+            "severity_breakdown": severity_data,
+            "pattern_frequency": pattern_data,
+            "daily_trend": daily_data,
+            "recent_flags": recent_data,
+            "gahar_notice": GAHAR_NOTICE,
+        }
+    except Exception as exc:
+        return {
+            "period_days": days,
+            "total_flags": 0,
+            "critical_total": 0,
+            "severity_breakdown": [],
+            "pattern_frequency": [],
+            "daily_trend": [],
+            "recent_flags": [],
             "error": str(exc),
             "gahar_notice": GAHAR_NOTICE,
         }
