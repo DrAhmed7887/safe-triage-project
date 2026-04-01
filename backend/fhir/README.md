@@ -130,3 +130,40 @@ Test with the 5 sample cases in `sample_cases.json` (one per ESI level 1-5).
 - Do NOT import anything from `backend/ai_service.py`
 - Do NOT modify any files outside of `backend/fhir/`
 - Do NOT add dependencies to `requirements.txt` without asking Ahmed first
+:::writing{variant=“standard” id=“86421”}
+
+🔥 Amany Enhancements
+
+This module has been extended with additional clinical and interoperability features:
+
+✅ API Integration
+	•	Implemented a FastAPI endpoint (/triage) to expose the FHIR mapping as a REST service
+	•	Returns a complete FHIR Bundle ready for EMR integration
+
+✅ Clinical Validation Layer
+	•	Added gender-specific complaint validation before processing
+	•	Prevents anatomically inconsistent triage inputs
+	•	Supports both English and Arabic clinical terms
+
+✅ Enhanced Encounter Mapping
+	•	Integrated ESI triage level as a FHIR extension (CodeableConcept)
+	•	Added priority mapping aligned with emergency workflows
+
+✅ NEWS2 Integration
+	•	NEWS2 score is represented as a FHIR Observation using LOINC standard
+	•	Improves clinical risk stratification and auditability
+
+✅ Improved Structure & Modularity
+	•	Cleaner mapper architecture
+	•	Separation of concerns between mapping, validation, and API layers
+
+⸻
+
+🚀 Result
+
+SAFE-Triage is now:
+	•	FHIR R4 compliant
+	•	Clinically validated
+	•	API-ready
+	•	Interoperable with hospital EMR systems
+:::

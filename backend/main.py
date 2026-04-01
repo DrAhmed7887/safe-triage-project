@@ -1,3 +1,14 @@
+from fastapi import FastAPI
+from backend.fhir.mapper import map_to_fhir
+from backend.fhir.fhir_bundle import build_bundle
+from backend.validators import validate_gender_complaint
+app = FastAPI()
+
+
+@app.get("/")
+def home():
+    return {"message": "Safe Triage API is running 🚀"}
+
 from fastapi import FastAPI, HTTPException, Depends, UploadFile, File, Form, Header, Body
 from fastapi.responses import StreamingResponse, JSONResponse
 from validators import validate_gender_complaint
@@ -4371,44 +4382,23 @@ def export_personal_triage_csv(user: dict = Depends(require_firebase_user)):
         case_count=case_count,
     )
 
-    return StreamingResponse(
-        io.BytesIO(csv_text.encode("utf-8-sig")),
-        media_type="text/csv; charset=utf-8",
-        headers={"Content-Disposition": f"attachment; filename={filename}"},
-    )
+@app.post("/triage")
+def triage(data: dict):
+    patient = data.get("patient", {})
+    diagnosis = data.get("diagnosis", {})
 
+    gender = patient.get("gender", "")
+    complaint = diagnosis.get("chief_complaint_en", "")
 
+    validation = validate_gender_complaint(gender, complaint)
+
+    if not validation["valid"]:
+        return {"error": validation}
+
+    resources = map_to_fhir(data)
+    bundle = build_bundle(resources)
+
+    return bundle
 @app.post("/export-system-wide")
-def export_system_wide(
-    date_range: Optional[ExportDateRange] = Body(default=None),
-    user: Dict[str, Any] = Depends(require_supervisor_role),
-):
-    """System-wide export (supervisors only)."""
-    start_at = date_range.start if date_range else None
-    end_at = date_range.end if date_range else None
-    if start_at and end_at and start_at > end_at:
-        raise HTTPException(status_code=400, detail="Invalid date range: start must be before end")
-
-    requested_by = _resolve_clinician_id(user) or "supervisor"
-    csv_text, filename, case_count = export_system_wide_csv(
-        requested_by=requested_by,
-        start_at=start_at,
-        end_at=end_at,
-    )
-
-    audit_service.log_export_download(
-        export_type="system_wide_csv",
-        scope=SYSTEM_EXPORT_SCOPE,
-        user_id=requested_by,
-        user_email=user.get("email"),
-        user_name=user.get("email") or requested_by,
-        case_count=case_count,
-        start_at=start_at,
-        end_at=end_at,
-    )
-
-    return StreamingResponse(
-        io.BytesIO(csv_text.encode("utf-8-sig")),
-        media_type="text/csv; charset=utf-8",
-        headers={"Content-Disposition": f"attachment; filename={filename}"},
-    )
+def export_system_wide():
+    return {"message": "Export endpoint placeholder"}
