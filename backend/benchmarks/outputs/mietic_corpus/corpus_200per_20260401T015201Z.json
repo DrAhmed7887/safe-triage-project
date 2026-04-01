@@ -1,0 +1,63 @@
+{
+  "benchmark": "MIETIC_corpus",
+  "timestamp": "20260401T015201Z",
+  "sample_summary": {
+    "total_corpus": 9119,
+    "eligible_with_vitals": 6896,
+    "skipped_no_vitals": 2223,
+    "target_per_level": 200,
+    "selected_by_level": {
+      "1": 200,
+      "2": 200,
+      "3": 200,
+      "4": 200,
+      "5": 200
+    },
+    "total_selected": 1000
+  },
+  "replay_summary": {
+    "total_attempted": 1000,
+    "valid_predictions": 1000,
+    "failed_predictions": 0,
+    "exact_match_accuracy": 34.1,
+    "within_one_level_accuracy": 77.5,
+    "over_triage_rate": 34.8,
+    "under_triage_rate": 31.1,
+    "critical_under_triage_rate": 26.4,
+    "critical_under_triage_count": 264,
+    "confusion_matrix": {
+      "1": {
+        "1": 25,
+        "2": 96,
+        "3": 50,
+        "4": 29
+      },
+      "2": {
+        "1": 31,
+        "2": 80,
+        "3": 61,
+        "4": 28
+      },
+      "3": {
+        "1": 10,
+        "2": 56,
+        "3": 87,
+        "4": 47
+      },
+      "4": {
+        "1": 4,
+        "2": 21,
+        "3": 61,
+        "4": 114
+      },
+      "5": {
+        "1": 1,
+        "2": 28,
+        "3": 54,
+        "4": 82,
+        "5": 35
+      }
+    }
+  },
+  "failures": []
+}

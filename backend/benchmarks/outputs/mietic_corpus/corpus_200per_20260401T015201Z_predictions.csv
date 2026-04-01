@@ -1,0 +1,1002 @@
+row_index,actual_esi,predicted_esi,exact_match,within_one,critical_under_triage,chief_complaint,label_en
+135,1,3,False,False,True,lower abdominal pain,Urgent
+1888,1,3,False,False,True,The patient is a 61-year-old white female who arrived at the emergency department via ambulance foll,Urgent
+2634,1,2,False,True,True,altered mental status,Emergent
+1242,1,2,False,True,True,"not feeling well, characterized by hypotension and tachycardia",Emergent
+1182,1,2,False,True,True,the ED with a chief complaint of fever,Emergent
+1689,1,2,False,True,True,abdominal pain and nausea/vomiting,Emergent
+1712,1,2,False,True,True,shortness of breath,Emergent
+1331,1,2,False,True,True,the emergency department with a chief complaint of tachycardia,Emergent
+2790,1,2,False,True,True,"A 73-year-old white male with a significant medical history, including primary sclerosing cholangiti",Emergent
+2917,1,4,False,False,True,epigastric pain,Less Urgent
+2393,1,4,False,False,True,"the emergency department with a chief complaint of severe upper extremity pain, rated as 8 out of 10",Less Urgent
+153,1,2,False,True,True,"severe left leg pain, rated at 10/10",Emergent
+1641,1,2,False,True,True,"85-year-old Eastern European female with a history of atrial fibrillation on apixaban, breast cancer",Emergent
+1926,1,2,False,True,True,the ED with confusion and worsening right-sided weakness,Emergent
+2645,1,2,False,True,True,"A 60-year-old white male with a history of COPD on 2L O2 at home, poorly controlled Type 2 DM, and r",Emergent
+2846,1,4,False,False,True,severe pain rated as 10 out of 10,Less Urgent
+2938,1,3,False,False,True,"nausea, vomiting, and diarrhea",Urgent
+1031,1,4,False,False,True,cough and dyspnea,Less Urgent
+2100,1,2,False,True,True,"melena, indicating upper gastrointestinal bleeding",Emergent
+2508,1,2,False,True,True,s of hematuria and urinary frequency,Emergent
+2864,1,4,False,False,True,"left shoulder pain, rated as 8/10",Less Urgent
+129,1,2,False,True,True,"chest pain, headache, and dizziness",Emergent
+274,1,2,False,True,True,a burn and finger pain,Emergent
+1597,1,1,True,True,False,"the ED with a chief complaint of headache, fever, and cough, suggestive of pneumonia with a concern ",Resuscitation
+2531,1,2,False,True,True,anxiety and palpitations,Emergent
+1493,1,1,True,True,False,"the ED with severe dyspnea and hypoxia, walking in with vital signs: BP 139/75, P 116, RR 18, SpO2 6",Resuscitation
+260,1,3,False,False,True,right flank pain,Urgent
+2847,1,2,False,True,True,"the emergency department with a chief complaint of severe right lower back pain, rated as 10/10",Emergent
+465,1,4,False,False,True,having fallen,Less Urgent
+1265,1,3,False,False,True,loss of leg function,Urgent
+159,1,2,False,True,True,"the ED with severe right knee pain, rated 10/10",Emergent
+2510,1,3,False,False,True,the emergency department by ambulance with a chief complaint of abdominal pain and nausea/vomiting,Urgent
+2290,1,1,True,True,False,the ED with melena and a right thigh hematoma,Resuscitation
+2218,1,2,False,True,True,"A 57-year-old Black/African American male with a history of schizophrenia, untreated hepatitis C vir",Emergent
+2707,1,2,False,True,True,"the ED with symptoms of an upper respiratory infection for several weeks, including cough with tan s",Emergent
+2532,1,4,False,False,True,cough,Less Urgent
+2197,1,4,False,False,True,"dark, cloudy urine",Less Urgent
+785,1,1,True,True,False,severe dyspnea,Resuscitation
+388,1,2,False,True,True,chest pain,Emergent
+2128,1,3,False,False,True,upper abdominal pain,Urgent
+2010,1,2,False,True,True,the emergency department with severe nausea and vomiting after recent laparoscopic surgery for pelvi,Emergent
+196,1,3,False,False,True,a fall,Urgent
+2491,1,1,True,True,False,acute onset dyspnea and lightheadedness,Resuscitation
+492,1,2,False,True,True,the ED with dyspnea and lethargy,Emergent
+1328,1,1,True,True,False,"A 77-year-old white male with a history of atrial fibrillation (on warfarin), prostate cancer (s/p b",Resuscitation
+822,1,2,False,True,True,sudden onset sharp epigastric abdominal pain,Emergent
+2375,1,3,False,False,True,"abdominal pain, arriving by walking in",Urgent
+849,1,2,False,True,True,"81-year-old white female with a history of COPD on 2L O2, CHF (EF >60%), pulmonary hypertension, and",Emergent
+1744,1,3,False,False,True,dizziness and shaking,Urgent
+1971,1,3,False,False,True,the emergency department with left lower extremity swelling,Urgent
+1578,1,2,False,True,True,A 64-year-old female with a history of metastatic endometrial adenocarcinoma presented to the ED wit,Emergent
+394,1,3,False,False,True,abdominal pain,Urgent
+2912,1,3,False,False,True,57-year-old male presented to the ED following a fall from scaffolding approximately 6 feet high,Urgent
+1906,1,4,False,False,True,the emergency department with a chief complaint of cough and dyspnea,Less Urgent
+1580,1,3,False,False,True,right lower quadrant (RLQ) abdominal pain,Urgent
+1973,1,2,False,True,True,"An 89-year-old white male with a history of dementia, orthostatic hypotension, and coronary artery d",Emergent
+537,1,2,False,True,True,severe right hip pain following a mechanical fall,Emergent
+2235,1,4,False,False,True,lightheadedness,Less Urgent
+185,1,3,False,False,True,"right flank pain, rated as 8/10 on the pain scale",Urgent
+2686,1,2,False,True,True,"bilateral lower extremity pain and swelling, following a recent discharge after a week-long admissio",Emergent
+2289,1,2,False,True,True,the emergency department with a chief complaint of lethargy and falls,Emergent
+2122,1,3,False,False,True,"abdominal pain, rated as 4 on a pain scale",Urgent
+2706,1,2,False,True,True,"An 89-year-old white female with a history of Alzheimer's type dementia, four episodes of breast can",Emergent
+837,1,2,False,True,True,the emergency department with chest pain,Emergent
+1443,1,2,False,True,True,chest pain,Emergent
+1095,1,2,False,True,True,the emergency department with a chief complaint of coffee ground emesis and suspected diaphragmatic ,Emergent
+1096,1,3,False,False,True,dyspnea,Urgent
+949,1,2,False,True,True,"the ED with dyspnea, significant weight gain, cough, and right shoulder pain following a fall",Emergent
+2751,1,3,False,False,True,abdominal pain,Urgent
+1222,1,3,False,False,True,a fracture to the right wrist,Urgent
+17,1,1,True,True,False,"acute respiratory distress and dyspnea, accompanied by stridor",Resuscitation
+1016,1,4,False,False,True,oliguria and dyspnea,Less Urgent
+225,1,3,False,False,True,lower abdominal pain,Urgent
+2534,1,3,False,False,True,left hip and leg pain,Urgent
+1984,1,3,False,False,True,A 30-year-old Black/African American male with a significant medical history of uncontrolled Type 1 ,Urgent
+1623,1,3,False,False,True,abdominal pain,Urgent
+1893,1,4,False,False,True,headache and aphasia,Less Urgent
+429,1,2,False,True,True,the ED with hypotension and suspected sepsis,Emergent
+418,1,2,False,True,True,the emergency department with a chief complaint of severe back pain,Emergent
+479,1,2,False,True,True,the ED post-fall with altered mental status,Emergent
+2823,1,2,False,True,True,chest pain accompanied by nausea and vomiting,Emergent
+1642,1,2,False,True,True,suicidal ideation and aggressive thoughts towards family members,Emergent
+130,1,2,False,True,True,"severe back pain, rating his pain at 10/10",Emergent
+248,1,4,False,False,True,"fever and headache, reporting a pain level of 6 out of 10",Less Urgent
+1939,1,3,False,False,True,the ED with right knee pain following a fall,Urgent
+2717,1,2,False,True,True,the ED with chest pain and significant left knee pain,Emergent
+1012,1,2,False,True,True,abdominal pain and diarrhea,Emergent
+2463,1,3,False,False,True,abdominal pain,Urgent
+1591,1,2,False,True,True,the emergency department as a walk-in with a chief complaint of abdominal pain,Emergent
+2057,1,2,False,True,True,A 36-year-old white male with a history of cervical fusion and traumatic brain injury presented to t,Emergent
+1048,1,2,False,True,True,"a right leg injury, specifically an open tibia-fibula fracture",Emergent
+553,1,2,False,True,True,the emergency department with chest pain,Emergent
+1677,1,2,False,True,True,the ED with a chief complaint of fever and lethargy,Emergent
+77,1,2,False,True,True,"the ED with worsening abdominal distension and pain over the past five days, alongside bilateral foo",Emergent
+2256,1,4,False,False,True,hyperglycemia and a rash,Less Urgent
+871,1,2,False,True,True,"A 79-year-old Asian female with a history of coronary artery disease, non-insulin-dependent diabetes",Emergent
+809,1,2,False,True,True,the ED with hypotension,Emergent
+758,1,2,False,True,True,the ED with lightheadedness and bradycardia,Emergent
+554,1,2,False,True,True,a chief complaint of progressive dyspnea and hypoxia,Emergent
+2579,1,2,False,True,True,left rib pain following a fall,Emergent
+992,1,2,False,True,True,the emergency department,Emergent
+1752,1,1,True,True,False,"the ED after an unwitnessed fall at home, resulting in a right hip fracture",Resuscitation
+963,1,3,False,False,True,fatigue and palpitations,Urgent
+2037,1,3,False,False,True,"the emergency department with abdominal pain, nausea, and vomiting",Urgent
+128,1,2,False,True,True,left flank pain rated at 8/10,Emergent
+2146,1,3,False,False,True,hypertension,Urgent
+259,1,2,False,True,True,"the ED with a chief complaint of severe left elbow pain, rated at 10/10",Emergent
+1872,1,1,True,True,False,"A 71-year-old African American female with a history of atrial fibrillation with RVR, asthma, COPD, ",Resuscitation
+532,1,2,False,True,True,"the emergency department with chief complaints of dizziness, profound fatigue, and shortness of brea",Emergent
+1961,1,3,False,False,True,nausea and vomiting for one day after consuming potentially expired egg salad,Urgent
+2874,1,1,True,True,False,respiratory distress and acute dyspnea,Resuscitation
+1994,1,1,True,True,False,"GI bleed, specifically bright red blood per rectum (BRBPR)",Resuscitation
+99,1,2,False,True,True,dizziness,Emergent
+1123,1,2,False,True,True,a chief complaint of right-sided facial droop,Emergent
+481,1,4,False,False,True,neck swelling and dyspnea,Less Urgent
+2841,1,3,False,False,True,fever and influenza-like illness (ILI) walked into the emergency department,Urgent
+1146,1,1,True,True,False,the ED unresponsive after being transferred for concerns of seizures,Resuscitation
+2606,1,2,False,True,True,A 33-year-old Black/African male presented to the emergency department with chest pain and right sho,Emergent
+221,1,2,False,True,True,"acute weakness, malaise, and sudden sensorineural hearing loss in the right ear",Emergent
+346,1,2,False,True,True,chest pain and dyspnea,Emergent
+1073,1,2,False,True,True,"weakness, 40lb weight loss, and painful ecchymoses over the left great and fifth toes",Emergent
+2826,1,3,False,False,True,abdominal pain,Urgent
+2931,1,4,False,False,True,"right shoulder pain, rated 6/10",Less Urgent
+201,1,2,False,True,True,A 33-year-old white male with a history of opioid use disorder on methadone presented to the emergen,Emergent
+1205,1,4,False,False,True,the ED with a chief complaint of urinary urgency,Less Urgent
+1555,1,1,True,True,False,severe dyspnea and hypoxia,Resuscitation
+186,1,3,False,False,True,"abdominal pain, rating it as 4/10",Urgent
+265,1,4,False,False,True,dyspnea,Less Urgent
+2139,1,3,False,False,True,"21-year-old Hispanic/Latino male, presented with right arm pain due to intravenous drug abuse (IVDA)",Urgent
+1345,1,2,False,True,True,the ED with a chief complaint of shortness of breath,Emergent
+1873,1,2,False,True,True,the ED with a chief complaint of anemia and vaginal bleeding,Emergent
+2262,1,1,True,True,False,overdose,Resuscitation
+1195,1,2,False,True,True,"An 80-year-old white female presented to the ED with aphasia, specifically word-finding difficulties",Emergent
+657,1,2,False,True,True,cough and pleuritic chest pain,Emergent
+870,1,2,False,True,True,"A 78-year-old Hispanic/Latino female with a past medical history of hypertension, heart failure with",Emergent
+1921,1,3,False,False,True,abdominal pain and diarrhea,Urgent
+74,1,1,True,True,False,the ED with syncope,Resuscitation
+2774,1,1,True,True,False,An 80-year-old female with a history of invasive squamous cell carcinoma of the right lower lobe (s/,Resuscitation
+739,1,1,True,True,False,"A 64-year-old white female with a history of vasovagal syncope, osteopenia, hypercholesterolemia, an",Resuscitation
+924,1,2,False,True,True,dyspnea and abdominal pain,Emergent
+2312,1,4,False,False,True,"right-sided pain persisting for one year, reporting a pain intensity of 8 out of 10",Less Urgent
+672,1,2,False,True,True,the ED with a chief complaint of seizure,Emergent
+1865,1,3,False,False,True,abdominal pain and nausea/vomiting,Urgent
+834,1,1,True,True,False,the ED with a chief complaint of melena in stools,Resuscitation
+1937,1,3,False,False,True,s of difficulty breathing and fatigue,Urgent
+1702,1,1,True,True,False,the ED with generalized weakness,Resuscitation
+2607,1,2,False,True,True,elevated D-dimer,Emergent
+757,1,2,False,True,True,A 45-year-old Asian male with a history of end-stage renal disease (ESRD) currently on hemodialysis ,Emergent
+754,1,2,False,True,True,dyspnea and lower back pain,Emergent
+1152,1,2,False,True,True,a fall,Emergent
+550,1,2,False,True,True,A 69-year-old white female with a history of peptic ulcer disease (status post Billroth II gastrecto,Emergent
+427,1,2,False,True,True,altered mental status and worsening abdominal pain,Emergent
+2858,1,4,False,False,True,cough and congestion,Less Urgent
+2270,1,3,False,False,True,left flank pain and lower abdominal pain,Urgent
+307,1,3,False,False,True,the ED with a chief complaint of right foot pain due to a non-healing ulcer,Urgent
+2360,1,2,False,True,True,64-year-old white female with a history of seronegative rheumatoid arthritis (on methotrexate and pr,Emergent
+2105,1,2,False,True,True,neutropenic fever,Emergent
+360,1,4,False,False,True,a headache,Less Urgent
+2344,1,4,False,False,True,hematuria,Less Urgent
+1454,1,2,False,True,True,"A 61-year-old white female with a history of dementia, non-small cell lung carcinoma with prior lung",Emergent
+468,1,2,False,True,True,the ED with severe diffuse abdominal pain (10/10) and persistent vomiting (20-30 episodes),Emergent
+2549,1,4,False,False,True,urinary retention,Less Urgent
+2284,1,2,False,True,True,a middle finger injury,Emergent
+184,1,4,False,False,True,right inguinal pain and requested a wound evaluation,Less Urgent
+1227,1,1,True,True,False,"A 72-year-old female with a history of coronary artery disease, hypertension, hyperlipidemia, and de",Resuscitation
+651,1,3,False,False,True,abdominal pain and nausea,Urgent
+613,1,2,False,True,True,"severe left arm pain, rated at 10/10",Emergent
+684,1,2,False,True,True,right leg pain,Emergent
+998,1,3,False,False,True,finger swelling,Urgent
+2376,1,3,False,False,True,abdominal pain and micturition issues,Urgent
+2288,1,1,True,True,False,the emergency department,Resuscitation
+2014,1,1,True,True,False,"the ED with dyspnea, cough, and right lower back pain",Resuscitation
+1750,1,3,False,False,True,abdominal pain and fever,Urgent
+359,1,2,False,True,True,"the ED via ambulance with a chief complaint of nausea and vomiting, alongside a history of melena",Emergent
+160,1,3,False,False,True,abdominal pain,Urgent
+2140,1,4,False,False,True,right foot pain rated as 10 out of 10,Less Urgent
+1127,1,3,False,False,True,"right-sided abdominal pain, rated as 8/10 on the pain scale",Urgent
+1879,1,4,False,False,True,"left facial pain, rated as 8/10",Less Urgent
+2797,1,2,False,True,True,the emergency department with chest pain,Emergent
+2922,1,3,False,False,True,"fever, right leg redness, and swelling",Urgent
+1925,1,2,False,True,True,progressive bilateral leg weakness and urinary incontinence for one week,Emergent
+2777,1,3,False,False,True,a right-hand injury due to a circular saw accident,Urgent
+3000,1,4,False,False,True,right rib pain rated as 6/10,Less Urgent
+1106,1,3,False,False,True,the ED with a chief complaint of dyspnea,Urgent
+1907,1,2,False,True,True,weakness and melena,Emergent
+690,1,2,False,True,True,persistent headache for over a month,Emergent
+1089,1,2,False,True,True,"fever, cough, and dyspnea",Emergent
+347,1,3,False,False,True,abdominal pain and vomiting,Urgent
+55,1,1,True,True,False,hematemesis,Resuscitation
+2229,1,1,True,True,False,"A 91-year-old female with a history of hypertension, atrial fibrillation, chronic left leg edema, hy",Resuscitation
+1280,1,1,True,True,False,"the ED with weakness, malaise, and cough",Resuscitation
+2722,1,4,False,False,True,the ED with a chief complaint of a right atrial thrombus,Less Urgent
+1730,1,3,False,False,True,the emergency department with a chief complaint of dizziness,Urgent
+393,1,4,False,False,True,alcohol consumption (ETOH) and anxiety,Less Urgent
+2273,1,2,False,True,True,right shoulder pain after a fall,Emergent
+984,1,3,False,False,True,the ED with recurrent fever,Urgent
+1964,1,2,False,True,True,chest pain,Emergent
+2115,1,2,False,True,True,"chest pain, rated as 5/10",Emergent
+54,1,2,False,True,True,"A 91-year-old white female with a medical history of atrial fibrillation on Coumadin, previous CVA w",Emergent
+1966,1,2,False,True,True,A 62-year-old white female presented to the ED with facial swelling after receiving an injection of ,Emergent
+5328,2,3,False,True,True,Influenza-Like Illness (ILI),Urgent
+5413,2,2,True,True,False,the emergency department with a chief complaint of weakness,Emergent
+3063,2,1,False,True,False,"right leg pain, numbness, tingling, and a pulseless foot",Resuscitation
+3485,2,3,False,True,True,"A 74-year-old white female with a history of hyperlipidemia, hypertension, COPD, stage 1b right uppe",Urgent
+4790,2,4,False,False,True,left groin pain,Less Urgent
+5584,2,2,True,True,False,"severe left flank pain, rated as 10/10",Emergent
+5484,2,2,True,True,False,"A 63-year-old African American female with a history of hypertension, hyperlipidemia, type 2 diabete",Emergent
+5868,2,3,False,True,True,the ED with a chief complaint of urinary retention and a request for wound evaluation,Urgent
+3701,2,2,True,True,False,"the ED with fever, cough, and right-sided pleuritic chest pain",Emergent
+4096,2,2,True,True,False,the emergency department with a chief complaint of coffee ground emesis and suspected diaphragmatic ,Emergent
+4157,2,2,True,True,False,the ED with exertional chest pain,Emergent
+5602,2,2,True,True,False,"a severe headache, rated at pain level 10",Emergent
+3098,2,2,True,True,False,"the ED with syncope, weakness, and chest pain",Emergent
+4975,2,3,False,True,True,"A 64-year-old white female with a history of asthma, atrial fibrillation with a pacemaker, osteoarth",Urgent
+4855,2,1,False,True,False,A 70-year-old Black male with a history of symptomatic epilepsy due to traumatic brain injury result,Resuscitation
+3661,2,2,True,True,False,dyspnea,Emergent
+3916,2,3,False,True,True,severe abdominal pain,Urgent
+5553,2,4,False,False,True,the emergency department with a chief complaint of rectal pain,Less Urgent
+5550,2,4,False,False,True,urinary retention,Less Urgent
+3196,2,3,False,True,True,the ED with a chief complaint of left shoulder pain following a fall,Urgent
+5042,2,2,True,True,False,the ED with a chief complaint of confusion and fever,Emergent
+3260,2,2,True,True,False,"the ED with a chief complaint of severe left elbow pain, rated at 10/10",Emergent
+5293,2,2,True,True,False,"nausea, vomiting, diarrhea, abdominal pain, and hematochezia",Emergent
+4976,2,2,True,True,False,"A 76-year-old white female with a history of burned out polycythemia vera, hypertension, esophageal ",Emergent
+4311,2,1,False,True,False,"s of nausea, vomiting, upper gastrointestinal bleeding, and abdominal pain",Resuscitation
+3691,2,2,True,True,False,persistent headache for over a month,Emergent
+5682,2,1,False,True,False,A 61-year-old male with a history of type 2 diabetes mellitus and coronary artery disease was transf,Resuscitation
+5027,2,2,True,True,False,the ED with a chief complaint of syncope and a possible seizure following a fall,Emergent
+4422,2,2,True,True,False,"A 44-year-old male with a history of Type I Diabetes Mellitus, Brugada Syndrome with ICD placement, ",Emergent
+4938,2,3,False,True,True,s of difficulty breathing and fatigue,Urgent
+4527,2,2,True,True,False,abdominal pain and biliary drain leak,Emergent
+3646,2,3,False,True,True,"the ED via ambulance following an assault, with a chief complaint of facial laceration",Urgent
+5674,2,3,False,True,True,syncope,Urgent
+5022,2,2,True,True,False,"A 78-year-old male with a history of multiple myeloma, hypertension, and hyperlipidemia presented to",Emergent
+3398,2,2,True,True,False,right arm pain following a fall,Emergent
+3117,2,2,True,True,False,chest pain,Emergent
+4216,2,2,True,True,False,the ED with acute dyspnea and weakness,Emergent
+5981,2,3,False,True,True,abdominal pain,Urgent
+4776,2,2,True,True,False,"the emergency department with a chief complaint of ischemic bilateral lower extremities, specificall",Emergent
+4645,2,2,True,True,False,"A 51-year-old white female with a history of stage IV breast cancer with metastasis to the liver, ch",Emergent
+5107,2,1,False,True,False,the ED with altered mental status (AMS) and hyperglycemia,Resuscitation
+3229,2,2,True,True,False,"suggests potential causes such as an allergic reaction, contact dermatitis, infection, or inflammato",Emergent
+3326,2,3,False,True,True,the ED with a chief complaint of left flank pain,Urgent
+3721,2,3,False,True,True,related to the incident (S/P FALL),Urgent
+3264,2,1,False,True,False,the ED with a chief complaint of bright red blood per rectum (BRBPR) and diarrhea,Resuscitation
+3796,2,2,True,True,False,the ED with right upper quadrant pain,Emergent
+3744,2,2,True,True,False,"A 71-year-old female with a history of paroxysmal atrial fibrillation, asthma, fibromyalgia, osteope",Emergent
+5488,2,2,True,True,False,"A 57-year-old white male was brought to the ED after a bicycle accident, where he fell over the hand",Emergent
+3999,2,3,False,True,True,finger swelling,Urgent
+5896,2,2,True,True,False,right facial injury following a fall,Emergent
+4046,2,4,False,False,True,dyspnea and influenza-like illness (ILI),Less Urgent
+3350,2,2,True,True,False,body aches and nausea,Emergent
+3111,2,3,False,True,True,the emergency department with a chief complaint of fever,Urgent
+4326,2,1,False,True,False,"facial cellulitis, likely stemming from a dental abscess",Resuscitation
+5418,2,2,True,True,False,chest pain and cough,Emergent
+3214,2,2,True,True,False,"severe left flank pain, rated as 10/10",Emergent
+4827,2,2,True,True,False,"91-year-old African American male with a complex medical history including hypertension, congestive ",Emergent
+4208,2,3,False,True,True,abdominal pain,Urgent
+3954,2,3,False,True,True,right knee pain,Urgent
+4320,2,3,False,True,True,"left flank pain, rated as 8/10 in severity",Urgent
+3740,2,1,False,True,False,"A 64-year-old white female with a history of vasovagal syncope, osteopenia, hypercholesterolemia, an",Resuscitation
+4218,2,1,False,True,False,"An 81-year-old female with a history of hypertension, diabetes, mitral valve prolapse, arthritis, an",Resuscitation
+3680,2,3,False,True,True,lower abdominal pain,Urgent
+3189,2,2,True,True,False,the ED with dyspnea and palpitations,Emergent
+3304,2,4,False,False,True,low back pain,Less Urgent
+5677,2,2,True,True,False,nausea and vomiting,Emergent
+3423,2,4,False,False,True,constipation,Less Urgent
+4558,2,1,False,True,False,"dyspnea following TAVR, transferred by ambulance",Resuscitation
+4916,2,1,False,True,False,"A 47-year-old Black/African American male with a history of alcoholism, peripheral neuropathy, and p",Resuscitation
+5453,2,2,True,True,False,"A 48-year-old white female with a history of diabetes type 2, celiac disease, depression, hypertensi",Emergent
+3949,2,3,False,True,True,"abdominal pain, rated as 8 out of 10",Urgent
+4037,2,2,True,True,False,"A 74-year-old Black male with a history of idiopathic cardiomyopathy, systolic and diastolic congest",Emergent
+4573,2,3,False,True,True,"abdominal pain, nausea, vomiting, and diarrhea",Urgent
+5665,2,4,False,False,True,dizziness following a fall,Less Urgent
+4549,2,3,False,True,True,abdominal pain,Urgent
+5451,2,3,False,True,True,"A 44-year-old white male with a history of asthma, alcohol abuse, and chronic hepatitis presented to",Urgent
+4880,2,4,False,False,True,"left facial pain, rated as 8/10",Less Urgent
+5171,2,4,False,False,True,a right knee injury following a fall,Less Urgent
+3505,2,2,True,True,False,the emergency department with bilateral leg redness and fever,Emergent
+4711,2,2,True,True,False,"diarrhea for the past 2 days, experiencing more than 6 episodes daily",Emergent
+3404,2,2,True,True,False,hypertension,Emergent
+3511,2,1,False,True,False,unresponsiveness,Resuscitation
+4905,2,1,False,True,False,"A 91-year-old female with a medical history of dementia, GERD, glaucoma, hyperlipidemia, osteoporosi",Resuscitation
+3288,2,3,False,True,True,urinary retention,Urgent
+4005,2,3,False,True,True,left lower quadrant abdominal pain,Urgent
+5798,2,2,True,True,False,the emergency department with chest pain,Emergent
+5731,2,4,False,False,True,left wrist pain following a fall,Less Urgent
+5407,2,4,False,False,True,head pain following a fall,Less Urgent
+5656,2,3,False,True,True,post-operative fever,Urgent
+4016,2,3,False,True,True,"severe epigastric abdominal pain radiating to the back, consistent with previous episodes of pancrea",Urgent
+5653,2,3,False,True,True,hematuria,Urgent
+5895,2,2,True,True,False,"vomiting, weakness, and lethargy",Emergent
+3173,2,3,False,True,True,the emergency department with abdominal pain and difficulty tolerating oral intake,Urgent
+3251,2,2,True,True,False,"the ED with constipation, increased right leg weakness, and headache",Emergent
+4898,2,2,True,True,False,left-sided weakness,Emergent
+4973,2,2,True,True,False,"A 71-year-old white female with a complex medical history, including paroxysmal atrial fibrillation ",Emergent
+4686,2,3,False,True,True,vomiting,Urgent
+4206,2,4,False,False,True,the ED with a chief complaint of urinary urgency,Less Urgent
+5034,2,2,True,True,False,"the ED with a 12-day history of severe headache rated 10/10, affecting her neck and shoulders, and p",Emergent
+5748,2,4,False,False,True,vertigo,Less Urgent
+3303,2,3,False,True,True,the ED with a chief complaint of jaundice,Urgent
+4325,2,1,False,True,False,"An 82-year-old white female with a history of cerebral palsy, chronic respiratory failure with trach",Resuscitation
+3659,2,3,False,True,True,a chief complaint of facial injury and right knee pain,Urgent
+3979,2,2,True,True,False,chest pain and shortness of breath,Emergent
+4943,2,3,False,True,True,abdominal pain and nausea/vomiting,Urgent
+5244,2,2,True,True,False,the emergency department with chest pain,Emergent
+4566,2,3,False,True,True,abdominal pain and nausea/vomiting,Urgent
+4492,2,2,True,True,False,"A 91-year-old white female with a history of myocardial infarction, transient ischemic attacks, coro",Emergent
+4697,2,2,True,True,False,the emergency department with chest pain,Emergent
+4952,2,2,True,True,False,left chest pain,Emergent
+5552,2,2,True,True,False,the ED with a chief complaint of chest pain and cough,Emergent
+5202,2,1,False,True,False,A 73-year-old white female with a complex medical history presented to the ED with dizziness and sym,Resuscitation
+3177,2,3,False,True,True,abdominal pain,Urgent
+3920,2,3,False,True,True,"severe left flank pain, rating his pain at 8/10",Urgent
+3807,2,2,True,True,False,the ED with flank pain,Emergent
+3769,2,1,False,True,False,"A 54-year-old white male with a history of alcohol-related cirrhosis, thrombocytopenia, CHF, diabete",Resuscitation
+3198,2,2,True,True,False,the emergency department with dyspnea and severe hyperglycemia,Emergent
+3509,2,3,False,True,True,the ED with syncope and vomiting,Urgent
+4819,2,2,True,True,False,"A 24-year-old white female with a history of insulin-dependent diabetes mellitus (DM1), alcohol abus",Emergent
+5851,2,4,False,False,True,hyperglycemia,Less Urgent
+5765,2,3,False,True,True,"left upper quadrant abdominal pain, reporting her pain level as 7 out of 10",Urgent
+3047,2,1,False,True,False,A 74-year-old Asian male with a 50 pack-year smoking history presented to the ED with acute dyspnea ,Resuscitation
+3276,2,2,True,True,False,right leg pain and swelling,Emergent
+3857,2,2,True,True,False,the ED with a chief complaint of fever 2 days post-PVI ablation,Emergent
+3042,2,1,False,True,False,the ED with hematemesis and hemoptysis,Resuscitation
+3295,2,3,False,True,True,"A 21-year-old white female walked into the emergency department with complaints of abdominal pain, n",Urgent
+4734,2,1,False,True,False,"a right-hand injury, reporting severe pain rated at 10/10",Resuscitation
+3272,2,1,False,True,False,"**sharp, right-sided pleuritic chest pain and shortness of breath** following recent ventral hernia ",Resuscitation
+4931,2,2,True,True,False,the ED with a chief complaint of a worsening right lower extremity wound with concern for necrosis,Emergent
+3278,2,3,False,True,True,left arm pain,Urgent
+5154,2,3,False,True,True,influenza-like illness (ILI) and dizziness,Urgent
+5477,2,2,True,True,False,diabetic ketoacidosis (DKA),Emergent
+3146,2,3,False,True,True,asthma exacerbation and dyspnea,Urgent
+3644,2,4,False,False,True,headache,Less Urgent
+4608,2,3,False,True,True,weakness,Urgent
+4997,2,3,False,True,True,the ED with back pain and decreased urination,Urgent
+3069,2,1,False,True,False,the ED via ambulance with acute dyspnea and respiratory distress,Resuscitation
+5210,2,1,False,True,False,"the ED with a chief complaint of paroxysmal palpitations, dyspnea, dizziness, and nausea",Resuscitation
+4261,2,2,True,True,False,chest pain and sore throat,Emergent
+3518,2,2,True,True,False,a chief complaint of hemoptysis,Emergent
+5005,2,2,True,True,False,the emergency department with a chief complaint of progressively worsening shortness of breath over ,Emergent
+4547,2,2,True,True,False,"renal failure, accompanied by a 1-week history of worsening productive cough with yellow sputum, poo",Emergent
+4360,2,2,True,True,False,"65-year-old Portuguese male with a history of Hepatitis C without cirrhosis, Stage IIIB Hepatocellul",Emergent
+4620,2,4,False,False,True,**: Left shoulder pain following a fall,Less Urgent
+3165,2,3,False,True,True,back pain,Urgent
+4398,2,1,False,True,False,a chief complaint of syncope,Resuscitation
+3169,2,4,False,False,True,left flank pain,Less Urgent
+4305,2,2,True,True,False,"**: 
+- Worsening right foot pain and erythema over a pre-existing ulcer",Emergent
+3135,2,4,False,False,True,cough and rib pain,Less Urgent
+5831,2,2,True,True,False,left-sided chest pain,Emergent
+3164,2,4,False,False,True,shortness of breath,Less Urgent
+5666,2,3,False,True,True,"A 34-year-old white male presented to the emergency department with complaints of left calf pain, le",Urgent
+5909,2,3,False,True,True,"A 74-year-old white male with a history of schizophrenia, hypertension, benign prostatic hyperplasia",Urgent
+3300,2,4,False,False,True,the ED via ambulance with a chief complaint of lower back pain after a motor vehicle crash,Less Urgent
+4736,2,4,False,False,True,nausea,Less Urgent
+5628,2,1,False,True,False,"the ED with altered mental status, described as stupor",Resuscitation
+4826,2,2,True,True,False,cough and influenza-like illness,Emergent
+4932,2,4,False,False,True,"the ED with a chief complaint of severe epigastric pain, rated 9/10",Less Urgent
+5961,2,4,False,False,True,staple removal,Less Urgent
+3411,2,3,False,True,True,abdominal pain and vomiting,Urgent
+4570,2,4,False,False,True,back pain and cough,Less Urgent
+4964,2,3,False,True,True,a chief complaint of right upper quadrant (RUQ) abdominal pain and nausea,Urgent
+5355,2,2,True,True,False,was a leg injury with a large right medial thigh hematoma,Emergent
+5800,2,1,False,True,False,the ED with dyspnea,Resuscitation
+5819,2,2,True,True,False,scrotal pain,Emergent
+5501,2,2,True,True,False,the emergency department with a chief complaint of fever and influenza-like illness,Emergent
+3648,2,4,False,False,True,the emergency department with a chief complaint of dyspnea on exertion,Less Urgent
+4739,2,2,True,True,False,s/p Fall,Emergent
+5353,2,3,False,True,True,right lower quadrant (RLQ) abdominal pain and fever,Urgent
+4788,2,1,False,True,False,dizziness and weakness,Resuscitation
+5923,2,3,False,True,True,"fever, right leg redness, and swelling",Urgent
+5844,2,4,False,False,True,"severe lower back pain and right leg pain, reporting a pain level of 10",Less Urgent
+5713,2,1,False,True,False,a chief complaint of gastrointestinal bleeding characterized by black stools (melena),Resuscitation
+4308,2,3,False,True,True,abdominal pain,Urgent
+3787,2,3,False,True,True,"An 86-year-old white male with a medical history of unprovoked DVT on Coumadin, chronic lymphocytic ",Urgent
+5972,2,3,False,True,True,dizziness,Urgent
+3258,2,3,False,True,True,abdominal pain,Urgent
+4948,2,3,False,True,True,the ED with a chief complaint of left flank pain,Urgent
+4114,2,3,False,True,True,fever,Urgent
+4435,2,3,False,True,True,"an enlarged, painful scrotum and fever",Urgent
+5516,2,4,False,False,True,a sore throat,Less Urgent
+4930,2,2,True,True,False,left-sided chest pain,Emergent
+4885,2,2,True,True,False,fever and weakness,Emergent
+5959,2,2,True,True,False,abdominal pain,Emergent
+5089,2,3,False,True,True,the ED with dyspnea and wheezing,Urgent
+4271,2,2,True,True,False,"the ED with fever, nausea, confusion, and a cough with red-tinged sputum that has worsened over the ",Emergent
+4783,2,2,True,True,False,chest pain and fever,Emergent
+4936,2,2,True,True,False,"86-year-old white female with a history of hypertension, type 2 diabetes mellitus, hyperlipidemia, G",Emergent
+5576,2,3,False,True,True,"the ED with jaundice and reports symptoms of pruritus, dark urine, abdominal pain, and diarrhea, whi",Urgent
+5541,2,3,False,True,True,right rib pain after falling down five stairs,Urgent
+4141,2,2,True,True,False,a right wrist injury,Emergent
+4897,2,4,False,False,True,a headache,Less Urgent
+3973,2,2,True,True,False,"44-year-old Black/African American male presenting to the ED with acute onset left-sided chest pain,",Emergent
+5540,2,3,False,True,True,"severe bilateral leg pain, rated at 13 on the pain scale",Urgent
+4178,2,2,True,True,False,"a severe headache, rating her pain as 10 out of 10",Emergent
+3224,2,1,False,True,False,the ED with an infected HD line,Resuscitation
+3362,2,1,False,True,False,altered mental status and being found down,Resuscitation
+3354,2,1,False,True,False,chest pain,Resuscitation
+5686,2,1,False,True,False,shortness of breath and respiratory distress occurring 1,Resuscitation
+4445,2,2,True,True,False,abdominal distention and anemia,Emergent
+7379,3,2,False,True,False,the emergency department with a chief complaint of redness in the right foot,Emergent
+9363,3,2,False,True,False,"the emergency department with a chief complaint of right-sided head pain and nausea, rated as 9/10 i",Emergent
+7296,3,2,False,True,False,s/p Fall,Emergent
+7129,3,3,True,True,False,"severe right ankle pain, rated at 10 out of 10",Urgent
+6470,3,3,True,True,False,a 3-week progressive headache,Urgent
+9361,3,3,True,True,False,"the ED with a chief complaint of abdominal pain, rated as 4 out of 10",Urgent
+7106,3,2,False,True,False,alcohol use and anxiety,Emergent
+7879,3,4,False,True,False,the emergency department via ambulance with a chief complaint of toe pain,Less Urgent
+6362,3,3,True,True,False,"right leg pain, rated at 9 out of 10",Urgent
+8764,3,2,False,True,False,"UTI symptoms, which may include dysuria, increased frequency, urgency, or suprapubic pain",Emergent
+6424,3,4,False,True,False,dyspnea,Less Urgent
+6755,3,4,False,True,False,left knee pain following a fall,Less Urgent
+9368,3,4,False,True,False,the emergency department with a chief complaint of leg pain,Less Urgent
+7663,3,3,True,True,False,"A 30-year-old white male arrived at the ED via ambulance, complaining of left flank pain",Urgent
+6416,3,3,True,True,False,abdominal pain rated at a level of 5,Urgent
+6064,3,4,False,True,False,right forearm swelling,Less Urgent
+6762,3,3,True,True,False,"left knee swelling and pain, rating her pain as 5/10",Urgent
+7141,3,4,False,True,False,head injury and headache,Less Urgent
+7847,3,3,True,True,False,"the ED with left lower quadrant abdominal pain, nausea, and vomiting",Urgent
+7298,3,2,False,True,False,difficulty ambulating,Emergent
+6325,3,2,False,True,False,the ED with two episodes of rectal bleeding,Emergent
+7827,3,1,False,False,False,"A 75-year-old white male with a history of recurrent bronchitis, DJD, BPH, gout, and past surgical h",Resuscitation
+7206,3,2,False,True,False,cough and lower back pain,Emergent
+7891,3,3,True,True,False,abdominal pain,Urgent
+6345,3,3,True,True,False,abdominal pain and nausea/vomiting,Urgent
+7801,3,3,True,True,False,"abdominal pain, rating his pain as 8 out of 10",Urgent
+7176,3,2,False,True,False,the emergency department with a chief complaint of dyspnea,Emergent
+8300,3,2,False,True,False,A 33-year-old Black/African male presented to the emergency department with chest pain and right sho,Emergent
+8801,3,2,False,True,False,hyperglycemia,Emergent
+7219,3,2,False,True,False,alcohol withdrawal and nausea,Emergent
+6007,3,4,False,True,False,shortness of breath,Less Urgent
+6190,3,3,True,True,False,vaginal bleeding,Urgent
+7868,3,3,True,True,False,"abdominal pain, rating his pain as 5 out of 10",Urgent
+6738,3,3,True,True,False,hypertension,Urgent
+7377,3,3,True,True,False,the emergency department with a chief complaint of a worsening right foot infection,Urgent
+6046,3,4,False,True,False,bilateral leg swelling,Less Urgent
+6733,3,3,True,True,False,nausea,Urgent
+7854,3,3,True,True,False,nausea and vomiting,Urgent
+6427,3,3,True,True,False,"abdominal pain and chills, walking in independently",Urgent
+6542,3,4,False,True,False,menstrual problems,Less Urgent
+8763,3,2,False,True,False,fever and chills,Emergent
+7186,3,3,True,True,False,abdominal pain,Urgent
+6534,3,3,True,True,False,neck pain,Urgent
+7169,3,4,False,True,False,s of vomiting and nasal congestion,Less Urgent
+6013,3,3,True,True,False,abdominal pain,Urgent
+6369,3,2,False,True,False,a right wrist injury,Emergent
+7204,3,3,True,True,False,"the ED via ambulance with a chief complaint of abdominal pain, nausea, vomiting, and diarrhea",Urgent
+8792,3,2,False,True,False,the emergency department via ambulance with a chief complaint of abdominal pain and nausea/vomiting,Emergent
+7136,3,4,False,True,False,cough and dyspnea,Less Urgent
+8943,3,2,False,True,False,the emergency department with chest pain,Emergent
+6636,3,2,False,True,False,right leg pain,Emergent
+8603,3,2,False,True,False,the ED with a chief complaint of drug exposure,Emergent
+8091,3,4,False,True,False,a fall,Less Urgent
+9044,3,2,False,True,False,cough and body aches,Emergent
+8776,3,3,True,True,False,right flank pain,Urgent
+8179,3,2,False,True,False,the emergency department with chest pain,Emergent
+6716,3,2,False,True,False,The patient is a 26-year-old white male who presented to the emergency department with severe pain i,Emergent
+9067,3,4,False,True,False,"the emergency department via ambulance with a chief complaint of bilateral hip pain, rated as 10 out",Less Urgent
+7319,3,4,False,True,False,"left foot pain, rated as 7/10",Less Urgent
+6649,3,3,True,True,False,the emergency department with a chief complaint of dyspnea on exertion,Urgent
+6047,3,2,False,True,False,"severe left leg pain, rated at 10/10",Emergent
+8126,3,4,False,True,False,fever but was afebrile upon arrival with a temperature of 97,Less Urgent
+6276,3,2,False,True,False,the emergency department with chest pain,Emergent
+6707,3,1,False,False,False,bright red blood per rectum (BRBPR),Resuscitation
+7902,3,4,False,True,False,the ED with a chief complaint of epistaxis,Less Urgent
+6049,3,2,False,True,False,right upper quadrant abdominal pain and fever,Emergent
+7287,3,3,True,True,False,"s of fever, influenza-like illness, and vomiting",Urgent
+7180,3,3,True,True,False,A 37-year-old Black/African American female presented to the emergency department with right lower q,Urgent
+7258,3,3,True,True,False,hematuria,Urgent
+8167,3,2,False,True,False,left rib pain following a fall,Emergent
+6629,3,2,False,True,False,A 32-year-old white female presented to the ED for wound evaluation with a pain level of 10,Emergent
+7862,3,4,False,True,False,hematuria,Less Urgent
+6721,3,3,True,True,False,vomiting,Urgent
+7315,3,4,False,True,False,the emergency department with a chief complaint of shortness of breath,Less Urgent
+7790,3,3,True,True,False,"neck pain, rated as 9/10 on the pain scale",Urgent
+6058,3,3,True,True,False,back pain,Urgent
+7804,3,3,True,True,False,left flank pain and nausea/vomiting,Urgent
+6712,3,3,True,True,False,the ED with a chief complaint of abdominal pain,Urgent
+6008,3,3,True,True,False,right thigh cramping,Urgent
+7369,3,3,True,True,False,A 75-year-old male presented to the emergency department with right flank pain and right lower quadr,Urgent
+6389,3,1,False,False,False,"severe right shoulder pain, rated at 10 out of 10",Resuscitation
+6744,3,3,True,True,False,right knee pain,Urgent
+6407,3,2,False,True,False,vomiting,Emergent
+8108,3,3,True,True,False,lower abdominal pain,Urgent
+9600,3,2,False,True,False,the emergency department with chest pain,Emergent
+7822,3,3,True,True,False,right ankle pain and left knee pain,Urgent
+8503,3,3,True,True,False,"periumbilical abdominal pain rated 5/10, accompanied by nausea and non-bilious vomiting",Urgent
+6745,3,2,False,True,False,a productive cough,Emergent
+9035,3,3,True,True,False,abdominal pain,Urgent
+7888,3,1,False,False,False,a lump on his chest,Resuscitation
+9626,3,1,False,False,False,"influenza-like illness (ILI) and significant discomfort, reporting a pain level of 8",Resuscitation
+7703,3,2,False,True,False,the emergency department with chest pain,Emergent
+7158,3,3,True,True,False,abdominal pain,Urgent
+7223,3,3,True,True,False,abdominal pain rated at 8/10,Urgent
+8191,3,3,True,True,False,diarrhea,Urgent
+8118,3,3,True,True,False,abdominal pain,Urgent
+8117,3,4,False,True,False,A 24-year-old white male presented to the ED following an assault,Less Urgent
+7875,3,2,False,True,False,body pain and a productive cough,Emergent
+6012,3,3,True,True,False,the ED with a chief complaint of lower abdominal pain and urinary frequency,Urgent
+7927,3,4,False,True,False,status post fall,Less Urgent
+8106,3,2,False,True,False,the ED with a chief complaint of chest pain and cough,Emergent
+7357,3,4,False,True,False,s of right shoulder pain and back pain,Less Urgent
+6323,3,3,True,True,False,"nausea, vomiting, and diarrhea",Urgent
+6053,3,2,False,True,False,"the ED with severe right knee pain, rated 10/10",Emergent
+8141,3,2,False,True,False,"a right leg injury, experiencing severe pain (10/10)",Emergent
+7842,3,3,True,True,False,abdominal pain,Urgent
+7222,3,3,True,True,False,abdominal pain,Urgent
+6030,3,4,False,True,False,A 74-year-old white female presented to the emergency department after experiencing a fall,Less Urgent
+6429,3,3,True,True,False,abdominal pain and nausea/vomiting,Urgent
+7221,3,4,False,True,False,cough and dyspnea,Less Urgent
+6973,3,2,False,True,False,", but the patient may have sustained trauma requiring further evaluation",Emergent
+6070,3,3,True,True,False,abdominal pain,Urgent
+7773,3,2,False,True,False,right mouth pain,Emergent
+9064,3,2,False,True,False,palpitations,Emergent
+7869,3,3,True,True,False,"abdominal pain, arriving by walking in",Urgent
+6764,3,2,False,True,False,"severe lower back pain, rated at 10/10",Emergent
+7240,3,2,False,True,False,the emergency department as a walk-in with a chief complaint of abdominal pain,Emergent
+7154,3,3,True,True,False,"severe right knee pain, rated 9/10",Urgent
+7852,3,3,True,True,False,left leg cellulitis,Urgent
+6387,3,1,False,False,False,being status post motor vehicle collision (S/P MVC),Resuscitation
+7196,3,1,False,False,False,facial swelling,Resuscitation
+7979,3,3,True,True,False,the ED with a chief complaint of epigastric pain and palpitations,Urgent
+7361,3,4,False,True,False,dizziness,Less Urgent
+6197,3,3,True,True,False,"abdominal pain, back pain, and nausea",Urgent
+6482,3,3,True,True,False,the ED with a chief complaint of right upper quadrant (RUQ) pain,Urgent
+6434,3,3,True,True,False,left flank pain rated at 8/10,Urgent
+9054,3,2,False,True,False,"a headache, reporting severe pain at a level of 9",Emergent
+6531,3,3,True,True,False,the emergency department with a chief complaint of neck pain,Urgent
+7274,3,3,True,True,False,vomiting,Urgent
+6461,3,2,False,True,False,the emergency department with a chief complaint of severe back pain,Emergent
+6024,3,3,True,True,False,"A 78-year-old white female with a history of chronic fatigue syndrome, hypothyroidism, and alcohol d",Urgent
+7320,3,3,True,True,False,the emergency department with a chief complaint of left flank pain,Urgent
+7331,3,4,False,True,False,related to injuries sustained from the fall,Less Urgent
+8093,3,3,True,True,False,"body aches, reporting a pain level of 7",Urgent
+6373,3,3,True,True,False,a fall,Urgent
+7370,3,3,True,True,False,a finger injury,Urgent
+6417,3,4,False,True,False,hematuria,Less Urgent
+6621,3,1,False,False,False,"severe back spasms, rated at a pain level of 10",Resuscitation
+6327,3,4,False,True,False,diarrhea,Less Urgent
+7841,3,2,False,True,False,right shoulder pain after a fall,Emergent
+7759,3,4,False,True,False,the ED with a chief complaint of dyspnea,Less Urgent
+7365,3,4,False,True,False,palpitations,Less Urgent
+6732,3,3,True,True,False,left arm pain and swelling,Urgent
+8301,3,2,False,True,False,elevated D-dimer,Emergent
+9178,3,4,False,True,False,the ED after a fall,Less Urgent
+7228,3,3,True,True,False,abdominal pain and nausea/vomiting,Urgent
+7906,3,2,False,True,False,the emergency department with chest pain,Emergent
+6630,3,4,False,True,False,back pain and rash,Less Urgent
+9331,3,1,False,False,False,A 29-year-old Asian female walked into the emergency department with no acute distress,Resuscitation
+6040,3,2,False,True,False,"severe back pain, rated at 10/10",Emergent
+7247,3,3,True,True,False,"abdominal pain, transported via ambulance",Urgent
+9628,3,4,False,True,False,right rib pain rated as 6/10,Less Urgent
+7814,3,2,False,True,False,A 69-year-old white female with a history of hypertension presented to the emergency department via ,Emergent
+7241,3,3,True,True,False,fever,Urgent
+6411,3,2,False,True,False,body aches and nausea,Emergent
+7346,3,4,False,True,False,the emergency department with a chief complaint of cough and dyspnea,Less Urgent
+7825,3,3,True,True,False,"was shoulder pain after the fall, with no noted head injury or loss of consciousness",Urgent
+6390,3,3,True,True,False,right lower quadrant abdominal pain,Urgent
+6335,3,3,True,True,False,"right flank pain, rated as 6/10",Urgent
+7268,3,2,False,True,False,chest pain and nausea,Emergent
+9358,3,4,False,True,False,agitation,Less Urgent
+6068,3,4,False,True,False,s/p fall with a pain level of 3 out of 10,Less Urgent
+9364,3,2,False,True,False,left upper quadrant abdominal pain,Emergent
+6463,3,4,False,True,False,constipation,Less Urgent
+7251,3,3,True,True,False,fever,Urgent
+7928,3,3,True,True,False,a fall,Urgent
+9528,3,4,False,True,False,"left hip pain, rated 8/10",Less Urgent
+6344,3,3,True,True,False,abdominal pain and diarrhea,Urgent
+8789,3,3,True,True,False,"left elbow pain may be related to an injury or inflammation, and the wound requires evaluation for s",Urgent
+8787,3,4,False,True,False,vertigo,Less Urgent
+7977,3,3,True,True,False,the ED with left lower quadrant abdominal pain persisting for two weeks despite a 10-day antibiotic ,Urgent
+7856,3,2,False,True,False,the emergency department with a chief complaint of finger swelling,Emergent
+8132,3,4,False,True,False,headache and facial pain,Less Urgent
+7795,3,3,True,True,False,"21-year-old Hispanic/Latino male, presented with right arm pain due to intravenous drug abuse (IVDA)",Urgent
+7194,3,3,True,True,False,a left knee injury following a fall,Urgent
+8194,3,4,False,True,False,"significant lower back pain, rated at 8 out of 10",Less Urgent
+6640,3,2,False,True,False,left facial pain,Emergent
+6767,3,4,False,True,False,thigh pain and sore throat,Less Urgent
+9058,3,4,False,True,False,back pain and a request for wound evaluation,Less Urgent
+7277,3,2,False,True,False,dyspnea,Emergent
+7300,3,3,True,True,False,the ED with a chief complaint of left arm pain,Urgent
+6724,3,3,True,True,False,"severe left flank pain, rating his pain at 8/10",Urgent
+7232,3,3,True,True,False,"abdominal pain, nausea, vomiting, and diarrhea",Urgent
+6841,3,3,True,True,False,left lower quadrant abdominal pain,Urgent
+7883,3,4,False,True,False,"alcohol use and a fall, arriving via ambulance",Less Urgent
+6059,3,2,False,True,False,"severe back pain, rated 10/10",Emergent
+6493,3,3,True,True,False,"the ED with a chief complaint of abdominal pain, rating it as a 7 out of 10",Urgent
+9541,3,3,True,True,False,a rash,Urgent
+7230,3,4,False,True,False,back pain and cough,Less Urgent
+6440,3,3,True,True,False,the emergency department with a chief complaint of abdominal pain,Urgent
+8491,3,4,False,True,False,nausea,Less Urgent
+6483,3,3,True,True,False,"nausea, vomiting, and diarrhea",Urgent
+7267,3,3,True,True,False,lower abdominal pain rated at 7 out of 10,Urgent
+7208,3,1,False,False,False,cough,Resuscitation
+7324,3,4,False,True,False,"pain associated with the fall, rated at 5/10",Less Urgent
+8500,3,2,False,True,False,the ED with a chief complaint of abdominal pain and nausea/vomiting,Emergent
+6751,3,4,False,True,False,the ED following an assault,Less Urgent
+6736,3,2,False,True,False,"rectal pain and an abscess, arriving as a walk-in with a pain level of 7 out of 10",Emergent
+7340,3,3,True,True,False,"right hip pain, rating his pain as 6 out of 10",Urgent
+6451,3,2,False,True,False,hypertension,Emergent
+8044,4,4,True,True,False,toe pain,Less Urgent
+7563,4,1,False,False,False,"right shoulder pain, rated at 8 out of 10",Resuscitation
+6708,4,4,True,True,False,A 63-year-old Black/African American female presented to the ED with a laceration following a fall,Less Urgent
+7560,4,3,False,True,False,right hand pain,Urgent
+7399,4,3,False,True,False,finger pain,Urgent
+6507,4,3,False,True,False,needing a prescription,Urgent
+8847,4,4,True,True,False,finger pain after walking in,Less Urgent
+8309,4,3,False,True,False,dysuria,Urgent
+7126,4,2,False,False,False,the ED with right wrist pain following a fall,Emergent
+8043,4,4,True,True,False,left foot pain following a fall,Less Urgent
+6723,4,4,True,True,False,"back pain, reporting a pain level of 7",Less Urgent
+6878,4,4,True,True,False,a right knee injury,Less Urgent
+8807,4,4,True,True,False,"right ear pain, rated at 9/10",Less Urgent
+6900,4,4,True,True,False,left foot pain,Less Urgent
+9494,4,4,True,True,False,"left ear pain, rated as 8 out of 10",Less Urgent
+7022,4,3,False,True,False,right knee pain,Urgent
+8013,4,3,False,True,False,left foot injury,Urgent
+6091,4,4,True,True,False,a left hand laceration,Less Urgent
+6911,4,3,False,True,False,the ED with a chief complaint of neck pain,Urgent
+7045,4,4,True,True,False,left foot evaluation,Less Urgent
+7630,4,3,False,True,False,a rash on his neck,Urgent
+7122,4,2,False,False,False,the ED with a chief complaint of lower back spasm,Emergent
+7411,4,4,True,True,False,the emergency department with left ankle pain,Less Urgent
+8534,4,4,True,True,False,the ED with a chief complaint of ankle pain,Less Urgent
+6998,4,4,True,True,False,dysuria and hematuria,Less Urgent
+6908,4,4,True,True,False,left ankle pain,Less Urgent
+9108,4,3,False,True,False,left eye pain,Urgent
+7005,4,4,True,True,False,a right ankle injury following a fall,Less Urgent
+7073,4,3,False,True,False,left wrist pain,Urgent
+7545,4,3,False,True,False,a finger laceration,Urgent
+7111,4,4,True,True,False,a forehead laceration,Less Urgent
+7121,4,4,True,True,False,the emergency department with a chief complaint of dysuria,Less Urgent
+8554,4,3,False,True,False,a foreign body in the eye,Urgent
+7665,4,4,True,True,False,dental pain,Less Urgent
+8233,4,2,False,False,False,a laceration on her left toe,Emergent
+7967,4,4,True,True,False,a finger laceration,Less Urgent
+7536,4,3,False,True,False,nausea and vomiting,Urgent
+7117,4,4,True,True,False,"left foot pain, rated at 5/10",Less Urgent
+7556,4,4,True,True,False,headache,Less Urgent
+9613,4,4,True,True,False,the ED with a chief complaint of requesting a pregnancy test,Less Urgent
+6976,4,4,True,True,False,right ankle pain,Less Urgent
+8842,4,4,True,True,False,a finger laceration,Less Urgent
+6404,4,4,True,True,False,a right foot injury,Less Urgent
+7065,4,4,True,True,False,an upper extremity injury,Less Urgent
+6104,4,2,False,False,False,"right shoulder pain, reporting a pain level of 10 out of 10",Emergent
+6107,4,4,True,True,False,a finger injury,Less Urgent
+7030,4,2,False,False,False,a right-hand laceration,Emergent
+6332,4,4,True,True,False,"foot pain, rated as 6/10",Less Urgent
+7727,4,3,False,True,False,the ED with a chief complaint of a hand injury,Urgent
+7441,4,3,False,True,False,a right ankle injury,Urgent
+7540,4,4,True,True,False,right foot pain,Less Urgent
+6838,4,4,True,True,False,a leg injury,Less Urgent
+8512,4,4,True,True,False,left leg pain,Less Urgent
+7595,4,3,False,True,False,requesting a pregnancy test,Urgent
+7717,4,4,True,True,False,A 61-year-old Southeast Asian female presented to the emergency department with an elevated blood pr,Less Urgent
+7395,4,4,True,True,False,the emergency department with a chief complaint of congestion,Less Urgent
+6870,4,3,False,True,False,"left heel pain, rated as 6/10 on the pain scale",Urgent
+7498,4,4,True,True,False,a finger injury,Less Urgent
+7125,4,4,True,True,False,fever and sore throat,Less Urgent
+7081,4,4,True,True,False,left knee pain,Less Urgent
+7503,4,4,True,True,False,a left foot injury after walking in,Less Urgent
+8551,4,4,True,True,False,the ED via ambulance with a chief complaint of right foot pain,Less Urgent
+9537,4,4,True,True,False,lower back pain,Less Urgent
+6993,4,4,True,True,False,right ankle pain,Less Urgent
+6081,4,3,False,True,False,the emergency department with a chief complaint of dysuria,Urgent
+7489,4,2,False,False,False,"right ankle pain, rated 6/10",Emergent
+8510,4,2,False,False,False,"right foot pain, rated as 7/10",Emergent
+9075,4,4,True,True,False,dysuria,Less Urgent
+9121,4,4,True,True,False,"the ED with a chief complaint of back pain, rated at 6/10",Less Urgent
+6848,4,4,True,True,False,wound evaluation,Less Urgent
+6720,4,3,False,True,False,left ankle pain,Urgent
+8173,4,3,False,True,False,"left upper back pain, reporting a pain level of 8 out of 10",Urgent
+7492,4,1,False,False,False,A 23-year-old male walked into the ED after being involved in a motor vehicle crash (MVC),Resuscitation
+7528,4,3,False,True,False,right eye pain,Urgent
+6842,4,3,False,True,False,the ED with a chief complaint of epistaxis,Urgent
+7569,4,4,True,True,False,right wrist/arm pain,Less Urgent
+6957,4,4,True,True,False,cough and sore throat,Less Urgent
+6937,4,4,True,True,False,the emergency department with a chief complaint of right knee pain,Less Urgent
+9122,4,4,True,True,False,a laceration on the left thumb,Less Urgent
+9315,4,2,False,False,False,the ED with a chief complaint of a left finger injury,Emergent
+7019,4,4,True,True,False,a laceration on the left third finger,Less Urgent
+8003,4,4,True,True,False,a left hand injury and associated pain,Less Urgent
+7466,4,4,True,True,False,a finger laceration,Less Urgent
+7083,4,4,True,True,False,finger pain following an assault,Less Urgent
+6886,4,4,True,True,False,"foot pain, rating her pain as 8/10",Less Urgent
+7483,4,4,True,True,False,the emergency department with a chief complaint of a finger laceration,Less Urgent
+7505,4,4,True,True,False,the ED with a chief complaint of vaginal discharge,Less Urgent
+8521,4,1,False,False,False,rib pain,Resuscitation
+6979,4,4,True,True,False,a finger injury,Less Urgent
+6652,4,4,True,True,False,needing a medication refill,Less Urgent
+9106,4,4,True,True,False,the emergency department with a chief complaint of a left finger injury,Less Urgent
+6971,4,4,True,True,False,a right ankle/foot injury,Less Urgent
+9103,4,3,False,True,False,right knee pain,Urgent
+8135,4,4,True,True,False,a gout flare,Less Urgent
+6097,4,2,False,False,False,"the ED with a chief complaint of severe left ankle pain, rated at 10/10 on the pain scale",Emergent
+6235,4,3,False,True,False,the ED with a chief complaint of an abscess on the chest,Urgent
+7481,4,4,True,True,False,a finger injury,Less Urgent
+6274,4,4,True,True,False,a foreign body in the skin,Less Urgent
+7332,4,4,True,True,False,"RCI, which necessitates clarification",Less Urgent
+7947,4,4,True,True,False,a left wrist laceration,Less Urgent
+7757,4,3,False,True,False,the emergency department with a chief complaint of left ear ringing,Urgent
+9092,4,3,False,True,False,right foot pain,Urgent
+6969,4,4,True,True,False,right ankle pain,Less Urgent
+7584,4,3,False,True,False,a dog bite,Urgent
+8249,4,3,False,True,False,left shoulder pain,Urgent
+7087,4,3,False,True,False,a left ankle injury,Urgent
+6852,4,4,True,True,False,a needlestick injury,Less Urgent
+8966,4,2,False,False,False,skin erythema,Emergent
+8814,4,4,True,True,False,left wrist pain and injury,Less Urgent
+8602,4,4,True,True,False,drug exposure walked into the emergency department,Less Urgent
+6871,4,3,False,True,False,"A 21-year-old white female presented to the emergency department with right ankle pain, rated 7 out ",Urgent
+8384,4,3,False,True,False,left eye pain,Urgent
+7450,4,3,False,True,False,left ankle injury following a fall,Urgent
+7957,4,4,True,True,False,a left ankle injury,Less Urgent
+7511,4,4,True,True,False,"lower back pain, reporting a pain level of 6/10",Less Urgent
+6094,4,3,False,True,False,"left ankle pain, rated as 8 out of 10",Urgent
+7952,4,1,False,False,False,the emergency department with a chief complaint of cough,Resuscitation
+8244,4,4,True,True,False,a laceration on her left thumb,Less Urgent
+7459,4,3,False,True,False,a laceration,Urgent
+6972,4,4,True,True,False,"back pain, rated as 7/10 in intensity",Less Urgent
+9318,4,4,True,True,False,a left finger injury,Less Urgent
+6554,4,3,False,True,False,wound evaluation,Urgent
+6102,4,4,True,True,False,"A 28-year-old white male arrived at the emergency department via walk-in, presenting with dental pai",Less Urgent
+6497,4,3,False,True,False,right knee pain,Urgent
+7625,4,4,True,True,False,a foot laceration,Less Urgent
+7784,4,2,False,False,False,the emergency department requesting a cast replacement,Emergent
+7561,4,3,False,True,False,"the ED with a chief complaint of right thumb pain, rated at 7 out of 10",Urgent
+7694,4,2,False,False,False,the emergency department with a chief complaint of left jaw pain,Emergent
+9080,4,2,False,False,False,right-hand pain,Emergent
+6072,4,3,False,True,False,the ED with a chief complaint of left ankle pain,Urgent
+7960,4,3,False,True,False,rule out urinary tract infection (UTI),Urgent
+9383,4,4,True,True,False,a hand laceration,Less Urgent
+7973,4,4,True,True,False,rule out UTI,Less Urgent
+8002,4,4,True,True,False,the emergency department with a chief complaint of a cough,Less Urgent
+7058,4,3,False,True,False,fever,Urgent
+6228,4,3,False,True,False,the emergency department with a chief complaint of alopecia,Urgent
+7396,4,3,False,True,False,"left ankle pain, rated at 6/10",Urgent
+8163,4,4,True,True,False,right ankle pain,Less Urgent
+7974,4,3,False,True,False,needing a Foley catheter change,Urgent
+7048,4,4,True,True,False,a finger injury,Less Urgent
+7579,4,4,True,True,False,a right-hand injury and reported a pain level of 6,Less Urgent
+8824,4,4,True,True,False,a finger laceration,Less Urgent
+8817,4,3,False,True,False,the emergency department with a chief complaint of a sore throat,Urgent
+7107,4,2,False,False,False,right eye irritation,Emergent
+9316,4,2,False,False,False,a left finger injury after an incident at home,Emergent
+8483,4,4,True,True,False,"dysuria, rating her pain at 8/10",Less Urgent
+7082,4,3,False,True,False,right-hand pain,Urgent
+8532,4,4,True,True,False,right ankle pain,Less Urgent
+9085,4,4,True,True,False,dysuria,Less Urgent
+8042,4,4,True,True,False,dysuria,Less Urgent
+9118,4,2,False,False,False,a finger laceration,Emergent
+8224,4,3,False,True,False,dysuria,Urgent
+9081,4,2,False,False,False,right foot pain,Emergent
+6836,4,3,False,True,False,left heel pain,Urgent
+6970,4,3,False,True,False,a dog bite,Urgent
+6962,4,3,False,True,False,"right thumb and hand pain, rating his pain as 4 out of 10",Urgent
+7573,4,4,True,True,False,right hand pain following a fall,Less Urgent
+7021,4,3,False,True,False,anxiety,Urgent
+7384,4,4,True,True,False,a foot laceration,Less Urgent
+7491,4,4,True,True,False,a foreign body (FB),Less Urgent
+8158,4,4,True,True,False,"right foot pain, rated as 5 out of 10",Less Urgent
+7088,4,4,True,True,False,a finger laceration,Less Urgent
+6905,4,3,False,True,False,cough,Urgent
+8831,4,4,True,True,False,"back and hip pain, walking in without assistance",Less Urgent
+7529,4,4,True,True,False,a left-hand laceration,Less Urgent
+6126,4,4,True,True,False,urinary tract infection (UTI) complaints,Less Urgent
+7552,4,4,True,True,False,a right-hand laceration,Less Urgent
+8482,4,4,True,True,False,the emergency department with a chief complaint of a finger laceration,Less Urgent
+8516,4,4,True,True,False,left foot pain,Less Urgent
+7468,4,4,True,True,False,right shoulder pain and a pain level of 2,Less Urgent
+8820,4,3,False,True,False,a dog bite,Urgent
+7075,4,2,False,False,False,the ED with a chief complaint of left ankle pain,Emergent
+7530,4,4,True,True,False,a finger laceration,Less Urgent
+8578,4,3,False,True,False,needing a medication refill,Urgent
+7496,4,4,True,True,False,the ED with a chief complaint of wrist pain,Less Urgent
+8808,4,4,True,True,False,left foot pain and injury,Less Urgent
+7565,4,3,False,True,False,a thumb laceration,Urgent
+6580,4,3,False,True,False,"the emergency department with a chief complaint of right thumb pain, rated at 7/10",Urgent
+8014,4,4,True,True,False,a finger laceration,Less Urgent
+7531,4,4,True,True,False,the ED with a chief complaint of pelvic evaluation,Less Urgent
+8047,4,2,False,False,False,left ankle swelling and pain rated at 6/10,Emergent
+7474,4,4,True,True,False,a laceration on his left hand,Less Urgent
+8537,4,4,True,True,False,a cat bite,Less Urgent
+6535,4,3,False,True,False,abdominal pain,Urgent
+6880,4,4,True,True,False,left 5th finger pain,Less Urgent
+8959,4,4,True,True,False,the emergency department for a wound evaluation,Less Urgent
+6929,4,4,True,True,False,elbow evaluation,Less Urgent
+7562,4,3,False,True,False,fever,Urgent
+6747,4,4,True,True,False,"back pain, which she rates as 7/10",Less Urgent
+7660,4,4,True,True,False,left knee pain,Less Urgent
+6863,4,2,False,False,False,"""R/O STD"" (Rule Out Sexually Transmitted Disease)",Emergent
+8041,4,3,False,True,False,a left ankle injury,Urgent
+7995,4,4,True,True,False,lower back pain,Less Urgent
+9086,4,4,True,True,False,a laceration on the left finger,Less Urgent
+7437,4,4,True,True,False,right knee pain,Less Urgent
+6947,4,3,False,True,False,vaginal discharge,Urgent
+6194,4,4,True,True,False,the emergency department with a chief complaint of a finger laceration sustained from cutting vegeta,Less Urgent
+8151,4,2,False,False,False,"severe lower back pain, rated 10/10",Emergent
+8049,4,3,False,True,False,"right wrist pain, rated 3 out of 10",Urgent
+7394,4,3,False,True,False,left arm and shoulder pain,Urgent
+8313,5,2,False,False,False,the emergency department for suture removal,Emergent
+8987,5,1,False,False,False,an insect bite,Resuscitation
+8696,5,4,False,True,False,the emergency department after a potential bat exposure,Less Urgent
+7642,5,4,False,True,False,the emergency department with a chief complaint of needing a medication refill,Less Urgent
+7918,5,4,False,True,False,needing a refill for his prescription,Less Urgent
+9200,5,3,False,False,False,the emergency department with a chief complaint of needing a medication refill,Urgent
+9623,5,4,False,True,False,the ED requesting a medication refill,Less Urgent
+8469,5,3,False,False,False,A 55-year-old male presented to the ED for suture removal,Urgent
+8740,5,4,False,True,False,needing a prescription walked into the ED,Less Urgent
+8908,5,3,False,False,False,toe pain,Urgent
+9503,5,4,False,True,False,a chief complaint of left ear obstruction,Less Urgent
+8667,5,2,False,False,False,the ED requesting a prescription refill for his antihypertensive medication,Emergent
+9556,5,3,False,False,False,needing suture removal,Urgent
+6154,5,3,False,False,False,the ED with the chief complaint of a wound evaluation,Urgent
+9236,5,5,True,True,False,A 54-year-old Hispanic male walks into the ED for staple removal,Non-Urgent
+9401,5,3,False,False,False,A 26-year-old Asian female walked into the emergency department requesting a rabies vaccine after be,Urgent
+8428,5,4,False,True,False,the ED requesting a prescription refill,Less Urgent
+8056,5,4,False,True,False,A 24-year-old female presented to the emergency department for a wound check,Less Urgent
+6702,5,4,False,True,False,nasal blockage,Less Urgent
+8351,5,4,False,True,False,the ED for a wound evaluation,Less Urgent
+6656,5,4,False,True,False,54-year-old Asian male arrived at the ED requesting a prescription refill,Less Urgent
+9553,5,3,False,False,False,an earring stuck in her earlobe,Urgent
+8709,5,2,False,False,False,the ED for suture removal,Emergent
+9175,5,4,False,True,False,the emergency department requesting a rabies vaccine after a recent encounter with a stray dog that ,Less Urgent
+6147,5,3,False,False,False,the emergency department for suture removal on her right forearm,Urgent
+8681,5,2,False,False,False,A 33-year-old Hispanic male walked into the emergency department complaining of cold-like symptoms,Emergent
+8375,5,5,True,True,False,the emergency department for suture removal,Non-Urgent
+8751,5,3,False,False,False,needing stitches removed,Urgent
+7910,5,4,False,True,False,A 24-year-old Asian female presented to the emergency department with a complaint of dental pain,Less Urgent
+6175,5,5,True,True,False,the emergency department for suture removal,Non-Urgent
+6584,5,3,False,False,False,suture removal,Urgent
+8929,5,3,False,False,False,eye redness,Urgent
+8385,5,3,False,False,False,the ED with a chief complaint of left eye pain,Urgent
+9021,5,4,False,True,False,A 30-year-old Asian female arrived at the ED for a follow-up visit,Less Urgent
+8443,5,3,False,False,False,the emergency department requesting a rabies vaccine following contact with a stray dog that scratch,Urgent
+8918,5,4,False,True,False,"the ED with a chief complaint of ear pain, rating the pain as 7 out of 10",Less Urgent
+7783,5,3,False,False,False,needing a cast replacement,Urgent
+7920,5,4,False,True,False,requiring a medication refill,Less Urgent
+8714,5,4,False,True,False,the ED requesting a medication refill,Less Urgent
+6138,5,4,False,True,False,ear pain,Less Urgent
+9229,5,4,False,True,False,the emergency department for suture removal following a minor injury,Less Urgent
+8403,5,3,False,False,False,the ED for suture removal,Urgent
+9483,5,5,True,True,False,the emergency department for suture removal,Non-Urgent
+8299,5,4,False,True,False,A 45-year-old Hispanic male walked into the ED with a request for a medication refill,Less Urgent
+7749,5,4,False,True,False,an insect bite,Less Urgent
+7646,5,5,True,True,False,the ED with a chief complaint of needing a medication refill,Non-Urgent
+9431,5,5,True,True,False,A 27-year-old Hispanic female walked into the ED for staple removal,Non-Urgent
+6585,5,3,False,False,False,the ED for suture removal,Urgent
+8715,5,4,False,True,False,the emergency department as a walk-in with the chief complaint of needing a medication refill,Less Urgent
+9481,5,4,False,True,False,A 24-year-old Hispanic male comes to the ED for suture removal after a minor laceration on his forea,Less Urgent
+8393,5,3,False,False,False,A 27-year-old Hispanic female arrived at the emergency department for the removal of sutures from a ,Urgent
+8064,5,4,False,True,False,A 70-year-old Asian female arrives at the emergency department for staple removal,Less Urgent
+8211,5,4,False,True,False,A 25-year-old Asian male presented to the ED for suture removal following a minor surgical procedure,Less Urgent
+8659,5,4,False,True,False,the emergency department for a wound evaluation,Less Urgent
+6500,5,3,False,False,False,suture removal,Urgent
+6801,5,2,False,False,False,anxiety,Emergent
+8933,5,3,False,False,False,the emergency department with a chief complaint of eye redness,Urgent
+9155,5,5,True,True,False,A 34-year-old Hispanic female arrived at the ED on foot for suture removal,Non-Urgent
+8339,5,4,False,True,False,the ED with a chief complaint of hand and foot itchiness,Less Urgent
+9606,5,5,True,True,False,the ED for suture removal,Non-Urgent
+6790,5,3,False,False,False,a sore throat,Urgent
+6824,5,4,False,True,False,A 50-year-old Asian male arrived at the emergency department requesting a medication refill,Less Urgent
+9147,5,5,True,True,False,A 19-year-old Hispanic male presented to the ED for suture removal from his left forearm,Non-Urgent
+6188,5,3,False,False,False,the ED for suture removal,Urgent
+9206,5,4,False,True,False,sawdust in the right eye,Less Urgent
+6380,5,4,False,True,False,the ED with a chief complaint of needing a medication refill,Less Urgent
+9452,5,3,False,False,False,A 22-year-old Asian male walked into the emergency department complaining of a splinter in his right,Urgent
+8293,5,5,True,True,False,suture removal,Non-Urgent
+9146,5,5,True,True,False,the emergency department for suture removal,Non-Urgent
+9195,5,4,False,True,False,A 65-year-old male presented to the ED requesting a prescription refill,Less Urgent
+6779,5,3,False,False,False,the emergency department with a chief complaint of eye irritation,Urgent
+6784,5,2,False,False,False,suture removal presented to the ED,Emergent
+9599,5,3,False,False,False,the ED with a chief complaint of suture removal,Urgent
+6131,5,3,False,False,False,the emergency department with the chief complaint of suture removal,Urgent
+8684,5,3,False,False,False,the emergency department for suture removal,Urgent
+8315,5,5,True,True,False,the emergency department with a chief complaint of suture removal,Non-Urgent
+8080,5,5,True,True,False,an elevated blood pressure of 158/98 but denies any pain and has stable vital signs: temperature of ,Non-Urgent
+8432,5,5,True,True,False,the ED for staple removal,Non-Urgent
+9559,5,2,False,False,False,68-year-old Hispanic female presented to the ED for suture removal,Emergent
+6273,5,3,False,False,False,needing a social work evaluation,Urgent
+8916,5,4,False,True,False,"ear pain, rated at 7 out of 10",Less Urgent
+9187,5,3,False,False,False,the removal of sutures placed after a minor procedure,Urgent
+8675,5,3,False,False,False,the ED with a chief complaint of a lip blister,Urgent
+6305,5,4,False,True,False,the ED via ambulance with a chief complaint of needing a medication refill,Less Urgent
+8978,5,4,False,True,False,A 69-year-old Asian female walked into the emergency department requesting a medication refill,Less Urgent
+6259,5,2,False,False,False,the ED for suture removal,Emergent
+9145,5,5,True,True,False,needing a medication refill,Non-Urgent
+9426,5,5,True,True,False,A 21-year-old Asian male presented to the emergency department for suture removal,Non-Urgent
+8877,5,4,False,True,False,the emergency department with a chief complaint of a rash,Less Urgent
+8567,5,4,False,True,False,needing a medication refill,Less Urgent
+9239,5,5,True,True,False,the emergency department for staple removal after a minor outpatient surgical procedure 10 days ago,Non-Urgent
+8359,5,3,False,False,False,the ED for suture removal,Urgent
+8670,5,2,False,False,False,A 44-year-old Asian female walked into the emergency department requesting a rabies vaccine due to a,Emergent
+9114,5,4,False,True,False,the ED with a chief complaint of needing a medication refill,Less Urgent
+8935,5,3,False,False,False,the emergency department for suture removal following a minor surgical procedure two weeks ago,Urgent
+8712,5,5,True,True,False,"stable vital signs: BP 110/68, HR 80, RR 17, SpO2 100%, and temperature 98",Non-Urgent
+9561,5,3,False,False,False,A 49-year-old Hispanic male presented to the emergency department for suture removal,Urgent
+9343,5,5,True,True,False,A 32-year-old female presented to the ED requesting a rabies vaccine after being bitten on the leg b,Non-Urgent
+7943,5,5,True,True,False,A 48-year-old Asian male arrives at the ED requesting staple removal,Non-Urgent
+8438,5,5,True,True,False,needing suture removal,Non-Urgent
+8874,5,2,False,False,False,a rash,Emergent
+8584,5,4,False,True,False,needing a medication refill,Less Urgent
+8885,5,4,False,True,False,27-year-old Asian male arrives at the emergency department seeking a medication refill,Less Urgent
+9282,5,4,False,True,False,the emergency department with a chief complaint of needing a medication refill,Less Urgent
+9502,5,4,False,True,False,left ear obstruction,Less Urgent
+9327,5,4,False,True,False,A 34-year-old female walked into the emergency department requesting a medication refill,Less Urgent
+8897,5,4,False,True,False,A 49-year-old Caucasian female came to the emergency department for a PPD test reading,Less Urgent
+9294,5,2,False,False,False,needing a medication refill,Emergent
+9171,5,3,False,False,False,A 29-year-old Hispanic male presented to the ED requesting a rabies vaccine after a recent encounter,Urgent
+6149,5,5,True,True,False,A 42-year-old Hispanic female arrives at the emergency department for suture removal,Non-Urgent
+8068,5,2,False,False,False,severe tooth pain rated at 10/10,Emergent
+6165,5,2,False,False,False,the emergency department for suture removal,Emergent
+9266,5,5,True,True,False,the ED for suture removal after a minor surgical procedure,Non-Urgent
+8085,5,3,False,False,False,the ED requesting medical clearance for participation in a college sports team,Urgent
+8297,5,4,False,True,False,requesting a medication refill,Less Urgent
+6284,5,4,False,True,False,the emergency department with the chief complaint of needing a ring removed from her finger,Less Urgent
+9032,5,3,False,False,False,the ED with a chief complaint of requiring a wound evaluation,Urgent
+7668,5,4,False,True,False,dental pain was brought to the emergency department by ambulance,Less Urgent
+9504,5,3,False,False,False,the emergency department with a chief complaint of left ear obstruction,Urgent
+6285,5,4,False,True,False,ring removal,Less Urgent
+8468,5,5,True,True,False,suture removal,Non-Urgent
+8379,5,5,True,True,False,the emergency department for suture removal,Non-Urgent
+8919,5,3,False,False,False,a rash,Urgent
+6573,5,4,False,True,False,"A 44-year-old Hispanic male arrives at the emergency department on foot, seeking evaluation for a wo",Less Urgent
+6309,5,2,False,False,False,NG tube removal,Emergent
+6782,5,4,False,True,False,the emergency department with a chief complaint of suture removal,Less Urgent
+6806,5,4,False,True,False,A 39-year-old Hispanic female walked into the emergency department seeking a rabies vaccine after be,Less Urgent
+7745,5,2,False,False,False,the emergency department for suture removal following a minor procedure,Emergent
+9505,5,4,False,True,False,left ear obstruction,Less Urgent
+8586,5,5,True,True,False,needing a medication refill,Non-Urgent
+8476,5,4,False,True,False,any acute symptoms or medical concerns at this time,Less Urgent
+6174,5,3,False,False,False,the emergency department with a chief complaint of a scratch,Urgent
+8378,5,4,False,True,False,A 54-year-old Hispanic male walked into the ED for suture removal,Less Urgent
+8455,5,2,False,False,False,the emergency department with a chief complaint of a burn on her right wrist,Emergent
+7678,5,4,False,True,False,the emergency department with a chief complaint of a rash,Less Urgent
+6182,5,5,True,True,False,the emergency department requesting a prescription refill,Non-Urgent
+9304,5,2,False,False,False,"A 20-year-old Hispanic female walked into the emergency department, requesting suture removal",Emergent
+8725,5,4,False,True,False,a rash on his left arm,Less Urgent
+9205,5,3,False,False,False,bug bites,Urgent
+8947,5,4,False,True,False,the ED with a chief complaint of bat exposure,Less Urgent
+8949,5,5,True,True,False,a wound check,Non-Urgent
+6809,5,4,False,True,False,the ED with a chief complaint of a tick on his left hip,Less Urgent
+6703,5,4,False,True,False,the ED with a chief complaint of a blocked nose,Less Urgent
+9154,5,2,False,False,False,suture removal,Emergent
+7645,5,4,False,True,False,A 45-year-old Hispanic female arrives at the ED requesting a refill for her hypertension medication,Less Urgent
+9484,5,5,True,True,False,A 30-year-old Black male presented to the emergency department for suture removal,Non-Urgent
+9013,5,4,False,True,False,A 62-year-old Hispanic male arrives at the emergency department for suture removal,Less Urgent
+6312,5,4,False,True,False,needing NG tube removal,Less Urgent
+6260,5,3,False,False,False,A 22-year-old Hispanic female presented to the ED for the removal of sutures,Urgent
+8633,5,5,True,True,False,suture removal with no associated symptoms of infection or complications,Non-Urgent
+9582,5,3,False,False,False,the ED for suture removal,Urgent
+8982,5,2,False,False,False,the emergency department for suture removal,Emergent
+6575,5,3,False,False,False,needing staples removed,Urgent
+8971,5,2,False,False,False,the emergency department requesting the removal of sutures,Emergent
+9139,5,4,False,True,False,needing a medication refill,Less Urgent
+6222,5,2,False,False,False,the emergency department with a chief complaint of redness in his right eye,Emergent
+9285,5,3,False,False,False,suture removal,Urgent
+8613,5,2,False,False,False,the emergency department for suture removal,Emergent
+9586,5,4,False,True,False,A 68-year-old Hispanic male walked into the emergency department requesting a prescription refill,Less Urgent
+8995,5,4,False,True,False,the emergency department with a chief complaint of needing a medication refill,Less Urgent
+9024,5,2,False,False,False,the ED with a chief complaint of influenza-like illness seeking work clearance,Emergent
+8887,5,4,False,True,False,the emergency department with a chief complaint of needing a medication refill,Less Urgent
+6263,5,3,False,False,False,A 23-year-old Hispanic/Latino female walks into the emergency department requesting suture removal,Urgent
+6183,5,4,False,True,False,A 24-year-old Asian male walked into the emergency department requesting a prescription refill,Less Urgent
+7742,5,2,False,False,False,the emergency department for suture removal,Emergent
+6244,5,3,False,False,False,the ED for suture removal following a minor laceration repair,Urgent
+6569,5,4,False,True,False,the ED for a wound evaluation,Less Urgent
+9262,5,4,False,True,False,the ED for suture removal,Less Urgent
+6799,5,2,False,False,False,anxiety,Emergent
+8737,5,3,False,False,False,A 69-year-old Asian male walked into the emergency department for a wound evaluation,Urgent
+8687,5,3,False,False,False,"A 28-year-old Asian male presented to the emergency department on foot, requesting suture removal",Urgent
+8316,5,2,False,False,False,A 24-year-old Hispanic male walked into the emergency department requesting suture removal,Emergent
+8928,5,3,False,False,False,the ED with a chief complaint of redness in the right eye,Urgent
+8589,5,4,False,True,False,dental pain,Less Urgent
+6224,5,4,False,True,False,alopecia,Less Urgent
+6251,5,4,False,True,False,"the ED with symptoms of a common cold, including nasal congestion, a sore throat, and mild headache ",Less Urgent
+9619,5,4,False,True,False,the emergency department requesting a rabies vaccine,Less Urgent
+9022,5,5,True,True,False,"""FOLLOW UP,"" indicating a non-urgent reassessment of a previous medical condition or treatment",Non-Urgent
+6279,5,5,True,True,False,"stable vital signs: BP 125/80, HR 66, RR 15, SpO2 97%, and a temperature of 98",Non-Urgent
+8466,5,5,True,True,False,suture removal,Non-Urgent
+9403,5,4,False,True,False,the emergency department requesting a rabies vaccine,Less Urgent
+6786,5,2,False,False,False,the emergency department for suture removal following a minor procedure two weeks prior,Emergent
+9622,5,4,False,True,False,A 39-year-old Hispanic female walked into the emergency department requesting a medication refill,Less Urgent
+8950,5,4,False,True,False,a wound check,Less Urgent
+8708,5,5,True,True,False,the emergency department for suture removal,Non-Urgent
+8445,5,4,False,True,False,the emergency department with the chief complaint of needing a rabies vaccine due to a recent animal,Less Urgent
+9020,5,4,False,True,False,A 30-year-old Hispanic female arrived at the emergency department for a follow-up,Less Urgent
+8641,5,3,False,False,False,needing staples removed,Urgent
+6227,5,4,False,True,False,the emergency department with a chief complaint of alopecia,Less Urgent
+8977,5,4,False,True,False,the emergency department with a chief complaint of needing a medication refill,Less Urgent
+8065,5,4,False,True,False,the emergency department for the removal of surgical staples,Less Urgent
+9563,5,2,False,False,False,A 44-year-old Hispanic male arrived at the emergency department for the scheduled removal of sutures,Emergent
+6572,5,4,False,True,False,the emergency department with a chief complaint of wound evaluation,Less Urgent
+6366,5,3,False,False,False,the emergency department with a chief complaint of suture removal,Urgent
+8651,5,3,False,False,False,suture removal,Urgent
+8463,5,3,False,False,False,the ED for the removal of sutures,Urgent
+8216,5,4,False,True,False,the emergency department with a chief complaint of suture removal,Less Urgent
+7684,5,5,True,True,False,suture removal,Non-Urgent
+8970,5,3,False,False,False,the emergency department for removal of sutures,Urgent
+6587,5,3,False,False,False,the ED for suture removal,Urgent
