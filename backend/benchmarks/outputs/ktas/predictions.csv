@@ -1,0 +1,1263 @@
+case_id,actual_ktas,predicted_esi,exact_match,within_one,error_type,chief_complaint
+ktas_row_2,4,2,0,0,over_triage,right ocular pain
+ktas_row_3,5,2,0,0,over_triage,right forearm burn
+ktas_row_4,5,2,0,0,over_triage,"arm pain, Lt"
+ktas_row_5,5,3,0,0,over_triage,ascites tapping
+ktas_row_6,5,3,0,0,over_triage,"distension, abd"
+ktas_row_7,4,3,0,1,over_triage,fever
+ktas_row_8,3,2,0,1,over_triage,With chest discomfort
+ktas_row_9,3,2,0,1,over_triage,"pain, chest"
+ktas_row_10,5,4,0,1,over_triage,LBP - Low back pain
+ktas_row_11,5,3,0,0,over_triage,"Eczema, Eyelid"
+ktas_row_12,4,4,1,1,exact_match,acute epigastric pain
+ktas_row_13,5,4,0,1,over_triage,"pain, leg"
+ktas_row_14,4,4,1,1,exact_match,epigastric pain
+ktas_row_15,4,4,1,1,exact_match,abd pain
+ktas_row_16,4,4,1,1,exact_match,headache
+ktas_row_17,4,4,1,1,exact_match,headache
+ktas_row_19,3,2,0,1,over_triage,Open Wound
+ktas_row_20,3,4,0,1,under_triage,RUQ pain
+ktas_row_21,4,3,0,1,over_triage,Gingival swelling
+ktas_row_22,4,2,0,0,over_triage,chin pain
+ktas_row_23,4,3,0,1,over_triage,Finger Injury
+ktas_row_24,3,4,0,1,under_triage,skin rash
+ktas_row_25,3,2,0,1,over_triage,Rt. side motor weakness
+ktas_row_26,4,3,0,1,over_triage,Lt. hip joint pain
+ktas_row_27,4,2,0,0,over_triage,face laceration
+ktas_row_28,3,4,0,1,under_triage,throat pain
+ktas_row_29,2,2,1,1,exact_match,chest wall pain right
+ktas_row_30,4,4,1,1,exact_match,"pain, arm"
+ktas_row_31,3,2,0,1,over_triage,Seizure Like Activity
+ktas_row_32,3,2,0,1,over_triage,post seizure
+ktas_row_33,4,3,0,1,over_triage,vomiting
+ktas_row_34,3,2,0,1,over_triage,palpitation
+ktas_row_35,3,2,0,1,over_triage,syncope
+ktas_row_37,3,2,0,1,over_triage,hematochezia
+ktas_row_38,4,3,0,1,over_triage,"injury, finger"
+ktas_row_39,4,2,0,0,over_triage,syncope
+ktas_row_41,4,3,0,1,over_triage,hyperventilation
+ktas_row_42,4,3,0,1,over_triage,involuntary movt.
+ktas_row_43,5,4,0,1,over_triage,Urticarial rash
+ktas_row_44,5,3,0,0,over_triage,Foreign body sensation in neck
+ktas_row_45,5,4,0,1,over_triage,throat pain
+ktas_row_46,5,2,0,0,over_triage,"swelling, facial"
+ktas_row_47,3,2,0,1,over_triage,post seizure
+ktas_row_48,3,3,1,1,exact_match,dyspnea
+ktas_row_49,2,2,1,1,exact_match,mental change
+ktas_row_50,3,2,0,1,over_triage,fever
+ktas_row_51,3,2,0,1,over_triage,melena
+ktas_row_52,4,3,0,1,over_triage,Abdominal pain (finding)
+ktas_row_53,5,4,0,1,over_triage,both leg pain
+ktas_row_54,4,2,0,0,over_triage,Left leg pain
+ktas_row_55,4,4,1,1,exact_match,knee pain
+ktas_row_56,2,2,1,1,exact_match,H-Headache
+ktas_row_57,3,3,1,1,exact_match,needle stick injury
+ktas_row_58,2,2,1,1,exact_match,Left chest pain
+ktas_row_59,3,3,1,1,exact_match,palpitation
+ktas_row_60,2,2,1,1,exact_match,fever
+ktas_row_61,2,3,0,1,critical_under_triage,abd pain
+ktas_row_62,3,3,1,1,exact_match,fever
+ktas_row_63,1,1,1,1,exact_match,dyspnea
+ktas_row_64,3,3,1,1,exact_match,vomiting
+ktas_row_65,4,2,0,0,over_triage,lip laceration
+ktas_row_66,2,2,1,1,exact_match,ant. chest pain
+ktas_row_67,4,3,0,1,over_triage,?? ??
+ktas_row_68,3,3,1,1,exact_match,right lower quadrant abdominal pain
+ktas_row_69,2,2,1,1,exact_match,right hemiparesis
+ktas_row_70,4,3,0,1,over_triage,"leg pain, Lt."
+ktas_row_71,4,3,0,1,over_triage,left wrist swelling
+ktas_row_72,3,4,0,1,under_triage,watery diarrhea
+ktas_row_73,3,4,0,1,under_triage,abd pain
+ktas_row_74,3,2,0,1,over_triage,chest pain rt
+ktas_row_75,3,4,0,1,under_triage,epigastric pain
+ktas_row_76,3,3,1,1,exact_match,epigastric pain
+ktas_row_77,3,3,1,1,exact_match,V - vomiting
+ktas_row_78,3,4,0,1,under_triage,HA - Headache
+ktas_row_79,3,2,0,1,over_triage,both eye pain
+ktas_row_80,4,4,1,1,exact_match,leg pain left
+ktas_row_81,4,4,1,1,exact_match,tooth pain
+ktas_row_82,3,4,0,1,under_triage,acute epigastric pain
+ktas_row_83,3,3,1,1,exact_match,upper abdominal pain
+ktas_row_84,4,3,0,1,over_triage,"Edema, Cheek"
+ktas_row_85,3,4,0,1,under_triage,headache
+ktas_row_86,3,3,1,1,exact_match,epigastric pain
+ktas_row_87,3,3,1,1,exact_match,epigastric pain
+ktas_row_88,3,3,1,1,exact_match,fever
+ktas_row_89,3,2,0,1,over_triage,"pain, low back"
+ktas_row_90,3,2,0,1,over_triage,"Low Back Pain, Undetermined"
+ktas_row_91,3,4,0,1,under_triage,"pain, low back"
+ktas_row_92,3,3,1,1,exact_match,hematuria
+ktas_row_93,3,3,1,1,exact_match,"pain, back"
+ktas_row_94,2,2,1,1,exact_match,both wrist pain
+ktas_row_95,3,4,0,1,under_triage,testis pain
+ktas_row_96,3,3,1,1,exact_match,right upper abdominal pain
+ktas_row_97,3,3,1,1,exact_match,Generalized abdominal pain
+ktas_row_98,3,4,0,1,under_triage,"pain, low back"
+ktas_row_99,3,4,0,1,under_triage,abd pain
+ktas_row_100,3,3,1,1,exact_match,"pain, abdominal"
+ktas_row_101,4,3,0,1,over_triage,"Pain, Hip"
+ktas_row_102,3,3,1,1,exact_match,acute epigastric pain
+ktas_row_103,3,3,1,1,exact_match,Abd. pain
+ktas_row_104,3,3,1,1,exact_match,Elbow Injury
+ktas_row_105,2,2,1,1,exact_match,fever
+ktas_row_106,3,3,1,1,exact_match,Rt. flank pain
+ktas_row_107,3,2,0,1,over_triage,H-Headache
+ktas_row_108,3,4,0,1,under_triage,headache
+ktas_row_109,3,4,0,1,under_triage,LLQ pain
+ktas_row_110,3,3,1,1,exact_match,rt flank pain
+ktas_row_111,3,2,0,1,over_triage,occipital area headache
+ktas_row_112,3,3,1,1,exact_match,Lt flank pain
+ktas_row_113,3,3,1,1,exact_match,RLQ pain
+ktas_row_114,3,3,1,1,exact_match,Lt flank pain
+ktas_row_115,3,2,0,1,over_triage,both leg pain
+ktas_row_116,3,3,1,1,exact_match,"ocular pain, Lt."
+ktas_row_117,2,1,0,1,over_triage,Open Wound
+ktas_row_118,3,4,0,1,under_triage,leg pain left
+ktas_row_119,2,3,0,1,critical_under_triage,headache
+ktas_row_120,3,2,0,1,over_triage,Arm Injury
+ktas_row_121,2,2,1,1,exact_match,HA
+ktas_row_122,3,2,0,1,over_triage,vomiting
+ktas_row_123,1,2,0,1,critical_under_triage,dyspnea
+ktas_row_124,1,1,1,1,exact_match,"Blood Pressure, Low"
+ktas_row_125,1,1,1,1,exact_match,"Blood Pressure, Low"
+ktas_row_126,3,2,0,1,over_triage,syncope
+ktas_row_127,2,2,1,1,exact_match,general weakness
+ktas_row_128,3,3,1,1,exact_match,dyspnea
+ktas_row_129,3,2,0,1,over_triage,general weakness
+ktas_row_130,3,3,1,1,exact_match,fever
+ktas_row_131,2,2,1,1,exact_match,fever & chill
+ktas_row_132,2,3,0,1,critical_under_triage,fever
+ktas_row_133,2,1,0,1,over_triage,dyspnea
+ktas_row_134,1,1,1,1,exact_match,dyspnea
+ktas_row_135,1,1,1,1,exact_match,acute dyspnea
+ktas_row_136,2,1,0,1,over_triage,dyspnea
+ktas_row_137,3,3,1,1,exact_match,general weakness
+ktas_row_138,3,3,1,1,exact_match,vomiting
+ktas_row_139,4,3,0,1,over_triage,weakness
+ktas_row_140,2,2,1,1,exact_match,diffuse chest discomfort
+ktas_row_141,3,3,1,1,exact_match,dizziness
+ktas_row_142,2,2,1,1,exact_match,dyspnea
+ktas_row_143,3,3,1,1,exact_match,dizziness
+ktas_row_144,4,4,1,1,exact_match,D - Diarrhea
+ktas_row_145,4,3,0,1,over_triage,general weakness
+ktas_row_146,3,3,1,1,exact_match,dizziness
+ktas_row_147,3,3,1,1,exact_match,low Hb
+ktas_row_148,2,2,1,1,exact_match,Suicidal Attempt
+ktas_row_149,3,2,0,1,over_triage,chest palpitation
+ktas_row_150,3,3,1,1,exact_match,general weakness
+ktas_row_151,2,2,1,1,exact_match,AVF site bleeding
+ktas_row_152,1,2,0,1,critical_under_triage,mental change
+ktas_row_153,2,2,1,1,exact_match,dyspnea
+ktas_row_154,2,1,0,1,over_triage,mental change
+ktas_row_155,1,1,1,1,exact_match,mental change
+ktas_row_156,3,2,0,1,over_triage,acute delirium
+ktas_row_157,1,2,0,1,critical_under_triage,Motor weakness
+ktas_row_158,2,3,0,1,critical_under_triage,fever
+ktas_row_159,2,2,1,1,exact_match,fever
+ktas_row_160,4,3,0,1,over_triage,Catheter removal
+ktas_row_161,3,2,0,1,over_triage,dyspnea
+ktas_row_162,2,2,1,1,exact_match,Generalized abdominal pain
+ktas_row_163,1,2,0,1,critical_under_triage,melena
+ktas_row_164,2,1,0,1,over_triage,hematemesis
+ktas_row_165,2,2,1,1,exact_match,oliguria
+ktas_row_166,1,2,0,1,critical_under_triage,dyspnea
+ktas_row_167,3,2,0,1,over_triage,both leg  motor weakness
+ktas_row_168,2,2,1,1,exact_match,Drug Intoxication
+ktas_row_169,2,3,0,1,critical_under_triage,Amnesia
+ktas_row_170,3,3,1,1,exact_match,limb paresthesia
+ktas_row_171,2,2,1,1,exact_match,right hemiparesis
+ktas_row_172,2,2,1,1,exact_match,fever
+ktas_row_173,2,2,1,1,exact_match,fever
+ktas_row_174,4,3,0,1,over_triage,AVF malfunction
+ktas_row_175,3,4,0,1,under_triage,post neck pain
+ktas_row_176,3,4,0,1,under_triage,generalized urticaria
+ktas_row_177,3,4,0,1,under_triage,headache
+ktas_row_178,4,3,0,1,over_triage,left facial numbness
+ktas_row_179,3,3,1,1,exact_match,upper abdominal pain
+ktas_row_180,3,3,1,1,exact_match,Rt. flank pain
+ktas_row_181,4,4,1,1,exact_match,"arm pain, Rt"
+ktas_row_182,2,2,1,1,exact_match,"erection, penile"
+ktas_row_183,2,1,0,1,over_triage,melena
+ktas_row_184,3,2,0,1,over_triage,dysarthria
+ktas_row_185,3,3,1,1,exact_match,PPROM
+ktas_row_186,2,1,0,1,over_triage,dyspnea
+ktas_row_187,3,3,1,1,exact_match,Facial Palsy
+ktas_row_188,5,4,0,1,over_triage,Urticarial rash
+ktas_row_189,5,2,0,0,over_triage,FB in eye
+ktas_row_190,4,3,0,1,over_triage,abdomen discomfort
+ktas_row_191,5,2,0,0,over_triage,?? ??? ??
+ktas_row_193,4,2,0,0,over_triage,Open Wound
+ktas_row_194,5,3,0,0,over_triage,hand tingling sense
+ktas_row_195,4,2,0,0,over_triage,Dislocation of Jaw
+ktas_row_196,4,2,0,0,over_triage,Foreign body sensation in throat
+ktas_row_197,2,2,1,1,exact_match,Rt. Chest pain
+ktas_row_198,5,3,0,0,over_triage,chest wall pain left
+ktas_row_199,4,3,0,1,over_triage,head trauma
+ktas_row_200,4,3,0,1,over_triage,HA
+ktas_row_201,4,2,0,0,over_triage,F/C-fever/chills
+ktas_row_202,4,2,0,0,over_triage,blurred vision
+ktas_row_203,4,2,0,0,over_triage,scalp lac.
+ktas_row_204,3,3,1,1,exact_match,Rt side numbness
+ktas_row_205,4,4,1,1,exact_match,epigastric pain
+ktas_row_206,2,2,1,1,exact_match,vaginal bleeding
+ktas_row_207,4,3,0,1,over_triage,vomiting
+ktas_row_208,3,2,0,1,over_triage,"Flank pain, Rt."
+ktas_row_209,4,3,0,1,over_triage,low abdominal pain
+ktas_row_210,2,2,1,1,exact_match,ant. chest pain
+ktas_row_211,5,3,0,0,over_triage,Ankle Injury
+ktas_row_212,4,4,1,1,exact_match,"pain, periumbilical"
+ktas_row_213,4,3,0,1,over_triage,"abdominal pain, Rt"
+ktas_row_214,5,3,0,0,over_triage,Arm Injury
+ktas_row_215,4,3,0,1,over_triage,Abd. pain
+ktas_row_216,2,2,1,1,exact_match,"Discomfort, Chest"
+ktas_row_217,1,2,0,1,critical_under_triage,mental change
+ktas_row_218,4,4,1,1,exact_match,"pain, flank"
+ktas_row_219,5,4,0,1,over_triage,Urticarial rash
+ktas_row_220,2,2,1,1,exact_match,"pain, chest"
+ktas_row_221,4,3,0,1,over_triage,abd pain
+ktas_row_222,4,4,1,1,exact_match,"pain, low back"
+ktas_row_223,2,2,1,1,exact_match,"pain, chest"
+ktas_row_224,4,2,0,0,over_triage,LBP - Low back pain
+ktas_row_225,4,3,0,1,over_triage,fever
+ktas_row_226,4,3,0,1,over_triage,for A/tapping
+ktas_row_227,4,2,0,0,over_triage,"Discomfort, Chest"
+ktas_row_228,4,3,0,1,over_triage,?? ??
+ktas_row_229,4,2,0,0,over_triage,??? ??
+ktas_row_230,4,3,0,1,over_triage,HA
+ktas_row_231,3,4,0,1,under_triage,headache
+ktas_row_232,4,4,1,1,exact_match,acute epigastric pain
+ktas_row_233,4,2,0,0,over_triage,throat pain
+ktas_row_234,4,4,1,1,exact_match,H-Headache
+ktas_row_235,4,4,1,1,exact_match,ocular pain
+ktas_row_236,4,3,0,1,over_triage,PTx - Pneumothorax
+ktas_row_237,4,4,1,1,exact_match,abd pain
+ktas_row_238,4,4,1,1,exact_match,Abd. pain
+ktas_row_239,4,3,0,1,over_triage,lower abdominal pain
+ktas_row_240,4,4,1,1,exact_match,abd pain
+ktas_row_241,4,3,0,1,over_triage,left knee swelling
+ktas_row_242,4,4,1,1,exact_match,sorethroat
+ktas_row_243,4,2,0,0,over_triage,"laceration, chin"
+ktas_row_244,4,4,1,1,exact_match,abd pain
+ktas_row_245,4,4,1,1,exact_match,acute epigastric pain
+ktas_row_246,3,2,0,1,over_triage,Vaginal Bleeding
+ktas_row_247,4,2,0,0,over_triage,"Burn, arm"
+ktas_row_248,4,4,1,1,exact_match,abd pain
+ktas_row_249,4,4,1,1,exact_match,epigastric pain
+ktas_row_250,5,4,0,1,over_triage,dysuria
+ktas_row_251,2,2,1,1,exact_match,"pain, chest"
+ktas_row_252,4,3,0,1,over_triage,Gingival bleeding
+ktas_row_253,4,3,0,1,over_triage,anal bleeding
+ktas_row_254,3,2,0,1,over_triage,"pain, chest"
+ktas_row_255,4,3,0,1,over_triage,"swelling, neck"
+ktas_row_256,4,4,1,1,exact_match,headache
+ktas_row_257,4,2,0,0,over_triage,FB in pharynx
+ktas_row_258,4,4,1,1,exact_match,abdomen pain
+ktas_row_259,4,3,0,1,over_triage,"injury, finger"
+ktas_row_260,4,4,1,1,exact_match,abd pain
+ktas_row_261,2,2,1,1,exact_match,chest discomfort left
+ktas_row_262,4,4,1,1,exact_match,LLQ pain
+ktas_row_263,4,3,0,1,over_triage,vomiting
+ktas_row_264,5,3,0,0,over_triage,Knee Injury
+ktas_row_265,4,2,0,0,over_triage,LBP - Low back pain
+ktas_row_266,4,4,1,1,exact_match,headache
+ktas_row_267,4,3,0,1,over_triage,facial injury
+ktas_row_268,4,4,1,1,exact_match,epigastric pain
+ktas_row_269,4,2,0,0,over_triage,eyebrow laceration
+ktas_row_270,4,4,1,1,exact_match,abd pain
+ktas_row_271,4,2,0,0,over_triage,"pain, foot"
+ktas_row_272,4,2,0,0,over_triage,blurred vision
+ktas_row_273,4,2,0,0,over_triage,"pain, chest"
+ktas_row_274,4,3,0,1,over_triage,vomiting
+ktas_row_275,3,2,0,1,over_triage,vaginal spotting
+ktas_row_276,4,4,1,1,exact_match,abdomen pain
+ktas_row_277,4,2,0,0,over_triage,Open Wound
+ktas_row_278,4,3,0,1,over_triage,anxiety
+ktas_row_279,4,3,0,1,over_triage,?? ???
+ktas_row_280,5,3,0,0,over_triage,myalgia
+ktas_row_281,4,4,1,1,exact_match,headache
+ktas_row_282,4,4,1,1,exact_match,headache
+ktas_row_283,3,3,1,1,exact_match,right monoparesis
+ktas_row_284,4,4,1,1,exact_match,throat pain
+ktas_row_285,4,4,1,1,exact_match,"pain, periumbilical"
+ktas_row_286,4,4,1,1,exact_match,"pain, low back"
+ktas_row_287,4,4,1,1,exact_match,Rt abd pain
+ktas_row_288,4,4,1,1,exact_match,RLQ abd. pain
+ktas_row_289,4,2,0,0,over_triage,Lt flank pain
+ktas_row_290,2,2,1,1,exact_match,With chest discomfort
+ktas_row_291,5,2,0,0,over_triage,"ocular pain, Rt."
+ktas_row_292,4,2,0,0,over_triage,left eyelid laceration
+ktas_row_293,2,2,1,1,exact_match,Chest pain NOS (finding)
+ktas_row_294,4,4,1,1,exact_match,"ocular pain, Lt."
+ktas_row_295,4,4,1,1,exact_match,sorethroat
+ktas_row_296,4,4,1,1,exact_match,epigastric pain
+ktas_row_297,4,4,1,1,exact_match,Midmenstrual pain
+ktas_row_298,4,3,0,1,over_triage,fever
+ktas_row_299,4,3,0,1,over_triage,diffuse abdominal pain
+ktas_row_300,4,2,0,0,over_triage,Eye Injury
+ktas_row_301,4,4,1,1,exact_match,headache
+ktas_row_302,3,2,0,1,over_triage,LOC - Loss of consciousness
+ktas_row_303,4,3,0,1,over_triage,Lt flank pain
+ktas_row_304,2,2,1,1,exact_match,ant. chest pain
+ktas_row_305,3,4,0,1,under_triage,cough
+ktas_row_306,4,4,1,1,exact_match,abd pain
+ktas_row_307,4,4,1,1,exact_match,painful skin lesion
+ktas_row_308,3,2,0,1,over_triage,ant. chest pain
+ktas_row_309,4,4,1,1,exact_match,Rt abd pain
+ktas_row_310,4,3,0,1,over_triage,upper abdominal pain
+ktas_row_311,4,4,1,1,exact_match,H-Headache
+ktas_row_312,5,4,0,1,over_triage,"Leg pain, NOS"
+ktas_row_313,5,4,0,1,over_triage,leg pain
+ktas_row_314,4,4,1,1,exact_match,RLQ pain
+ktas_row_315,4,4,1,1,exact_match,abd pain
+ktas_row_316,4,2,0,0,over_triage,Open Wound
+ktas_row_317,4,2,0,0,over_triage,Open Wound
+ktas_row_318,3,3,1,1,exact_match,"bleeding, knee"
+ktas_row_319,4,4,1,1,exact_match,headache
+ktas_row_320,4,3,0,1,over_triage,Rt. flank pain
+ktas_row_321,4,3,0,1,over_triage,Rt. flank pain
+ktas_row_322,4,2,0,0,over_triage,Open Wound
+ktas_row_323,4,4,1,1,exact_match,LLQ pain
+ktas_row_324,4,3,0,1,over_triage,HA
+ktas_row_325,3,3,1,1,exact_match,dyspnea
+ktas_row_326,5,4,0,1,over_triage,"Pain, Ankle"
+ktas_row_327,3,4,0,1,under_triage,Abd. pain
+ktas_row_328,4,4,1,1,exact_match,abdomen pain
+ktas_row_329,2,2,1,1,exact_match,chest palpitation
+ktas_row_330,4,4,1,1,exact_match,"pain, neck"
+ktas_row_331,4,2,0,0,over_triage,"ocular pain, Rt."
+ktas_row_332,4,3,0,1,over_triage,Foreign Body Sense
+ktas_row_333,4,4,1,1,exact_match,abd pain
+ktas_row_334,3,2,0,1,over_triage,Open Wound
+ktas_row_335,4,4,1,1,exact_match,Abd. pain
+ktas_row_336,2,1,0,1,over_triage,mental change
+ktas_row_337,4,2,0,0,over_triage,Open Wound
+ktas_row_338,4,4,1,1,exact_match,HA - Headache
+ktas_row_339,2,2,1,1,exact_match,ant. chest pain
+ktas_row_340,3,3,1,1,exact_match,whirling type vertigo
+ktas_row_341,4,3,0,1,over_triage,rt flank pain
+ktas_row_342,4,4,1,1,exact_match,rt. side neck pain
+ktas_row_343,4,4,1,1,exact_match,H-Headache
+ktas_row_344,4,3,0,1,over_triage,diffuse abdominal pain
+ktas_row_345,4,3,0,1,over_triage,fever
+ktas_row_346,4,2,0,0,over_triage,Open Wound
+ktas_row_347,4,4,1,1,exact_match,RUQ pain
+ktas_row_348,2,2,1,1,exact_match,ant. chest pain
+ktas_row_349,5,4,0,1,over_triage,arm pain
+ktas_row_350,4,2,0,0,over_triage,finger laceration wound
+ktas_row_351,4,3,0,1,over_triage,head trauma
+ktas_row_352,5,2,0,0,over_triage,pain on Knee
+ktas_row_353,4,4,1,1,exact_match,abd pain
+ktas_row_354,2,2,1,1,exact_match,Left chest pain
+ktas_row_355,4,3,0,1,over_triage,Epigastric discomfort(+)
+ktas_row_356,5,2,0,0,over_triage,both leg pain
+ktas_row_357,4,4,1,1,exact_match,abd pain
+ktas_row_358,4,3,0,1,over_triage,abd. Distension
+ktas_row_359,4,4,1,1,exact_match,epigastric pain
+ktas_row_360,5,3,0,0,over_triage,for medication
+ktas_row_361,4,2,0,0,over_triage,"ocular pain, Rt."
+ktas_row_362,4,3,0,1,over_triage,Lt flank pain
+ktas_row_363,2,2,1,1,exact_match,ant. chest pain
+ktas_row_364,4,4,1,1,exact_match,headache
+ktas_row_365,2,2,1,1,exact_match,Lt hemiparesis
+ktas_row_366,2,2,1,1,exact_match,ant. chest pain
+ktas_row_367,4,2,0,0,over_triage,Open Wound
+ktas_row_368,4,3,0,1,over_triage,"abdominal pain, Rt"
+ktas_row_369,2,2,1,1,exact_match,Left chest pain
+ktas_row_370,2,2,1,1,exact_match,ant. chest pain
+ktas_row_371,4,4,1,1,exact_match,"pain, flank"
+ktas_row_372,3,2,0,1,over_triage,LLQ pain
+ktas_row_373,4,4,1,1,exact_match,abd pain
+ktas_row_374,4,3,0,1,over_triage,upper abdominal pain
+ktas_row_375,4,2,0,0,over_triage,Open Wound
+ktas_row_376,4,4,1,1,exact_match,headache
+ktas_row_377,4,2,0,0,over_triage,left eye pain
+ktas_row_378,3,2,0,1,over_triage,Rt hemiparesis
+ktas_row_379,4,2,0,0,over_triage,ant. chest pain
+ktas_row_380,5,2,0,0,over_triage,????
+ktas_row_381,2,2,1,1,exact_match,ant. chest pain
+ktas_row_382,2,3,0,1,critical_under_triage,dyspnea
+ktas_row_383,4,3,0,1,over_triage,"abdominal pain, Rt"
+ktas_row_384,4,3,0,1,over_triage,head trauma
+ktas_row_385,2,2,1,1,exact_match,ant. chest pain
+ktas_row_386,3,3,1,1,exact_match,dizziness
+ktas_row_387,4,3,0,1,over_triage,Abd. pain
+ktas_row_388,2,2,1,1,exact_match,ant. chest pain
+ktas_row_389,4,3,0,1,over_triage,VOIDING PAIN
+ktas_row_390,4,3,0,1,over_triage,???
+ktas_row_391,3,2,0,1,over_triage,LOC - Loss of consciousness
+ktas_row_392,2,2,1,1,exact_match,ant. chest pain
+ktas_row_393,4,3,0,1,over_triage,RLQ pain
+ktas_row_394,2,2,1,1,exact_match,LOC
+ktas_row_395,2,2,1,1,exact_match,"pain, chest"
+ktas_row_396,4,3,0,1,over_triage,"Pain, Eye"
+ktas_row_397,3,3,1,1,exact_match,dizziness
+ktas_row_398,3,3,1,1,exact_match,left thigh swelling
+ktas_row_399,4,3,0,1,over_triage,abd pain
+ktas_row_400,4,4,1,1,exact_match,diarrhea
+ktas_row_401,2,2,1,1,exact_match,ant. chest pain
+ktas_row_402,4,3,0,1,over_triage,??? ? ???
+ktas_row_403,4,3,0,1,over_triage,abd pain
+ktas_row_404,2,2,1,1,exact_match,ant. chest pain
+ktas_row_405,2,2,1,1,exact_match,ant. chest pain
+ktas_row_406,2,2,1,1,exact_match,diffuse chest discomfort
+ktas_row_407,2,3,0,1,critical_under_triage,dyspnea
+ktas_row_408,4,3,0,1,over_triage,epigastric pain
+ktas_row_409,2,3,0,1,critical_under_triage,general weakness
+ktas_row_410,4,3,0,1,over_triage,abdomen pain
+ktas_row_411,4,3,0,1,over_triage,Abd. pain
+ktas_row_412,4,2,0,0,over_triage,Lower Back Pain
+ktas_row_413,4,3,0,1,over_triage,backache
+ktas_row_414,3,2,0,1,over_triage,abd pain
+ktas_row_415,5,2,0,0,over_triage,left forearm pain
+ktas_row_416,4,2,0,0,over_triage,post neck pain
+ktas_row_417,3,2,0,1,over_triage,fever
+ktas_row_418,4,3,0,1,over_triage,abd pain
+ktas_row_419,4,3,0,1,over_triage,both leg cellulitis
+ktas_row_420,4,3,0,1,over_triage,RLQ abdominal pain
+ktas_row_421,2,2,1,1,exact_match,left side motor weakness
+ktas_row_422,4,4,1,1,exact_match,headache
+ktas_row_423,4,3,0,1,over_triage,Abd. pain
+ktas_row_424,2,2,1,1,exact_match,dyspnea
+ktas_row_425,4,3,0,1,over_triage,Lt flank pain
+ktas_row_426,4,3,0,1,over_triage,Low abd discomfort
+ktas_row_427,4,3,0,1,over_triage,fever
+ktas_row_428,4,3,0,1,over_triage,RUQ pain
+ktas_row_429,4,3,0,1,over_triage,alcohol smell
+ktas_row_430,3,2,0,1,over_triage,diffuse chest discomfort
+ktas_row_431,2,2,1,1,exact_match,ant. chest pain
+ktas_row_432,4,3,0,1,over_triage,RUQ pain
+ktas_row_433,4,3,0,1,over_triage,abdomen pain
+ktas_row_434,4,3,0,1,over_triage,abd pain
+ktas_row_435,2,2,1,1,exact_match,Left chest pain
+ktas_row_436,2,1,0,1,over_triage,dyspnea
+ktas_row_437,4,3,0,1,over_triage,abdomen pain
+ktas_row_438,4,3,0,1,over_triage,Voiding Failure
+ktas_row_439,3,2,0,1,over_triage,dyspnea
+ktas_row_440,3,2,0,1,over_triage,left motor weakness
+ktas_row_441,3,3,1,1,exact_match,both eyelid swelling
+ktas_row_442,2,2,1,1,exact_match,ant. chest pain
+ktas_row_443,4,3,0,1,over_triage,Abd. pain
+ktas_row_444,3,4,0,1,under_triage,cough
+ktas_row_445,3,3,1,1,exact_match,dizziness
+ktas_row_446,2,2,1,1,exact_match,Rt hemiparesis
+ktas_row_447,2,2,1,1,exact_match,ant. chest pain
+ktas_row_448,4,3,0,1,over_triage,fever
+ktas_row_449,2,2,1,1,exact_match,ant. chest pain
+ktas_row_450,4,3,0,1,over_triage,"abdominal pain, LUQ"
+ktas_row_451,3,3,1,1,exact_match,distended abdomen
+ktas_row_452,4,3,0,1,over_triage,ascites tapping
+ktas_row_453,4,2,0,0,over_triage,"pain, chest"
+ktas_row_454,2,2,1,1,exact_match,"discomfort, chest"
+ktas_row_455,2,2,1,1,exact_match,"pain, chest"
+ktas_row_456,3,2,0,1,over_triage,palpitation
+ktas_row_457,4,2,0,0,over_triage,Open Wound
+ktas_row_458,4,3,0,1,over_triage,Ankle Injury
+ktas_row_459,4,2,0,0,over_triage,right forearm laceration
+ktas_row_460,4,3,0,1,over_triage,Ankle Injury
+ktas_row_461,4,4,1,1,exact_match,H-Headache
+ktas_row_462,4,2,0,0,over_triage,Open Wound
+ktas_row_463,4,2,0,0,over_triage,mandibular pain
+ktas_row_464,4,3,0,1,over_triage,Toe injury
+ktas_row_465,4,2,0,0,over_triage,both leg pain
+ktas_row_466,3,2,0,1,over_triage,Convulsion
+ktas_row_467,3,4,0,1,under_triage,abd pain
+ktas_row_468,4,3,0,1,over_triage,"otalgia, Rt."
+ktas_row_469,3,2,0,1,over_triage,"pain, chest"
+ktas_row_470,4,3,0,1,over_triage,"otalgia, Lt."
+ktas_row_471,2,2,1,1,exact_match,nausea
+ktas_row_472,4,2,0,0,over_triage,Open Wound
+ktas_row_473,4,3,0,1,over_triage,Ankle Injury
+ktas_row_474,3,4,0,1,under_triage,abd pain
+ktas_row_475,4,2,0,0,over_triage,"Pain, Hand"
+ktas_row_476,4,2,0,0,over_triage,Open Wound
+ktas_row_477,3,4,0,1,under_triage,abd pain
+ktas_row_478,4,3,0,1,over_triage,facial injury
+ktas_row_479,3,4,0,1,under_triage,abd pain
+ktas_row_480,4,3,0,1,over_triage,facial injury
+ktas_row_481,3,4,0,1,under_triage,headache
+ktas_row_482,4,3,0,1,over_triage,Arm Injury
+ktas_row_483,4,3,0,1,over_triage,Foot Injury
+ktas_row_484,3,4,0,1,under_triage,cough
+ktas_row_485,3,4,0,1,under_triage,abd pain
+ktas_row_486,4,2,0,0,over_triage,"ocular pain, Rt."
+ktas_row_487,4,2,0,0,over_triage,ankle pain
+ktas_row_488,4,3,0,1,over_triage,Toe redness
+ktas_row_489,3,2,0,1,over_triage,abd pain
+ktas_row_490,2,2,1,1,exact_match,epigastric pain
+ktas_row_491,4,4,1,1,exact_match,ear pain lt
+ktas_row_492,4,4,1,1,exact_match,toothache
+ktas_row_493,3,4,0,1,under_triage,Throat Pain
+ktas_row_494,4,2,0,0,over_triage,Open Wound
+ktas_row_495,2,2,1,1,exact_match,ant. chest pain
+ktas_row_496,4,3,0,1,over_triage,"injury, finger"
+ktas_row_497,3,3,1,1,exact_match,general weakness
+ktas_row_498,4,2,0,0,over_triage,Open Wound
+ktas_row_499,4,4,1,1,exact_match,facial painful swelling
+ktas_row_500,2,3,0,1,critical_under_triage,dizziness
+ktas_row_501,3,2,0,1,over_triage,"pain, chest"
+ktas_row_502,4,3,0,1,over_triage,"otalgia, Lt."
+ktas_row_503,4,3,0,1,over_triage,facial injury
+ktas_row_504,3,4,0,1,under_triage,headache
+ktas_row_505,4,2,0,0,over_triage,left leg pain
+ktas_row_506,3,3,1,1,exact_match,diffuse abdominal pain
+ktas_row_507,2,2,1,1,exact_match,ant. chest pain
+ktas_row_508,3,4,0,1,under_triage,abd pain
+ktas_row_509,4,4,1,1,exact_match,Left leg pain
+ktas_row_510,4,2,0,0,over_triage,ocular pain
+ktas_row_511,4,2,0,0,over_triage,toe pain
+ktas_row_512,2,2,1,1,exact_match,Left chest pain
+ktas_row_513,4,4,1,1,exact_match,Rt abd pain
+ktas_row_514,4,2,0,0,over_triage,"pain, foot"
+ktas_row_515,3,4,0,1,under_triage,epigastric pain
+ktas_row_516,3,4,0,1,under_triage,RLQ abd. pain
+ktas_row_517,4,2,0,0,over_triage,Open Wound
+ktas_row_518,2,2,1,1,exact_match,Left chest pain
+ktas_row_519,3,2,0,1,over_triage,"Discomfort, Chest"
+ktas_row_520,4,3,0,1,over_triage,facial injury
+ktas_row_521,2,2,1,1,exact_match,ant. chest pain
+ktas_row_522,4,3,0,1,over_triage,left eye swelling
+ktas_row_523,3,4,0,1,under_triage,"pain, abdominal"
+ktas_row_524,3,4,0,1,under_triage,abd pain
+ktas_row_525,4,2,0,0,over_triage,"wrist pain, Lt"
+ktas_row_526,3,4,0,1,under_triage,epigastric pain
+ktas_row_527,3,2,0,1,over_triage,abd pain
+ktas_row_528,3,2,0,1,over_triage,Open Wound
+ktas_row_529,2,2,1,1,exact_match,ant. chest pain
+ktas_row_530,2,2,1,1,exact_match,Left chest pain
+ktas_row_531,3,3,1,1,exact_match,low abdominal pain
+ktas_row_532,2,2,1,1,exact_match,Lt. side weakness
+ktas_row_533,4,2,0,0,over_triage,finger pain
+ktas_row_534,3,2,0,1,over_triage,hypertension
+ktas_row_535,2,2,1,1,exact_match,ant. chest pain
+ktas_row_536,3,3,1,1,exact_match,Rt. flank pain
+ktas_row_537,3,2,0,1,over_triage,Head Injury
+ktas_row_538,3,3,1,1,exact_match,right upper abdominal pain
+ktas_row_539,4,3,0,1,over_triage,Rt abd pain
+ktas_row_540,4,2,0,0,over_triage,"shoulder pain, Lt"
+ktas_row_541,4,3,0,1,over_triage,right leg injury
+ktas_row_542,3,3,1,1,exact_match,Abd. pain
+ktas_row_543,4,3,0,1,over_triage,????
+ktas_row_544,4,3,0,1,over_triage,"leg swelling, Lt."
+ktas_row_545,3,3,1,1,exact_match,"abdominal pain, periumbilical area"
+ktas_row_546,4,3,0,1,over_triage,"ocular pain, Lt."
+ktas_row_547,3,3,1,1,exact_match,Abd. pain
+ktas_row_548,4,4,1,1,exact_match,diarrhea
+ktas_row_549,4,2,0,0,over_triage,hip pain Lt.
+ktas_row_550,4,2,0,0,over_triage,both ocular pain
+ktas_row_551,4,2,0,0,over_triage,"wrist pain, Rt"
+ktas_row_552,3,2,0,1,over_triage,Abd. pain
+ktas_row_553,2,2,1,1,exact_match,dyspnea
+ktas_row_554,3,3,1,1,exact_match,abd pain
+ktas_row_555,4,2,0,0,over_triage,Head pain
+ktas_row_556,2,2,1,1,exact_match,Left chest pain
+ktas_row_557,3,4,0,1,under_triage,abd pain
+ktas_row_558,3,3,1,1,exact_match,dizziness
+ktas_row_559,4,3,0,1,over_triage,"leg swelling, Lt."
+ktas_row_560,3,3,1,1,exact_match,vomiting
+ktas_row_561,3,4,0,1,under_triage,abd pain
+ktas_row_562,2,2,1,1,exact_match,"pain, chest"
+ktas_row_563,4,3,0,1,over_triage,"leg pain, Rt."
+ktas_row_564,4,2,0,0,over_triage,Femur Lesion
+ktas_row_565,4,2,0,0,over_triage,"ocular pain, Lt."
+ktas_row_566,3,4,0,1,under_triage,abd pain
+ktas_row_567,3,2,0,1,over_triage,abd pain
+ktas_row_568,3,4,0,1,under_triage,abd pain
+ktas_row_569,3,4,0,1,under_triage,abd pain
+ktas_row_570,3,3,1,1,exact_match,HA
+ktas_row_571,4,2,0,0,over_triage,Eye Foreign Body
+ktas_row_572,3,2,0,1,over_triage,abd pain
+ktas_row_573,4,3,0,1,over_triage,Hand Injury
+ktas_row_574,3,2,0,1,over_triage,headache
+ktas_row_575,3,4,0,1,under_triage,"pain, abdominal"
+ktas_row_576,3,4,0,1,under_triage,"pain, abdominal"
+ktas_row_577,4,2,0,0,over_triage,finger lac.
+ktas_row_578,2,2,1,1,exact_match,chest discomfort left
+ktas_row_579,3,4,0,1,under_triage,RLQ pain
+ktas_row_580,4,2,0,0,over_triage,right shoulder pain
+ktas_row_581,3,4,0,1,under_triage,epigastric pain
+ktas_row_582,3,4,0,1,under_triage,abd pain
+ktas_row_583,4,2,0,0,over_triage,foot swelling
+ktas_row_584,3,4,0,1,under_triage,abd pain
+ktas_row_585,4,3,0,1,over_triage,Finger Injury
+ktas_row_586,3,4,0,1,under_triage,"pain, abdominal"
+ktas_row_587,4,3,0,1,over_triage,Wrist Injury
+ktas_row_588,4,3,0,1,over_triage,myalgia
+ktas_row_589,4,2,0,0,over_triage,Open Wound
+ktas_row_590,3,4,0,1,under_triage,abd pain
+ktas_row_591,3,4,0,1,under_triage,abd pain
+ktas_row_592,3,4,0,1,under_triage,abd pain
+ktas_row_593,4,4,1,1,exact_match,skin rash
+ktas_row_594,3,2,0,1,over_triage,abd pain
+ktas_row_595,3,4,0,1,under_triage,sorethroat
+ktas_row_596,3,3,1,1,exact_match,Abdominal pain (finding)
+ktas_row_597,3,3,1,1,exact_match,fever
+ktas_row_598,3,3,1,1,exact_match,head injury
+ktas_row_599,4,2,0,0,over_triage,elbow painful swelling
+ktas_row_600,3,4,0,1,under_triage,headache
+ktas_row_601,3,4,0,1,under_triage,abd pain
+ktas_row_602,3,2,0,1,over_triage,"pain, chest wall, Rt"
+ktas_row_603,3,4,0,1,under_triage,"pain, flank"
+ktas_row_604,4,2,0,0,over_triage,"Pain, Hip"
+ktas_row_605,3,3,1,1,exact_match,diffuse abdominal pain
+ktas_row_606,4,2,0,0,over_triage,elbow painful swelling lt.
+ktas_row_607,4,2,0,0,over_triage,ankle pain
+ktas_row_608,4,4,1,1,exact_match,LBP - Low back pain
+ktas_row_609,4,2,0,0,over_triage,Open Wound
+ktas_row_610,3,2,0,1,over_triage,backache
+ktas_row_611,4,2,0,0,over_triage,Open Wound
+ktas_row_612,2,2,1,1,exact_match,right chest pain
+ktas_row_613,4,3,0,1,over_triage,Ankle Injury
+ktas_row_614,3,4,0,1,under_triage,epigastric pain
+ktas_row_615,4,3,0,1,over_triage,Foot Injury
+ktas_row_616,4,3,0,1,over_triage,"injury, ankle"
+ktas_row_617,4,3,0,1,over_triage,"injury, ankle"
+ktas_row_618,2,2,1,1,exact_match,ant. chest pain
+ktas_row_619,3,4,0,1,under_triage,headache
+ktas_row_620,3,4,0,1,under_triage,abd pain
+ktas_row_621,4,2,0,0,over_triage,FB in eye
+ktas_row_622,3,4,0,1,under_triage,abdomen pain
+ktas_row_623,3,4,0,1,under_triage,abdomen pain
+ktas_row_624,3,3,1,1,exact_match,dizziness
+ktas_row_625,3,4,0,1,under_triage,abd pain
+ktas_row_626,4,3,0,1,over_triage,Chin swelling
+ktas_row_627,3,4,0,1,under_triage,abd pain
+ktas_row_628,3,4,0,1,under_triage,epigastric pain
+ktas_row_629,4,2,0,0,over_triage,Open Wound
+ktas_row_630,2,2,1,1,exact_match,"pain, chest"
+ktas_row_631,3,4,0,1,under_triage,abdomen pain
+ktas_row_632,4,2,0,0,over_triage,Rt. flank pain
+ktas_row_633,3,2,0,1,over_triage,RUQ pain
+ktas_row_634,3,4,0,1,under_triage,abd pain
+ktas_row_635,3,2,0,1,over_triage,"Pain, ?nus"
+ktas_row_636,4,2,0,0,over_triage,"burn, face"
+ktas_row_637,4,2,0,0,over_triage,Lt. hip joint pain
+ktas_row_638,3,4,0,1,under_triage,abd pain
+ktas_row_639,3,4,0,1,under_triage,"pain, abdominal"
+ktas_row_640,3,3,1,1,exact_match,Lt flank pain
+ktas_row_641,3,4,0,1,under_triage,abd pain
+ktas_row_642,5,4,0,1,over_triage,left leg pain
+ktas_row_643,3,3,1,1,exact_match,abd pain
+ktas_row_644,4,3,0,1,over_triage,voiding difficulty
+ktas_row_645,3,3,1,1,exact_match,myalgia
+ktas_row_646,3,3,1,1,exact_match,abd pain
+ktas_row_647,3,2,0,1,over_triage,ant. chest pain
+ktas_row_648,4,3,0,1,over_triage,Ankle Injury
+ktas_row_649,3,3,1,1,exact_match,"pain, abdominal"
+ktas_row_650,3,3,1,1,exact_match,abd pain
+ktas_row_651,3,2,0,1,over_triage,headache
+ktas_row_652,4,3,0,1,over_triage,abd pain
+ktas_row_653,2,2,1,1,exact_match,Left chest pain
+ktas_row_654,4,3,0,1,over_triage,leg pain
+ktas_row_655,4,4,1,1,exact_match,Urticarial rash
+ktas_row_656,4,4,1,1,exact_match,headache
+ktas_row_657,4,2,0,0,over_triage,TMJ pain
+ktas_row_658,3,3,1,1,exact_match,abd pain
+ktas_row_659,4,3,0,1,over_triage,"shoulder pain, both"
+ktas_row_660,2,2,1,1,exact_match,ant. chest pain
+ktas_row_661,4,2,0,0,over_triage,"shoulder pain, Rt"
+ktas_row_662,3,2,0,1,over_triage,"pain, chest wall"
+ktas_row_663,4,2,0,0,over_triage,lower chest wall pain
+ktas_row_664,3,4,0,1,under_triage,headache
+ktas_row_665,4,4,1,1,exact_match,"pain, tooth"
+ktas_row_666,2,2,1,1,exact_match,ant. chest pain
+ktas_row_667,4,2,0,0,over_triage,"Burn, hand"
+ktas_row_668,4,3,0,1,over_triage,general ache
+ktas_row_669,3,3,1,1,exact_match,abd pain
+ktas_row_670,2,2,1,1,exact_match,"pain, chest"
+ktas_row_671,2,2,1,1,exact_match,"pain, chest"
+ktas_row_672,3,2,0,1,over_triage,visual disturbance
+ktas_row_673,3,4,0,1,under_triage,scrotal pain
+ktas_row_674,4,2,0,0,over_triage,leg pain
+ktas_row_675,3,4,0,1,under_triage,abd pain
+ktas_row_676,4,3,0,1,over_triage,Finger Injury
+ktas_row_677,3,4,0,1,under_triage,"pain, abdominal"
+ktas_row_678,3,4,0,1,under_triage,abd pain
+ktas_row_679,3,2,0,1,over_triage,foreign body ingestion
+ktas_row_680,4,2,0,0,over_triage,Open Wound
+ktas_row_681,3,4,0,1,under_triage,RLQ pain
+ktas_row_682,3,4,0,1,under_triage,headache
+ktas_row_683,4,3,0,1,over_triage,Wrist Injury
+ktas_row_684,4,2,0,0,over_triage,Vaginal Bleeding
+ktas_row_685,3,4,0,1,under_triage,"pain, flank"
+ktas_row_686,4,3,0,1,over_triage,"ocular injury, Lt."
+ktas_row_687,4,2,0,0,over_triage,Open Wound
+ktas_row_688,3,4,0,1,under_triage,RUQ pain
+ktas_row_689,2,2,1,1,exact_match,ant. chest pain
+ktas_row_690,3,2,0,1,over_triage,headache
+ktas_row_691,4,2,0,0,over_triage,"pain, arm"
+ktas_row_692,2,2,1,1,exact_match,lower extremity paraparesis
+ktas_row_693,3,2,0,1,over_triage,Foreign Body Sense
+ktas_row_694,2,4,0,0,critical_under_triage,upper back pain
+ktas_row_695,4,2,0,0,over_triage,"ocular pain, Rt."
+ktas_row_696,3,4,0,1,under_triage,"pain, low back"
+ktas_row_697,3,4,0,1,under_triage,ocular pain
+ktas_row_698,4,2,0,0,over_triage,bee sting
+ktas_row_699,4,2,0,0,over_triage,"pelvic pain, Lt"
+ktas_row_700,4,2,0,0,over_triage,right elbow pain
+ktas_row_701,3,3,1,1,exact_match,palpitation
+ktas_row_702,2,2,1,1,exact_match,Left chest pain
+ktas_row_703,4,2,0,0,over_triage,"ocular pain, Lt."
+ktas_row_704,2,2,1,1,exact_match,ant. chest pain
+ktas_row_705,4,2,0,0,over_triage,Open Wound
+ktas_row_706,4,4,1,1,exact_match,dysuria
+ktas_row_707,1,2,0,1,critical_under_triage,abd pain
+ktas_row_708,2,2,1,1,exact_match,Left chest pain
+ktas_row_709,3,4,0,1,under_triage,D - Diarrhea
+ktas_row_710,3,2,0,1,over_triage,facial injury
+ktas_row_711,3,2,0,1,over_triage,headache
+ktas_row_712,3,3,1,1,exact_match,RUQ pain
+ktas_row_713,2,3,0,1,critical_under_triage,epigastric pain
+ktas_row_714,2,2,1,1,exact_match,chest discomfort
+ktas_row_715,4,2,0,0,over_triage,Rt. shoulder pain
+ktas_row_716,2,2,1,1,exact_match,Left chest pain
+ktas_row_717,3,3,1,1,exact_match,"pain, flank"
+ktas_row_718,3,3,1,1,exact_match,abd pain
+ktas_row_719,2,2,1,1,exact_match,ant. chest pain
+ktas_row_720,2,2,1,1,exact_match,ant. chest pain
+ktas_row_721,2,2,1,1,exact_match,headache
+ktas_row_722,4,3,0,1,over_triage,Hip joint pain
+ktas_row_723,4,2,0,0,over_triage,"pain, facial"
+ktas_row_724,2,2,1,1,exact_match,ant. chest pain
+ktas_row_725,3,3,1,1,exact_match,RUQ pain
+ktas_row_726,3,4,0,1,under_triage,epigastric pain
+ktas_row_727,3,4,0,1,under_triage,abd pain
+ktas_row_728,3,3,1,1,exact_match,general weakness
+ktas_row_729,4,3,0,1,over_triage,myalgia
+ktas_row_730,4,3,0,1,over_triage,leg pain
+ktas_row_731,4,3,0,1,over_triage,buttock pain
+ktas_row_732,3,4,0,1,under_triage,abd pain
+ktas_row_733,3,4,0,1,under_triage,abd pain
+ktas_row_734,4,2,0,0,over_triage,wrist laceration
+ktas_row_735,4,4,1,1,exact_match,both leg pain
+ktas_row_736,4,2,0,0,over_triage,both shoulder pain
+ktas_row_737,3,4,0,1,under_triage,abd pain
+ktas_row_738,4,3,0,1,over_triage,"Injury, Leg"
+ktas_row_739,4,2,0,0,over_triage,COCCYGEAL PAIN
+ktas_row_740,3,4,0,1,under_triage,abd pain
+ktas_row_741,3,3,1,1,exact_match,Lt flank pain
+ktas_row_742,3,2,0,1,over_triage,Lt flank pain
+ktas_row_743,3,4,0,1,under_triage,abd pain
+ktas_row_744,3,3,1,1,exact_match,Lt flank pain
+ktas_row_745,3,4,0,1,under_triage,abd pain
+ktas_row_746,3,4,0,1,under_triage,LLQ pain
+ktas_row_747,4,4,1,1,exact_match,leg pain
+ktas_row_748,3,3,1,1,exact_match,"Flank pain, Rt."
+ktas_row_749,3,4,0,1,under_triage,epigastric pain
+ktas_row_750,3,3,1,1,exact_match,epigastric pain
+ktas_row_751,4,3,0,1,over_triage,"pain, low back"
+ktas_row_752,4,4,1,1,exact_match,"tooth pain, Lt"
+ktas_row_753,3,3,1,1,exact_match,abd pain
+ktas_row_754,3,2,0,1,over_triage,"pain, shoulder"
+ktas_row_755,2,2,1,1,exact_match,ant. chest pain
+ktas_row_756,3,2,0,1,over_triage,finger pain
+ktas_row_757,2,3,0,1,critical_under_triage,upper back pain
+ktas_row_758,2,2,1,1,exact_match,abdomen pain
+ktas_row_759,2,2,1,1,exact_match,HA
+ktas_row_760,2,1,0,1,over_triage,"pain, chest"
+ktas_row_761,3,2,0,1,over_triage,dyspnea
+ktas_row_762,3,2,0,1,over_triage,dizziness
+ktas_row_763,4,2,0,0,over_triage,for PEG tube change
+ktas_row_764,3,2,0,1,over_triage,Rt.arm weakness
+ktas_row_765,4,3,0,1,over_triage,general weakness
+ktas_row_766,3,3,1,1,exact_match,high BSL
+ktas_row_767,3,1,0,0,over_triage,dyspnea
+ktas_row_768,2,1,0,1,over_triage,"Discomfort, Chest"
+ktas_row_769,4,3,0,1,over_triage,sezure like motion
+ktas_row_770,3,3,1,1,exact_match,dizziness
+ktas_row_771,3,3,1,1,exact_match,dizziness
+ktas_row_772,3,3,1,1,exact_match,general weakness
+ktas_row_773,3,3,1,1,exact_match,vomiting
+ktas_row_774,3,3,1,1,exact_match,dizziness
+ktas_row_775,4,3,0,1,over_triage,Nasal swelling
+ktas_row_776,3,3,1,1,exact_match,Sudden hearing loss
+ktas_row_777,5,3,0,0,over_triage,for A/tapping
+ktas_row_778,2,1,0,1,over_triage,hematemesis
+ktas_row_779,5,3,0,0,over_triage,distended abdomen
+ktas_row_780,5,3,0,0,over_triage,dizziness
+ktas_row_781,5,3,0,0,over_triage,"distension, abd"
+ktas_row_782,3,3,1,1,exact_match,decreased activity
+ktas_row_783,5,2,0,0,over_triage,for ascites tapping
+ktas_row_784,3,3,1,1,exact_match,fever
+ktas_row_785,2,2,1,1,exact_match,sleeping tendency
+ktas_row_786,2,2,1,1,exact_match,hematochezia
+ktas_row_787,5,3,0,0,over_triage,"distension, abd"
+ktas_row_788,4,3,0,1,over_triage,vomiting
+ktas_row_789,3,2,0,1,over_triage,sezure like motion
+ktas_row_790,2,2,1,1,exact_match,fever
+ktas_row_791,3,2,0,1,over_triage,rt. side weakness
+ktas_row_792,2,2,1,1,exact_match,post seizure
+ktas_row_793,4,3,0,1,over_triage,"Retention, Bladder"
+ktas_row_794,4,3,0,1,over_triage,Free voiding
+ktas_row_795,4,3,0,1,over_triage,??? ??
+ktas_row_796,4,3,0,1,over_triage,facial injury
+ktas_row_797,3,2,0,1,over_triage,Amnesia
+ktas_row_798,3,3,1,1,exact_match,dyspnea
+ktas_row_799,3,2,0,1,over_triage,dizziness
+ktas_row_800,4,3,0,1,over_triage,fever
+ktas_row_801,3,3,1,1,exact_match,dyspnea
+ktas_row_802,4,3,0,1,over_triage,for PEG tube change
+ktas_row_803,4,3,0,1,over_triage,anxiety
+ktas_row_804,2,2,1,1,exact_match,fever
+ktas_row_805,3,3,1,1,exact_match,epistaxis
+ktas_row_806,1,2,0,1,critical_under_triage,mental change
+ktas_row_807,3,2,0,1,over_triage,right hip pain
+ktas_row_808,3,2,0,1,over_triage,"F/C, C/S"
+ktas_row_809,5,2,0,0,over_triage,for L-tube insertion
+ktas_row_810,5,2,0,0,over_triage,"swelling, facial"
+ktas_row_811,2,2,1,1,exact_match,fever
+ktas_row_812,2,1,0,1,over_triage,dyspnea
+ktas_row_813,3,2,0,1,over_triage,"Discomfort, Chest"
+ktas_row_814,2,2,1,1,exact_match,hypoglycemic symptom
+ktas_row_815,4,3,0,1,over_triage,epistaxis
+ktas_row_816,3,2,0,1,over_triage,anxiety
+ktas_row_817,5,3,0,0,over_triage,Voice changes
+ktas_row_818,3,3,1,1,exact_match,abnormal lab.
+ktas_row_819,3,3,1,1,exact_match,vomiting
+ktas_row_820,3,3,1,1,exact_match,general weakness
+ktas_row_821,2,2,1,1,exact_match,dyspnea
+ktas_row_822,1,2,0,1,critical_under_triage,mental change
+ktas_row_823,3,3,1,1,exact_match,dizziness
+ktas_row_824,2,2,1,1,exact_match,dyspnea
+ktas_row_825,2,2,1,1,exact_match,dyspnea
+ktas_row_826,3,3,1,1,exact_match,anemia w/u
+ktas_row_827,3,2,0,1,over_triage,DZ - Dizziness
+ktas_row_828,2,2,1,1,exact_match,"Discomfort, Chest"
+ktas_row_829,4,2,0,0,over_triage,forehead laceration
+ktas_row_830,3,2,0,1,over_triage,post seizure
+ktas_row_831,3,3,1,1,exact_match,light headness
+ktas_row_832,3,2,0,1,over_triage,H-Headache
+ktas_row_833,2,2,1,1,exact_match,altered mentality
+ktas_row_834,4,3,0,1,over_triage,eye discomfort
+ktas_row_835,5,3,0,0,over_triage,po medication
+ktas_row_836,4,2,0,0,over_triage,fever
+ktas_row_837,4,3,0,1,over_triage,both hand numbness
+ktas_row_838,4,3,0,1,over_triage,??? ??? ??
+ktas_row_839,4,2,0,0,over_triage,finger laceration
+ktas_row_840,3,2,0,1,over_triage,Sexual Abuse of Adult
+ktas_row_841,2,2,1,1,exact_match,"DI, drug intoxication"
+ktas_row_842,3,3,1,1,exact_match,dyspnea
+ktas_row_843,4,4,1,1,exact_match,skin rash
+ktas_row_844,3,1,0,0,over_triage,hematemesis
+ktas_row_845,4,3,0,1,over_triage,"bleeding, gingival"
+ktas_row_846,4,3,0,1,over_triage,????
+ktas_row_847,2,1,0,1,over_triage,mental change
+ktas_row_848,4,2,0,0,over_triage,"laceration, scalp"
+ktas_row_849,4,3,0,1,over_triage,nasal injury
+ktas_row_850,3,2,0,1,over_triage,Near syncope
+ktas_row_851,5,3,0,0,over_triage,po medication
+ktas_row_852,3,3,1,1,exact_match,dyspnea
+ktas_row_853,2,2,1,1,exact_match,post seizure
+ktas_row_854,4,2,0,0,over_triage,syncope
+ktas_row_855,3,3,1,1,exact_match,vomiting
+ktas_row_856,3,2,0,1,over_triage,hematochezia
+ktas_row_857,3,2,0,1,over_triage,sexual violence
+ktas_row_858,4,2,0,0,over_triage,eyelid laceration
+ktas_row_859,5,3,0,0,over_triage,dizziness
+ktas_row_860,4,2,0,0,over_triage,finger laceration
+ktas_row_861,4,3,0,1,over_triage,vomiting
+ktas_row_862,4,2,0,0,over_triage,sexual violence
+ktas_row_863,4,3,0,1,over_triage,vomiting
+ktas_row_864,3,3,1,1,exact_match,dizziness
+ktas_row_865,4,2,0,0,over_triage,"laceration, chin"
+ktas_row_866,4,3,0,1,over_triage,"F/C, C/S"
+ktas_row_867,4,3,0,1,over_triage,general weakness
+ktas_row_868,5,4,0,1,over_triage,cough
+ktas_row_869,4,3,0,1,over_triage,depression
+ktas_row_870,3,3,1,1,exact_match,dizziness
+ktas_row_871,2,1,0,1,over_triage,hematemesis
+ktas_row_872,2,2,1,1,exact_match,fever
+ktas_row_873,3,2,0,1,over_triage,Suicidal Attempt
+ktas_row_874,4,3,0,1,over_triage,"alcohol smelling state, drunken state"
+ktas_row_875,3,3,1,1,exact_match,Facial Palsy
+ktas_row_876,4,2,0,0,over_triage,finger laceration
+ktas_row_877,4,2,0,0,over_triage,eyebrow laceration
+ktas_row_878,5,4,0,1,over_triage,skin rash
+ktas_row_879,3,4,0,1,under_triage,diarrhea
+ktas_row_880,4,3,0,1,over_triage,hallucination
+ktas_row_881,5,3,0,0,over_triage,erythematous papule
+ktas_row_882,4,2,0,0,over_triage,fever & chill
+ktas_row_883,3,2,0,1,over_triage,dyspnea
+ktas_row_884,3,2,0,1,over_triage,Suicidal thoughts (finding)
+ktas_row_885,4,3,0,1,over_triage,right nasal bleeding
+ktas_row_886,3,2,0,1,over_triage,fever
+ktas_row_887,3,2,0,1,over_triage,post seizure
+ktas_row_888,4,3,0,1,over_triage,epistaxis
+ktas_row_889,1,2,0,1,critical_under_triage,seizure
+ktas_row_890,5,3,0,0,over_triage,eye discomfort
+ktas_row_891,4,2,0,0,over_triage,nausea
+ktas_row_892,3,3,1,1,exact_match,Delusional Idea
+ktas_row_893,3,3,1,1,exact_match,dyspnea
+ktas_row_894,3,3,1,1,exact_match,DZ - Dizziness
+ktas_row_895,4,2,0,0,over_triage,cerebral concussion
+ktas_row_896,4,3,0,1,over_triage,fever
+ktas_row_897,4,3,0,1,over_triage,fever
+ktas_row_898,3,2,0,1,over_triage,Convulsion
+ktas_row_899,3,2,0,1,over_triage,anterior chest discomfort
+ktas_row_900,3,2,0,1,over_triage,Vaginal Bleeding
+ktas_row_901,3,3,1,1,exact_match,anxiety
+ktas_row_902,3,2,0,1,over_triage,Vaginal Bleeding
+ktas_row_903,3,3,1,1,exact_match,dyspnea
+ktas_row_904,3,2,0,1,over_triage,vaginal bleeding
+ktas_row_905,3,2,0,1,over_triage,abd pain
+ktas_row_906,3,3,1,1,exact_match,????
+ktas_row_907,3,3,1,1,exact_match,dizziness
+ktas_row_908,4,4,1,1,exact_match,headache
+ktas_row_909,4,2,0,0,over_triage,face laceration
+ktas_row_910,3,2,0,1,over_triage,vaginal bleeding
+ktas_row_911,3,3,1,1,exact_match,dizziness
+ktas_row_912,3,2,0,1,over_triage,fever
+ktas_row_913,2,1,0,1,over_triage,Confusion state
+ktas_row_914,2,2,1,1,exact_match,Vaginal Bleeding
+ktas_row_915,4,2,0,0,over_triage,anxiety
+ktas_row_916,4,2,0,0,over_triage,Open Wound
+ktas_row_917,4,3,0,1,over_triage,anxiety
+ktas_row_918,3,2,0,1,over_triage,sexual violence
+ktas_row_919,5,2,0,0,over_triage,scratch wound
+ktas_row_920,3,3,1,1,exact_match,facial injury
+ktas_row_921,4,2,0,0,over_triage,scalp lac.
+ktas_row_922,4,4,1,1,exact_match,diarrhea
+ktas_row_923,3,2,0,1,over_triage,"distension, abd"
+ktas_row_924,3,3,1,1,exact_match,facial palsy left
+ktas_row_925,4,2,0,0,over_triage,FB in esophagus
+ktas_row_926,4,2,0,0,over_triage,forehead laceration
+ktas_row_927,2,2,1,1,exact_match,left side weakness
+ktas_row_928,4,2,0,0,over_triage,epistaxis
+ktas_row_930,3,3,1,1,exact_match,Facial Palsy
+ktas_row_931,4,2,0,0,over_triage,right ocular pain
+ktas_row_932,3,1,0,0,over_triage,hematemesis
+ktas_row_933,2,2,1,1,exact_match,mental change
+ktas_row_934,3,2,0,1,over_triage,LOC
+ktas_row_935,3,3,1,1,exact_match,??? ??
+ktas_row_936,3,3,1,1,exact_match,dizziness
+ktas_row_937,4,2,0,0,over_triage,skin defect
+ktas_row_938,4,3,0,1,over_triage,skin eruption
+ktas_row_939,3,2,0,1,over_triage,syncope
+ktas_row_940,3,2,0,1,over_triage,fever
+ktas_row_941,3,3,1,1,exact_match,dizziness
+ktas_row_942,3,3,1,1,exact_match,general weakness
+ktas_row_943,2,2,1,1,exact_match,Chemical Burn
+ktas_row_944,4,2,0,0,over_triage,"alcohol smelling state, drunken state"
+ktas_row_945,3,4,0,1,under_triage,diarrhea
+ktas_row_946,4,4,1,1,exact_match,Urticarial rash
+ktas_row_947,3,3,1,1,exact_match,dizziness
+ktas_row_948,3,3,1,1,exact_match,palpitation
+ktas_row_949,2,2,1,1,exact_match,Lt. hemiparesis
+ktas_row_950,5,2,0,0,over_triage,knee pain
+ktas_row_951,3,2,0,1,over_triage,Suicidal ideation
+ktas_row_952,4,2,0,0,over_triage,facial injury
+ktas_row_953,3,3,1,1,exact_match,dizziness
+ktas_row_954,2,1,0,1,over_triage,dyspnea
+ktas_row_955,2,1,0,1,over_triage,hematemesis
+ktas_row_956,4,2,0,0,over_triage,finger laceration
+ktas_row_957,2,2,1,1,exact_match,Suicidal Attempt
+ktas_row_958,2,2,1,1,exact_match,"DI, drug intoxication"
+ktas_row_959,3,3,1,1,exact_match,nausea
+ktas_row_960,4,2,0,0,over_triage,ant. chest pain
+ktas_row_961,4,2,0,0,over_triage,eyelid laceration
+ktas_row_962,3,4,0,1,under_triage,Urticarial rash
+ktas_row_963,3,3,1,1,exact_match,???
+ktas_row_964,4,2,0,0,over_triage,skin defect
+ktas_row_965,3,2,0,1,over_triage,vaginal bleeding
+ktas_row_966,4,2,0,0,over_triage,chest palpitation
+ktas_row_967,3,2,0,1,over_triage,hemoptysis
+ktas_row_968,3,2,0,1,over_triage,Vaginal Bleeding
+ktas_row_969,5,3,0,0,over_triage,CT film copy
+ktas_row_970,1,1,1,1,exact_match,mental change
+ktas_row_971,3,3,1,1,exact_match,whirling type vertigo
+ktas_row_972,2,2,1,1,exact_match,melena
+ktas_row_973,2,1,0,1,over_triage,fever
+ktas_row_974,3,2,0,1,over_triage,altered mentality
+ktas_row_975,3,3,1,1,exact_match,dizziness
+ktas_row_976,2,1,0,1,over_triage,hematemesis
+ktas_row_977,2,1,0,1,over_triage,hematemesis
+ktas_row_978,3,1,0,0,over_triage,hematemesis
+ktas_row_979,3,1,0,0,over_triage,hematemesis
+ktas_row_980,2,3,0,1,critical_under_triage,"Abnormality, Visual Acuity"
+ktas_row_981,3,4,0,1,under_triage,diarrhea
+ktas_row_982,3,2,0,1,over_triage,dizziness
+ktas_row_983,3,3,1,1,exact_match,dizziness
+ktas_row_984,3,3,1,1,exact_match,head injury
+ktas_row_985,3,3,1,1,exact_match,dizziness
+ktas_row_986,3,2,0,1,over_triage,anterior chest discomfort
+ktas_row_987,3,3,1,1,exact_match,whirling type vertigo
+ktas_row_988,2,2,1,1,exact_match,dizziness
+ktas_row_989,2,2,1,1,exact_match,D - Diarrhea
+ktas_row_990,3,1,0,0,over_triage,cough
+ktas_row_991,3,2,0,1,over_triage,dysarthria
+ktas_row_992,3,2,0,1,over_triage,hemoptysis
+ktas_row_993,4,3,0,1,over_triage,urinary Sx.-symptom
+ktas_row_994,3,2,0,1,over_triage,syncope
+ktas_row_995,3,2,0,1,over_triage,dizziness
+ktas_row_996,5,3,0,0,over_triage,for examination
+ktas_row_997,4,3,0,1,over_triage,voiding difficulty
+ktas_row_998,4,4,1,1,exact_match,Urticarial rash
+ktas_row_999,3,3,1,1,exact_match,nausea
+ktas_row_1000,3,2,0,1,over_triage,right side weakness
+ktas_row_1001,2,2,1,1,exact_match,desaturation
+ktas_row_1002,4,2,0,0,over_triage,eyebrow laceration
+ktas_row_1003,2,2,1,1,exact_match,eye trauma
+ktas_row_1004,3,3,1,1,exact_match,palpitation
+ktas_row_1005,4,4,1,1,exact_match,dysuria
+ktas_row_1006,3,3,1,1,exact_match,fever
+ktas_row_1007,3,4,0,1,under_triage,D - Diarrhea
+ktas_row_1008,1,2,0,1,critical_under_triage,post-CPR state
+ktas_row_1009,2,1,0,1,over_triage,"Discomfort, Throat"
+ktas_row_1010,2,3,0,1,critical_under_triage,vomiting
+ktas_row_1011,1,2,0,1,critical_under_triage,post-CPR state
+ktas_row_1012,5,3,0,0,over_triage,facial lesion
+ktas_row_1013,3,2,0,1,over_triage,Rt. side motor weakness
+ktas_row_1014,2,3,0,1,critical_under_triage,dizziness
+ktas_row_1015,2,2,1,1,exact_match,right motor weakness
+ktas_row_1016,4,3,0,1,over_triage,"Fever, Unspecified"
+ktas_row_1017,3,2,0,1,over_triage,melena
+ktas_row_1018,2,2,1,1,exact_match,mental change
+ktas_row_1019,4,3,0,1,over_triage,palpitation
+ktas_row_1020,3,2,0,1,over_triage,dysarthria
+ktas_row_1021,5,3,0,0,over_triage,itching
+ktas_row_1022,5,2,0,0,over_triage,copy
+ktas_row_1023,3,2,0,1,over_triage,hemoptysis
+ktas_row_1024,3,3,1,1,exact_match,facial palsy left
+ktas_row_1025,3,3,1,1,exact_match,DZ - Dizziness
+ktas_row_1026,4,2,0,0,over_triage,Rt. side motor weakness
+ktas_row_1027,4,3,0,1,over_triage,fever
+ktas_row_1028,3,3,1,1,exact_match,dyspnea
+ktas_row_1029,3,3,1,1,exact_match,dyspnea
+ktas_row_1030,2,2,1,1,exact_match,Dental Problem
+ktas_row_1031,5,4,0,1,over_triage,skin rash
+ktas_row_1032,4,3,0,1,over_triage,PTBD malfunction
+ktas_row_1033,4,3,0,1,over_triage,PTBD malfunction
+ktas_row_1034,3,2,0,1,over_triage,dizziness
+ktas_row_1035,3,3,1,1,exact_match,dizziness
+ktas_row_1036,3,3,1,1,exact_match,dizziness
+ktas_row_1037,3,2,0,1,over_triage,Lt. side weakness
+ktas_row_1038,3,3,1,1,exact_match,mood depression
+ktas_row_1039,3,3,1,1,exact_match,dizziness
+ktas_row_1040,2,2,1,1,exact_match,Rt. side motor weakness
+ktas_row_1041,1,2,0,1,critical_under_triage,arrest
+ktas_row_1042,3,3,1,1,exact_match,dyspnea
+ktas_row_1043,5,3,0,0,over_triage,"distension, abd"
+ktas_row_1044,5,3,0,0,over_triage,hiccup
+ktas_row_1045,2,2,1,1,exact_match,rigth side weakness
+ktas_row_1046,3,2,0,1,over_triage,dysarthria
+ktas_row_1047,3,2,0,1,over_triage,hematochezia
+ktas_row_1048,3,2,0,1,over_triage,Convulsion
+ktas_row_1049,5,3,0,0,over_triage,"distension, abd"
+ktas_row_1050,2,2,1,1,exact_match,confuse mentality
+ktas_row_1051,3,2,0,1,over_triage,dyspnea
+ktas_row_1052,3,2,0,1,over_triage,palpitation
+ktas_row_1053,3,4,0,1,under_triage,cough
+ktas_row_1054,3,2,0,1,over_triage,hematochezia
+ktas_row_1055,2,2,1,1,exact_match,mental change
+ktas_row_1056,2,1,0,1,over_triage,loss of consciousness
+ktas_row_1057,2,1,0,1,over_triage,hematemesis
+ktas_row_1058,2,2,1,1,exact_match,Lt. side weakness
+ktas_row_1059,3,2,0,1,over_triage,Motor weakness
+ktas_row_1060,2,1,0,1,over_triage,hematemesis
+ktas_row_1061,4,3,0,1,over_triage,myalgia
+ktas_row_1062,4,3,0,1,over_triage,general weakness
+ktas_row_1063,3,3,1,1,exact_match,left diplopia
+ktas_row_1064,4,3,0,1,over_triage,fever
+ktas_row_1065,3,3,1,1,exact_match,rotatory vertigo
+ktas_row_1066,3,2,0,1,over_triage,dysarthria
+ktas_row_1067,3,3,1,1,exact_match,dizziness
+ktas_row_1068,3,2,0,1,over_triage,dysarthria
+ktas_row_1069,4,3,0,1,over_triage,vomiting
+ktas_row_1070,5,4,0,1,over_triage,Urticarial rash
+ktas_row_1071,4,3,0,1,over_triage,AVF malfunction
+ktas_row_1072,3,3,1,1,exact_match,general weakness
+ktas_row_1073,3,3,1,1,exact_match,dizziness
+ktas_row_1074,3,3,1,1,exact_match,dyspnea
+ktas_row_1075,1,2,0,1,critical_under_triage,mental change
+ktas_row_1076,2,2,1,1,exact_match,drowsy mentality
+ktas_row_1077,2,2,1,1,exact_match,post seizure
+ktas_row_1078,3,2,0,1,over_triage,Motor weakness
+ktas_row_1079,3,2,0,1,over_triage,hematochezia
+ktas_row_1080,1,2,0,1,critical_under_triage,altered mental change
+ktas_row_1081,2,2,1,1,exact_match,hypoglycemic
+ktas_row_1082,5,4,0,1,over_triage,"Whole body, skin rash"
+ktas_row_1083,4,3,0,1,over_triage,fever
+ktas_row_1084,2,2,1,1,exact_match,dyspnea
+ktas_row_1085,3,3,1,1,exact_match,dyspnea
+ktas_row_1086,3,3,1,1,exact_match,dyspnea
+ktas_row_1087,5,3,0,0,over_triage,Catheter removal
+ktas_row_1088,3,2,0,1,over_triage,hematochezia
+ktas_row_1089,3,3,1,1,exact_match,dizziness
+ktas_row_1090,2,3,0,1,critical_under_triage,general weakness
+ktas_row_1091,3,3,1,1,exact_match,Facial Palsy
+ktas_row_1092,3,3,1,1,exact_match,dyspnea
+ktas_row_1093,4,4,1,1,exact_match,Urinary frequency
+ktas_row_1094,3,2,0,1,over_triage,melena
+ktas_row_1095,3,2,0,1,over_triage,C - Coughing
+ktas_row_1096,3,3,1,1,exact_match,dizziness
+ktas_row_1097,2,3,0,1,critical_under_triage,DZ - Dizziness
+ktas_row_1098,3,3,1,1,exact_match,rotatory vertigo
+ktas_row_1099,3,2,0,1,over_triage,chest palpitation
+ktas_row_1100,2,2,1,1,exact_match,mental change
+ktas_row_1101,3,3,1,1,exact_match,hematuria
+ktas_row_1102,2,2,1,1,exact_match,dyspnea
+ktas_row_1103,2,2,1,1,exact_match,L side weakness
+ktas_row_1104,3,3,1,1,exact_match,palpitation
+ktas_row_1105,4,3,0,1,over_triage,voiding difficulty
+ktas_row_1106,3,3,1,1,exact_match,dizziness
+ktas_row_1107,3,3,1,1,exact_match,fever
+ktas_row_1108,2,2,1,1,exact_match,LOC
+ktas_row_1109,2,2,1,1,exact_match,Lt. hemiparesis
+ktas_row_1110,3,2,0,1,over_triage,rigth side weakness
+ktas_row_1111,4,3,0,1,over_triage,PTBD leaukage
+ktas_row_1112,3,3,1,1,exact_match,dyspnea
+ktas_row_1113,2,2,1,1,exact_match,BST high
+ktas_row_1114,3,2,0,1,over_triage,melena
+ktas_row_1115,3,3,1,1,exact_match,DZ - Dizziness
+ktas_row_1116,3,2,0,1,over_triage,epistaxis
+ktas_row_1117,3,3,1,1,exact_match,numbness
+ktas_row_1118,3,3,1,1,exact_match,dizziness
+ktas_row_1119,3,3,1,1,exact_match,dyspnea
+ktas_row_1120,5,2,0,0,over_triage,right motor weakness
+ktas_row_1121,4,3,0,1,over_triage,fever
+ktas_row_1122,5,3,0,0,over_triage,itching sensation
+ktas_row_1123,2,2,1,1,exact_match,"Aphasia, Motor"
+ktas_row_1124,3,3,1,1,exact_match,nasal bleeding
+ktas_row_1125,3,2,0,1,over_triage,Seizure Like Activity
+ktas_row_1126,4,3,0,1,over_triage,dizziness
+ktas_row_1127,4,2,0,0,over_triage,fever
+ktas_row_1128,2,2,1,1,exact_match,dizziness
+ktas_row_1129,2,2,1,1,exact_match,confused mental status
+ktas_row_1130,2,2,1,1,exact_match,mental change
+ktas_row_1131,3,3,1,1,exact_match,dyspnea
+ktas_row_1132,3,2,0,1,over_triage,dysarthria
+ktas_row_1133,2,1,0,1,over_triage,mental change
+ktas_row_1134,1,2,0,1,critical_under_triage,mental change
+ktas_row_1135,3,2,0,1,over_triage,acute dyspnea
+ktas_row_1136,2,2,1,1,exact_match,altered mentality
+ktas_row_1137,3,3,1,1,exact_match,dizziness
+ktas_row_1138,5,3,0,0,over_triage,diffuse abdominal discomfort
+ktas_row_1139,3,2,0,1,over_triage,syncope
+ktas_row_1140,2,2,1,1,exact_match,Rt. side motor weakness
+ktas_row_1141,3,2,0,1,over_triage,Rt. side motor weakness
+ktas_row_1142,4,2,0,0,over_triage,dysuria
+ktas_row_1143,4,3,0,1,over_triage,blurred vision
+ktas_row_1144,3,3,1,1,exact_match,fever
+ktas_row_1145,1,2,0,1,critical_under_triage,post-CPR state
+ktas_row_1146,3,1,0,0,over_triage,hematemesis
+ktas_row_1147,3,3,1,1,exact_match,dizziness
+ktas_row_1148,3,3,1,1,exact_match,dizziness
+ktas_row_1149,3,2,0,1,over_triage,dyspnea
+ktas_row_1150,3,1,0,0,over_triage,dizziness
+ktas_row_1151,2,2,1,1,exact_match,Lt. motor weakness
+ktas_row_1152,3,3,1,1,exact_match,dizziness
+ktas_row_1153,3,3,1,1,exact_match,dizziness
+ktas_row_1154,3,2,0,1,over_triage,dyspnea
+ktas_row_1155,3,2,0,1,over_triage,mental confusion
+ktas_row_1156,3,2,0,1,over_triage,dyspnea
+ktas_row_1157,3,3,1,1,exact_match,dizziness
+ktas_row_1158,3,3,1,1,exact_match,dizziness
+ktas_row_1159,4,3,0,1,over_triage,general weakness
+ktas_row_1160,5,4,0,1,over_triage,cold
+ktas_row_1161,2,2,1,1,exact_match,confusion mentality
+ktas_row_1162,3,2,0,1,over_triage,dyspnea
+ktas_row_1163,3,2,0,1,over_triage,Lt hemiparesis
+ktas_row_1164,4,3,0,1,over_triage,Difficulty in voiding
+ktas_row_1165,5,3,0,0,over_triage,abnormal lab.
+ktas_row_1166,4,3,0,1,over_triage,fever
+ktas_row_1167,3,3,1,1,exact_match,tachycardia
+ktas_row_1168,3,2,0,1,over_triage,loss of consciousness
+ktas_row_1169,2,1,0,1,over_triage,blood tinged sputum
+ktas_row_1170,2,2,1,1,exact_match,dysarthria
+ktas_row_1171,3,1,0,0,over_triage,dyspnea
+ktas_row_1172,4,2,0,0,over_triage,fever
+ktas_row_1173,1,2,0,1,critical_under_triage,acute dyspnea
+ktas_row_1174,3,2,0,1,over_triage,general weakness
+ktas_row_1175,2,2,1,1,exact_match,mental change
+ktas_row_1176,2,2,1,1,exact_match,mental change
+ktas_row_1177,3,3,1,1,exact_match,general weakness
+ktas_row_1178,3,2,0,1,over_triage,Convulsion
+ktas_row_1179,2,2,1,1,exact_match,left motor weakness
+ktas_row_1180,3,3,1,1,exact_match,"Numbness, Arm"
+ktas_row_1181,2,2,1,1,exact_match,syncope
+ktas_row_1182,2,2,1,1,exact_match,hypoglycemic symptom
+ktas_row_1183,3,3,1,1,exact_match,epistaxis
+ktas_row_1184,3,2,0,1,over_triage,dyspnea
+ktas_row_1185,4,3,0,1,over_triage,Low abd. pain
+ktas_row_1186,4,3,0,1,over_triage,nasal bleeding
+ktas_row_1187,2,3,0,1,critical_under_triage,?? ???
+ktas_row_1188,4,3,0,1,over_triage,perm cath. malfunction
+ktas_row_1189,3,2,0,1,over_triage,syncope
+ktas_row_1190,4,3,0,1,over_triage,fever
+ktas_row_1191,3,2,0,1,over_triage,dyspnea
+ktas_row_1192,3,2,0,1,over_triage,dyspnea
+ktas_row_1193,3,2,0,1,over_triage,acute dyspnea
+ktas_row_1194,1,2,0,1,critical_under_triage,mental change
+ktas_row_1195,3,2,0,1,over_triage,dyspnea
+ktas_row_1196,3,1,0,0,over_triage,hematemesis
+ktas_row_1197,4,3,0,1,over_triage,fever
+ktas_row_1198,3,2,0,1,over_triage,dysarthria
+ktas_row_1199,3,2,0,1,over_triage,dyspnea
+ktas_row_1200,3,2,0,1,over_triage,dizziness
+ktas_row_1201,3,3,1,1,exact_match,dizziness
+ktas_row_1202,3,4,0,1,under_triage,watery diarrhea
+ktas_row_1203,4,2,0,0,over_triage,hand laceration
+ktas_row_1204,3,2,0,1,over_triage,dyspnea
+ktas_row_1205,3,2,0,1,over_triage,Convulsion
+ktas_row_1206,3,2,0,1,over_triage,dysarthria
+ktas_row_1207,2,1,0,1,over_triage,melena
+ktas_row_1208,5,3,0,0,over_triage,medication
+ktas_row_1209,3,3,1,1,exact_match,dizziness
+ktas_row_1210,3,3,1,1,exact_match,Hyperkalemia (disorder)
+ktas_row_1211,2,1,0,1,over_triage,general weakness
+ktas_row_1212,4,2,0,0,over_triage,nausea
+ktas_row_1213,3,2,0,1,over_triage,Open Wound
+ktas_row_1214,4,3,0,1,over_triage,upper abdominal pain
+ktas_row_1215,2,2,1,1,exact_match,ant. chest pain
+ktas_row_1216,2,2,1,1,exact_match,ant. chest pain
+ktas_row_1217,5,4,0,1,over_triage,Drug Allergy
+ktas_row_1218,3,3,1,1,exact_match,dyspnea
+ktas_row_1219,4,2,0,0,over_triage,Open Wound
+ktas_row_1220,5,3,0,0,over_triage,For  IV injection
+ktas_row_1221,2,2,1,1,exact_match,ant. chest pain
+ktas_row_1222,4,2,0,0,over_triage,Open Wound
+ktas_row_1223,4,2,0,0,over_triage,ant. chest pain
+ktas_row_1224,5,2,0,0,over_triage,lip laceration
+ktas_row_1225,4,2,0,0,over_triage,"ocular pain, Rt."
+ktas_row_1226,4,3,0,1,over_triage,right lower abdominal pain
+ktas_row_1227,4,4,1,1,exact_match,abd pain
+ktas_row_1228,4,2,0,0,over_triage,Vaginal Bleeding
+ktas_row_1229,4,2,0,0,over_triage,eye pain left eye
+ktas_row_1230,4,3,0,1,over_triage,Rt. flank pain
+ktas_row_1231,2,2,1,1,exact_match,ant. chest pain
+ktas_row_1232,4,4,1,1,exact_match,headache
+ktas_row_1233,3,3,1,1,exact_match,dyspnea
+ktas_row_1234,2,2,1,1,exact_match,ant. chest pain
+ktas_row_1235,4,2,0,0,over_triage,dyspnea
+ktas_row_1236,4,3,0,1,over_triage,epigastric pain
+ktas_row_1237,4,3,0,1,over_triage,"Pain, Abdomen"
+ktas_row_1238,3,2,0,1,over_triage,Vaginal Bleeding
+ktas_row_1239,3,3,1,1,exact_match,Abdominal pain (finding)
+ktas_row_1240,4,2,0,0,over_triage,oral bleeding
+ktas_row_1241,2,2,1,1,exact_match,post neck pain
+ktas_row_1242,3,3,1,1,exact_match,Lt flank pain
+ktas_row_1243,4,3,0,1,over_triage,"ocular pain, both"
+ktas_row_1244,4,2,0,0,over_triage,"ocular pain, Lt."
+ktas_row_1245,4,2,0,0,over_triage,lip laceration
+ktas_row_1246,4,2,0,0,over_triage,decerased visual acuity
+ktas_row_1247,2,2,1,1,exact_match,ant. chest pain
+ktas_row_1248,5,2,0,0,over_triage,Foreign body in throat
+ktas_row_1249,4,3,0,1,over_triage,swelling
+ktas_row_1250,3,2,0,1,over_triage,Vaginal Bleeding
+ktas_row_1251,4,3,0,1,over_triage,fever
+ktas_row_1252,3,3,1,1,exact_match,vaginal discharge
+ktas_row_1253,3,3,1,1,exact_match,dizziness
+ktas_row_1254,5,3,0,0,over_triage,abdomen distension
+ktas_row_1255,3,3,1,1,exact_match,dizziness
+ktas_row_1256,2,2,1,1,exact_match,behavior change
+ktas_row_1257,3,2,0,1,over_triage,LOC - Loss of consciousness
+ktas_row_1258,3,3,1,1,exact_match,general weakness
+ktas_row_1259,3,3,1,1,exact_match,Amnesia
+ktas_row_1260,3,3,1,1,exact_match,epistaxis
+ktas_row_1261,3,3,1,1,exact_match,dizziness
+ktas_row_1262,2,2,1,1,exact_match,syncope
+ktas_row_1263,2,2,1,1,exact_match,G/W-General weakness
+ktas_row_1264,2,2,1,1,exact_match,mental change
+ktas_row_1265,4,4,1,1,exact_match,dysuria
+ktas_row_1266,3,3,1,1,exact_match,dizziness
+ktas_row_1267,3,2,0,1,over_triage,"Sensory, Decreased"
+ktas_row_1268,3,3,1,1,exact_match,orthopnea

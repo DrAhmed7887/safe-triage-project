@@ -337,10 +337,15 @@ INSTABILITY_SIGNALS = [
     "respiratory distress", "can't breathe", "cannot breathe",
     "shortness of breath at rest", "low spo2", "spo2 drop", "oxygen desaturation",
     "hypoxia", "hypoxic", "tachypnea", "breathing fast",
+    "dyspnea", "acute dyspnea",
+    # Trauma
+    "trauma", "injury", "blunt trauma", "penetrating trauma",
     # Neurological
     "altered", "unresponsive", "unconscious", "not responding",
     "confused", "disoriented", "loss of consciousness", "syncope",
     "passed out", "fainted",
+    "mental change", "altered mentality", "confuse mentality",
+    "loc",
     # Hemorrhage
     "uncontrolled bleeding", "spurting", "massive blood loss",
     "hematemesis", "bright red blood", "won't stop bleeding",
@@ -369,11 +374,15 @@ INSTABILITY_SIGNALS = [
     "left sided weakness", "right sided weakness",
     "left-sided weakness", "right-sided weakness",
     "arm weakness", "leg weakness", "facial weakness",
+    "motor weakness", "side motor weakness", "paraparesis",
     "woke up unable", "woke up and couldn't",
     "flaccid", "gaze deviation", "gaze preference",
     "hemibody", "dense hemiplegia",
     # Cardiac
-    "chest pain", "crushing", "pressure in chest", "diaphoresis",
+    "chest pain", "pain, chest", "pain chest",
+    "discomfort, chest", "discomfort chest", "chest discomfort",
+    "chest palpitation",
+    "crushing", "pressure in chest", "diaphoresis",
     "sweating with pain", "jaw pain", "radiation to arm",
     # Metabolic emergency — DKA / hyperglycemia
     "fruity breath", "blood sugar over", "blood sugar 5", "blood sugar 6",
@@ -790,6 +799,10 @@ _ESI2_MANDATORY_CATEGORIES: set = {
     "altered_mental_status",  # ESI v5: AMS always ESI 2
     "gi_bleed",               # Active GI bleed → always ESI 2
     "hemoptysis",             # Bleeding from airway → always ESI 2
+    "respiratory_distress",   # Acute respiratory distress → always ESI 2
+    "chest_pain_cardiac",     # Cardiac chest pain → always ESI 2
+    "diabetic_emergency",     # DKA/hypoglycemia → always ESI 2
+    "obstetric_emergency",    # Obstetric emergency → always ESI 2
 }
 
 
@@ -2175,10 +2188,46 @@ class AISymptomClassifier:
         if "brbpr" in text_lower or "bright red blood per rectum" in text_lower:
             return "gi_bleed"  # → ESI 2 (ceiling bypass applies)
 
+        # ── LOC abbreviation → altered_mental_status (ESI 2) ──────────────────
+        # "LOC" = Loss of Consciousness. Use anchored match like SI/CVA.
+        _loc_stripped = text_lower.strip().rstrip(".,;/?")
+        _loc_is_abbrev = (
+            _loc_stripped in {"loc", "?loc"}
+            or text_lower.lstrip("? ").startswith("loc,")
+            or text_lower.lstrip("? ").startswith("loc ")
+        )
+        if _loc_is_abbrev:
+            return "altered_mental_status"  # → ESI 2
+
+        # ── Syncope → altered_mental_status (ESI 2) ──────────────────────────
+        if "syncope" in text_lower:
+            return "altered_mental_status"  # → ESI 2
+
+        # ── Reversed chest pain phrasing → chest_pain_cardiac (ESI 2) ────────
+        # Korean/international ED format: "pain, chest" or "discomfort, chest"
+        _chest_reversed = (
+            "pain, chest", "pain chest", "discomfort, chest", "discomfort chest",
+            "chest palpitation",
+        )
+        if any(t in text_lower for t in _chest_reversed):
+            return "chest_pain_cardiac"  # → ESI 2
+
         # ── Unilateral limb weakness — focal neurological deficit → ESI 2 ────
         # "l weakness", "r weakness" = left/right-sided weakness = stroke sign.
-        # Use anchored match to avoid "elbow weakness", "shoulder weakness" etc.
+        # Extended: "motor weakness", "left side motor weakness", "lt. motor weakness", etc.
         if re.match(r'^[lr]\s+weakness', text_lower.strip()):
+            return "stroke_symptoms"  # → ESI 2
+        _lateralized_weakness = (
+            "motor weakness", "side motor weakness", "side weakness",
+            "left side weakness", "right side weakness",
+            "left side motor weakness", "right side motor weakness",
+            "lt. side weakness", "rt. side weakness",
+            "lt. motor weakness", "rt. motor weakness",
+            "lt side weakness", "rt side weakness",
+            "left motor weakness", "right motor weakness",
+            "lower extremity paraparesis", "paraparesis",
+        )
+        if any(t in text_lower for t in _lateralized_weakness):
             return "stroke_symptoms"  # → ESI 2
 
         # ── "Ped struck" — pedestrian struck by vehicle → high-energy trauma ─
@@ -2195,6 +2244,46 @@ class AISymptomClassifier:
         )
         if any(t in text_lower for t in _anaphylaxis_signals):
             return "anaphylaxis"
+
+        # ── GI bleeding signals → gi_bleed (ESI 2) ─────────────────────────
+        _gi_bleed_signals = (
+            "hematochezia", "melena", "bloody stool", "blood in stool",
+            "rectal bleeding", "gi bleed", "gi bleeding",
+            "hematemesis", "vomiting blood", "coffee ground",
+        )
+        if any(t in text_lower for t in _gi_bleed_signals):
+            return "gi_bleed"  # → ESI 2
+
+        # ── Vaginal bleeding → obstetric_emergency (ESI 2) ──────────────────
+        if "vaginal bleeding" in text_lower or "vaginal bleed" in text_lower:
+            return "obstetric_emergency"  # → ESI 2
+
+        # ── Acute dyspnea → respiratory_distress (ESI 2) ────────────────────
+        # "acute dyspnea" is different from chronic dyspnea — implies acute
+        # respiratory failure requiring immediate intervention.
+        if "acute dyspnea" in text_lower:
+            return "respiratory_distress"  # → ESI 2
+
+        # ── Hypoglycemic/hyperglycemic signals → diabetic_emergency (ESI 2) ─
+        _diabetic_signals = (
+            "hypoglycemic", "hypoglycemia", "hyperglycemic", "hyperglycemia",
+            "bst high", "bst low", "blood sugar high", "blood sugar low",
+            "sugar high", "sugar low", "dka",
+        )
+        if any(t in text_lower for t in _diabetic_signals):
+            return "diabetic_emergency"  # → ESI 2
+
+        # ── Priapism → urological emergency (ESI 2) ─────────────────────────
+        if "priapism" in text_lower or "erection, penile" in text_lower:
+            return "altered_mental_status"  # → ESI 2 (urological emergency via high-acuity bucket)
+
+        # ── Eye trauma → eye emergency (ESI 2) ──────────────────────────────
+        _eye_emergency_signals = (
+            "eye trauma", "hyphema", "eye injury", "globe rupture",
+            "chemical eye", "eye burn",
+        )
+        if any(t in text_lower for t in _eye_emergency_signals):
+            return "altered_mental_status"  # → ESI 2 (via high-acuity bucket)
 
         # ── "allergic reaction" without airway signs → ESI 2 (moderate) ───────
         if "allergic reaction" in text_lower or "severe allergic" in text_lower:
@@ -2219,6 +2308,11 @@ class AISymptomClassifier:
             "not acting right", "not herself", "not himself",
             "listless", "floppy", "limp",
             "confused and agitated", "acutely confused",
+            # Altered mental status phrases (international ED phrasing)
+            "mental change", "altered mentality", "altered mental",
+            "confuse mentality", "confused mentality",
+            "change in mental", "change of mental",
+            "loss of consciousness",
             "مش طبيعي", "مش واعي", "خامل", "مش بيرد",
         )
         if any(t in text_lower for t in _ams_signals):
@@ -2394,7 +2488,10 @@ class AISymptomClassifier:
         
         # Level 2 keywords
         level2_keywords = {
-            "chest_pain_cardiac": ["chest pain", "ألم صدر", "صدري بيوجعني", "قلبي بيوجعني"],
+            "chest_pain_cardiac": ["chest pain", "pain, chest", "pain chest",
+                                  "discomfort, chest", "discomfort chest", "chest discomfort",
+                                  "chest palpitation",
+                                  "ألم صدر", "صدري بيوجعني", "قلبي بيوجعني"],
             "stroke_symptoms": [
                 "stroke", "جلطة", "جلطة في المخ", "سكتة", "سكتة دماغية", "شلل",
                 "aphasia", "dysarthria", "slurred speech", "speech difficulty",
@@ -2402,6 +2499,13 @@ class AISymptomClassifier:
                 "difficulty speaking", "speech loss", "inability to speak", "sudden inability to speak",
                 "facial droop", "face drooping",
                 "one side weakness", "one sided weakness", "hemiplegia",
+                # Lateralized motor weakness patterns (Korean/international ED phrasing)
+                "motor weakness", "left side weakness", "right side weakness",
+                "left side motor weakness", "right side motor weakness",
+                "lt. side weakness", "rt. side weakness",
+                "lt. motor weakness", "rt. motor weakness",
+                "left motor weakness", "right motor weakness",
+                "paraparesis",
                 "مش قادر يتكلم", "مش قادر اتكلم", "مش قادر أتكلم", "مبقتش قادر اتكلم",
                 "كلامي اتلخبط", "كلامه اتلخبط", "بيتكلم غريب", "كلامي مش واضح",
                 "فقدان النطق", "فقدان الكلام", "عدم القدرة على الكلام", "عدم القدرة على التكلم",
@@ -3785,6 +3889,34 @@ class DeterministicTriageEngine:
                 f"Hypoxia (SpO2 {vitals.spo2}% < 90%)"
             )
 
+        # Hypertensive emergency: SBP >= 200
+        if vitals and vitals.sbp is not None and vitals.sbp >= 200 and final_level > 2:
+            vital_esi2_reasons.append(
+                f"ارتفاع ضغط دم شديد ({vitals.sbp}) / "
+                f"Hypertensive emergency (SBP {vitals.sbp} >= 200)"
+            )
+
+        # Fever + tachycardia (sepsis pathway): temp >= 38.0 AND HR > 100
+        complaint_has_fever = any(
+            t in (complaint or "").lower()
+            for t in ("fever", "حرارة", "سخونة", "حمى")
+        )
+        temp_elevated = vitals and vitals.temp is not None and vitals.temp >= 38.0
+        hr_tachy = vitals and vitals.hr is not None and vitals.hr > 100
+        if (complaint_has_fever or temp_elevated) and hr_tachy and final_level > 2:
+            temp_val = vitals.temp if vitals and vitals.temp else "N/A"
+            vital_esi2_reasons.append(
+                f"حمى مع تسارع القلب (BT={temp_val}, HR={vitals.hr}) / "
+                f"Fever + tachycardia (temp={temp_val}, HR={vitals.hr}) — sepsis pathway"
+            )
+
+        # Significant fever (temp >= 38.5) alone
+        if vitals and vitals.temp is not None and vitals.temp >= 38.5 and final_level > 2:
+            vital_esi2_reasons.append(
+                f"حمى مرتفعة ({vitals.temp}°C) / "
+                f"Significant fever (temp {vitals.temp}°C >= 38.5) — infection pathway"
+            )
+
         if vital_esi2_reasons and final_level > 2:
             final_level = 2
             for reason in vital_esi2_reasons:
@@ -3858,6 +3990,56 @@ class DeterministicTriageEngine:
                 modifiers.append(
                     f"⚠️ إشارات عدم استقرار: {', '.join(top_signals)} / "
                     f"Instability signals: {', '.join(top_signals)} → ESI 2"
+                )
+
+        # =================================================================
+        # AGE-BASED RESPIRATORY SAFETY FLOOR
+        # =================================================================
+        # Elderly patients (>= 70) presenting with dyspnea have high
+        # mortality risk regardless of initial vital stability. ESI protocol
+        # and clinical guidelines recommend minimum ESI 2 for elderly
+        # respiratory complaints.
+        # =================================================================
+        if final_level > 2 and age >= 75:
+            complaint_lower_resp = (complaint or "").lower()
+            _resp_signals = ("dyspnea", "shortness of breath", "breathing difficulty",
+                             "can't breathe", "difficulty breathing", "ضيق تنفس",
+                             "مش قادر اتنفس", "مش عارف آخد نفسي")
+            if any(sig in complaint_lower_resp for sig in _resp_signals):
+                final_level = 2
+                modifiers.append(
+                    "⚠️ مريض مسن + ضيق تنفس → مستوى 2 / "
+                    "Elderly (>=75) + respiratory complaint → ESI 2 safety floor"
+                )
+
+        # =================================================================
+        # MISSING-VITALS + RESPIRATORY COMPLAINT SAFETY FLOOR
+        # =================================================================
+        # When a patient presents with a respiratory complaint but NO vital
+        # signs are available, assume worst case. Missing vitals for a
+        # dyspneic patient suggests chaotic presentation (e.g. ambulance
+        # arrival, too unstable to measure). Minimum ESI 2.
+        # =================================================================
+        if final_level > 2:
+            complaint_lower_mv = (complaint or "").lower()
+            _resp_mv_signals = ("dyspnea", "can't breathe", "cannot breathe",
+                                "shortness of breath", "difficulty breathing",
+                                "ضيق تنفس", "مش قادر اتنفس")
+            has_resp_complaint = any(sig in complaint_lower_mv for sig in _resp_mv_signals)
+            all_vitals_missing = (
+                vitals is None
+                or (
+                    vitals.hr is None
+                    and vitals.rr is None
+                    and vitals.sbp is None
+                    and vitals.spo2 is None
+                )
+            )
+            if has_resp_complaint and all_vitals_missing:
+                final_level = 2
+                modifiers.append(
+                    "⚠️ شكوى تنفسية بدون علامات حيوية → مستوى 2 / "
+                    "Respiratory complaint + no vital signs available → ESI 2 safety floor"
                 )
 
         # Offline fallback safety policy for unrecognized complaints.

@@ -1,0 +1,955 @@
+{
+  "benchmark": "KTAS_gemini_targeted",
+  "timestamp": "20260401T185410Z",
+  "total_critical_cases": 63,
+  "deterministic_metrics": {
+    "total": 63,
+    "exact_match": 0,
+    "exact_match_rate": 0.0,
+    "within_one": 53,
+    "within_one_rate": 0.8413,
+    "under_triage": 63,
+    "under_triage_rate": 1.0,
+    "over_triage": 0,
+    "over_triage_rate": 0.0,
+    "critical_under_triage": 63,
+    "critical_under_triage_rate": 1.0,
+    "per_class_recall": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0,
+      "5": 0.0
+    },
+    "confusion_matrix": {
+      "1": {
+        "1": 0,
+        "2": 15,
+        "3": 2,
+        "4": 2,
+        "5": 0
+      },
+      "2": {
+        "1": 0,
+        "2": 0,
+        "3": 38,
+        "4": 6,
+        "5": 0
+      },
+      "3": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "4": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "5": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    "critical_under_triage_cases": [
+      {
+        "case_id": "ktas_row_1003",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "eye trauma"
+      },
+      {
+        "case_id": "ktas_row_1008",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "post-CPR state"
+      },
+      {
+        "case_id": "ktas_row_1010",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "vomiting"
+      },
+      {
+        "case_id": "ktas_row_1011",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "post-CPR state"
+      },
+      {
+        "case_id": "ktas_row_1014",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dizziness"
+      },
+      {
+        "case_id": "ktas_row_1030",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "Dental Problem"
+      },
+      {
+        "case_id": "ktas_row_1041",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "arrest"
+      },
+      {
+        "case_id": "ktas_row_105",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_1075",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_1080",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "altered mental change"
+      },
+      {
+        "case_id": "ktas_row_1090",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "general weakness"
+      },
+      {
+        "case_id": "ktas_row_1097",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "DZ - Dizziness"
+      },
+      {
+        "case_id": "ktas_row_1113",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "BST high"
+      },
+      {
+        "case_id": "ktas_row_1134",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_1145",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "post-CPR state"
+      },
+      {
+        "case_id": "ktas_row_1173",
+        "actual_esi": 1,
+        "predicted_esi": 4,
+        "chief_complaint": "acute dyspnea"
+      },
+      {
+        "case_id": "ktas_row_1182",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "hypoglycemic symptom"
+      },
+      {
+        "case_id": "ktas_row_1187",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "?? ???"
+      },
+      {
+        "case_id": "ktas_row_119",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "headache"
+      },
+      {
+        "case_id": "ktas_row_1194",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_123",
+        "actual_esi": 1,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_1241",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "post neck pain"
+      },
+      {
+        "case_id": "ktas_row_127",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "general weakness"
+      },
+      {
+        "case_id": "ktas_row_132",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_152",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_157",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "Motor weakness"
+      },
+      {
+        "case_id": "ktas_row_158",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_159",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_163",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "melena"
+      },
+      {
+        "case_id": "ktas_row_166",
+        "actual_esi": 1,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_168",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "Drug Intoxication"
+      },
+      {
+        "case_id": "ktas_row_169",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "Amnesia"
+      },
+      {
+        "case_id": "ktas_row_172",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_173",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_182",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "erection, penile"
+      },
+      {
+        "case_id": "ktas_row_206",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "vaginal bleeding"
+      },
+      {
+        "case_id": "ktas_row_217",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_382",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_407",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_409",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "general weakness"
+      },
+      {
+        "case_id": "ktas_row_424",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_471",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "nausea"
+      },
+      {
+        "case_id": "ktas_row_500",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dizziness"
+      },
+      {
+        "case_id": "ktas_row_553",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_56",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "H-Headache"
+      },
+      {
+        "case_id": "ktas_row_60",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_61",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "abd pain"
+      },
+      {
+        "case_id": "ktas_row_694",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "upper back pain"
+      },
+      {
+        "case_id": "ktas_row_707",
+        "actual_esi": 1,
+        "predicted_esi": 4,
+        "chief_complaint": "abd pain"
+      },
+      {
+        "case_id": "ktas_row_713",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "epigastric pain"
+      },
+      {
+        "case_id": "ktas_row_757",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "upper back pain"
+      },
+      {
+        "case_id": "ktas_row_786",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "hematochezia"
+      },
+      {
+        "case_id": "ktas_row_806",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_811",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_822",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_825",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_889",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "seizure"
+      },
+      {
+        "case_id": "ktas_row_914",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "Vaginal Bleeding"
+      },
+      {
+        "case_id": "ktas_row_94",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "both wrist pain"
+      },
+      {
+        "case_id": "ktas_row_958",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "DI, drug intoxication"
+      },
+      {
+        "case_id": "ktas_row_980",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "Abnormality, Visual Acuity"
+      },
+      {
+        "case_id": "ktas_row_988",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dizziness"
+      },
+      {
+        "case_id": "ktas_row_989",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "D - Diarrhea"
+      }
+    ]
+  },
+  "gemini_metrics": {
+    "total": 63,
+    "exact_match": 11,
+    "exact_match_rate": 0.1746,
+    "within_one": 51,
+    "within_one_rate": 0.8095,
+    "under_triage": 52,
+    "under_triage_rate": 0.8254,
+    "over_triage": 0,
+    "over_triage_rate": 0.0,
+    "critical_under_triage": 52,
+    "critical_under_triage_rate": 0.8254,
+    "per_class_recall": {
+      "1": 0.0,
+      "2": 0.25,
+      "3": 0.0,
+      "4": 0.0,
+      "5": 0.0
+    },
+    "confusion_matrix": {
+      "1": {
+        "1": 0,
+        "2": 15,
+        "3": 2,
+        "4": 2,
+        "5": 0
+      },
+      "2": {
+        "1": 0,
+        "2": 11,
+        "3": 25,
+        "4": 8,
+        "5": 0
+      },
+      "3": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "4": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "5": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    "critical_under_triage_cases": [
+      {
+        "case_id": "ktas_row_1003",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "eye trauma"
+      },
+      {
+        "case_id": "ktas_row_1008",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "post-CPR state"
+      },
+      {
+        "case_id": "ktas_row_1010",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "vomiting"
+      },
+      {
+        "case_id": "ktas_row_1011",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "post-CPR state"
+      },
+      {
+        "case_id": "ktas_row_1030",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "Dental Problem"
+      },
+      {
+        "case_id": "ktas_row_1041",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "arrest"
+      },
+      {
+        "case_id": "ktas_row_105",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_1075",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_1080",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "altered mental change"
+      },
+      {
+        "case_id": "ktas_row_1113",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "BST high"
+      },
+      {
+        "case_id": "ktas_row_1134",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_1145",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "post-CPR state"
+      },
+      {
+        "case_id": "ktas_row_1173",
+        "actual_esi": 1,
+        "predicted_esi": 3,
+        "chief_complaint": "acute dyspnea"
+      },
+      {
+        "case_id": "ktas_row_1182",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "hypoglycemic symptom"
+      },
+      {
+        "case_id": "ktas_row_119",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "headache"
+      },
+      {
+        "case_id": "ktas_row_1194",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_123",
+        "actual_esi": 1,
+        "predicted_esi": 4,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_1241",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "post neck pain"
+      },
+      {
+        "case_id": "ktas_row_127",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "general weakness"
+      },
+      {
+        "case_id": "ktas_row_132",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_152",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_157",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "Motor weakness"
+      },
+      {
+        "case_id": "ktas_row_158",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_159",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_163",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "melena"
+      },
+      {
+        "case_id": "ktas_row_166",
+        "actual_esi": 1,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_172",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_173",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_182",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "erection, penile"
+      },
+      {
+        "case_id": "ktas_row_206",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "vaginal bleeding"
+      },
+      {
+        "case_id": "ktas_row_217",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_382",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_407",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_409",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "general weakness"
+      },
+      {
+        "case_id": "ktas_row_424",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_471",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "nausea"
+      },
+      {
+        "case_id": "ktas_row_553",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_56",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "H-Headache"
+      },
+      {
+        "case_id": "ktas_row_60",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "fever"
+      },
+      {
+        "case_id": "ktas_row_61",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "abd pain"
+      },
+      {
+        "case_id": "ktas_row_694",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "upper back pain"
+      },
+      {
+        "case_id": "ktas_row_707",
+        "actual_esi": 1,
+        "predicted_esi": 4,
+        "chief_complaint": "abd pain"
+      },
+      {
+        "case_id": "ktas_row_713",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "epigastric pain"
+      },
+      {
+        "case_id": "ktas_row_757",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "upper back pain"
+      },
+      {
+        "case_id": "ktas_row_806",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_822",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "mental change"
+      },
+      {
+        "case_id": "ktas_row_825",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "dyspnea"
+      },
+      {
+        "case_id": "ktas_row_889",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "seizure"
+      },
+      {
+        "case_id": "ktas_row_914",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "Vaginal Bleeding"
+      },
+      {
+        "case_id": "ktas_row_94",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "both wrist pain"
+      },
+      {
+        "case_id": "ktas_row_980",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "Abnormality, Visual Acuity"
+      },
+      {
+        "case_id": "ktas_row_989",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "D - Diarrhea"
+      }
+    ]
+  },
+  "improvements": [
+    {
+      "case_id": "ktas_row_1014",
+      "complaint": "dizziness",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_1090",
+      "complaint": "general weakness",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_1097",
+      "complaint": "DZ - Dizziness",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_1173",
+      "complaint": "acute dyspnea",
+      "actual": 1,
+      "det_esi": 4,
+      "ai_esi": 3,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_1187",
+      "complaint": "?? ???",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_168",
+      "complaint": "Drug Intoxication",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_169",
+      "complaint": "Amnesia",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_500",
+      "complaint": "dizziness",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_786",
+      "complaint": "hematochezia",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_811",
+      "complaint": "fever",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_94",
+      "complaint": "both wrist pain",
+      "actual": 2,
+      "det_esi": 4,
+      "ai_esi": 3,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_958",
+      "complaint": "DI, drug intoxication",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    },
+    {
+      "case_id": "ktas_row_988",
+      "complaint": "dizziness",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 2,
+      "extraction": "gemini_online"
+    }
+  ],
+  "regressions": [
+    {
+      "case_id": "ktas_row_123",
+      "complaint": "dyspnea",
+      "actual": 1,
+      "det_esi": 3,
+      "ai_esi": 4
+    },
+    {
+      "case_id": "ktas_row_382",
+      "complaint": "dyspnea",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 4
+    },
+    {
+      "case_id": "ktas_row_471",
+      "complaint": "nausea",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 4
+    },
+    {
+      "case_id": "ktas_row_980",
+      "complaint": "Abnormality, Visual Acuity",
+      "actual": 2,
+      "det_esi": 3,
+      "ai_esi": 4
+    }
+  ],
+  "failures": [],
+  "critical_reduction": {
+    "before": 63,
+    "after": 52,
+    "fixed": 11
+  }
+}
