@@ -539,8 +539,9 @@ LIFE_THREAT_SIGNALS = [
     # Pediatric / neonatal red flags
     "somnolent", "listless", "mottled", "floppy",
     "not acting right",
-    # Pediatric hit by car (high mechanism)
+    # Pediatric hit by car / pedestrian struck (high-energy mechanism)
     "hit by a car", "hit by car", "struck by a car",
+    "ped struck", "pedestrian hit", "pedestrian struck",
 ]
 
 CLEAR_NON_URGENT_SIGNALS = [
@@ -2247,8 +2248,8 @@ class AISymptomClassifier:
         if any(t in text_lower for t in _severe_pain_signals):
             return "severe_pain"  # → ESI 2
 
-        # ── C-spine / backboard immobilisation → ESI 2 ───────────────────────
-        # ESI handbook: patient immobilised on backboard with c-collar = ESI 2.
+        # ── C-spine / backboard immobilisation → ESI 1 ───────────────────────
+        # ESI handbook: patient immobilised on backboard with c-collar = high-risk.
         _cspine_signals = (
             "c-collar", "c collar", "cervical collar",
             "back board", "backboard",
@@ -2338,12 +2339,7 @@ class AISymptomClassifier:
         if "sunken fontanel" in text_lower or "fontanelle" in text_lower:
             return "pediatric_dehydration"  # → ESI 2
 
-        # ── Diving injury + face/neck struck → ESI 2 (c-spine mechanism) ────
-        _dive_cspine = (
-            "dove into", "diving into", "dove in",
-            "face struck", "hit the bottom",
-            "neck tingling", "neck pain",
-        )
+        # ── Diving injury + face/neck struck → ESI 1 (c-spine mechanism) ────
         _has_dive = any(t in text_lower for t in ("dove into", "diving into", "dove in"))
         _has_impact = any(t in text_lower for t in ("face struck", "hit the bottom", "struck the bottom"))
         if _has_dive and _has_impact:
