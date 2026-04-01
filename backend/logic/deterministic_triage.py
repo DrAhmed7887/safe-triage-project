@@ -245,6 +245,25 @@ def _text_has_tachypnea_signal(text: str) -> bool:
 
 
 def _text_has_fever_signal(text: str) -> bool:
+    # Arabic negated fever: "بينفي سخونية" (denies fever) → no fever signal.
+    _NEGATED_FEVER_AR = ("بينفي أي سخونية", "بينفي سخونية", "مفيش سخونية",
+                          "من غير سخونية", "بدون سخونية", "بينفي السخونية")
+    if any(nf in text for nf in _NEGATED_FEVER_AR):
+        # Fever explicitly denied. Only trigger if English fever keyword present.
+        if _contains_any(text, ["fever", "febrile"]):
+            return True
+        return False
+    # Arabic normal-temperature reporting patterns that should NOT trigger fever.
+    # e.g. "وحرارة 37.4 مئوية" or "حرارة 36.8" are vitals reports, not complaints.
+    _AR_NORMAL_TEMP_RE = re.compile(
+        r'حرارة\s*[:=]?\s*(?:3[5-7](?:\.\d+)?)\s*(?:مئوية|درجة)?'
+    )
+    if _AR_NORMAL_TEMP_RE.search(text):
+        # "حرارة" appeared only as a normal temperature reading — skip it.
+        # But still check for explicit fever complaint words.
+        if _contains_any(text, ["fever", "febrile", "حمى", "سخونية"]):
+            return True
+        return False
     if _contains_any(text, ["fever", "febrile", "حمى", "سخونية", "حرارة"]):
         return True
     temp_value = _first_int_match(
@@ -375,6 +394,12 @@ INSTABILITY_SIGNALS = [
     "left-sided weakness", "right-sided weakness",
     "arm weakness", "leg weakness", "facial weakness",
     "motor weakness", "side motor weakness", "paraparesis",
+    "ضعف في الناحية الشمال", "ضعف في الناحية اليمين",
+    "الناحية الشمال مرتخية", "الناحية اليمين مرتخية",
+    # Arabic fever/infection instability
+    "سخونية تروح وتيجي", "عرق بالليل", "سخونية",
+    # Arabic chest pain
+    "وجع في الصدر", "وجع في صدرها", "وجع في صدره",
     "woke up unable", "woke up and couldn't",
     "flaccid", "gaze deviation", "gaze preference",
     "hemibody", "dense hemiplegia",
@@ -443,6 +468,34 @@ INSTABILITY_SIGNALS = [
     # Psychotic / dangerous behaviour
     "screaming about", "end of the world",
     "standing in traffic",
+    # ── Arabic / Egyptian dialect instability signals ───────────────────
+    # Cardiac arrest / pulselessness
+    "توقف في عضلة القلب",
+    "قلبه وقف", "قلبها وقف",
+    "مفيش نبض",
+    "العلامات الحيوية كلها كانت أصفار",
+    "العلامات الحيوية مكنتش محسوسة",
+    "مكنتش محسوسة",
+    # Unresponsive / unconscious
+    "فاقد الوعي", "فاقدة الوعي",
+    "مش بترد", "مش بيرد",
+    # Resuscitation / intubation / ventilation
+    "إنعاش فوري", "انعاش فوري",
+    "أنبوبة حنجرية", "انبوبة حنجرية",
+    "جهاز تنفس صناعي",
+    # NOTE: Sepsis ("تسمم في الدم"), standalone overdose ("جرعة زيادة"),
+    # and hypotension ("ضغط واطي") → moved to INSTABILITY_SIGNALS (ESI 2).
+    # Only keep signals that unambiguously require ESI 1 (resuscitation) here.
+    # Seizures (active)
+    "تشنجات",
+    # Confirmed suicide attempt
+    "محاولة انتحار",
+    # Chest tube (implies pneumothorax/hemothorax — surgical emergency)
+    "أنبوبة الصدر", "انبوبة الصدر",
+    # MVC / high-energy collision
+    "حادثة عربية", "حادث عربية",
+    # Open fracture
+    "كسر مفتوح",
 ] + list(_SHARED_CRITICAL_SIGNALS)
 
 NON_URGENT_SIGNALS = [
@@ -557,6 +610,40 @@ LIFE_THREAT_SIGNALS = [
     # Pediatric hit by car / pedestrian struck (high-energy mechanism)
     "hit by a car", "hit by car", "struck by a car",
     "ped struck", "pedestrian hit", "pedestrian struck",
+    # ── Arabic / Egyptian dialect life-threat signals ───────────────────
+    # Cardiac arrest / pulselessness
+    "توقف في عضلة القلب",        # cardiac arrest (lit. "heart muscle stopped")
+    "قلبه وقف",                  # his heart stopped
+    "قلبها وقف",                  # her heart stopped
+    "مفيش نبض",                  # no pulse
+    "العلامات الحيوية كلها كانت أصفار",  # all vitals were zeros
+    "العلامات الحيوية مكنتش محسوسة",     # vitals not palpable
+    "مكنتش محسوسة",              # not palpable (vitals)
+    # Unresponsive / unconscious
+    "فاقد الوعي",                # unconscious (masculine)
+    "فاقدة الوعي",               # unconscious (feminine)
+    "مش بترد",                   # not responding (feminine)
+    "مش بيرد",                   # not responding (masculine)
+    # Resuscitation / intubation
+    "إنعاش فوري",               # immediate resuscitation
+    "انعاش فوري",               # immediate resuscitation (no hamza)
+    "أنبوبة حنجرية",            # laryngeal tube / intubated
+    "انبوبة حنجرية",            # laryngeal tube (no hamza)
+    "جهاز تنفس صناعي",          # mechanical ventilator
+    # NOTE: "تسمم في الدم" (sepsis), "جرعة زيادة" (overdose) moved to
+    # INSTABILITY_SIGNALS (ESI 2). Only unambiguous ESI 1 signals here.
+    # Seizures (active)
+    "تشنجات",                   # seizures
+    # Confirmed suicide attempt with severe signs
+    "محاولة انتحار",             # suicide attempt
+    # MVC / high-energy collision (life-threatening trauma)
+    "حادثة عربية",              # car accident (Egyptian)
+    "حادث عربية",               # car accident
+    # Chest tube (pneumothorax/hemothorax)
+    "أنبوبة الصدر",             # chest tube (with hamza)
+    "انبوبة الصدر",             # chest tube (without hamza)
+    # Open fracture
+    "كسر مفتوح",                # open fracture
 ] + list(_SHARED_CRITICAL_SIGNALS)
 
 CLEAR_NON_URGENT_SIGNALS = [
@@ -2083,10 +2170,33 @@ class AISymptomClassifier:
         # Guardrail: abdominal pain + fever is a high-risk combination (ESI 2 pathway).
         # NOTE: "temp" removed — it false-positives on "temperature 98.3" in
         # clinical vignettes.  Use explicit fever terms only.
-        fever_tokens = ["سخونية", "حمى", "حرارة", "fever", "febrile", "high fever"]
+        # NOTE: "حرارة" must be checked against normal-temp negation to avoid
+        # false-positives on "وحرارة 37.4 مئوية" (vitals reporting).
+        fever_tokens = ["سخونية", "حمى", "fever", "febrile", "high fever"]
+        _ar_normal_temp_re_guard = re.compile(
+            r'حرارة\s*[:=]?\s*(?:3[5-7](?:\.\d+)?)\s*(?:مئوية|درجة)?'
+        )
+        _has_ar_harara = "حرارة" in normalized_text and not _ar_normal_temp_re_guard.search(normalized_text)
         abdominal_tokens = ["بطني", "وجع بطن", "الم بطن", "ألم بطن", "stomach pain", "abdominal pain", "مغص"]
-        if any(token in normalized_text for token in fever_tokens) and any(
+        if (any(token in normalized_text for token in fever_tokens) or _has_ar_harara) and any(
             token in normalized_text for token in abdominal_tokens
+        ):
+            return "high_fever_toxic"
+
+        # Guardrail: fever + constitutional symptoms (night sweats, weight loss,
+        # rigors) = infection / malignancy pathway → ESI 2 (high_fever_toxic).
+        # This catches Arabic "سخونية تروح وتيجي وعرق بالليل" (episodic fevers
+        # + night sweats) which indicates serious systemic illness.
+        _constitutional_tokens = [
+            "night sweat", "عرق بالليل", "عرق ليلي",
+            "rigors", "رعشة", "بيترعش",
+            "weight loss", "نقص وزن", "خس", "وزنه قل",
+        ]
+        _has_fever_signal_for_const = (
+            any(token in normalized_text for token in fever_tokens) or _has_ar_harara
+        )
+        if _has_fever_signal_for_const and any(
+            token in normalized_text for token in _constitutional_tokens
         ):
             return "high_fever_toxic"
 
@@ -2125,6 +2235,10 @@ class AISymptomClassifier:
             "ألم صدر",
             "الم صدر",
             "وجع صدر",
+            "وجع في الصدر",
+            "وجع في صدرها",
+            "وجع في صدره",
+            "وجع في صدري",
             "حرقان صدر",
             "حارق بالصدر",
             "ضغط على الصدر",
@@ -2203,6 +2317,48 @@ class AISymptomClassifier:
         if "syncope" in text_lower:
             return "altered_mental_status"  # → ESI 2
 
+        # ── Arabic AMS patterns → altered_mental_status (ESI 2) ──────────────
+        # Must run BEFORE dynamic keyword DB to prevent OD/sepsis keywords
+        # from routing AMS presentations to ESI 1.
+        _ar_ams_early = (
+            "تغيّر في الوعي", "تغير في الوعي", "تغيّر في مستوى الوعي",
+            "كلامه غريب ومش عارف", "مش عارف هو فين",
+        )
+        if any(t in text_lower for t in _ar_ams_early):
+            return "altered_mental_status"  # → ESI 2
+
+        # ── Arabic prescription refill → prescription_refill (ESI 5) ─────────
+        _ar_refill = ("تجديد روشتة", "تصرف علاج", "تجديد الروشتة", "تجديد العلاج")
+        if any(t in text_lower for t in _ar_refill):
+            return "prescription_refill"  # → ESI 5
+
+        # ── Arabic abdominal pain patterns → moderate_abdominal_pain (ESI 3) ─
+        _ar_abd_pain = (
+            "وجع أسفل البطن", "وجع اسفل البطن", "ألم أسفل البطن",
+            "وجع في البطن", "ألم في البطن", "وجع بطن",
+        )
+        if any(t in text_lower for t in _ar_abd_pain):
+            return "moderate_abdominal_pain"  # → ESI 3
+
+        # ── Arabic negated fever guard ────────────────────────────────────────
+        # If the text explicitly negates fever (بينفي سخونية), don't let
+        # downstream "سخونية" substring matching trigger a fever category.
+        _negated_fever_ar = ("بينفي أي سخونية", "بينفي سخونية", "مفيش سخونية",
+                            "من غير سخونية", "بدون سخونية")
+        if any(t in text_lower for t in _negated_fever_ar):
+            # If fever is explicitly denied, fall through to non-fever paths
+            pass  # Will be handled by static keywords below
+        elif "سخونية" in text_lower:
+            # Unqualified سخونية → fever, but check for constitutional symptoms
+            _constitutional_ar = ("عرق بالليل", "نقص وزن", "خس حوالي")
+            if any(t in text_lower for t in _constitutional_ar):
+                return "high_fever_toxic"  # → ESI 2
+            return "fever_with_symptoms"  # → ESI 3
+
+        # ── Arabic sepsis pattern → sepsis (ESI 2 via ceiling) ───────────────
+        if "تسمم في الدم" in text_lower or "تعفن الدم" in text_lower:
+            return "sepsis"  # → category level 1 but ceiling caps to ESI 2
+
         # ── Reversed chest pain phrasing → chest_pain_cardiac (ESI 2) ────────
         # Korean/international ED format: "pain, chest" or "discomfort, chest"
         _chest_reversed = (
@@ -2246,12 +2402,15 @@ class AISymptomClassifier:
             return "anaphylaxis"
 
         # ── GI bleeding signals → gi_bleed (ESI 2) ─────────────────────────
+        # Guard: abscess complaints (خراج) should NOT be classified as GI bleed
+        # even if the text incidentally contains blood/rectal tokens.
+        _is_abscess = any(t in text_lower for t in ("خراج", "abscess"))
         _gi_bleed_signals = (
             "hematochezia", "melena", "bloody stool", "blood in stool",
             "rectal bleeding", "gi bleed", "gi bleeding",
             "hematemesis", "vomiting blood", "coffee ground",
         )
-        if any(t in text_lower for t in _gi_bleed_signals):
+        if not _is_abscess and any(t in text_lower for t in _gi_bleed_signals):
             return "gi_bleed"  # → ESI 2
 
         # ── Vaginal bleeding → obstetric_emergency (ESI 2) ──────────────────
@@ -2313,7 +2472,8 @@ class AISymptomClassifier:
             "confuse mentality", "confused mentality",
             "change in mental", "change of mental",
             "loss of consciousness",
-            "مش طبيعي", "مش واعي", "خامل", "مش بيرد",
+            "مش طبيعي", "مش واعي", "خامل", "مش بيرد", "مش بترد",
+            "فاقد الوعي", "فاقدة الوعي",
         )
         if any(t in text_lower for t in _ams_signals):
             return "altered_mental_status"  # → ESI 2
@@ -2445,8 +2605,14 @@ class AISymptomClassifier:
         if _has_dive and _has_impact:
             return "severe_trauma"  # → ESI 1 (c-spine mechanism)
 
-        # Try dynamic keyword database first
-        if USE_DYNAMIC_KEYWORDS:
+        # Try dynamic keyword database first — but ONLY for short complaints
+        # or English-dominant text. Long Arabic clinical vignettes contain too much
+        # context and cause false-positive substring matches (e.g., "حساسية من
+        # الدوبوتامين" matching allergic_reaction). Arabic text has proper guardrails
+        # in the static keyword path below.
+        _has_arabic = any('\u0600' <= ch <= '\u06FF' for ch in text_lower[:50])
+        _skip_dynamic = _has_arabic and len(text_lower) > 150
+        if USE_DYNAMIC_KEYWORDS and not _skip_dynamic:
             try:
                 db = get_keyword_database()
                 result = db.search_keyword(text_lower)
@@ -2465,17 +2631,29 @@ class AISymptomClassifier:
         # Static fallback keywords
         # Level 1 keywords (must catch these even without AI)
         level1_keywords = {
-            "unconscious": ["unconscious", "unresponsive", "فاقد الوعي", "مغمى عليه", "مش بيرد",
+            "unconscious": ["unconscious", "unresponsive", "فاقد الوعي", "فاقدة الوعي",
+                           "مغمى عليه", "مش بيرد", "مش بترد",
                            "مش بيرد عليا", "مش واعي", "فاقد وعي"],
-            "cardiac_arrest": ["cardiac arrest", "قلبه وقف", "القلب واقف", "قلبه مش شغال"],
-            "respiratory_arrest": ["not breathing", "مش بيتنفس", "توقف التنفس", "مش قادر يتنفس"],
+            "cardiac_arrest": ["cardiac arrest", "قلبه وقف", "قلبها وقف", "القلب واقف", "قلبه مش شغال",
+                              "توقف في عضلة القلب", "مفيش نبض",
+                              "العلامات الحيوية كلها كانت أصفار",
+                              "العلامات الحيوية مكنتش محسوسة", "مكنتش محسوسة",
+                              "إنعاش فوري", "انعاش فوري"],
+            "respiratory_arrest": ["not breathing", "مش بيتنفس", "توقف التنفس", "مش قادر يتنفس",
+                                  "جهاز تنفس صناعي",
+                                  "أنبوبة حنجرية", "انبوبة حنجرية"],
             "active_seizure": ["seizure", "تشنج", "صرع", "بيترعش", "تشنجات"],
             "choking": ["choking", "شرقان", "حاجة في زوره", "مش قادر يبلع", "شرقت", "شرق",
                        "اختناق", "مش قادرة تاخد نفس", "حاجة واقفة في زوره"],
-            "severe_trauma": ["gunshot", "stab wound", "stabbed", "stabbing", "طعن", "رصاص", "حادثة", "accident", "اتضرب"],
+            "severe_trauma": ["gunshot", "stab wound", "stabbed", "stabbing", "طعن", "رصاص", "حادثة", "accident", "اتضرب",
+                             "حادثة عربية", "حادث عربية",
+                             "كسر مفتوح",
+                             "أنبوبة الصدر", "انبوبة الصدر"],
             "anaphylaxis": ["anaphylaxis", "anaphylactic", "صدمة تحسسية", "حساسية شديدة", "شفايفه ورمت"],
-            "poisoning_overdose": ["overdose", "poison", "تسمم", "جرعة زيادة", "أخد دوا كتير",
-                                  "بلع دوا", "شرب دوا", "أخد حبوب كتير", "جرعة زايدة"],
+            "poisoning_overdose": ["overdose", "poison", "تسمم", "جرعة زيادة", "جرعة زيادة متعمدة",
+                                  "أخد دوا كتير",
+                                  "بلع دوا", "شرب دوا", "أخد حبوب كتير", "جرعة زايدة",
+                                  "محاولة انتحار", "تسمم في الدم"],
             "drowning": ["drowning", "drown", "غرق", "غرقان", "طلعوه من المية", "وقع في المية",
                         "حمام السباحة", "البحر", "النيل"],
             "severe_bleeding": ["severe bleeding", "نزيف شديد", "بينزف جامد", "دم كتير"],
@@ -2491,7 +2669,9 @@ class AISymptomClassifier:
             "chest_pain_cardiac": ["chest pain", "pain, chest", "pain chest",
                                   "discomfort, chest", "discomfort chest", "chest discomfort",
                                   "chest palpitation",
-                                  "ألم صدر", "صدري بيوجعني", "قلبي بيوجعني"],
+                                  "ألم صدر", "صدري بيوجعني", "قلبي بيوجعني",
+                                  "وجع في الصدر", "وجع في صدرها", "وجع في صدره",
+                                  "وجع في صدري"],
             "stroke_symptoms": [
                 "stroke", "جلطة", "جلطة في المخ", "سكتة", "سكتة دماغية", "شلل",
                 "aphasia", "dysarthria", "slurred speech", "speech difficulty",
@@ -2512,13 +2692,19 @@ class AISymptomClassifier:
                 "لساني اتلت", "لسانه اتلت", "لساني تقيل", "لسانه تقيل",
                 "وشه مايل", "وشي مايل", "نص وشه وقع", "نص وشي وقع", "وشي اتعوج",
                 "نص جسمي مش بيتحرك", "نص جسمه مش بيتحرك", "ايدي مش بتتحرك", "ايده مش بتتحرك",
+                # Egyptian colloquial lateralized weakness
+                "ضعف في الناحية الشمال", "ضعف في الناحية اليمين",
+                "الناحية الشمال مرتخية", "الناحية اليمين مرتخية",
+                "مش بتحرك الناحية", "مش بيحرك الناحية",
                 "رجلي مش بتتحرك", "الجنب ده كله مش بيتحرك", "ايده وقعت", "ايدي وقعت",
             ],
-            "respiratory_distress": ["can't breathe", "مش عارف آخد نفسي", "ضيق تنفس", 
-                                    "مش قادرة آخد نفسي", "صعوبة تنفس", "مش قادر اتنفس"],
+            "respiratory_distress": ["can't breathe", "مش عارف آخد نفسي", "ضيق تنفس",
+                                    "مش قادرة آخد نفسي", "صعوبة تنفس", "مش قادر اتنفس",
+                                    "تنفسه سطحي", "تنفسها سطحي"],
             "suicidal_homicidal": ["suicidal", "kill myself", "عايز أموت", "عايز يموت",
                                   "يقتل نفسه", "عايز يقتل نفسه", "ينتحر", "عايز ينتحر",
                                   "هيأذي نفسه", "مش عايز يعيش",
+                                  "محاولة انتحار", "جرعة زيادة متعمدة",
                                   "suicidal ideation", "suicidal with plan"],
             "obstetric_emergency": ["pregnant bleeding", "حامل بتنزف", "حامل وبتنزف",
                                    "حامل في", "حامل ونزيف", "نزيف حمل", "الحمل بينزف"],
@@ -2538,21 +2724,35 @@ class AISymptomClassifier:
         # NOTE: order matters — specific categories before broad ones.
         # "abscess" must precede "bleeding" to prevent perianal/rectal
         # abscess vignettes from matching moderate_bleeding via "bloody".
+        # NOTE: "حرارة" removed from fever_with_symptoms to avoid false
+        # positives when Arabic text reports normal temperature in vitals
+        # (e.g. "وحرارة 37.4 مئوية"). A separate negation-aware check below
+        # handles "حرارة" correctly.
         level3_keywords = {
             "abdominal_pain_moderate": ["abdominal pain", "stomach pain",
                                         "ألم بطن", "بطني بتوجعني",
                                         "معدتي", "مغص", "وجع بطن"],
-            "fever_with_symptoms": ["fever", "سخونية", "حرارة", "سخن"],
+            "fever_with_symptoms": ["fever", "سخونية", "سخن"],
             "vomiting_dehydration": ["vomiting", "بيرجع", "استفراغ", "ترجيع"],
             "moderate_bleeding": ["bleeding", "بينزف", "نزيف", "دم"],
             "fracture_deformity": ["fracture", "broken", "كسر", "مكسور", "ملوي"],
             "pediatric_distress": ["child sick", "طفل", "ابني", "بنتي"],
         }
-        
+
         for category, keywords in level3_keywords.items():
             for kw in keywords:
                 if kw in text_lower:
                     return category
+
+        # Separate negation-aware check for Arabic "حرارة" as fever signal.
+        # Only triggers fever_with_symptoms when "حرارة" is NOT followed by a
+        # normal value (35-37.x).
+        if "حرارة" in text_lower:
+            _ar_normal_temp_re_l3 = re.compile(
+                r'حرارة\s*[:=]?\s*(?:3[5-7](?:\.\d+)?)\s*(?:مئوية|درجة)?'
+            )
+            if not _ar_normal_temp_re_l3.search(text_lower):
+                return "fever_with_symptoms"
         
         # Level 4 keywords
         level4_keywords = {
@@ -3035,7 +3235,7 @@ class ESIResourcePredictor:
         
         # Check complaint text for resource hints
         # Keywords suggesting labs needed
-        if any(word in complaint_lower for word in ["سخونية", "fever", "infection", "حرارة"]):
+        if any(word in complaint_lower for word in ["سخونية", "fever", "infection"]):
             if "labs" not in resources:
                 resources.append("labs")
                 base_resources += 1
@@ -3437,6 +3637,10 @@ class DeterministicTriageEngine:
             "ألم صدر",
             "الم صدر",
             "وجع صدر",
+            "وجع في الصدر",
+            "وجع في صدرها",
+            "وجع في صدره",
+            "وجع في صدري",
             "حرقان صدر",
             "حارق بالصدر",
             "ضغط على الصدر",
@@ -3545,9 +3749,12 @@ class DeterministicTriageEngine:
         has_chest_discomfort = any(token in normalized_complaint for token in chest_discomfort_tokens)
         has_syncope_signal = any(token in normalized_complaint for token in syncope_tokens)
         has_dissection_specific_signal = any(token in normalized_complaint for token in dissection_specific_tokens)
-        has_gi_bleed_signal = any(token in normalized_complaint for token in gi_bleed_tokens) or (
-            any(token in normalized_complaint for token in gi_bleed_action_tokens)
-            and any(token in normalized_complaint for token in gi_bleed_blood_tokens)
+        _is_abscess_complaint = any(t in normalized_complaint for t in ("خراج", "abscess"))
+        has_gi_bleed_signal = not _is_abscess_complaint and (
+            any(token in normalized_complaint for token in gi_bleed_tokens) or (
+                any(token in normalized_complaint for token in gi_bleed_action_tokens)
+                and any(token in normalized_complaint for token in gi_bleed_blood_tokens)
+            )
         )
         has_massive_bleed_signal = any(token in normalized_complaint for token in massive_bleed_tokens)
         has_atypical_gi = any(token in normalized_complaint for token in atypical_gi_tokens)
@@ -3897,9 +4104,12 @@ class DeterministicTriageEngine:
             )
 
         # Fever + tachycardia (sepsis pathway): temp >= 38.0 AND HR > 100
+        # NOTE: "حرارة" removed from simple substring check — it false-positives
+        # on Arabic normal-temp reporting ("وحرارة 37.4 مئوية").  The temp_elevated
+        # flag (vitals.temp >= 38.0) already catches real fevers via structured data.
         complaint_has_fever = any(
             t in (complaint or "").lower()
-            for t in ("fever", "حرارة", "سخونة", "حمى")
+            for t in ("fever", "سخونية", "سخونة", "حمى")
         )
         temp_elevated = vitals and vitals.temp is not None and vitals.temp >= 38.0
         hr_tachy = vitals and vitals.hr is not None and vitals.hr > 100
@@ -3981,6 +4191,13 @@ class DeterministicTriageEngine:
                 "anaphylaxis", "anaphylactic",
                 "dissection", "aortic dissection",
                 "testicular torsion",
+                # Arabic definitive ESI 2 signals
+                "كسر مفتوح",                # open fracture
+                "تسمم في الدم",              # sepsis
+                "تعفن الدم",                 # sepsis
+                "حادثة عربية",              # MVC (car accident)
+                "أنبوبة الصدر",             # chest tube
+                "انبوبة الصدر",             # chest tube (no hamza)
             })
             has_definitive = any(m in DEFINITIVE_ESI2_SIGNALS for m in strong_instability)
 

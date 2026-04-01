@@ -1,0 +1,150 @@
+{
+  "benchmark": "MIETIC Arabic Mirror",
+  "timestamp": "20260401T210012Z",
+  "status": "completed",
+  "fixture_meta": {
+    "description": "Arabic MIETIC mirror fixture — 36 expert-validated RETAIN cases",
+    "source": "MIETIC-validate-samples.csv",
+    "arabic_status": "pending_physician_review",
+    "dialect_requirement": "Egyptian Arabic (عامية مصرية طبية). Use natural ED patient speech, not MSA. Preserve colloquial symptom terms (e.g. بيلف عليه، وجع في صدره، تعبان من قلبه). Do not sanitize into formal Arabic — the goal is to test real patient language."
+  },
+  "dataset": {
+    "total": 36,
+    "acuity_distribution": {
+      "1": 14,
+      "2": 11,
+      "3": 5,
+      "4": 4,
+      "5": 2
+    },
+    "has_missing_vitals": 11
+  },
+  "filled_cases": 36,
+  "predictions_count": 36,
+  "failures": [],
+  "metrics": {
+    "total": 36,
+    "exact_match": 19,
+    "exact_match_rate": 0.5278,
+    "within_one": 33,
+    "within_one_rate": 0.9167,
+    "under_triage": 11,
+    "under_triage_rate": 0.3056,
+    "over_triage": 6,
+    "over_triage_rate": 0.1667,
+    "critical_under_triage": 11,
+    "critical_under_triage_rate": 0.3056,
+    "per_class_recall": {
+      "1": 0.4286,
+      "2": 0.7273,
+      "3": 0.8,
+      "4": 0.0,
+      "5": 0.5
+    },
+    "confusion_matrix": {
+      "1": {
+        "1": 6,
+        "2": 7,
+        "3": 1,
+        "4": 0,
+        "5": 0
+      },
+      "2": {
+        "1": 0,
+        "2": 8,
+        "3": 2,
+        "4": 1,
+        "5": 0
+      },
+      "3": {
+        "1": 0,
+        "2": 1,
+        "3": 4,
+        "4": 0,
+        "5": 0
+      },
+      "4": {
+        "1": 0,
+        "2": 0,
+        "3": 4,
+        "4": 0,
+        "5": 0
+      },
+      "5": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 0,
+        "5": 1
+      }
+    },
+    "critical_under_triage_cases": [
+      {
+        "case_id": "stay_30000679",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "ABDOMINAL PAIN"
+      },
+      {
+        "case_id": "stay_30017342",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "Overdose"
+      },
+      {
+        "case_id": "stay_30055056",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "Found down"
+      },
+      {
+        "case_id": "stay_30115077",
+        "actual_esi": 2,
+        "predicted_esi": 4,
+        "chief_complaint": "Chest pain"
+      },
+      {
+        "case_id": "stay_30116118",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "ALTERED LEVEL OF CONSCIOUSNESS"
+      },
+      {
+        "case_id": "stay_30125793",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "Cardiac arrest"
+      },
+      {
+        "case_id": "stay_30132519",
+        "actual_esi": 1,
+        "predicted_esi": 3,
+        "chief_complaint": "MVC, Transfer"
+      },
+      {
+        "case_id": "stay_30134741",
+        "actual_esi": 2,
+        "predicted_esi": 3,
+        "chief_complaint": "L Leg injury, Transfer"
+      },
+      {
+        "case_id": "stay_30179684",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "Unresponsive, Respiratory distress"
+      },
+      {
+        "case_id": "stay_31731173",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "Chest pain"
+      },
+      {
+        "case_id": "stay_32622318",
+        "actual_esi": 1,
+        "predicted_esi": 2,
+        "chief_complaint": "SEPSIS"
+      }
+    ]
+  }
+}

@@ -4,7 +4,7 @@
   "description": "1,267 ED patients from two Korean hospitals, expert-validated KTAS levels",
   "gold_standard": "KTAS_expert (3 triage experts consensus)",
   "engine_mode": "deterministic_only (no Gemini/MedGemma)",
-  "timestamp": "20260401T202752Z",
+  "timestamp": "20260401T214801Z",
   "dataset": {
     "total": 1262,
     "ktas_expert_distribution": {

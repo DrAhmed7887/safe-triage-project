@@ -1,0 +1,298 @@
+{
+  "meta": {
+    "description": "Arabic MIETIC mirror fixture — 36 expert-validated RETAIN cases",
+    "source": "MIETIC-validate-samples.csv",
+    "arabic_status": "pending_physician_review",
+    "dialect_requirement": "Egyptian Arabic (عامية مصرية طبية). Use natural ED patient speech, not MSA. Preserve colloquial symptom terms (e.g. بيلف عليه، وجع في صدره، تعبان من قلبه). Do not sanitize into formal Arabic — the goal is to test real patient language.",
+    "cases": [
+      {
+        "stay_id": 30000679,
+        "acuity": 2,
+        "chief_complaint_en": "ABDOMINAL PAIN",
+        "triage_case_en": "A 34-year-old Black/African American male with a history of fistulizing Crohn's disease presented to the ED with severe anal pain. The patient reports increasing anal pain, decreased oral intake due to fear of bowel movements, and an 18-pound weight loss over the last two months. The patient also experiences purulent and bloody discharge from abscesses, episodic fevers, and night sweats. Initial vital signs in the ED were stable.",
+        "triage_case_ar": "راجل عنده 34 سنة، أفريقي أمريكي، تاريخه المرضي فيه مرض كرون عامل نواسير، جاي الطوارئ بيشتكي من وجع شديد جداً في فتحة الشرج. بيقول الوجع بيزيد، وأكله وشربه قلّوا عشان خايف يدخل الحمام، وخس حوالي 8.2 كجم في آخر شهرين. بينزل عليه إفرازات صديد بدم من الخراريج، وبتجيله سخونية تروح وتيجي وعرق بالليل. العلامات الحيوية أول ما وصل الطوارئ كانت مستقرة.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30001365,
+        "acuity": 3,
+        "chief_complaint_en": "Acute Pelvic pain",
+        "triage_case_en": "A 61-year-old white female was brought to the emergency department by ambulance with a chief complaint of acute pelvic pain. Her vital signs were BP 143/72, pulse 65, respiratory rate 16, SpO2 94%, and temperature 98.4掳F. The patient reported a severe pain level of 9 out of 10. She had no known allergies and no previous medical history was provided.",
+        "triage_case_ar": "ست عندها 61 سنة جات الطوارئ بالإسعاف بسبب وجع حاد في الحوض. العلامات الحيوية: ضغط 143/72، نبض 65، تنفس 16، أكسجين 94%، والحرارة 36.9 مئوية. المريضة بتوصف الوجع إنه شديد جداً بدرجة 9 من 10. مفيش حساسية معروفة ومفيش تاريخ مرضي متوفر وقت الفرز.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30010910,
+        "acuity": 3,
+        "chief_complaint_en": "RECTAL ABSCESS",
+        "triage_case_en": "A 41-year-old white male with a complex medical history including HIV, diabetes mellitus type 2, hidradenitis suppurativa, chronic renal insufficiency, hyperlipidemia, asthma, obstructive sleep apnea, and obesity, presents with a chief complaint of perianal abscess. The patient experiences significant pain exacerbated by sitting, similar to previous abscess episodes, but denies fever, chills, drainage, diarrhea, or bloody stools. He has a history of internal anal condylomata excision and appendectomy. The patient is allergic to erythromycin base. He walked into the ED with vital signs: HR 98, RR 18, BP 126/71, SpO2 100%, Temp 97.8掳F, and pain rated 8.",
+        "triage_case_ar": "راجل أبيض 41 سنة، تاريخه الطبي معقد وفيه إيدز (HIV)، سكر نوع تاني، التهاب الغدد العرقية القيحي، قصور كلوي مزمن، ارتفاع دهون الدم، ربو، انقطاع النفس النومي، وسمنة، جاي بيشتكي من خراج حوالين فتحة الشرج. بيعاني من وجع شديد بيزيد مع القعدة، وشبه نوبات خراريج جاتله قبل كده، بس بينفي أي سخونية، رعشة، إفرازات، إسهال، أو دم في البراز. عامل قبل كده استئصال لزوائد شرجية داخلية وشايل الزايدة، وعنده حساسية من الإريثرومايسين. دخل على رجله، العلامات الحيوية: نبض 98، تنفس 18، ضغط 126/71، أكسجين 100%، حرارة 36.6 مئوية، والألم 8 من 10.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30017342,
+        "acuity": 1,
+        "chief_complaint_en": "Overdose",
+        "triage_case_en": "An 18-year-old female with a history of depression and borderline personality disorder presented to the emergency department following an intentional overdose of Wellbutrin SR, approximately 2.8g, resulting in a generalized tonic-clonic seizure. EMS reported seizure activity before arrival. Upon arrival, she was intubated for airway protection. Initial vital signs showed a heart rate of 113 and blood pressure of 105/53. She exhibited tachycardia, agitation, increased muscle tone, and sustained bilateral lower extremity clonus. Her past medical history includes depression, borderline personality disorder, and a prior suicide attempt. There are no recorded allergies. Arrival was via ambulance.",
+        "triage_case_ar": "بنت 18 سنة، تاريخها فيه اكتئاب واضطراب الشخصية الحدية، جات الطوارئ بعد ما أخدت جرعة زيادة متعمدة من Wellbutrin SR (حوالي 2.8 جرام)، وده عملها تشنجات عامة في الجسم كله. الإسعاف بلّغ عن وجود تشنجات قبل الوصول، وأول ما وصلت ركبولها أنبوبة حنجرية عشان يحموا مجرى الهواء. العلامات الحيوية الأولية: نبض 113 وضغط 105/53، وكان عندها تسرع في ضربات القلب، هيجان، شد في العضلات، ورمع (Clonus) مستمر في الرجلين. تاريخها يشمل محاولة انتحار قبل كده، مفيش حساسية مسجلة، ووصلت بالإسعاف.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30027188,
+        "acuity": 3,
+        "chief_complaint_en": "Dyspnea, Pedal edema",
+        "triage_case_en": "A 72-year-old female with a complex medical history including heart failure, aortic stenosis, history of strokes, COPD, and chronic urinary retention with a Foley catheter, presents to the emergency department with shortness of breath, chest pain, and bilateral pedal edema. The patient reports a one-week history of worsening shortness of breath and pedal edema, along with intermittent left-sided chest and arm pain. On the day of admission, she experienced worsening shortness of breath, requiring oxygen supplementation. The patient denies cough, fever, abdominal pain, or recent weight gain. She was transported by ambulance and has no known drug allergies.",
+        "triage_case_ar": "ست 72 سنة، تاريخها معقد فيه فشل قلبي، ضيق في الصمام الأورطي، جلطات قديمة، سدة رئوية (COPD)، واحتباس بول مزمن بقسطرة فولي، جاية بتشتكي من نهجان ووجع في الصدر وتورم في الرجلين. بتقول النهجان بيزيد بقاله أسبوع والتورم بيزيد، ومعاه وجع بيروح وييجي في الناحية الشمال من الصدر وبيسمّع في دراعها. يوم الدخول النهجان زاد عليها واضطرت تاخد أكسجين. بتنفي أي كحة، سخونية، وجع في البطن، أو زيادة وزن قريبة. وصلت بالإسعاف ومفيش حساسية معروفة.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30030554,
+        "acuity": 4,
+        "chief_complaint_en": "R Wrist pain",
+        "triage_case_en": "A 23-year-old African American female presented to the ED with a chief complaint of right wrist pain, rated as 8 out of 10. The patient walked into the ED. Vital signs on arrival were: heart rate 72, respiratory rate 20, blood pressure 114/74, SpO2 99%, and temperature 99.4掳F. The patient did not report any other symptoms or relevant medical history upon triage.",
+        "triage_case_ar": "بنت أفريقية أمريكية 23 سنة جات الطوارئ بتشتكي من وجع في رسغ إيديها اليمين، وبتوصفه 8 من 10، ودخلت على رجليها. العلامات الحيوية وقت الوصول: نبض 72، تنفس 20، ضغط 114/74، أكسجين 99%، وحرارة 37.4 مئوية. وقت الفرز مقالتش على أي أعراض تانية ولا تاريخ مرضي مهم.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30033995,
+        "acuity": 2,
+        "chief_complaint_en": "Abd pain, Abdominal distention",
+        "triage_case_en": "A 77-year-old male with a significant medical history, including laryngeal cancer, moderate COPD, GERD, obstructive sleep apnea on CPAP, atrial fibrillation on anticoagulation, hypertension, gout, and a history of colonic polyps presented to the ED with a chief complaint of severe abdominal pain (rated 10/10) and abdominal distention. Upon arrival, vital signs were: HR 100, RR 16, BP 122/84, SpO2 99%, T 97.2掳F. He has a known allergy to penicillins. The patient is at risk for complications due to his anticoagulation therapy and history of atrial fibrillation.",
+        "triage_case_ar": "راجل 77 سنة، تاريخه المرضي كبير وفيه سرطان حنجرة، سدة رئوية (COPD) متوسطة، ارتجاع مريء، انقطاع نفس نومي على جهاز CPAP، رفرفة أذينية وبياخد مضاد تجلط، ضغط، نقرس، وزوائد في القولون، جاي بوجع شديد جداً في بطنه (10/10) وانتفاخ. العلامات الحيوية: نبض 100، تنفس 16، ضغط 122/84، أكسجين 99%، وحرارة 36.2 مئوية. عنده حساسية معروفة من البنسلين، ومعرض لمضاعفات بسبب أدوية السيولة والرفرفة الأذينية.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30036197,
+        "acuity": 2,
+        "chief_complaint_en": "N/V, Weakness",
+        "triage_case_en": "A 51-year-old Asian male with a past medical history of ESRD secondary to IgA nephropathy, hypertension, adrenal insufficiency, and other comorbidities presented to the ED with nausea, vomiting, and left-sided weakness. The patient was noted to be flaccid on the left side with possible gaze deviation and actively vomiting. Vital signs on arrival were BP 198/107, P 108, RR 22, SpO2 97%, and T 97.0掳 F. He was transported to the ED by ambulance and has an allergy to isoniazid.",
+        "triage_case_ar": "راجل آسيوي 51 سنة، عنده فشل كلوي نهائي (ESRD) بسبب اعتلال الكلى (IgA)، ضغط، قصور في الغدة الكظرية، وأمراض تانية، جاي الطوارئ بغثيان وترجيع وضعف في الناحية الشمال من جسمه. الناحية الشمال كانت مرتخية تماماً مع احتمال انحراف في نظرة العين، وكان بيرجّع. العلامات الحيوية وقت الوصول: ضغط 198/107، نبض 108، تنفس 22، أكسجين 97%، وحرارة 36.1 مئوية. وصل بالإسعاف وعنده حساسية من دواء أيزونيازيد (Isoniazid).",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30037900,
+        "acuity": 5,
+        "chief_complaint_en": "Med refill",
+        "triage_case_en": "A 40-year-old white female presented to the ED with a chief complaint of needing a medication refill. The patient arrived by ambulance. Her vital signs on arrival were stable: BP 120/70, HR 97, RR 16, SpO2 97%, and temperature 99.6掳F, with no reported pain.",
+        "triage_case_ar": "ست بيضاء 40 سنة جات الطوارئ عشان تصرف علاج (تجديد روشتة)، ووصلت بالإسعاف. العلامات الحيوية مستقرة: ضغط 120/70، نبض 97، تنفس 16، أكسجين 97%، وحرارة 37.6 مئوية، ومفيش أي وجع.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30045590,
+        "acuity": 4,
+        "chief_complaint_en": "Finger laceration",
+        "triage_case_en": "A 49-year-old Asian female presented to the ED with a chief complaint of a finger laceration. The patient arrived via walk-in and reports mild pain at a level of 3 out of 10. Vital signs are as follows: BP 179/72, P 96, RR 16, SpO2 100%, T 97.6掳F. The patient appears stable with no immediate life-threatening conditions noted.",
+        "triage_case_ar": "ست آسيوية 49 سنة جات الطوارئ عشان جرح قطعي في صباعها. دخلت على رجليها، وبتقول الألم خفيف 3 من 10. العلامات الحيوية: ضغط 179/72، نبض 96، تنفس 16، أكسجين 100%، وحرارة 36.4 مئوية. حالتها مستقرة ومفيش أي حاجة خطيرة مهددة للحياة.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30047441,
+        "acuity": 3,
+        "chief_complaint_en": "Lower abdominal pain",
+        "triage_case_en": "49-year-old white female presented to the ED with a chief complaint of lower abdominal pain rated as 7/10. The patient arrived by walking in. Upon arrival, her vital signs were stable: heart rate 75, respiratory rate 14, blood pressure 138/90, SpO2 100%, and temperature 98.3掳F.",
+        "triage_case_ar": "ست بيضاء 49 سنة جات الطوارئ بتشتكي من وجع أسفل البطن شدته 7 من 10، ودخلت ماشية على رجليها. العلامات الحيوية مستقرة: نبض 75، تنفس 14، ضغط 138/90، أكسجين 100%، وحرارة 36.8 مئوية.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30055056,
+        "acuity": 1,
+        "chief_complaint_en": "Found down",
+        "triage_case_en": "A 62-year-old white male with a history of syncope and a pacemaker (battery not changed) presented with an out-of-hospital asystolic cardiac arrest. The arrest occurred while swimming, and CPR was initiated by a lifeguard. EMS continued resuscitation en route to the ED, finding the patient in PEA. Upon arrival, he remained pulseless.",
+        "triage_case_ar": "راجل أبيض 62 سنة، عنده تاريخ من الإغماء ومركب جهاز تنظيم ضربات القلب (بطاريته متغيرتش)، جابوه بتوقف في عضلة القلب (Asystole) حصل بره المستشفى. التوقف حصل وهو بيعوم، ومنقذ حمام السباحة بدأ إنعاش قلبي رئوي (CPR). الإسعاف كملت الإنعاش في الطريق ولقوه في حالة نشاط كهربائي بدون نبض (PEA)، ولما وصل كان لسه مفيش نبض.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30061793,
+        "acuity": 2,
+        "chief_complaint_en": "Chest pain, Dyspnea",
+        "triage_case_en": "53-year-old white male with a history of HCV/EtOH cirrhosis (on Harvoni), COPD with ongoing tobacco use, IDDM, and jugular vein thrombosis (on warfarin), presented to the ED with a chief complaint of chest pain and dyspnea. The patient was referred from a liver clinic due to a 3-day history of intermittent, productive cough with scant yellow sputum and sharp, central chest pain that occurs with coughing. The patient also reported fatigue, mild dyspnea on exertion, and wheezing. There were no symptoms of dyspnea at rest, upper respiratory symptoms, subjective fevers, chills, headache, nausea, vomiting, diarrhea, abdominal pain, dysuria, rashes, melena, hematochezia, orthopnea, paroxysmal nocturnal dyspnea (PND), or edema. The patient walked into the ED and has allergies to codeine and penicillins. BP 119/71, P 91, RR 22, SpO2 97%, T 98.9掳 F, Pain 8.",
+        "triage_case_ar": "راجل أبيض 53 سنة، تاريخه فيه تليف كبدي بسبب فيروس سي والكحول وبياخد هارفوني (Harvoni)، سدة رئوية (COPD) ولسه بيدخن، سكر بياخدله أنسولين، وجلطة في وريد الرقبة وبياخد وارفارين، جاي بيشتكي من وجع في الصدر ونهجان. متحوّل من عيادة الكبد عشان بقاله 3 أيام بيكح بلغم أصفر خفيف وفيه وجع جامد في نص صدره بييجي مع الكحة. بيشتكي كمان من تعب، نهجان بسيط مع المجهود، وتزييق في الصدر. مفيش نهجان وهو مرتاح، ولا أعراض برد، ولا سخونية، ولا رعشة، ولا ترجيع، ولا إسهال، ولا تورم، ولا دم في البراز. دخل على رجله وعنده حساسية من الكوديين والبنسلين. العلامات الحيوية: ضغط 119/71، نبض 91، تنفس 22، أكسجين 97%، حرارة 37.2، والألم 8/10.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30076930,
+        "acuity": 5,
+        "chief_complaint_en": "Suture removal",
+        "triage_case_en": "A 31-year-old female presented to the emergency department with a chief complaint of suture removal. The patient arrived as a walk-in and reported no pain. On arrival, her vital signs were stable: heart rate 74, respiratory rate 16, blood pressure 125/69, SpO2 100%, and temperature 98.1掳 F.",
+        "triage_case_ar": "ست 31 سنة جات الطوارئ عشان تفك غرز. دخلت ماشية ومفيش أي ألم. العلامات الحيوية مستقرة: نبض 74، تنفس 16، ضغط 125/69، أكسجين 100%، وحرارة 36.7 مئوية.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30077880,
+        "acuity": 3,
+        "chief_complaint_en": "R Foot swelling",
+        "triage_case_en": "A 54-year-old white male presented to the ED with a chief complaint of right foot swelling, reporting a pain level of 7. The patient arrived as a walk-in. Vital signs upon arrival: BP 153/100, P 61, RR 16, SpO2 100%, T 97.9掳F. The patient has a history of hypertension.",
+        "triage_case_ar": "راجل أبيض 54 سنة جاي الطوارئ بيشتكي من ورم في رجله اليمين، وبيقول الوجع 7 من 10، ودخل ماشي على رجله. العلامات الحيوية: ضغط 153/100، نبض 61، تنفس 16، أكسجين 100%، حرارة 36.6 مئوية. وعنده تاريخ مرضي بارتفاع في ضغط الدم.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30082860,
+        "acuity": 4,
+        "chief_complaint_en": "Finger laceration",
+        "triage_case_en": "A 26-year-old Hispanic/Latino male arrived at the emergency department with a chief complaint of a finger laceration. The patient walked into the ED, indicating stable condition upon arrival. Vital signs show a blood pressure of 147/87, heart rate of 90 bpm, respiratory rate of 18 breaths per minute, SpO2 of 100%, and a temperature of 99.0掳 F. The patient reports a pain level of 3 out of 10.",
+        "triage_case_ar": "راجل لاتيني 26 سنة جاي الطوارئ عشان جرح قطعي في صباعه. دخل على رجله وحالته كانت مستقرة وقت الوصول. العلامات الحيوية: ضغط 147/87، نبض 90، تنفس 18، أكسجين 100%، وحرارة 37.2 مئوية. بيقول الوجع 3 من 10.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30115077,
+        "acuity": 2,
+        "chief_complaint_en": "Chest pain",
+        "triage_case_en": "A 49-year-old African American male presents to the ED with a chief complaint of chest pain. He has a significant medical history, including paroxysmal atrial fibrillation (currently not on anticoagulation), cervical cord compression with associated complications, and a history of substance use (tobacco, alcohol, and IVDU on methadone). The patient describes his chest pain as sub-sternal, radiating to the left arm and jaw, with associated diaphoresis, shortness of breath, and palpitations. The pain occurs at rest, and he reports worsening orthopnea over the past two months. Vital signs are stable, and he has no known drug allergies. The patient walked into the ED and is currently not on anticoagulation despite atrial fibrillation.",
+        "triage_case_ar": "راجل أفريقي أمريكي 49 سنة جاي بيشتكي من وجع في الصدر. تاريخه المرضي تقيل وفيه رفرفة أذينية متقطعة (مش بياخدلها سيولة حالياً)، ضغط على الحبل الشوكي العنقي، وتاريخ إدمان (سجاير، كحول، وحقن مخدرات، وماشي حالياً على ميثادون). بيوصف وجع الصدر إنه ورا عظمة القص، وبيسمّع في دراعه الشمال وفكه، ومعاه عرق شديد، نهجان، ورفرفة في القلب. الوجع بييجي وهو مرتاح، والنهجان وهو نايم (Orthopnea) زاد عليه في آخر شهرين. علاماته الحيوية مستقرة ومفيش حساسية أدوية. دخل على رجله ومش بياخد سيولة رغم الرفرفة الأذينية.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30116118,
+        "acuity": 1,
+        "chief_complaint_en": "ALTERED LEVEL OF CONSCIOUSNESS",
+        "triage_case_en": "A 76-year-old white female with a history of gliomatosis cerebri and seizure disorder was found unresponsive by her daughter. The patient was normal last night but showed confusion and disorientation before bed. This morning, she was found unresponsive in bed, not moving her left side, foaming at the mouth, and incontinent of urine. Upon EMS arrival, she was not protecting her airway and was intubated for airway protection. Neurological examination revealed eye deviation to the right and left-sided hemiparesis. Her past medical history includes hypercholesterolemia, hypothyroidism, leukopenia, polymyalgia rheumatica, hematuria, and optic disc drusen. No known allergies. She arrived by ambulance. Immediate neurological and cardiac assessments are essential.",
+        "triage_case_ar": "ست بيضاء 76 سنة، تاريخها فيه ورم في المخ (Gliomatosis cerebri) وتشنجات، بنتها لقتها فاقدة الوعي. كانت طبيعية امبارح بالليل بس جالها تخاريف وتوهان قبل ما تنام. الصبح لقتها بنتها مش بترد، مش بتحرك الناحية الشمال، بتطلّع رغاوي من بقها، وعملت حمام بول على نفسها. الإسعاف وصلت لقتها مش قادرة تحمي مجرى الهواء فركبوا لها أنبوبة حنجرية. الفحص العصبي بيّن انحراف عينيها لليمين وضعف نصفي في الناحية الشمال. تاريخها فيه كوليسترول عالي، خمول في الغدة الدرقية، نقص في كرات الدم البيضاء، وأمراض تانية. مفيش حساسية، وصلت بالإسعاف، ومحتاجة تقييم أعصاب وقلب فوراً.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30125793,
+        "acuity": 1,
+        "chief_complaint_en": "Cardiac arrest",
+        "triage_case_en": "A 75-year-old white male was transported to the ED by ambulance after a witnessed cardiac arrest at home. The patient had an extended downtime of approximately 30 minutes without resuscitation. Upon arrival, the patient's vital signs indicated cardiac arrest, with heart rate, respiratory rate, blood pressure, and SpO2 all at 0. The chief complaint was cardiac arrest.",
+        "triage_case_ar": "راجل أبيض 75 سنة اتنقل للإسعاف بعد ما قلبه وقف قدامهم في البيت. المريض قعد حوالي 30 دقيقة من غير إنعاش. وقت الوصول العلامات الحيوية كلها كانت أصفار (نبض، تنفس، ضغط، وأكسجين). الشكوى الرئيسية توقف في عضلة القلب.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30132519,
+        "acuity": 1,
+        "chief_complaint_en": "MVC, Transfer",
+        "triage_case_en": "A 52-year-old female was transferred to the emergency department following a motor vehicle collision involving a tree, with a chief complaint of chest pain. She has a recent diagnosis of COPD, not on home oxygen. Upon arrival, she required oxygen supplementation at 4L to maintain her oxygen saturation above 92%. She has no known drug allergies. The patient arrived by ambulance and is under surgical care for chest tube management and pain control.",
+        "triage_case_ar": "ست 52 سنة اتحولت للطوارئ بعد حادثة عربية خبطت في شجرة، وجاية بتشتكي من وجع في صدرها. متشخصة قريب بسدة رئوية (COPD) ومش ماشية على أكسجين في البيت. أول ما وصلت احتاجت أكسجين 4 لتر عشان ترفع الأكسجين فوق 92%، ومفيش حساسية أدوية. وصلت بالإسعاف وتتحت رعاية الجراحة عشان أنبوبة الصدر والسيطرة على الوجع.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30134741,
+        "acuity": 2,
+        "chief_complaint_en": "L Leg injury, Transfer",
+        "triage_case_en": "A 40-year-old female with a history of hypothyroidism and depression, allergic to erythromycin base, was transferred to the emergency department with a chief complaint of left leg pain. The patient sustained injuries after falling from a porch, resulting in an open left tibia/fibula fracture, a nondisplaced left medial malleolar fracture, and a fracture of the base of the left metatarsal. She reported falling after the porch railing gave way, landing on her left leg. Her vital signs upon arrival were stable, with a heart rate of 100, respiratory rate of 16, blood pressure of 138/78, SpO2 at 98%, and temperature of 98.1掳F. The patient rated her pain at 2/10.",
+        "triage_case_ar": "ست 40 سنة، عندها خمول في الغدة الدرقية واكتئاب، وحساسية من الإريثرومايسين، اتحولت للطوارئ بسبب وجع في رجلها الشمال. الإصابة دي جاتلها بعد ما وقعت من البلكونة لما السور انهار، ووقعت على رجلها الشمال، وده عملها كسر مفتوح في القصبة والشظية، وكسر في الكعب الداخلي، وكسر في قاعدة مشط القدم. العلامات الحيوية مستقرة: نبض 100، تنفس 16، ضغط 138/78، أكسجين 98%، حرارة 36.7. الألم 2 من 10.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30139098,
+        "acuity": 2,
+        "chief_complaint_en": "ALTERED LEVEL OF CONSCIOUSNESS",
+        "triage_case_en": "A 62-year-old white male with a history of esophageal cancer (status post-esophagectomy), right-sided CVA, chronic pain syndrome on chronic opioids, COPD, and depression presents to the ED with altered mental status. The patient's wife found him having a bizarre conversation, not oriented to date or time, and he had fallen without head trauma. Suspected factors for AMS include possible narcotic overdose (pinpoint pupils, slurred speech). The patient has chronic left-sided weakness post-CVA and was found with a pill bottle, suggesting an extra dose of oxycontin may have been taken. The patient was transported by ambulance and has no known drug allergies. He is alert to person and place but complains of significant thirst.",
+        "triage_case_ar": "راجل أبيض 62 سنة، عنده سرطان مريء (عامل استئصال)، جلطة قديمة في المخ (ناحية اليمين)، متلازمة ألم مزمن وبياخد مسكنات أفيونية، سدة رئوية، واكتئاب، جاي بتغيّر في الوعي. مراته لقت كلامه غريب ومش عارف هو فين ولا إمتى، وكمان وقع من غير ما يتخبط في راسه. من الأسباب اللي شاكين فيها إنه يكون أخد جرعة زيادة من المسكنات (حدقة عينه ضيقة جداً وكلامه تقيل). عنده ضعف مزمن في الناحية الشمال من وقت الجلطة، ولقوا جنبه علبة دواء، فممكن يكون أخد جرعة زيادة من الأوكسيكونتين. اتنقل بالإسعاف ومفيش حساسية. هو فايق لنفسه والمكان بس بيشتكي من عطش شديد.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30179684,
+        "acuity": 1,
+        "chief_complaint_en": "Unresponsive, Respiratory distress",
+        "triage_case_en": "The patient is a 91-year-old male with a recent history of a massive stroke two weeks ago, leading to decreased responsiveness and respiratory distress. He arrived at the ED unresponsive. Initial vital signs indicated hypotension (73/48) and a heart rate of 105. The patient was obtunded with shallow respirations. He was transported by ambulance and had no known allergies.",
+        "triage_case_ar": "راجل 91 سنة، عنده تاريخ قريب لجلطة كبيرة في المخ من أسبوعين، وده عمله قلة استيعاب ونهجان. وصل الطوارئ فاقد الوعي. العلامات الحيوية الأولية: ضغط واطي 73/48، نبض 105، وتنفسه سطحي جداً. اتنقل بالإسعاف ومفيش حساسية.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30187060,
+        "acuity": 2,
+        "chief_complaint_en": "Abd pain, Vomiting, Nausea, Dyspnea",
+        "triage_case_en": "A 67-year-old Black/African American male with a history of hypertension, bilateral pulmonary emboli, stage II chronic kidney disease, and metastatic renal cell carcinoma to the lungs and mediastinum, presented to the ED with abdominal pain, vomiting, nausea, and dyspnea. He recently underwent a right radical nephrectomy one month ago and has been experiencing right lower quadrant pain since the surgery, with non-bilious non-bloody emesis in the past two weeks. This morning, he developed acute right-sided chest pain and dyspnea that resolved with rest. He denies fever but reports taking oxycodone for post-surgical abdominal pain. The patient is a walk-in arrival with no known allergies. Vital signs: BP 166/84, HR 85, RR 16, SpO2 90%, T 99.6掳 F. Pain is rated at 7/10. Family history includes multiple early deaths from coronary artery disease among siblings and renal cancer in the mother.",
+        "triage_case_ar": "راجل أفريقي أمريكي 67 سنة، عنده ضغط، جلطات في الرئتين، فشل كلوي مزمن درجة تانية، وسرطان كلى منتشر للرئة والمنصف، جاي بوجع في بطنه، غثيان، ترجيع، ونهجان. عامل استئصال جذري للكلية اليمين من شهر، ومن وقتها وهو عنده وجع في الربع اللي تحت يمين في بطنه، وبيرجّع ترجيع مفيهوش عصارة صفراوية ولا دم بقاله أسبوعين. الصبح جاله وجع حاد في الناحية اليمين من صدره ونهجان، وارتاح لما استريح. بينفي أي سخونية بس بياخد أوكسيكودون لوجع البطن بعد العملية. دخل ماشي ومفيش حساسية. العلامات الحيوية: ضغط 166/84، نبض 85، تنفس 16، أكسجين 90%، حرارة 37.6 مئوية. الوجع 7 من 10، وتاريخ العيلة فيه وفيات بدري بسبب أمراض القلب وسرطان كلى عند الأم.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30226804,
+        "acuity": 1,
+        "chief_complaint_en": "Abd pain, Transfer",
+        "triage_case_en": "A 67-year-old female with a history of hypertension and hyperlipidemia presents to the ED with a chief complaint of abdominal pain and altered mental status. The patient was discovered by her husband with altered mental status. She is hemodynamically unstable. The situation is critical, requiring immediate medical intervention.",
+        "triage_case_ar": "ست 67 سنة عندها ضغط وكوليسترول، جاية بتشتكي من وجع في بطنها وتغيّر في الوعي. جوزها لقاها مش مركزة. المريضة غير مستقرة في الدورة الدموية (Hemodynamically unstable)، وحالتها حرجة ومحتاجة تدخل فوري.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30247028,
+        "acuity": 4,
+        "chief_complaint_en": "R Foot pain",
+        "triage_case_en": "A 22-year-old white female presents to the emergency department with a chief complaint of right foot pain, rated as 6 out of 10. She arrived at the ED by walking in. Vital signs are blood pressure 148/86, heart rate 81, respiratory rate 18, SpO2 99%, and temperature 98.9掳F. The patient reports no additional symptoms.",
+        "triage_case_ar": "ست بيضاء 22 سنة جاية تشتكي من وجع في رجلها اليمين 6 من 10، ودخلت ماشية. العلامات الحيوية: ضغط 148/86، نبض 81، تنفس 18، أكسجين 99%، وحرارة 37.2 مئوية، ومفيش أعراض تانية.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30280080,
+        "acuity": 1,
+        "chief_complaint_en": "DYSPNEA",
+        "triage_case_en": "66-year-old white male with a significant medical history of COPD (GOLD Stage IV), coronary artery disease post-CABG, pulmonary embolism, and deep vein thrombosis (managed with Coumadin and an IVC filter), presented to the ED with acute worsening dyspnea over the past week and increased falls. He was transported by ambulance. Upon arrival, he was alert but disoriented. He has a history of osteosarcoma with right above-the-knee amputation and ongoing tobacco use managed with nicotine patches. The patient is allergic to penicillins and has expressed a preference for non-invasive ventilation, declining intubation if necessary.",
+        "triage_case_ar": "راجل أبيض 66 سنة، تاريخه تقيل فيه سدة رئوية (المرحلة الرابعة)، أمراض شرايين القلب وعامل قلب مفتوح، جلطة في الرئة وجلطة في الأوردة العميقة (وبياخد كومادين ومركب فلتر وريد أجوف)، جاي بنهجان زاد جداً في الأسبوع الأخير وبيقع كتير. اتنقل بالإسعاف، ولما وصل كان صاحي بس تايه. تاريخه فيه سرطان عظام وعامل بتر فوق الركبة اليمين، ولسه بيدخن وبياخد لزقات نيكوتين. عنده حساسية من البنسلين، ومبلّغ إنه عايز تنفس صناعي غير اختراقي (BiPAP/CPAP) ورافض يتركّبله أنبوبة حنجرية.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30346459,
+        "acuity": 1,
+        "chief_complaint_en": "DYSPNEA",
+        "triage_case_en": "82-year-old White Russian female with a history of CAD, DM II, HTN, and metastatic renal cell carcinoma, recently discharged after a CHF exacerbation requiring non-invasive positive pressure ventilation. She presents with acute shortness of breath and decompensated to acute respiratory failure in the ED. She has a history of multiple hospitalizations for pneumonia, NSTEMI, STEMI, and sCHF exacerbation. Accompanied by her granddaughter, she developed acute respiratory distress at her nursing facility before being transferred to the ED. In the ED, initial vital signs: 160 160/80 35.",
+        "triage_case_ar": "ست روسية 82 سنة، عندها أمراض شرايين القلب، سكر نوع تاني، ضغط، وسرطان كلى منتشر، لسه طالعة من المستشفى قريب بسبب نوبة هبوط في القلب احتاجت فيها تنفس صناعي غير اختراقي. جاية بنهجان حاد وحالتها اتدهورت لفشل تنفسي حاد في الطوارئ. تاريخها فيه دخول المستشفى كذا مرة بسبب التهاب رئوي، جلطات في القلب، ونوبات هبوط احتقاني. حفيدتها كانت معاها، وبدأت تتعب وتنهج جامد في دار الرعاية قبل ما تتنقل للطوارئ. في الطوارئ العلامات الحيوية الأولية: ضغط 160/80، وتنفس 35.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30404606,
+        "acuity": 1,
+        "chief_complaint_en": "Weakness, Hypotension",
+        "triage_case_en": "A 70-year-old male with a history of coronary artery disease, heart failure, COPD, and presumed cholangiocarcinoma presents to the ED via ambulance with weakness, fatigue, and hypotension (BP 74/47, P 58). He is on home oxygen (3L O2 by nasal cannula) and reports decreased oral intake, generalized weakness, dehydration, and nausea with nonbloody emesis. Allergies include penicillins, lisinopril, angiotensin receptor antagonist, nifedipine, and furosemide. The patient expressed a strong desire for comfort measures, opting to avoid further invasive procedures.",
+        "triage_case_ar": "راجل 70 سنة، عنده أمراض شرايين القلب، فشل قلبي، سدة رئوية، واشتباه سرطان في القنوات المرارية، جاي بالإسعاف بهبوط في الضغط (74/47)، نبض 58، وتعب وضعف عام. ماشي على أكسجين في البيت (3 لتر)، وبيشتكي من قلة أكل، جفاف، وغثيان مع ترجيع مفيهوش دم. عنده حساسية من البنسلين، ليزينوبريل، مثبطات مستقبلات الأنجيوتنسين، نيفيديبين، ولازيكس. المريض أكد إنه عايز مسكنات ورعاية تلطيفية (Comfort measures) ورافض أي تدخلات طبية تانية.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 30914094,
+        "acuity": 1,
+        "chief_complaint_en": "Transfer, Intubated",
+        "triage_case_en": "A 72-year-old male with a complex medical history, including COPD on home O2, atrial fibrillation (on Pradaxa), coronary artery disease with a history of myocardial infarction, bladder cancer, melanoma, hypertension, hyperlipidemia, rheumatoid arthritis, and moderate pulmonary hypertension, was transferred to the ED intubated due to severe respiratory failure. The patient had been discharged the previous day after a COPD exacerbation but became progressively dyspneic, leading to intubation for hypoxemic and hypercarbic respiratory failure. On arrival, the patient was sedated and intubated, with a history of recent use of accessory muscles and diffuse wheezing. The patient's wife reported recent cold virus exposure and progressive dyspnea post-discharge.",
+        "triage_case_ar": "راجل 72 سنة، تاريخه الطبي معقد وفيه سدة رئوية بياخدلها أكسجين في البيت، رفرفة أذينية (بياخد براداكس)، أمراض شرايين قلب مع جلطة قديمة، سرطان مثانة، سرطان جلد (ميلانوما)، ضغط، كوليسترول، روماتويد، وارتفاع متوسط في ضغط الشريان الرئوي، اتحول للطوارئ وهو متأنبب (Intubated) بسبب فشل تنفسي شديد. كان لسه خارج من المستشفى امبارح بعد نوبة سدة رئوية بس فضل ينهج أكتر لحد ما احتاج أنبوبة حنجرية بسبب نقص الأكسجين وزيادة ثاني أكسيد الكربون. لما وصل كان واخد مهدئات ومتأنبب، وفي التاريخ كان بيستخدم عضلات صدره عشان يتنفس وصدره بيزيّق. مراته قالت إنه اتعرض لدور برد قريب ونهجانه زاد بعد خروجه من المستشفى.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 31311504,
+        "acuity": 1,
+        "chief_complaint_en": "Fever, Pneumonia, Transfer",
+        "triage_case_en": "A 78-year-old white female with a complex medical history including hypertension, type 2 diabetes mellitus, hypothyroidism, chronic kidney disease stage 3, polymyalgia rheumatica, hyperlipidemia, anemia, hyperparathyroidism, and recent metastatic malignancy status post resection of a cerebellar mass presents to the emergency department with fever, presumed pneumonia, and shock. She arrives via ambulance. The patient has experienced severe hypotension and supraventricular tachycardia (SVT). She was recently intubated for airway protection and had a central line placed for vascular access. Her vital signs on arrival were BP 120/58, HR 150, RR 20, SpO2 97%, and temperature 98.8掳 F, with no reported pain. The patient has a known allergy to penicillins.",
+        "triage_case_ar": "ست بيضاء 78 سنة، تاريخها معقد فيه ضغط، سكر نوع تاني، خمول غدة درقية، قصور كلوي مزمن مرحلة 3، التهاب مفاصل وعضلات، كوليسترول، أنيميا، نشاط زايد في الغدة الجار درقية، وسرطان منتشر لسه عاملاله استئصال من المخيخ قريب، جاية بسخونية، اشتباه التهاب رئوي، وصدمة (Shock). جات بالإسعاف وحصلها هبوط شديد في الضغط مع تسرع قلبي فوق بطيني (SVT). لسه مركبين لها أنبوبة حنجرية عشان يحموا مجرى الهواء، ومركبة قسطرة وريدية مركزية (Central line). العلامات الحيوية: ضغط 120/58، نبض 150، تنفس 20، أكسجين 97%، حرارة 37.1 مئوية، ومفيش وجع. عندها حساسية من البنسلين.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 31731173,
+        "acuity": 1,
+        "chief_complaint_en": "Chest pain",
+        "triage_case_en": "A 63-year-old male with a history of aortic regurgitation, mechanical aortic valve placement, ascending aortic aneurysm repair, diabetes, hypertension, and hyperlipidemia presents to the ED via ambulance with a chief complaint of palpitations and dizziness. On arrival, vital signs were absent, indicating a potential cardiac emergency. The patient has a history of ventricular tachycardia and recent ICD placement. For the past two days, he experienced lightheadedness, resolving initially but recurring last night. He denies recent chest pain, fever, cough, leg pain, swelling, abdominal pain, nausea, or vomiting. He has no known allergies. Immediate resuscitation with ACLS measures is required.",
+        "triage_case_ar": "راجل 63 سنة، عنده ارتجاع في الصمام الأورطي ومركب صمام صناعي، وعامل إصلاح لتمدد الشريان الأورطي الصاعد، سكر، ضغط، وكوليسترول، جاي بالإسعاف بيشتكي من رفرفة ودوخة. لما وصل العلامات الحيوية مكنتش محسوسة، وده بيدل على طوارئ قلب خطيرة. تاريخه فيه تسرع بطيني (VT) ولسه مركب جهاز صدمات (ICD) قريب. بقاله يومين بيحس بدوخة خفيفة بتروح وتيجي ورجعتله امبارح بالليل. بينفي أي وجع في الصدر مؤخراً، سخونية، كحة، وجع في رجله، تورم، وجع في بطنه، أو ترجيع، ومفيش حساسية. محتاج إنعاش فوري (ACLS).",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 32622318,
+        "acuity": 1,
+        "chief_complaint_en": "SEPSIS",
+        "triage_case_en": "A 52-year-old white male with a complex medical history was brought to the ED via ambulance with a chief complaint of sepsis and hypotension. On arrival, the patient was critically hypotensive and required immediate hemodynamic stabilization. His condition is complicated by infected sacral decubitus wounds. The patient is receiving mechanical ventilation due to respiratory failure and is on dialysis for renal failure. Immediate attention is focused on stabilizing his vital signs and managing infections.",
+        "triage_case_ar": "راجل أبيض 52 سنة تاريخه المرضي معقد، جاي بالإسعاف بيشتكي من تسمم في الدم (Sepsis) وهبوط في الضغط. أول ما وصل ضغطه كان واطي جداً واحتاج تظبيت عاجل للدورة الدموية. حالته معقدة بسبب قرح فراش عجزية ملتهبة، وهو على جهاز تنفس صناعي بسبب فشل تنفسي، وبيغسل كلى. التركيز الأساسي دلوقتي على تظبيت علاماته الحيوية وعلاج العدوى.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 36810674,
+        "acuity": 2,
+        "chief_complaint_en": "Difficulty swallowing, Transfer",
+        "triage_case_en": "64-year-old white male with a history of type II diabetes mellitus, hypercholesterolemia, depression, anxiety, and chronic neck and low back pain. Recently underwent C5 corpectomy and C6-7 ACDF. He presents with difficulty swallowing, increased swelling around the surgical incision, and hoarseness. Unable to swallow pills or water, regurgitating attempts. Reports no stridor or breathing difficulties. Recently used cocaine, contributing to hypertensive urgency with BP at 180/104, headache, and chest pain. Arrived by ambulance, allergic to Tegretol.",
+        "triage_case_ar": "راجل أبيض 64 سنة، تاريخه فيه سكر نوع تاني، كوليسترول، اكتئاب، قلق، ووجع مزمن في الرقبة وأسفل الظهر. لسه عامل عمليات في فقرات الرقبة (C5 corpectomy و C6-7 ACDF)، وجاي بيشتكي من صعوبة في البلع، ورم زايد حوالين جرح العملية، وبحّة في الصوت. مش قادر يبلع أي حبوب أو ميه وبيرجّع أي محاولة بلع، بس مفيش تزييق عالي (Stridor) أو صعوبة في التنفس. ضارِب كوكايين قريب وده رفع ضغطه جداً (180/104) مع صداع ووجع في صدره. وصل بالإسعاف وعنده حساسية من التيجريتول.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 37132954,
+        "acuity": 2,
+        "chief_complaint_en": "#NAME?",
+        "triage_case_en": "A 49-year-old male with a significant medical history including end-stage renal disease on hemodialysis, coronary artery disease, congestive heart failure, type 2 diabetes mellitus, and recent hospitalization for wet gangrene and osteomyelitis, presents with fever and signs of sepsis, including hypotension and tachycardia. The patient also exhibits intermittent agitation and anxiety. He is allergic to dobutamine.",
+        "triage_case_ar": "راجل 49 سنة، تاريخه تقيل فيه فشل كلوي نهائي بيغسل، أمراض شرايين قلب، فشل قلبي احتقاني، سكر نوع تاني، ولسه طالع من المستشفى قريب بسبب غرغرينا رطبة وتسوس في العظم، جاي بسخونية وعلامات تسمم في الدم (هبوط في الضغط وسرعة في النبض). المريض كمان بيهيج ويقلق على فترات، وعنده حساسية من الدوبوتامين.",
+        "dialect": "egyptian_arabic"
+      },
+      {
+        "stay_id": 37186254,
+        "acuity": 2,
+        "chief_complaint_en": "Epigastric pain",
+        "triage_case_en": "A 61-year-old male presented to the emergency department via ambulance with a chief complaint of severe right upper quadrant abdominal pain, rated 10/10, accompanied by nausea, vomiting, constipation, and reduced oral intake. He has a significant medical history, including coronary artery disease, hypertension, hyperlipidemia, left ventricular hypertrophy, cholelithiasis, diverticulosis, colon adenoma, and a previous lacunar infarction. Earlier in the day, he was discharged with a diagnosis of gallstones and advised to follow up for surgery but returned with exacerbated symptoms. On arrival, his vital signs showed hypertension (BP 184/0) and hypothermia (T 96.6掳F).",
+        "triage_case_ar": "راجل 61 سنة جاي الطوارئ بالإسعاف بيشتكي من وجع شديد جداً (10/10) في الربع اللي فوق يمين في بطنه، مع غثيان، ترجيع، إمساك، ومبياكلش. تاريخه فيه أمراض شرايين قلب، ضغط، كوليسترول، تضخم في البطين الشمال، حصوات مرارة، جيوب في القولون، زوائد قولونية، وجلطة مخية قديمة (Lacunar). كان لسه خارج الصبح بتشخيص حصوات مرارة ومطلوب منه يتابع مع الجراحة، بس رجع تاني عشان الأعراض زادت عليه. وقت الوصول ضغطه كان عالي (184/0) وحرارته واطية (35.9 مئوية)",
+        "dialect": "egyptian_arabic"
+      }
+    ]
+  }
+}

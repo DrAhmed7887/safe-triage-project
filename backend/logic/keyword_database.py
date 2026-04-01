@@ -854,7 +854,7 @@ DEFAULT_KEYWORDS = {
         
         "fever_with_symptoms": {
             "keywords": [
-                "fever", "فحمى", "سخونية", "حرارة", "سخن", "حمى", "جسمه سخن",
+                "fever", "فحمى", "سخونية", "سخن", "حمى", "جسمه سخن",
                 "fever with cough", "سخونية وكحة", "fever vomiting", "سخونية وبيرجع"
             ],
             "added_by_ai": [],
