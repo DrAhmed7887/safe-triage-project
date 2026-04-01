@@ -53,14 +53,15 @@ def map_observations(data, patient_id, encounter_id):
     vitals = data.get("vitals", {})
 
     loinc_map = {
-        "heart_rate": "8867-4",
-        "spo2": "2708-6",
-        "temperature": "8310-5"
-    }
+    "heart_rate": ("8867-4", "beats/min"),
+    "blood_pressure": ("85354-9", "mmHg"),
+    "spo2": ("59408-5", "%"),
+    "temperature": ("8310-5", "C")
+}
 
     observations = []
 
-    for key, loinc in loinc_map.items():
+    for key, (loinc, unit) in loinc_map.items():
         if key in vitals:
             observations.append({
                 "resourceType": "Observation",
@@ -79,8 +80,10 @@ def map_observations(data, patient_id, encounter_id):
                     "reference": f"Encounter/{encounter_id}"
                 },
                 "valueQuantity": {
-                    "value": vitals[key]
-                }
+    "value": vitals[key],
+    "unit": unit,
+    "system": "http://unitsofmeasure.org"
+}
             })
 
     return observations
