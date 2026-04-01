@@ -283,8 +283,15 @@ def _run_rows_query(
     return [dict(row) for row in rows]
 
 
-def fetch_personal_export_cases(clinician_id: str) -> List[Dict[str, Any]]:
-    params = [bigquery.ScalarQueryParameter("clinician_id", "STRING", clinician_id)]
+def fetch_personal_export_cases(
+    clinician_id: str,
+    clinician_variants: Optional[List[str]] = None,
+) -> List[Dict[str, Any]]:
+    # Use all known identifiers (uid, email, name) to match records stored under any format
+    all_ids = list(dict.fromkeys([clinician_id] + (clinician_variants or [])))
+    params = [
+        bigquery.ArrayQueryParameter("clinician_ids", "STRING", all_ids),
+    ]
     # Intentional scope restriction: personal export is limited to the requesting clinician's cases.
     query_with_confirmation = f"""
         SELECT
@@ -300,12 +307,12 @@ def fetch_personal_export_cases(clinician_id: str) -> List[Dict[str, Any]]:
             t.icd10_codes
         FROM `{_table_ref(TRIAGE_TABLE)}` AS t
         WHERE
-            t.clinician_id = @clinician_id
+            t.clinician_id IN UNNEST(@clinician_ids)
             OR EXISTS (
                 SELECT 1
                 FROM `{_table_ref(CONFIRMATION_TABLE)}` AS c
                 WHERE c.patient_id = t.patient_id
-                  AND c.clinician_id = @clinician_id
+                  AND c.clinician_id IN UNNEST(@clinician_ids)
             )
         ORDER BY t.timestamp DESC
     """
@@ -331,7 +338,7 @@ def fetch_personal_export_cases(clinician_id: str) -> List[Dict[str, Any]]:
                 t.ai_confidence,
                 t.icd10_codes
             FROM `{_table_ref(TRIAGE_TABLE)}` AS t
-            WHERE t.clinician_id = @clinician_id
+            WHERE t.clinician_id IN UNNEST(@clinician_ids)
             ORDER BY t.timestamp DESC
         """
         cases = _run_rows_query(fallback_query, params)
@@ -418,9 +425,12 @@ def _rows_to_csv_text(rows: List[Dict[str, Any]], metadata_lines: List[str]) -> 
     return output.getvalue()
 
 
-def export_triage_csv(clinician_id: str) -> Tuple[str, str, int]:
+def export_triage_csv(
+    clinician_id: str,
+    clinician_variants: Optional[List[str]] = None,
+) -> Tuple[str, str, int]:
     """Export this clinician's cases with Safe Harbor de-identification."""
-    cases = fetch_personal_export_cases(clinician_id)
+    cases = fetch_personal_export_cases(clinician_id, clinician_variants=clinician_variants)
     anonymized_rows = anonymize_patient_data(cases, clinician_id)
     generated_at = datetime.utcnow()
     metadata = _build_export_metadata(
@@ -433,9 +443,12 @@ def export_triage_csv(clinician_id: str) -> Tuple[str, str, int]:
     return csv_text, filename, len(anonymized_rows)
 
 
-def export_triage_csv_with_metadata(clinician_id: str) -> Tuple[str, str, int]:
+def export_triage_csv_with_metadata(
+    clinician_id: str,
+    clinician_variants: Optional[List[str]] = None,
+) -> Tuple[str, str, int]:
     """Backward-compatible alias with explicit metadata naming."""
-    return export_triage_csv(clinician_id)
+    return export_triage_csv(clinician_id, clinician_variants=clinician_variants)
 
 
 def export_system_wide_csv(

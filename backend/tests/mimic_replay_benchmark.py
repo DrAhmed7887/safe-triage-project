@@ -161,6 +161,45 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_PATIENTS_PATH,
         help="Path to MIMIC-IV core patients.csv.gz (hosp module) for real anchor_age",
     )
+    parser.add_argument(
+        "--clean-only",
+        action="store_true",
+        help=(
+            "After enrichment, keep only outcome-confirmed cases: "
+            "ESI 1/2 with disposition ADMITTED or EXPIRED (true critical), "
+            "and ESI 4/5 with disposition HOME (true non-urgent). "
+            "Drops ESI 3 entirely. Requires --enrich."
+        ),
+    )
+    parser.add_argument(
+        "--clean-all-esi",
+        action="store_true",
+        help=(
+            "After enrichment, keep outcome-confirmed cases across ALL ESI levels: "
+            "ESI 1/2 ADMITTED/EXPIRED, ESI 3 ADMITTED or HOME, ESI 4/5 HOME. "
+            "Drops cases where outcome contradicts the label. Requires --enrich."
+        ),
+    )
+    parser.add_argument(
+        "--heuristic-filter",
+        action="store_true",
+        help=(
+            "Remove 'impossible' label cases before running: "
+            "suture removal/med refill labeled ESI 1-2, "
+            "transfer complaints (acuity set by referring hospital), "
+            "and ESI 5 cases with clearly critical vitals (HR>130 or SpO2<88)."
+        ),
+    )
+    parser.add_argument(
+        "--engine-fair",
+        action="store_true",
+        help=(
+            "Only keep cases the engine can fairly evaluate: "
+            "complaint must resolve to a known symptom category (not 'unclear') "
+            "AND at least 3 core vitals (HR, RR, SpO2, SBP, Temp) must be present "
+            "so NEWS2 can meaningfully score. Requires backend runtime."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -444,6 +483,173 @@ def enrich_cases(
         f"{enriched_vitals} worst vitals"
     )
     return enriched_cases, enrich_summary
+
+
+_CLEAN_CRITICAL_DISPOSITIONS = {"ADMITTED", "EXPIRED"}
+_CLEAN_NONCRITICAL_DISPOSITIONS = {"HOME"}
+
+# All-ESI outcome-confirmation rules:
+# Each ESI level maps to the set of dispositions that are CONSISTENT with that label.
+# Cases whose disposition contradicts the label are dropped as noisy.
+_CLEAN_ALL_ESI_RULES: Dict[int, set] = {
+    1: {"ADMITTED", "EXPIRED"},                # ESI 1 → must be admitted or died
+    2: {"ADMITTED", "EXPIRED"},                # ESI 2 → must be admitted or died
+    3: {"ADMITTED", "HOME"},                   # ESI 3 → workup then home OR admitted (both valid)
+    4: {"HOME"},                               # ESI 4 → minor, sent home
+    5: {"HOME"},                               # ESI 5 → non-urgent, sent home
+}
+
+_HEURISTIC_NOISE_BUCKETS = {"suture removal", "med refill", "suture", "staple removal"}
+_HEURISTIC_TRANSFER_BUCKETS = {"transfer", "transfer from outside hospital", "transferred"}
+
+
+def apply_clean_filter(
+    cases: List[ReplayCase],
+    all_esi: bool = False,
+) -> Tuple[List[ReplayCase], Dict[str, Any]]:
+    """Keep only outcome-confirmed cases.
+
+    If all_esi=False (legacy mode):
+        ESI 1/2 ADMITTED/EXPIRED + ESI 4/5 HOME.  ESI 3 is dropped entirely.
+    If all_esi=True:
+        All ESI levels kept when disposition is consistent with the label.
+        ESI 3 accepts ADMITTED or HOME (both are valid outcomes for mid-acuity).
+        Noise = label contradicts outcome (e.g. ESI 5 ADMITTED, ESI 1 HOME).
+    """
+    clean: List[ReplayCase] = []
+    stats: Dict[str, int] = {
+        "total_in": len(cases),
+        "dropped_no_disposition": 0,
+        "dropped_ambiguous": 0,
+    }
+    kept_by_level: Counter[int] = Counter()
+    dropped_by_level: Counter[int] = Counter()
+
+    for case in cases:
+        disp = (case.disposition or "").strip().upper()
+        if not disp or disp in ("LEFT WITHOUT BEING SEEN", "ELOPED", "LEFT AGAINST MEDICAL ADVICE", "OTHER"):
+            stats["dropped_no_disposition"] += 1
+            continue
+
+        if all_esi:
+            allowed = _CLEAN_ALL_ESI_RULES.get(case.actual_esi, set())
+            if disp in allowed:
+                clean.append(case)
+                kept_by_level[case.actual_esi] += 1
+            else:
+                stats["dropped_ambiguous"] += 1
+                dropped_by_level[case.actual_esi] += 1
+        else:
+            # Legacy mode: ESI 1/2 + ESI 4/5 only
+            if case.actual_esi <= 2 and disp in _CLEAN_CRITICAL_DISPOSITIONS:
+                clean.append(case)
+                kept_by_level[case.actual_esi] += 1
+            elif case.actual_esi >= 4 and disp in _CLEAN_NONCRITICAL_DISPOSITIONS:
+                clean.append(case)
+                kept_by_level[case.actual_esi] += 1
+            else:
+                stats["dropped_ambiguous"] += 1
+                dropped_by_level[case.actual_esi] += 1
+
+    stats["total_out"] = len(clean)
+    stats["kept_by_level"] = {str(k): v for k, v in sorted(kept_by_level.items())}
+    stats["dropped_by_level"] = {str(k): v for k, v in sorted(dropped_by_level.items())}
+    return clean, stats
+
+
+def apply_heuristic_filter(cases: List[ReplayCase]) -> Tuple[List[ReplayCase], Dict[str, Any]]:
+    """Remove cases with obviously impossible label/presentation combinations.
+
+    Removes:
+    - Noise-complaint buckets (suture removal, med refill) labeled ESI 1-2
+    - Transfer complaints (acuity was assigned by referring hospital, not this nurse)
+    - ESI 5 cases with critical vitals (HR >130 or SpO2 <88) — clear mislabels
+    """
+    kept: List[ReplayCase] = []
+    stats: Dict[str, int] = {
+        "total_in": len(cases),
+        "removed_noise_complaint": 0,
+        "removed_transfer": 0,
+        "removed_esi5_critical_vitals": 0,
+    }
+
+    for case in cases:
+        bucket = case.complaint_bucket.lower()
+
+        # Routine-complaint labeled as high-acuity: almost certainly a nurse data-entry error
+        if case.actual_esi <= 2 and bucket in _HEURISTIC_NOISE_BUCKETS:
+            stats["removed_noise_complaint"] += 1
+            continue
+
+        # Transfer cases: the acuity was set by the referring hospital, not the triage nurse here
+        if bucket in _HEURISTIC_TRANSFER_BUCKETS:
+            stats["removed_transfer"] += 1
+            continue
+
+        # ESI 5 with critical vitals — physiologically impossible to be non-urgent
+        if case.actual_esi == 5:
+            hr = case.vitals.get("hr")
+            spo2 = case.vitals.get("spo2")
+            if (hr is not None and hr > 130) or (spo2 is not None and spo2 < 88):
+                stats["removed_esi5_critical_vitals"] += 1
+                continue
+
+        kept.append(case)
+
+    stats["total_out"] = len(kept)
+    return kept, stats
+
+
+def apply_engine_fair_filter(cases: List[ReplayCase]) -> Tuple[List[ReplayCase], Dict[str, Any]]:
+    """Keep only cases the engine can meaningfully evaluate.
+
+    Excludes cases where the engine fundamentally lacks input signal:
+    1. Complaint text resolves to 'unclear' (no keyword match → engine flying blind)
+    2. Fewer than 3 core vitals present (NEWS2 can't meaningfully score)
+
+    This filter requires importing the backend classification engine.
+    """
+    # Late import — only needed when --engine-fair is used
+    runtime, runtime_error = import_runtime()
+    if runtime is None:
+        print(f"WARNING: --engine-fair requires backend runtime. Error: {runtime_error}")
+        print("Skipping engine-fair filter.")
+        return cases, {"skipped": True, "error": runtime_error}
+
+    _DeterministicTriageEngine = runtime[0]
+    os.environ.setdefault("DISABLE_RAG", "true")
+    _engine = _DeterministicTriageEngine(use_ai=False)
+
+    kept: List[ReplayCase] = []
+    stats: Dict[str, int] = {
+        "total_in": len(cases),
+        "excluded_unclear": 0,
+        "excluded_no_vitals": 0,
+        "excluded_both": 0,
+    }
+
+    _CORE_VITAL_KEYS = ("hr", "rr", "spo2", "sbp", "temp")
+
+    for case in cases:
+        # Check vitals completeness
+        core_count = sum(1 for k in _CORE_VITAL_KEYS if case.vitals.get(k) is not None)
+        has_vitals = core_count >= 3
+
+        # Check if engine can classify the complaint
+        category = _engine.ai_classifier._fallback_keyword_match(case.complaint)
+        is_unclear = category == "unclear"
+
+        if is_unclear and not has_vitals:
+            stats["excluded_both"] += 1
+        elif is_unclear:
+            stats["excluded_unclear"] += 1
+        elif not has_vitals:
+            stats["excluded_no_vitals"] += 1
+        else:
+            kept.append(case)
+
+    stats["total_out"] = len(kept)
+    return kept, stats
 
 
 def load_replay_cases(triage_path: Path) -> Tuple[List[ReplayCase], Dict[str, Any]]:
@@ -874,7 +1080,7 @@ def main() -> int:
 
     # Enrich with real demographics and worst vitals if requested
     enrich_summary = None
-    if args.enrich:
+    if args.enrich or args.clean_only or args.clean_all_esi:
         sampled_cases, enrich_summary = enrich_cases(
             sampled_cases,
             edstays_path=args.edstays_path,
@@ -882,9 +1088,61 @@ def main() -> int:
             patients_path=args.patients_path,
         )
 
+    # Phase 2: heuristic filter — strip impossible label/presentation combos
+    heuristic_filter_summary = None
+    if args.heuristic_filter:
+        sampled_cases, heuristic_filter_summary = apply_heuristic_filter(sampled_cases)
+        removed = heuristic_filter_summary["total_in"] - heuristic_filter_summary["total_out"]
+        print(
+            f"Heuristic filter removed {removed} impossible cases "
+            f"({heuristic_filter_summary['removed_noise_complaint']} noise-complaint, "
+            f"{heuristic_filter_summary['removed_transfer']} transfer, "
+            f"{heuristic_filter_summary['removed_esi5_critical_vitals']} ESI5-critical-vitals)"
+        )
+
+    # Phase 1: clean filter — keep only outcome-confirmed cases
+    clean_filter_summary = None
+    use_all_esi = args.clean_all_esi
+    use_clean = args.clean_only or use_all_esi
+
+    if use_clean:
+        sampled_cases, clean_filter_summary = apply_clean_filter(sampled_cases, all_esi=use_all_esi)
+        kept_by_level = clean_filter_summary.get("kept_by_level", {})
+        level_str = ", ".join(f"ESI {k}={v}" for k, v in sorted(kept_by_level.items()))
+        mode_label = "all-ESI" if use_all_esi else "critical+non-urgent"
+        print(
+            f"Clean filter ({mode_label}): kept {clean_filter_summary['total_out']} outcome-confirmed cases "
+            f"({level_str}) from {clean_filter_summary['total_in']} enriched cases"
+        )
+        if clean_filter_summary["total_out"] == 0:
+            print("ERROR: No cases remain after clean filter. Check that disposition data is available.")
+            return 1
+
+    # Engine-fair filter: only keep cases the engine can meaningfully evaluate
+    engine_fair_summary = None
+    if args.engine_fair:
+        sampled_cases, engine_fair_summary = apply_engine_fair_filter(sampled_cases)
+        if not engine_fair_summary.get("skipped"):
+            excluded = engine_fair_summary["total_in"] - engine_fair_summary["total_out"]
+            print(
+                f"Engine-fair filter: kept {engine_fair_summary['total_out']} classifiable cases "
+                f"(excluded {engine_fair_summary['excluded_unclear']} unclear, "
+                f"{engine_fair_summary['excluded_no_vitals']} no-vitals, "
+                f"{engine_fair_summary['excluded_both']} both) "
+                f"from {engine_fair_summary['total_in']}"
+            )
+
     tag = args.tag
-    if tag is None and args.enrich:
-        tag = f"enriched-{args.target_cases}"
+    if tag is None:
+        clean_prefix = "clean-all" if use_all_esi else "clean" if args.clean_only else ""
+        heuristic_suffix = "-heuristic" if args.heuristic_filter else ""
+        fair_suffix = "-fair" if args.engine_fair else ""
+        if clean_prefix:
+            tag = f"{clean_prefix}{heuristic_suffix}{fair_suffix}-{args.target_cases}"
+        elif args.heuristic_filter or args.engine_fair:
+            tag = f"{'heuristic' if args.heuristic_filter else ''}{fair_suffix}-{args.target_cases}".lstrip("-")
+        elif args.enrich:
+            tag = f"enriched-{args.target_cases}"
     prefix = make_output_prefix(args.output_dir, tag, args.target_cases)
     sample_csv_path = prefix.with_suffix(".sample.csv")
     summary_json_path = prefix.with_suffix(".summary.json")
@@ -901,6 +1159,12 @@ def main() -> int:
     }
     if enrich_summary:
         payload["enrich_summary"] = enrich_summary
+    if heuristic_filter_summary:
+        payload["heuristic_filter_summary"] = heuristic_filter_summary
+    if clean_filter_summary:
+        payload["clean_filter_summary"] = clean_filter_summary
+    if engine_fair_summary and not engine_fair_summary.get("skipped"):
+        payload["engine_fair_summary"] = engine_fair_summary
 
     if not args.sample_only:
         replay_result = run_replay(
@@ -923,6 +1187,14 @@ def main() -> int:
     print(f"Usable MIMIC-IV-ED rows: {dataset_summary['usable_rows']:,}")
     print(f"Unique complaint buckets: {dataset_summary['unique_complaint_buckets']:,}")
     print(f"Sample selected: {sample_summary['selected_cases']:,}")
+    if heuristic_filter_summary:
+        print(f"After heuristic filter: {heuristic_filter_summary['total_out']:,} cases")
+    if clean_filter_summary:
+        kept_by_level = clean_filter_summary.get("kept_by_level", {})
+        level_str = ", ".join(f"ESI {k}={v}" for k, v in sorted(kept_by_level.items()))
+        print(f"After clean filter (outcome-confirmed): {clean_filter_summary['total_out']:,} cases ({level_str})")
+    if engine_fair_summary and not engine_fair_summary.get("skipped"):
+        print(f"After engine-fair filter: {engine_fair_summary['total_out']:,} cases (excluded {engine_fair_summary['excluded_unclear']} unclear)")
     print(f"Sample CSV: {sample_csv_path}")
     print(f"Summary JSON: {summary_json_path}")
 

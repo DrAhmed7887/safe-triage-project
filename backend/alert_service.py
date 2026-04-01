@@ -68,29 +68,20 @@ def _alert_banner(level: AlertLevel) -> str:
 
 
 def _alert_title(payload: Dict[str, Any]) -> str:
+    """HIPAA-safe push notification title (visible on lock screen)."""
     level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
-    patient_id = str(payload.get("patient_id", "Unknown"))
     esi_level = str(payload.get("esi_level", ""))
     level_label = str(level).replace("_", " ")
-    return f"{_alert_banner(level)} SAFE-Triage {level_label} | Patient {patient_id} | ESI {esi_level}"
+    patient_ref = _phi_safe_patient_ref(str(payload.get("patient_id", "")))
+    return f"{_alert_banner(level)} SAFE-Triage {level_label} | ESI {esi_level}"
 
 
 def _alert_body(payload: Dict[str, Any]) -> str:
-    complaint = str(payload.get("complaint", "")).strip()
-    recommended = _format_recommended(payload.get("recommended", ""))
-    news2_score = str(payload.get("news2_score", "")).strip()
-    clinician = str(payload.get("clinician", "Unassigned | غير محدد")).strip()
-
-    lines = []
-    if complaint:
-        lines.append(f"Complaint: {complaint}")
-    if news2_score:
-        lines.append(f"NEWS2: {news2_score}")
-    if recommended:
-        lines.append(f"Recommended: {recommended}")
-    if clinician:
-        lines.append(f"Clinician: {clinician}")
-    return " | ".join(lines)[:512]
+    """HIPAA-safe push notification body (visible on lock screen).
+    No complaint, no vitals, no patient_id — just a prompt to check the dashboard."""
+    level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
+    patient_ref = _phi_safe_patient_ref(str(payload.get("patient_id", "")))
+    return f"{patient_ref} requires attention. Tap to review on dashboard. | يتطلب مراجعة. اضغط لفتح لوحة المعلومات."
 
 
 def _alert_link(payload: Dict[str, Any]) -> str:
@@ -101,50 +92,60 @@ def _alert_link(payload: Dict[str, Any]) -> str:
     return f"{base_url}/dashboard?case={patient_id}"
 
 
+def _phi_safe_patient_ref(patient_id: str) -> str:
+    """Return a truncated hash of patient_id for HIPAA-safe references outside the secure dashboard."""
+    if not patient_id or patient_id == "Unknown":
+        return "Case"
+    import hashlib
+    return f"Case #{hashlib.sha256(patient_id.encode()).hexdigest()[:6].upper()}"
+
+
 def build_email_subject(payload: Dict[str, Any]) -> str:
     level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
-    patient_id = payload.get("patient_id", "Unknown")
-    esi_level = payload.get("esi_level", "")
-    recipient = payload.get("recipient", ALERT_RECIPIENT_NAME)
-    recipient_en = recipient.split("|")[0].strip()
-    return f"[SAFE-Triage] {level} -> {recipient_en}: Patient {patient_id} | ESI {esi_level}"
+    patient_ref = _phi_safe_patient_ref(str(payload.get("patient_id", "")))
+    # HIPAA: Do NOT include patient_id, complaint, or clinical details in subject line
+    return f"[SAFE-Triage] {level} Alert — {patient_ref} — Action Required"
 
 
 def build_email_html(payload: Dict[str, Any]) -> str:
-    complaint = _safe_text(payload.get("complaint", ""))
-    icd10_code = _safe_text(payload.get("icd10_code", ""))
-    icd10_desc = _safe_text(payload.get("icd10_description", ""))
-    snomed_code = _safe_text(payload.get("snomed_code", ""))
-    snomed_term = _safe_text(payload.get("snomed_term", ""))
-    recommended = _safe_text(_format_recommended(payload.get("recommended", "")))
-    clinician = _safe_text(payload.get("clinician", "Unassigned | غير محدد"))
-    patient_id = _safe_text(payload.get("patient_id", "Unknown"))
+    """Build HIPAA-compliant email: NO PHI in email body.
+    Clinical details (complaint, ICD-10, SNOMED, vitals) are only
+    accessible via the authenticated dashboard link."""
+    level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
+    patient_ref = _phi_safe_patient_ref(str(payload.get("patient_id", "")))
     esi_level = _safe_text(str(payload.get("esi_level", "")))
-    news2_score = _safe_text(str(payload.get("news2_score", "")))
     timestamp = _safe_text(payload.get("timestamp") or datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
     recipient = _safe_text(payload.get("recipient", ALERT_RECIPIENT_NAME))
-    level = payload.get("alert_level", AlertLevel.HIGH_ALERT)
     alert_link = _safe_text(_alert_link(payload))
 
     return f"""
     <div style="font-family: Arial, sans-serif; line-height: 1.5;">
       <h2>{_alert_banner(level)} SAFE-Triage Alert | تنبيه SAFE-Triage</h2>
       <hr />
-      <p><b>Level | المستوى:</b> {level}</p>
-      <p><b>Patient | المريض:</b> {patient_id}</p>
-      <p><b>ESI:</b> {esi_level} | <b>NEWS2:</b> {news2_score}</p>
-      <hr />
-      <p><b>Complaint | الشكوى:</b> {complaint}</p>
-      <p><b>ICD-10:</b> {icd10_code} ({icd10_desc})</p>
-      <p><b>SNOMED:</b> {snomed_code} ({snomed_term})</p>
-      <hr />
-      <p><b>Recommended | المطلوب:</b> {recommended}</p>
-      <p><b>Clinician | الطبيب:</b> {clinician}</p>
+      <p><b>Alert Level | مستوى التنبيه:</b> {level}</p>
+      <p><b>Reference | المرجع:</b> {patient_ref}</p>
+      <p><b>Severity | الحدة:</b> ESI {esi_level}</p>
       <p><b>Time | الوقت:</b> {timestamp}</p>
-      <p>📲 <b>Push + Email | إشعار + بريد:</b> {recipient}</p>
-      <p><a href="{alert_link}">Open SAFE-Triage Dashboard</a></p>
+      <p><b>Recipient | المستلم:</b> {recipient}</p>
+      <hr />
+      <p style="background-color: #FEF3C7; padding: 12px; border-radius: 8px;">
+        ⚠️ <b>HIPAA Notice:</b> Clinical details are not included in this email for patient privacy.
+        Please review full case details on the secure dashboard.
+        <br/>
+        ⚠️ <b>تنبيه HIPAA:</b> لم يتم تضمين التفاصيل السريرية في هذا البريد حفاظاً على خصوصية المريض.
+        يرجى مراجعة تفاصيل الحالة الكاملة على لوحة المعلومات الآمنة.
+      </p>
+      <p style="text-align: center; margin: 16px 0;">
+        <a href="{alert_link}" style="background-color: #0D9488; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+          Open SAFE-Triage Dashboard | فتح لوحة المعلومات
+        </a>
+      </p>
       <hr />
       <p><b>{GAHAR_NOTICE}</b></p>
+      <p style="font-size: 11px; color: #6B7280;">
+        This message is confidential and intended solely for the recipient.
+        If you received this in error, please delete immediately.
+      </p>
     </div>
     """.strip()
 
@@ -223,13 +224,14 @@ def register_fcm_device(user_id: str, token: str, role: str) -> Dict[str, Any]:
 
 
 def _push_payload_data(payload: Dict[str, Any]) -> Dict[str, str]:
+    """Build FCM data payload. HIPAA: Only include non-PHI fields in the
+    notification itself (visible on lock screens). Clinical details go
+    in the 'data' envelope which the app reads after authentication."""
     return {
         "alert_level": str(payload.get("alert_level", "")),
-        "patient_id": str(payload.get("patient_id", "")),
         "esi_level": str(payload.get("esi_level", "")),
-        "news2_score": str(payload.get("news2_score", "")),
-        "complaint": str(payload.get("complaint", ""))[:200],
-        "recommended": _format_recommended(payload.get("recommended", ""))[:200],
+        # patient_id in data envelope only (not shown on lock screen)
+        "case_ref": _phi_safe_patient_ref(str(payload.get("patient_id", ""))),
         "link": _alert_link(payload),
     }
 
@@ -285,9 +287,37 @@ async def _send_push(payload: Dict[str, Any]) -> bool:
         return False
 
 
+def get_notification_config_status() -> Dict[str, Any]:
+    """Return the current notification configuration status for debugging."""
+    return {
+        "sendgrid_configured": bool(SENDGRID_API_KEY),
+        "email_from_set": bool(ALERT_EMAIL_FROM),
+        "email_recipients_set": bool(ALERT_EMAIL_RECIPIENTS),
+        "email_recipients_count": len(ALERT_EMAIL_RECIPIENTS),
+        "fcm_available": firebase_admin is not None and messaging is not None,
+        "fcm_topic": ALERT_FCM_TOPIC,
+        "fully_operational": bool(SENDGRID_API_KEY and ALERT_EMAIL_RECIPIENTS and ALERT_EMAIL_FROM),
+        "missing_vars": [
+            var for var, val in [
+                ("SENDGRID_API_KEY", SENDGRID_API_KEY),
+                ("ALERT_EMAIL_TO", ALERT_EMAIL_TO),
+                ("ALERT_EMAIL_RECIPIENTS", bool(ALERT_EMAIL_RECIPIENTS)),
+                ("ALERT_EMAIL_FROM", ALERT_EMAIL_FROM),
+            ] if not val
+        ],
+    }
+
+
 async def _send_email(subject: str, html_body: str) -> bool:
     if not SENDGRID_API_KEY or not ALERT_EMAIL_RECIPIENTS or not ALERT_EMAIL_FROM:
-        print("[ALERT] SendGrid not configured")
+        missing = []
+        if not SENDGRID_API_KEY:
+            missing.append("SENDGRID_API_KEY")
+        if not ALERT_EMAIL_RECIPIENTS:
+            missing.append("ALERT_EMAIL_RECIPIENTS")
+        if not ALERT_EMAIL_FROM:
+            missing.append("ALERT_EMAIL_FROM")
+        print(f"[ALERT] Email disabled — missing env vars: {', '.join(missing)}")
         return False
     url = "https://api.sendgrid.com/v3/mail/send"
     payload = {

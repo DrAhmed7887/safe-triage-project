@@ -13,7 +13,7 @@ export default function TriageResult({ result, onReset }) {
     const [toast, setToast] = useState(null);
     const [warningDismissed, setWarningDismissed] = useState(false);
 
-    const clinicianId = user?.username || user?.name || 'unknown';
+    const clinicianId = user?.uid || user?.username || user?.name || 'unknown';
     const clinicianRoleRaw = (user?.role || '').toLowerCase();
     const clinicianRole = clinicianRoleRaw.includes('supervisor')
         ? 'supervisor'
@@ -304,15 +304,23 @@ export default function TriageResult({ result, onReset }) {
                                     <span className="text-slate-400 italic text-xs">Not generated</span>
                                 )}
                             </div>
-                            {(snomedCode || snomedTerm) && (
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <span className="text-xs uppercase text-slate-500 font-semibold">SNOMED-CT</span>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <span className="text-xs uppercase text-slate-500 font-semibold">SNOMED-CT</span>
+                                {snomedCode ? (
                                     <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-teal-600 text-white text-xs font-mono">
-                                        {snomedCode || '—'}
+                                        {snomedCode}
                                     </span>
+                                ) : (
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-300 text-slate-600 text-xs font-mono">
+                                        Pending
+                                    </span>
+                                )}
+                                {snomedTerm ? (
                                     <span className="text-slate-700">{snomedTerm}</span>
-                                </div>
-                            )}
+                                ) : (
+                                    <span className="text-slate-400 italic text-xs">AI mapping in progress | جاري التصنيف</span>
+                                )}
+                            </div>
                         </div>
                         <div className="text-[10px] text-slate-500 mt-2">
                             🏥 Designed to Align with GAHAR Safety Requirements | مصمم وفقاً لمتطلبات سلامة الجهار

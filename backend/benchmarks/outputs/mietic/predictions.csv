@@ -4,34 +4,34 @@ stay_31731173,1,1,1,1,exact_match,Chest pain
 stay_30061793,2,2,1,1,exact_match,"Chest pain, Dyspnea"
 stay_30179684,1,1,1,1,exact_match,"Unresponsive, Respiratory distress"
 stay_36810674,2,2,1,1,exact_match,"Difficulty swallowing, Transfer"
-stay_37132954,2,1,0,1,over_triage,#NAME?
+stay_37132954,2,2,1,1,exact_match,#NAME?
 stay_30115077,2,2,1,1,exact_match,Chest pain
 stay_31311504,1,1,1,1,exact_match,"Fever, Pneumonia, Transfer"
 stay_30404606,1,1,1,1,exact_match,"Weakness, Hypotension"
 stay_30027188,3,2,0,1,over_triage,"Dyspnea, Pedal edema"
-stay_30010910,3,2,0,1,over_triage,RECTAL ABSCESS
+stay_30010910,3,3,1,1,exact_match,RECTAL ABSCESS
 stay_30914094,1,1,1,1,exact_match,"Transfer, Intubated"
 stay_30116118,1,1,1,1,exact_match,ALTERED LEVEL OF CONSCIOUSNESS
 stay_30346459,1,1,1,1,exact_match,DYSPNEA
-stay_30047441,3,2,0,1,over_triage,Lower abdominal pain
-stay_30139098,2,1,0,1,over_triage,ALTERED LEVEL OF CONSCIOUSNESS
-stay_30001365,3,2,0,1,over_triage,Acute Pelvic pain
+stay_30047441,3,3,1,1,exact_match,Lower abdominal pain
+stay_30139098,2,2,1,1,exact_match,ALTERED LEVEL OF CONSCIOUSNESS
+stay_30001365,3,3,1,1,exact_match,Acute Pelvic pain
 stay_32622318,1,1,1,1,exact_match,SEPSIS
 stay_30036197,2,2,1,1,exact_match,"N/V, Weakness"
 stay_30082860,4,4,1,1,exact_match,Finger laceration
 stay_30055056,1,1,1,1,exact_match,Found down
 stay_30045590,4,4,1,1,exact_match,Finger laceration
 stay_30132519,1,1,1,1,exact_match,"MVC, Transfer"
-stay_30030554,4,2,0,0,over_triage,R Wrist pain
-stay_30077880,3,4,0,1,under_triage,R Foot swelling
+stay_30030554,4,4,1,1,exact_match,R Wrist pain
+stay_30077880,3,3,1,1,exact_match,R Foot swelling
 stay_30125793,1,1,1,1,exact_match,Cardiac arrest
 stay_30017342,1,1,1,1,exact_match,Overdose
 stay_30033995,2,2,1,1,exact_match,"Abd pain, Abdominal distention"
 stay_30187060,2,2,1,1,exact_match,"Abd pain, Vomiting, Nausea, Dyspnea"
-stay_30076930,5,4,0,1,over_triage,Suture removal
+stay_30076930,5,5,1,1,exact_match,Suture removal
 stay_30226804,1,1,1,1,exact_match,"Abd pain, Transfer"
 stay_30280080,1,1,1,1,exact_match,DYSPNEA
-stay_30037900,5,4,0,1,over_triage,Med refill
+stay_30037900,5,5,1,1,exact_match,Med refill
 stay_30134741,2,2,1,1,exact_match,"L Leg injury, Transfer"
 stay_30247028,4,4,1,1,exact_match,R Foot pain
 stay_30000679,2,2,1,1,exact_match,ABDOMINAL PAIN

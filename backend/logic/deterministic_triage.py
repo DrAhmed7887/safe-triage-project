@@ -400,6 +400,32 @@ INSTABILITY_SIGNALS = [
     # Transfer patients (inter-facility) often have instability
     "transferred to", "transferred from", "transfer from",
     "was transferred",
+    # ── ESI Handbook-derived signals (batch fix) ─────────────────────
+    # Altered mental status / appearance
+    "somnolent", "lethargic", "lethargy", "obtunded",
+    "listless", "not acting right", "floppy", "limp",
+    # Psychiatric/violence — ESI 2 regardless of vitals
+    "threatening to kill", "threatening to harm", "out of control",
+    "sexually assaulted", "sexual assault",
+    "suicidal", "kill myself",
+    # Severe pain / dislocation
+    "10/10", "obvious dislocation", "obvious deformity",
+    # C-spine / high-energy mechanism
+    "c-collar", "backboard", "back board", "immobilized on",
+    "high-speed", "hit by a car", "struck by car", "multicar",
+    # High-risk devices / signs
+    "vp shunt", "shunt malfunction",
+    "petechiae", "petechial", "purpuric", "purpura",
+    # Compartment syndrome
+    "cast is cutting", "cutting off circulation", "swollen and the cast",
+    # Dysphagia with airway concern
+    "barely swallow", "drooling", "peritonsillar",
+    "voice is different", "muffled voice",
+    # Neonatal / infant alarm
+    "mottled", "sunken fontanel",
+    # Psychotic / dangerous behaviour
+    "screaming about", "end of the world",
+    "standing in traffic",
 ]
 
 NON_URGENT_SIGNALS = [
@@ -509,6 +535,12 @@ LIFE_THREAT_SIGNALS = [
     "acute worsening dyspnea",
     "acute worsening shortness",
     "acute decompensation",
+    # ── ESI Handbook life-threat signals (batch fix) ─────────────────
+    # Pediatric / neonatal red flags
+    "somnolent", "listless", "mottled", "floppy",
+    "not acting right",
+    # Pediatric hit by car (high mechanism)
+    "hit by a car", "hit by car", "struck by a car",
 ]
 
 CLEAR_NON_URGENT_SIGNALS = [
@@ -741,7 +773,20 @@ def apply_safety_guardrails(complaint_text: str, ai_category: str, proposed_esi:
     return final_esi, fired_reasons
 
 
-def apply_severity_ceiling(complaint_text: str, proposed_esi: int) -> Tuple[int, str]:
+# Categories where ESI v5 protocol mandates ESI 2 regardless of vitals/text signals.
+# The ceiling must never override these — they were placed at ESI 2 for clinical
+# reasons that the text signals cannot capture (e.g. psychiatric emergency = "si",
+# stroke abbrev = "cva", confirmed GI bleed = "brbpr").
+_ESI2_MANDATORY_CATEGORIES: set = {
+    "suicidal_homicidal",     # ESI v5: psych emergency always ESI 2
+    "stroke_symptoms",        # ESI v5: stroke signs always ESI 2
+    "altered_mental_status",  # ESI v5: AMS always ESI 2
+    "gi_bleed",               # Active GI bleed → always ESI 2
+    "hemoptysis",             # Bleeding from airway → always ESI 2
+}
+
+
+def apply_severity_ceiling(complaint_text: str, proposed_esi: int, ai_category: str = "") -> Tuple[int, str]:
     """
     Universal post-guardrail ceiling for AI-derived severity.
 
@@ -760,6 +805,13 @@ def apply_severity_ceiling(complaint_text: str, proposed_esi: int) -> Tuple[int,
 
     if proposed_esi == 1 and not _contains_any(text, LIFE_THREAT_SIGNALS):
         return 2, "CEILING_ESI1: No life-threat signals - capped at ESI 2"
+
+    # Do NOT cap ESI 2 categories that the protocol mandates at ESI 2 regardless of vitals.
+    # These were assigned ESI 2 by a clinical guardrail (e.g. "si" → suicidal_homicidal,
+    # "cva" → stroke_symptoms) — the absence of instability signals in the 2-word triage
+    # text is expected, not a reason to downgrade.
+    if proposed_esi == 2 and ai_category in _ESI2_MANDATORY_CATEGORIES:
+        return proposed_esi, "PASS"
 
     if proposed_esi == 2 and not has_instability_signal:
         return 3, "CEILING_ESI2: No instability signals - capped at ESI 3"
@@ -833,6 +885,8 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
     # PHASE 2: New Level 2 category
     "mesenteric_ischemia": SymptomCategory(2, "نقص تروية الأمعاء", "Mesenteric Ischemia"),
     # ========== BATCH 2 FIX: NEW LEVEL 2 CATEGORIES ==========
+    # Allergic reaction without airway signs → ESI 2 (anaphylaxis ruled out above)
+    "allergic_reaction_moderate": SymptomCategory(2, "حساسية متوسطة-شديدة", "Moderate/Severe Allergic Reaction"),
     "silent_mi": SymptomCategory(2, "ذبحة صامتة", "Silent MI (Atypical Cardiac)"),
     "gi_bleed": SymptomCategory(2, "نزيف معوي", "GI Bleeding (Hematemesis/Melena)"),
     "hip_fracture": SymptomCategory(2, "كسر ورك", "Hip Fracture (Elderly Fall)"),
@@ -2063,6 +2117,238 @@ class AISymptomClassifier:
         if has_chest_discomfort:
             return "chest_pain_cardiac"
 
+        # ══════════════════════════════════════════════════════════════════════
+        # PRE-KEYWORD GUARDRAILS  (run before any keyword/DB lookup)
+        # These catch high-acuity patterns that need whole-word matching or
+        # multi-signal logic that the simple substring keyword lists can't do.
+        # ══════════════════════════════════════════════════════════════════════
+
+        # ── ICH / intracranial hemorrhage → ESI 1 ────────────────────────────
+        # "ICH" is a 3-letter clinical abbreviation — substring "ich" is unsafe
+        # (matches "rich", "which").  Use whole-word detection.
+        _complaint_stripped = text_lower.strip().rstrip(".,;/?")
+        _ich_exact = _complaint_stripped in {"ich", "?ich", "ich/", "ich transfer"}
+        _ich_prefix = (
+            text_lower.lstrip("? ").startswith("ich,")
+            or text_lower.lstrip("? ").startswith("ich ")
+            or text_lower.lstrip("? ").startswith("ich/")
+        )
+        _ich_inline = " ich," in text_lower or " ich " in text_lower
+        _ich_longform = any(t in text_lower for t in (
+            "intracranial hemorrhage", "intracranial haemorrhage",
+            "intracerebral hemorrhage", "intracerebral haemorrhage",
+            "brain bleed", "brain hemorrhage", "brain haemorrhage",
+            "subdural hematoma", "subdural haematoma",
+            "subdural hemorrhage", "subdural haemorrhage",
+            "نزيف في المخ", "نزيف دماغي", "نزيف داخل الجمجمة",
+        ))
+        # ── SDH abbreviation (standalone) — same ESI 1 path as ICH ─────────────
+        # "sdh, transfer", "sdh" etc. — word-boundary safe (no benign substring risk)
+        _sdh_exact = _complaint_stripped in {"sdh", "?sdh"}
+        _sdh_prefix = (
+            text_lower.lstrip("? ").startswith("sdh,")
+            or text_lower.lstrip("? ").startswith("sdh ")
+        )
+        _sdh_inline = " sdh," in text_lower or " sdh " in text_lower
+        if _ich_exact or _ich_prefix or _ich_inline or _ich_longform or _sdh_exact or _sdh_prefix or _sdh_inline:
+            return "unconscious"  # → ESI 1 (intracranial/subdural hemorrhage = immediate)
+
+        # ── CVA abbreviation → stroke_symptoms (ESI 2) ───────────────────────
+        # "cva" alone or leading is a safe whole-word match (no benign substrings).
+        _cva_stripped = text_lower.strip().rstrip(".,;/?")
+        _cva_exact = _cva_stripped in {"cva", "?cva"}
+        _cva_prefix = (
+            text_lower.lstrip("? ").startswith("cva,")
+            or text_lower.lstrip("? ").startswith("cva ")
+        )
+        if _cva_exact or _cva_prefix:
+            return "stroke_symptoms"  # → ESI 2 (ceiling bypass applies)
+
+        # ── BRBPR (Bright Red Blood Per Rectum) → gi_bleed (ESI 2) ──────────
+        if "brbpr" in text_lower or "bright red blood per rectum" in text_lower:
+            return "gi_bleed"  # → ESI 2 (ceiling bypass applies)
+
+        # ── Unilateral limb weakness — focal neurological deficit → ESI 2 ────
+        # "l weakness", "r weakness" = left/right-sided weakness = stroke sign.
+        # Use anchored match to avoid "elbow weakness", "shoulder weakness" etc.
+        if re.match(r'^[lr]\s+weakness', text_lower.strip()):
+            return "stroke_symptoms"  # → ESI 2
+
+        # ── "Ped struck" — pedestrian struck by vehicle → high-energy trauma ─
+        if "ped struck" in text_lower or "pedestrian hit" in text_lower:
+            return "severe_trauma"  # → ESI 1
+
+        # ── Anaphylaxis signals — airway-threatening allergic reaction → ESI 1 ─
+        _anaphylaxis_signals = (
+            "tongue swelling", "throat swelling", "lip swelling",
+            "facial swelling", "face swelling", "swollen throat",
+            "swollen tongue", "swollen lips", "angioedema",
+            "throat closing", "throat tightening",
+            "تورم اللسان", "تورم الحلق", "تورم الوجه", "وجهه ورم",
+        )
+        if any(t in text_lower for t in _anaphylaxis_signals):
+            return "anaphylaxis"
+
+        # ── "allergic reaction" without airway signs → ESI 2 (moderate) ───────
+        if "allergic reaction" in text_lower or "severe allergic" in text_lower:
+            return "allergic_reaction_moderate"
+
+        # ── SI / S/I — suicidal ideation abbreviation → ESI 2 ────────────────
+        _si_stripped = text_lower.strip()
+        _si_is_abbrev = (
+            _si_stripped in {"si", "s/i", "s.i."}
+            or _si_stripped.startswith("si,")
+            or _si_stripped.startswith("s/i,")
+        )
+        if _si_is_abbrev:
+            return "suicidal_homicidal"
+
+        # ── Altered mental status / lethargy / somnolence → ESI 2 ────────────
+        # ESI handbook: "somnolent", "lethargic", "not acting right" = ESI 1–2.
+        # These appearance descriptions indicate altered consciousness that
+        # vitals alone cannot capture.
+        _ams_signals = (
+            "somnolent", "lethargic", "lethargy", "obtunded",
+            "not acting right", "not herself", "not himself",
+            "listless", "floppy", "limp",
+            "confused and agitated", "acutely confused",
+            "مش طبيعي", "مش واعي", "خامل", "مش بيرد",
+        )
+        if any(t in text_lower for t in _ams_signals):
+            return "altered_mental_status"  # → ESI 2
+
+        # ── Psychiatric emergency — threatening violence → ESI 2 ─────────────
+        # ESI handbook: patient threatening to harm others or actively psychotic
+        # (standing in traffic, out of control) = ESI 2 even if calm at triage.
+        _psych_signals = (
+            "threatening to kill", "threatening to harm",
+            "out of control", "verbally and physically",
+            "screaming obscenities",
+            "standing in the middle of traffic", "standing in traffic",
+            "acting out and threatening",
+            "screaming about", "end of the world",
+        )
+        if any(t in text_lower for t in _psych_signals):
+            return "suicidal_homicidal"  # → ESI 2
+
+        # ── Sexual assault → ESI 2 ───────────────────────────────────────────
+        _sa_signals = (
+            "sexually assaulted", "sexual assault", "raped", "rape victim",
+            "اغتصاب", "تحرش", "اعتداء جنسي",
+        )
+        if any(t in text_lower for t in _sa_signals):
+            return "suicidal_homicidal"  # → ESI 2 (psych/trauma emergency)
+
+        # ── Severe pain from narrative (10/10, obvious dislocation) → ESI 2 ──
+        _severe_pain_signals = (
+            "10/10", "10 out of 10", "10 /10",
+            "obvious dislocation", "obvious deformity",
+        )
+        if any(t in text_lower for t in _severe_pain_signals):
+            return "severe_pain"  # → ESI 2
+
+        # ── C-spine / backboard immobilisation → ESI 2 ───────────────────────
+        # ESI handbook: patient immobilised on backboard with c-collar = ESI 2.
+        _cspine_signals = (
+            "c-collar", "c collar", "cervical collar",
+            "back board", "backboard",
+            "immobilized on a", "immobilised on a",
+            "spinal precautions", "spine precautions",
+            "cervical immobilization", "cervical immobilisation",
+        )
+        if any(t in text_lower for t in _cspine_signals):
+            return "severe_trauma"  # → ESI 1 (spinal precautions = high-risk)
+
+        # ── High-energy mechanism of injury → ESI 2 ──────────────────────────
+        # ESI handbook: high-speed MVC, hit by car (pediatric), multicar = ESI 2.
+        _mechanism_signals = (
+            "high-speed", "high speed", "multicar", "multi-car",
+            "hit by a car", "hit by car", "struck by car",
+            "struck by a car", "pedestrian struck",
+            "ran into a tree", "ejected",
+            "حادثة سير كبيرة", "سرعة عالية",
+        )
+        if any(t in text_lower for t in _mechanism_signals):
+            return "severe_trauma"  # → ESI 1
+
+        # ── VP shunt concern → ESI 2 ─────────────────────────────────────────
+        # Ventriculoperitoneal shunt malfunction = neurosurgical emergency.
+        _vpshunt_signals = (
+            "ventriculoperitoneal shunt", "ventriculo-peritoneal shunt",
+            "vp shunt", "v-p shunt", "shunt malfunction", "shunt may be",
+            "shunt blockage", "blocked shunt",
+        )
+        if any(t in text_lower for t in _vpshunt_signals):
+            return "pediatric_emergency"  # → ESI 2
+
+        # ── Petechiae / purpuric rash → ESI 2 (meningococcemia risk) ────────
+        _petechiae_signals = (
+            "petechiae", "petechial", "purpuric", "purpura",
+            "pinpoint purplish", "pinpoint rash",
+            "non-blanching rash", "non blanching rash",
+        )
+        if any(t in text_lower for t in _petechiae_signals):
+            return "pediatric_meningitis"  # → ESI 2
+
+        # ── Compartment syndrome risk → ESI 2 ────────────────────────────────
+        # Swollen extremity in cast + neurovascular compromise = time-sensitive.
+        _compartment_signals = (
+            "cast is cutting", "cast is too tight", "cutting off circulation",
+            "no pulse distal", "pulseless distal",
+            "compartment syndrome",
+            "hand is really swollen", "fingers are turning",
+            "hand is swollen and the cast",
+            "swollen and the cast",
+        )
+        if any(t in text_lower for t in _compartment_signals):
+            return "severe_pain"  # → ESI 2
+
+        # ── Dysphagia with airway concern → ESI 2 ───────────────────────────
+        # "Can barely swallow" + voice changes = peritonsillar abscess / epiglottitis.
+        _dysphagia_airway_signals = (
+            "barely swallow", "can't swallow", "cannot swallow",
+            "unable to swallow", "difficulty swallowing",
+            "voice is different", "muffled voice", "hot potato voice",
+            "uvula deviated", "uvula is deviated", "drooling",
+            "peritonsillar", "epiglottitis",
+        )
+        if any(t in text_lower for t in _dysphagia_airway_signals):
+            return "respiratory_distress"  # → ESI 2
+
+        # ── Neonatal / young infant alarm → ESI 1 ───────────────────────────
+        # Any sick neonate (<28 days) or young infant with concerning signs.
+        _neonatal_signals = (
+            "week-old", "week old", "day-old", "day old",
+            "newborn", "neonate", "neonatal",
+        )
+        _infant_concern_signals = (
+            "not eating", "not interested in eating", "not feeding",
+            "poor feeding", "refuses to eat", "won't eat",
+            "not acting right", "fussy", "irritable",
+            "mottled", "dusky", "cyanotic",
+            "sunken fontanel", "fontanelle",
+        )
+        _has_neonatal = any(t in text_lower for t in _neonatal_signals)
+        _has_infant_concern = any(t in text_lower for t in _infant_concern_signals)
+        if _has_neonatal and _has_infant_concern:
+            return "pediatric_critical"  # → ESI 1
+
+        # ── Infant with sunken fontanel / listless → ESI 2 ──────────────────
+        # Even beyond neonatal age, a listless infant with sunken fontanel = ESI 2.
+        if "sunken fontanel" in text_lower or "fontanelle" in text_lower:
+            return "pediatric_dehydration"  # → ESI 2
+
+        # ── Diving injury + face/neck struck → ESI 2 (c-spine mechanism) ────
+        _dive_cspine = (
+            "dove into", "diving into", "dove in",
+            "face struck", "hit the bottom",
+            "neck tingling", "neck pain",
+        )
+        _has_dive = any(t in text_lower for t in ("dove into", "diving into", "dove in"))
+        _has_impact = any(t in text_lower for t in ("face struck", "hit the bottom", "struck the bottom"))
+        if _has_dive and _has_impact:
+            return "severe_trauma"  # → ESI 1 (c-spine mechanism)
+
         # Try dynamic keyword database first
         if USE_DYNAMIC_KEYWORDS:
             try:
@@ -2083,22 +2369,22 @@ class AISymptomClassifier:
         # Static fallback keywords
         # Level 1 keywords (must catch these even without AI)
         level1_keywords = {
-            "unconscious": ["unconscious", "unresponsive", "فاقد الوعي", "مغمى عليه", "مش بيرد", 
+            "unconscious": ["unconscious", "unresponsive", "فاقد الوعي", "مغمى عليه", "مش بيرد",
                            "مش بيرد عليا", "مش واعي", "فاقد وعي"],
             "cardiac_arrest": ["cardiac arrest", "قلبه وقف", "القلب واقف", "قلبه مش شغال"],
             "respiratory_arrest": ["not breathing", "مش بيتنفس", "توقف التنفس", "مش قادر يتنفس"],
             "active_seizure": ["seizure", "تشنج", "صرع", "بيترعش", "تشنجات"],
-            "choking": ["choking", "شرقان", "حاجة في زوره", "مش قادر يبلع", "شرقت", "شرق", 
+            "choking": ["choking", "شرقان", "حاجة في زوره", "مش قادر يبلع", "شرقت", "شرق",
                        "اختناق", "مش قادرة تاخد نفس", "حاجة واقفة في زوره"],
             "severe_trauma": ["gunshot", "stab wound", "stabbed", "stabbing", "طعن", "رصاص", "حادثة", "accident", "اتضرب"],
-            "anaphylaxis": ["anaphylaxis", "صدمة تحسسية", "حساسية شديدة", "شفايفه ورمت"],
-            "poisoning_overdose": ["overdose", "poison", "تسمم", "جرعة زيادة", "أخد دوا كتير", 
+            "anaphylaxis": ["anaphylaxis", "anaphylactic", "صدمة تحسسية", "حساسية شديدة", "شفايفه ورمت"],
+            "poisoning_overdose": ["overdose", "poison", "تسمم", "جرعة زيادة", "أخد دوا كتير",
                                   "بلع دوا", "شرب دوا", "أخد حبوب كتير", "جرعة زايدة"],
             "drowning": ["drowning", "drown", "غرق", "غرقان", "طلعوه من المية", "وقع في المية",
                         "حمام السباحة", "البحر", "النيل"],
             "severe_bleeding": ["severe bleeding", "نزيف شديد", "بينزف جامد", "دم كتير"],
         }
-        
+
         for category, keywords in level1_keywords.items():
             for kw in keywords:
                 if kw in text_lower:
@@ -2126,7 +2412,8 @@ class AISymptomClassifier:
                                     "مش قادرة آخد نفسي", "صعوبة تنفس", "مش قادر اتنفس"],
             "suicidal_homicidal": ["suicidal", "kill myself", "عايز أموت", "عايز يموت",
                                   "يقتل نفسه", "عايز يقتل نفسه", "ينتحر", "عايز ينتحر",
-                                  "هيأذي نفسه", "مش عايز يعيش"],
+                                  "هيأذي نفسه", "مش عايز يعيش",
+                                  "suicidal ideation", "suicidal with plan"],
             "obstetric_emergency": ["pregnant bleeding", "حامل بتنزف", "حامل وبتنزف",
                                    "حامل في", "حامل ونزيف", "نزيف حمل", "الحمل بينزف"],
             "diabetic_emergency": ["sugar low", "السكر واطي", "السكر عالي", "سكر منخفض",
@@ -3004,7 +3291,7 @@ class DeterministicTriageEngine:
         if extraction_method in ("gemini_online", "keyword_offline", "egybert_offline"):
             ai_proposed_esi = 1 if category_requires_immediate_intervention else category_level
             guarded_esi, ai_guardrail_reasons = apply_safety_guardrails(complaint, category, ai_proposed_esi)
-            ceiling_esi, ceiling_reason = apply_severity_ceiling(complaint, guarded_esi)
+            ceiling_esi, ceiling_reason = apply_severity_ceiling(complaint, guarded_esi, ai_category=category)
             if ceiling_reason != "PASS":
                 ai_guardrail_reasons.append(ceiling_reason)
             final_ai_esi = max(guarded_esi, ceiling_esi)

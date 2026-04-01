@@ -10,6 +10,7 @@ import os
 import io
 import re
 import time
+import uuid
 from pathlib import Path
 from datetime import datetime, timedelta
 from threading import Lock
@@ -40,6 +41,7 @@ from alert_service import (
     register_fcm_device,
     retry_queued_alerts,
     get_queue_status,
+    get_notification_config_status,
 )
 from logic.icd10_integration import enrich_triage_with_icd10, check_silent_mi_pattern, format_icd10_for_hospital_record
 from logic.esi_v5_engine import (
@@ -2293,7 +2295,25 @@ def _resolve_clinician_id(user: Dict[str, Any]) -> str:
         value = user.get(key)
         if value:
             return str(value).strip()
+    # Fallback to email for backward compatibility with older records
+    for key in ("email", "username", "name"):
+        value = user.get(key)
+        if value:
+            return str(value).strip()
     return ""
+
+
+def _resolve_clinician_id_variants(user: Dict[str, Any]) -> list:
+    """Return all possible clinician_id values for this user (uid, email, name).
+    Used by export queries to match records stored under any identifier format."""
+    variants = []
+    for key in ("uid", "user_id", "sub", "email", "username", "name"):
+        value = user.get(key)
+        if value:
+            v = str(value).strip()
+            if v and v not in variants:
+                variants.append(v)
+    return variants
 
 
 def _normalize_category(category: str) -> str:
@@ -2585,8 +2605,17 @@ def require_firebase_user(authorization: str = Header(None)) -> dict:
 def read_root():
     return {"message": "SAFE-Triage AI System Active", "version": "2.0.0", "features": ["Voice Input", "AI Triage", "ESI v5", "FCM Push Alerts"]}
 
+VOICE_NOTES_DIR = os.path.join(os.path.dirname(__file__), "voice_notes")
+os.makedirs(VOICE_NOTES_DIR, exist_ok=True)
+
+
 @app.post("/transcribe")
-async def transcribe_audio(audio: UploadFile = File(...), language: str = Form("auto")):
+async def transcribe_audio(
+    audio: UploadFile = File(...),
+    language: str = Form("auto"),
+    patient_id: str = Form(""),
+    save_recording: str = Form("false"),
+):
     """🎤 Voice Input: Convert speech to medical text via Gemini"""
     tmp_path = None
     try:
@@ -2604,15 +2633,42 @@ async def transcribe_audio(audio: UploadFile = File(...), language: str = Form("
                 print(f"[ASR] WARNING: audio payload is very small ({audio_size} bytes)", flush=True)
             tmp.write(content)
             tmp_path = tmp.name
-        
+
         result = medasr_service.transcribe(
             tmp_path,
             language_code=language,
             content_type=audio.content_type,
         )
-        
+
+        voice_note_id = None
+        if result.get("success") and save_recording.lower() in ("true", "1", "yes"):
+            voice_note_id = f"vn_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
+            saved_path = os.path.join(VOICE_NOTES_DIR, f"{voice_note_id}.webm")
+            try:
+                import shutil
+                shutil.copy2(tmp_path, saved_path)
+                # Save metadata
+                meta = {
+                    "voice_note_id": voice_note_id,
+                    "patient_id": patient_id,
+                    "transcription": result["transcription"],
+                    "language": language,
+                    "timestamp": datetime.utcnow().isoformat(),
+                    "audio_size_bytes": audio_size,
+                }
+                import json as _json
+                with open(os.path.join(VOICE_NOTES_DIR, f"{voice_note_id}.json"), "w") as mf:
+                    _json.dump(meta, mf)
+                print(f"[ASR] Voice note saved: {voice_note_id}", flush=True)
+            except Exception as save_err:
+                print(f"[ASR] WARNING: Failed to save voice note: {save_err}", flush=True)
+
         if result.get("success"):
-            return {"success": True, "transcription": result["transcription"]}
+            return {
+                "success": True,
+                "transcription": result["transcription"],
+                "voice_note_id": voice_note_id,
+            }
         error_detail = result.get("error", "Voice transcription failed")
         status_code = 503 if error_detail == "Voice transcription disabled" else 500
         raise HTTPException(status_code=status_code, detail=error_detail)
@@ -2626,6 +2682,33 @@ async def transcribe_audio(audio: UploadFile = File(...), language: str = Form("
                 os.unlink(tmp_path)
             except OSError:
                 pass
+
+
+@app.get("/voice-notes/{patient_id}")
+def list_voice_notes(patient_id: str, user: dict = Depends(require_firebase_user)):
+    """List saved voice notes for a patient. Requires authentication (HIPAA: PHI access control)."""
+    import json as _json
+    notes = []
+    if not os.path.isdir(VOICE_NOTES_DIR):
+        return {"patient_id": patient_id, "voice_notes": [], "count": 0}
+    for fname in os.listdir(VOICE_NOTES_DIR):
+        if fname.endswith(".json"):
+            try:
+                with open(os.path.join(VOICE_NOTES_DIR, fname)) as f:
+                    meta = _json.load(f)
+                if meta.get("patient_id") == patient_id:
+                    # Strip audio file path from response (only accessible server-side)
+                    safe_meta = {
+                        "voice_note_id": meta.get("voice_note_id"),
+                        "transcription": meta.get("transcription"),
+                        "language": meta.get("language"),
+                        "timestamp": meta.get("timestamp"),
+                    }
+                    notes.append(safe_meta)
+            except Exception:
+                continue
+    notes.sort(key=lambda n: n.get("timestamp", ""), reverse=True)
+    return {"patient_id": patient_id, "voice_notes": notes, "count": len(notes)}
 
 
 @app.post("/api/fcm/register")
@@ -4155,10 +4238,13 @@ def health_check():
     # Flush alert queue (offline fallback)
     try:
         flush_result = flush_alert_queue_sync()
+        notif_config = get_notification_config_status()
         status["components"]["alerts"] = {
-            "status": "ok",
+            "status": "ok" if notif_config["fully_operational"] else "degraded",
             "queue_size": get_queue_size(),
             "flush_result": flush_result,
+            "email_configured": notif_config["fully_operational"],
+            "missing_vars": notif_config["missing_vars"],
         }
     except Exception as e:
         status["components"]["alerts"] = {"status": "error", "error": str(e)}
@@ -4169,6 +4255,22 @@ def health_check():
     
     status["gahar_notice"] = GAHAR_NOTICE
     return status
+
+
+@app.get("/notification-config-status")
+def notification_config_status(user: Dict[str, Any] = Depends(require_supervisor_role)):
+    """Check email/push notification configuration (supervisors only)."""
+    config = get_notification_config_status()
+    config["gahar_notice"] = GAHAR_NOTICE
+    if not config["fully_operational"]:
+        config["fix_instructions"] = (
+            "Set the following environment variables in Cloud Run: "
+            + ", ".join(config["missing_vars"])
+            + ". Use: gcloud run services update safe-triage-api "
+            "--set-env-vars SENDGRID_API_KEY=<key>,ALERT_EMAIL_TO=<email>,ALERT_EMAIL_FROM=<email> "
+            "--region me-west1"
+        )
+    return config
 
 
 @app.post("/medgemma/hourly-review", tags=["MedGemma QA"])
@@ -4258,7 +4360,8 @@ def export_personal_triage_csv(user: dict = Depends(require_firebase_user)):
     if not clinician_id:
         raise HTTPException(status_code=401, detail="Unable to resolve clinician identity")
 
-    csv_text, filename, case_count = export_triage_csv_with_metadata(clinician_id)
+    clinician_variants = _resolve_clinician_id_variants(user)
+    csv_text, filename, case_count = export_triage_csv_with_metadata(clinician_id, clinician_variants=clinician_variants)
     audit_service.log_export_download(
         export_type="personal_csv",
         scope=PERSONAL_EXPORT_SCOPE,

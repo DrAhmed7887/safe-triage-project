@@ -32,6 +32,9 @@ firebase-debug.log
 .playwright-cli/
 output/playwright/
 
+# Voice note recordings (PHI — never commit)
+backend/voice_notes/
+
 # Browser and temp data
 tmp/
 chrome_profile*/
