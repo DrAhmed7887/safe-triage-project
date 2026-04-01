@@ -33,6 +33,7 @@ def map_encounter(data, patient_id):
         "resourceType": "Encounter",
         "id": generate_id(),
         "status": "in-progress",
+        "priority": encounter.get("priority", "urgent"),
         "class": {
             "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
             "code": "EMER"
