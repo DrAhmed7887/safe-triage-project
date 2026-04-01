@@ -34,6 +34,18 @@ def map_encounter(data, patient_id):
         "id": generate_id(),
         "status": "in-progress",
         "priority": encounter.get("priority", "urgent"),
+        "extension": [
+    {
+        "url": "http://safe-triage.ai/StructureDefinition/esi-level",
+        "valueCodeableConcept": {
+            "coding": [{
+                "system": "http://safe-triage.ai/esi",
+                "code": encounter.get("triage_level", "ESI-3").replace("ESI-", ""),
+                "display": encounter.get("triage_level", "ESI-3")
+            }]
+        }
+    }
+],
         "class": {
             "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
             "code": "EMER"
