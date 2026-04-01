@@ -100,10 +100,11 @@ def map_condition(data, patient_id):
         "id": generate_id(),
         "code": {
             "coding": [{
-                "system": "http://hl7.org/fhir/sid/icd-10",
-                "code": diagnosis.get("icd10", "R69")
-            }],
-            "text": f"{diagnosis.get('chief_complaint_en', '')} / {diagnosis.get('chief_complaint_ar', '')}"
+    "system": "http://hl7.org/fhir/sid/icd-10",
+    "code": diagnosis.get("icd10", "R69"),
+    "display": diagnosis.get("chief_complaint_en", "")
+}],
+"text": diagnosis.get("chief_complaint_ar", "")
         },
         "subject": {
             "reference": f"Patient/{patient_id}"
