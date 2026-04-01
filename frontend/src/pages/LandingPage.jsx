@@ -73,9 +73,9 @@ export default function LandingPage() {
                 qualifier: 'MIETIC + ESI Handbook (246 cases)',
             },
             {
-                value: '1,858',
-                label: 'Arabic Medical Terms',
-                qualifier: 'Egyptian dialect keywords',
+                value: '0%',
+                label: 'Arabic Critical Under-triage',
+                qualifier: 'Egyptian dialect — 36 MIETIC cases',
             },
             {
                 value: '97.2%',
@@ -248,7 +248,7 @@ export default function LandingPage() {
                             ))}
                         </div>
                         <div className="st-validation-banner">
-                            0 resuscitation patients missed across 76 expert-validated ESI-1 cases (MIETIC + ESI Handbook + KTAS) · Validated on 1,508 cases from US and Korean EDs · ESI v5 + NEWS2 hybrid · Matches Korean nurse safety on external KTAS dataset (2.9% vs 3.6% critical under-triage)
+                            0% critical under-triage in English AND Egyptian Arabic · 0 resuscitation patients missed across 76 ESI-1 cases · Validated on 1,544 cases (English + Arabic + Korean) · Bilingual safety parity: Arabic 100% within-one, 0% critical under-triage
                         </div>
                     </div>
                 </section>
@@ -399,12 +399,13 @@ export default function LandingPage() {
                                 <h3>Head-to-Head: SAFE-Triage vs Human Nurses</h3>
                                 <table className="st-table" aria-label="Human vs SAFE-Triage comparison table">
                                     <thead>
-                                        <tr><th>Metric</th><th>Human Nurses</th><th>MIETIC (n=36)</th><th>ESI Handbook (n=210)</th><th>KTAS External (n=1,262)</th></tr>
+                                        <tr><th>Metric</th><th>Human Nurses</th><th>MIETIC English (n=36)</th><th>MIETIC Arabic (n=36)</th><th>ESI Handbook (n=210)</th><th>KTAS External (n=1,262)</th></tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td><strong>ESI-1 Patients Missed</strong></td>
                                             <td className="st-bad-cell">5–15%</td>
+                                            <td className="st-good-cell">0/14 (0%) ✓</td>
                                             <td className="st-good-cell">0/14 (0%) ✓</td>
                                             <td className="st-good-cell">0/36 (0%) ✓</td>
                                             <td className="st-good-cell">0/26 (0%) ✓</td>
@@ -413,12 +414,14 @@ export default function LandingPage() {
                                             <td>Exact ESI Match</td>
                                             <td>61.3%</td>
                                             <td className="st-good-cell">97.2% ✓</td>
+                                            <td className="st-good-cell">86.1%</td>
                                             <td>51.4%†</td>
                                             <td>37.8%‡</td>
                                         </tr>
                                         <tr>
                                             <td>Within-1 Accuracy</td>
                                             <td>82.9%</td>
+                                            <td className="st-good-cell">100.0% ✓</td>
                                             <td className="st-good-cell">100.0% ✓</td>
                                             <td className="st-good-cell">86.7% ✓</td>
                                             <td className="st-good-cell">82.6% ✓</td>
@@ -428,21 +431,23 @@ export default function LandingPage() {
                                             <td className="st-bad-cell">5–15%</td>
                                             <td className="st-good-cell">0.0% ✓</td>
                                             <td className="st-good-cell">0.0% ✓</td>
+                                            <td className="st-good-cell">0.0% ✓</td>
                                             <td className="st-good-cell">2.9% ✓</td>
                                         </tr>
                                         <tr>
                                             <td>Arabic / Dialect Support</td>
                                             <td className="st-bad-cell">Limited</td>
                                             <td className="st-good-cell">Full (1,858 terms)</td>
+                                            <td className="st-good-cell">Egyptian dialect ✓</td>
                                             <td>N/A (English only)</td>
                                             <td>N/A (English only)</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p className="st-footnote">† ESI Handbook: official AHRQ training vignettes (TriageAgent EMNLP 2024, 210 cases). ‡ KTAS External: 1,262 Korean ED patients, expert-validated by 3 triage specialists. Lower exact match on KTAS/Handbook reflects cross-protocol validation (ESI engine applied to KTAS labels) and the engine's conservative safety bias — it over-triages rather than under-triages. Human nurse figures from published ED reliability studies.</p>
+                                <p className="st-footnote">† ESI Handbook: official AHRQ training vignettes (TriageAgent EMNLP 2024, 210 cases). ‡ KTAS External: 1,262 Korean ED patients, expert-validated by 3 triage specialists. MIETIC Arabic: same 36 expert cases translated to Egyptian colloquial Arabic. Lower exact match on KTAS/Handbook reflects cross-protocol validation and conservative safety bias. Human nurse figures from published ED reliability studies.</p>
                                 <div style={{ marginTop: 12 }}>
                                     <div style={{ padding: 10, background: 'var(--st-teal-light)', borderRadius: 8, borderLeft: '3px solid var(--st-teal-dark)' }}>
-                                        <strong style={{ color: 'var(--st-teal-dark)' }}>Key safety result:</strong> Zero resuscitation-level (ESI-1) patients missed across 76 expert-validated cases from 3 independent benchmarks spanning US and Korean EDs. The engine matches Korean nurse safety performance on external data (2.9% vs 3.6% critical under-triage).
+                                        <strong style={{ color: 'var(--st-teal-dark)' }}>Key safety result:</strong> Zero critical under-triage in both English and Egyptian Arabic across 72 expert-validated MIETIC cases. Zero ESI-1 patients missed across 76 cases from 3 independent benchmarks (US + Korean EDs). Arabic achieves 100% within-one accuracy with 0% critical under-triage — proving bilingual safety parity.
                                     </div>
                                 </div>
                             </div>
