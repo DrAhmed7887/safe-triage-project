@@ -13,6 +13,7 @@ PyPDF2==3.0.1
 python-multipart==0.0.9
 google-cloud-speech==2.24.0
 google-generativeai>=0.8.0
+slowapi==0.1.9
 reportlab==4.1.0
 arabic-reshaper==3.0.0
 python-bidi==0.4.2

@@ -1,8 +1,11 @@
-from fastapi import FastAPI, HTTPException, Depends, UploadFile, File, Form, Header, Body
+from fastapi import FastAPI, HTTPException, Depends, Request, UploadFile, File, Form, Header, Body
 from fastapi.responses import StreamingResponse, JSONResponse
 from validators import validate_gender_complaint
 from audit_service import audit_service
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from sqlalchemy.orm import Session
 from typing import List, Optional, Dict, Any, Tuple
 import tempfile
@@ -76,6 +79,11 @@ from stats_service import (
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="SAFE-Triage AI System", version="2.0.0")
+
+# Rate Limiting — protects against API abuse, quota exhaustion, and PIN brute-force
+limiter = Limiter(key_func=get_remote_address, default_limits=["60/minute"])
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # CORS Setup
 app.add_middleware(
@@ -2615,7 +2623,9 @@ os.makedirs(VOICE_NOTES_DIR, exist_ok=True)
 
 
 @app.post("/transcribe")
+@limiter.limit("20/minute")
 async def transcribe_audio(
+    request: Request,
     audio: UploadFile = File(...),
     language: str = Form("auto"),
     patient_id: str = Form(""),
@@ -2742,7 +2752,8 @@ async def alert_queue_status():
 
 
 @app.post("/test-alert")
-def test_alert(user: dict = Depends(require_firebase_user)):
+@limiter.limit("3/minute")
+def test_alert(request: Request, user: dict = Depends(require_firebase_user)):
     """Send a test alert to verify push + email delivery. Requires authentication."""
     payload = {
         "alert_level": AlertLevel.CODE_RED,
@@ -2778,7 +2789,8 @@ def get_pending_confirmations():
 
 
 @app.post("/confirm-triage")
-def confirm_triage(confirmation: TriageConfirmationRequest):
+@limiter.limit("5/minute")
+def confirm_triage(request: Request, confirmation: TriageConfirmationRequest):
     """
     Record human confirmation of AI recommendation.
 
@@ -2830,7 +2842,8 @@ def confirm_triage(confirmation: TriageConfirmationRequest):
     }
 
 @app.post("/triage", response_model=TriageResult)
-def triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
+@limiter.limit("30/minute")
+def triage_patient(request: Request, patient: PatientInput, db: Session = Depends(get_db)):
     _validate_patient_id_or_raise(patient.patient_id)
     _normalize_patient_vitals_for_triage(patient)
     complaint_text = (patient.chief_complaint_text or "").strip()
@@ -2994,7 +3007,8 @@ def triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail="An internal error occurred. Contact support.")
 
 @app.post("/ai-triage")
-def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
+@limiter.limit("30/minute")
+def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Depends(get_db)):
     """
     AI-enhanced triage endpoint.
     
@@ -4055,7 +4069,8 @@ def ai_triage_patient(patient: PatientInput, db: Session = Depends(get_db)):
 
 
 @app.post("/triage-pure-ai")
-def triage_pure_ai(patient: PatientInput):
+@limiter.limit("30/minute")
+def triage_pure_ai(request: Request, patient: PatientInput):
     """Pure AI mode: no deterministic triage rules or NEWS2-based ESI overrides."""
     try:
         _validate_patient_id_or_raise(patient.patient_id)
@@ -4285,7 +4300,8 @@ def notification_config_status(user: Dict[str, Any] = Depends(require_supervisor
 
 
 @app.post("/medgemma/hourly-review", tags=["MedGemma QA"])
-async def trigger_medgemma_hourly():
+@limiter.limit("5/minute")
+async def trigger_medgemma_hourly(request: Request):
     """Manually trigger hourly MedGemma batch QA (Cloud Scheduler target)."""
     try:
         result = await run_hourly_job()
@@ -4300,9 +4316,10 @@ async def trigger_medgemma_hourly():
 
 
 @app.post("/medgemma/review-now")
-async def medgemma_review_now():
+@limiter.limit("5/minute")
+async def medgemma_review_now(request: Request):
     """Backward-compatible alias for immediate manual MedGemma review."""
-    return await trigger_medgemma_hourly()
+    return await trigger_medgemma_hourly(request)
 
 
 @app.get("/medgemma/status", tags=["MedGemma QA"])
