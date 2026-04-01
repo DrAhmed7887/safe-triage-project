@@ -2619,7 +2619,9 @@ async def transcribe_audio(
     """🎤 Voice Input: Convert speech to medical text via Gemini"""
     tmp_path = None
     try:
-        suffix = os.path.splitext(audio.filename or "")[1] or ".wav"
+        ALLOWED_AUDIO_EXTENSIONS = {".wav", ".webm", ".mp3", ".ogg", ".m4a", ".flac"}
+        raw_suffix = os.path.splitext(audio.filename or "")[1].lower()
+        suffix = raw_suffix if raw_suffix in ALLOWED_AUDIO_EXTENSIONS else ".wav"
         with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
             content = await audio.read()
             audio_size = len(content or b"")
