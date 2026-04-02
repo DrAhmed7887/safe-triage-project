@@ -85,6 +85,41 @@ else:
 
 load_dotenv()
 
+# ===== MODULE-LEVEL REGEX CONSTANTS =====
+# Pre-compiled at import time — used in hot-path _fallback_keyword_match.
+_DENIED_TERMS = (
+    r"(?:fever|cough|chills|nausea|vomiting|diarrhea|headache|"
+    r"rash|bleeding|bloody stools|chest pain|abdominal pain|"
+    r"shortness of breath|drainage|weight loss|weight changes|"
+    r"dysuria|hematuria|pain|swelling)"
+)
+_NEGATION_RE = re.compile(
+    r'\b(?:denies?|negative for)\s+'
+    + _DENIED_TERMS
+    + r'(?:\s*,\s*' + _DENIED_TERMS + r')*'
+    + r'(?:\s*,?\s*(?:and|or)\s+' + _DENIED_TERMS + r')?',
+    re.IGNORECASE,
+)
+_NO_BENIGN_RE = re.compile(
+    r'\b(?:reported no|no)\s+(?:pain|fever|cough|bleeding|vomiting|nausea|headache|diarrhea|rash|swelling)\b'
+)
+_AR_LETTER = r'[\u0621-\u063A\u0641-\u064A\u0660-\u0669\u0670-\u06D3]'
+_AR_WORD = _AR_LETTER + r'+'
+_AR_NEGATION_RE = re.compile(
+    r'(?:بينفي|بتنفي|مفيش|من غير|بدون|مش عنده|مش عندها)'
+    r'(?:\s+(?:أي|اي))?'
+    r'\s+' + _AR_WORD
+    + r'(?:[،,]\s*' + _AR_WORD + r')*'
+    + r'(?:[،,]?\s*(?:أو|او)\s+' + _AR_WORD + r'(?:\s+' + _AR_WORD + r')*)?'
+)
+_AR_MED_ALLERGY_RE = re.compile(
+    r'(?:حساسية من|وحساسية من|حساسيه من)\s+' + _AR_WORD
+    + r'(?:\s+' + _AR_WORD + r')*'
+)
+_AR_NORMAL_TEMP_RE = re.compile(
+    r'حرارة\s*[:=]?\s*(?:3[5-7](?:\.\d+)?)\s*(?:مئوية|درجة)?'
+)
+
 # ===== PERFORMANCE FIX: Lazy import of google.generativeai =====
 # This module takes ~500ms to import, so we defer it until first use
 genai = None  # Will be loaded on demand
@@ -255,9 +290,6 @@ def _text_has_fever_signal(text: str) -> bool:
         return False
     # Arabic normal-temperature reporting patterns that should NOT trigger fever.
     # e.g. "وحرارة 37.4 مئوية" or "حرارة 36.8" are vitals reports, not complaints.
-    _AR_NORMAL_TEMP_RE = re.compile(
-        r'حرارة\s*[:=]?\s*(?:3[5-7](?:\.\d+)?)\s*(?:مئوية|درجة)?'
-    )
     if _AR_NORMAL_TEMP_RE.search(text):
         # "حرارة" appeared only as a normal temperature reading — skip it.
         # But still check for explicit fever complaint words.
@@ -2169,24 +2201,6 @@ class AISymptomClassifier:
         # strip would delete true-positive symptoms that follow a comma
         # (e.g., "denies fever, sudden testicular pain" must keep the
         # high-risk phrase).
-        _DENIED_TERMS = (
-            r"(?:fever|cough|chills|nausea|vomiting|diarrhea|headache|"
-            r"rash|bleeding|bloody stools|chest pain|abdominal pain|"
-            r"shortness of breath|drainage|weight loss|weight changes|"
-            r"dysuria|hematuria|pain|swelling)"
-        )
-        # Match "denies <term>" and optional ", <term>" continuations
-        _NEGATION_RE = re.compile(
-            r'\b(?:denies?|negative for)\s+'
-            + _DENIED_TERMS
-            + r'(?:\s*,\s*' + _DENIED_TERMS + r')*'
-            + r'(?:\s*,?\s*(?:and|or)\s+' + _DENIED_TERMS + r')?',
-            re.IGNORECASE,
-        )
-        # Handle "reported no <benign term>" and "no <benign term>"
-        _NO_BENIGN_RE = re.compile(
-            r'\b(?:reported no|no)\s+(?:pain|fever|cough|bleeding|vomiting|nausea|headache|diarrhea|rash|swelling)\b'
-        )
         normalized_text = _NEGATION_RE.sub('', normalized_text)
         normalized_text = _NO_BENIGN_RE.sub('', normalized_text)
         text_lower = _NEGATION_RE.sub('', text_lower)
@@ -2194,23 +2208,10 @@ class AISymptomClassifier:
         # Arabic negation stripping — remove denied symptom phrases so that
         # downstream keyword matching does not false-positive on negated terms.
         # E.g. "بينفي أي سخونية، رعشة، إسهال" → strip the whole denied list.
-        _AR_LETTER = r'[\u0621-\u063A\u0641-\u064A\u0660-\u0669\u0670-\u06D3]'
-        _AR_WORD = _AR_LETTER + r'+'
-        _AR_NEGATION_RE = re.compile(
-            r'(?:بينفي|بتنفي|مفيش|من غير|بدون|مش عنده|مش عندها)'
-            r'(?:\s+(?:أي|اي))?'
-            r'\s+' + _AR_WORD
-            + r'(?:[،,]\s*' + _AR_WORD + r')*'
-            + r'(?:[،,]?\s*(?:أو|او)\s+' + _AR_WORD + r'(?:\s+' + _AR_WORD + r')*)?'
-        )
         normalized_text = _AR_NEGATION_RE.sub('', normalized_text)
         text_lower = _AR_NEGATION_RE.sub('', text_lower)
         # Strip medication allergy history — "حساسية من X" (allergy to drug)
         # is medical history, NOT an allergic reaction complaint.
-        _AR_MED_ALLERGY_RE = re.compile(
-            r'(?:حساسية من|وحساسية من|حساسيه من)\s+' + _AR_WORD
-            + r'(?:\s+' + _AR_WORD + r')*'
-        )
         normalized_text = _AR_MED_ALLERGY_RE.sub('', normalized_text)
         text_lower = _AR_MED_ALLERGY_RE.sub('', text_lower)
 
@@ -2220,10 +2221,7 @@ class AISymptomClassifier:
         # NOTE: "حرارة" must be checked against normal-temp negation to avoid
         # false-positives on "وحرارة 37.4 مئوية" (vitals reporting).
         fever_tokens = ["سخونية", "حمى", "fever", "febrile", "high fever"]
-        _ar_normal_temp_re_guard = re.compile(
-            r'حرارة\s*[:=]?\s*(?:3[5-7](?:\.\d+)?)\s*(?:مئوية|درجة)?'
-        )
-        _has_ar_harara = "حرارة" in normalized_text and not _ar_normal_temp_re_guard.search(normalized_text)
+        _has_ar_harara = "حرارة" in normalized_text and not _AR_NORMAL_TEMP_RE.search(normalized_text)
         abdominal_tokens = ["بطني", "وجع بطن", "الم بطن", "ألم بطن", "stomach pain", "abdominal pain", "مغص"]
         if (any(token in normalized_text for token in fever_tokens) or _has_ar_harara) and any(
             token in normalized_text for token in abdominal_tokens
@@ -2880,6 +2878,13 @@ class AISymptomClassifier:
                                   "دم بينزل", "دم كتير", "بينزف دم"],
             "pediatric_distress": ["child sick", "طفل", "ابني", "بنتي",
                                     "طفلي", "العيل", "البيبي", "الرضيع"],
+            # ESI 3 — Panic/anxiety. Phrases like "خايف أموت" are colloquial
+            # Egyptian panic expressions, not cardiac complaints. Placed here
+            # to match SYMPTOM_CATEGORIES which maps panic_anxiety → ESI 3.
+            "panic_anxiety": ["panic attack", "anxiety",
+                             "خنقة في زوري", "خايف أموت",
+                             "روحي بتطلع", "قلبي هيقف وحاسس بخنقة",
+                             "جسمي بيترعش من غير سبب"],
         }
 
         for category, keywords in level3_keywords.items():
@@ -2891,10 +2896,7 @@ class AISymptomClassifier:
         # Only triggers fever_with_symptoms when "حرارة" is NOT followed by a
         # normal value (35-37.x).
         if "حرارة" in text_lower:
-            _ar_normal_temp_re_l3 = re.compile(
-                r'حرارة\s*[:=]?\s*(?:3[5-7](?:\.\d+)?)\s*(?:مئوية|درجة)?'
-            )
-            if not _ar_normal_temp_re_l3.search(text_lower):
+            if not _AR_NORMAL_TEMP_RE.search(text_lower):
                 return "fever_with_symptoms"
         
         # Level 4 keywords
@@ -2949,12 +2951,8 @@ class AISymptomClassifier:
             "skin_wound": ["abscess", "خراج", "دمل", "صديد",
                           "الجرح صديد", "الحتة دي قابة", "قرصة حشرة",
                           "الخياطة فكت", "خراج محتاج يتفتح"],
-            "panic_anxiety": ["panic attack", "anxiety",
-                             "خنقة في زوري", "خايف أموت",
-                             "روحي بتطلع", "قلبي هيقف وحاسس بخنقة",
-                             "جسمي بيترعش من غير سبب"],
         }
-        
+
         for category, keywords in level4_keywords.items():
             for kw in keywords:
                 if kw in text_lower:

@@ -20,9 +20,14 @@
 | Within-one-level | 1042 (82.6%) |
 | Under-triage (all) | 136 (10.8%) |
 | Over-triage (all) | 649 (51.4%) |
-| **Critical under-triage** | **37 (2.9%)** |
+| **High-acuity under-triage** | **37 (2.9%)** |
 
-> SAFETY GATE: **FAILED** (37 critical under-triage cases)
+> SAFETY GATE: **FAILED** (37 high-acuity under-triage cases)
+>
+> **Metric definition:** Any under-triage of a KTAS 1 or 2 patient by ≥1 level.
+> Note: 36/37 are 1-level misses (ESI 1→2 or ESI 2→3). Only 1 case (ktas_row_694)
+> is a ≥2-level miss. Under the strict ACS-COT definition (≥2-level miss of ESI 1/2),
+> true critical under-triage = 1 case (0.08%).
 
 ## Per-Class Recall
 

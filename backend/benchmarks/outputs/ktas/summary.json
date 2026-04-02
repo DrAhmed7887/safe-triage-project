@@ -37,8 +37,9 @@
     "under_triage_rate": 0.1078,
     "over_triage": 649,
     "over_triage_rate": 0.5143,
-    "critical_under_triage": 37,
-    "critical_under_triage_rate": 0.0293,
+    "high_acuity_under_triage": 37,
+    "high_acuity_under_triage_rate": 0.0293,
+    "critical_under_triage_note": "Metric = any under-triage of KTAS 1 or 2 by >=1 level. Under strict ACS-COT definition (>=2-level miss of KTAS 1/2), true critical under-triage = 1 case (ktas_row_694, 0.08%).",
     "per_class_recall": {
       "1": 0.2692,
       "2": 0.7854,
@@ -83,7 +84,7 @@
         "5": 0
       }
     },
-    "critical_under_triage_cases": [
+    "high_acuity_under_triage_cases": [
       {
         "case_id": "ktas_row_61",
         "actual_esi": 2,

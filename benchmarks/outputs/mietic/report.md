@@ -6,7 +6,7 @@
 - **Total cases**: 36
 - **Acuity distribution**: {1: 14, 2: 11, 3: 5, 4: 4, 5: 2}
 - **Cases with missing vitals**: 11
-- **Timestamp**: 20260402T014916Z
+- **Timestamp**: 20260402T015928Z
 
 ## Summary Metrics
 

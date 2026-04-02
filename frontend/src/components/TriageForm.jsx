@@ -701,7 +701,10 @@ export default function TriageForm({ onResult }) {
             
             // Select endpoint based on AI toggle
             const endpoint = useAI ? `${API_URL}/ai-triage` : `${API_URL}/triage`;
-            const token = await getIdToken().catch(() => null);
+            const token = await getIdToken().catch((e) => {
+                console.warn('[auth] getIdToken failed — triage submitted without clinician identity:', e?.code);
+                return null;
+            });
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
             const res = await axios.post(endpoint, payload, { headers });
             

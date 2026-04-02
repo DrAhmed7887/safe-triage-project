@@ -148,7 +148,7 @@ Patient Complaint (Arabic/English)
 | Dataset | Source | Cases | Purpose |
 |---------|--------|-------|---------|
 | MIMIC-IV-ED | MIT/PhysioNet | 425,000+ | Large-scale ED visit validation |
-| MIETIC | Expert panel | 299 | Expert-validated ESI labels |
+| MIETIC (RETAIN subset) | Expert panel | 36 | Primary validation benchmark (36 expert-reviewed cases from MIMIC-IV-ED Triage Instruction Corpus) |
 | Korean KTAS | External | — | Cross-cultural generalizability |
 | Custom Arabic | Internal | 156+ | Egyptian dialect stress testing |
 

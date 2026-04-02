@@ -3576,13 +3576,12 @@ def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Dep
                 + [f"Resource-aware ESI assignment: {fallback_resource_count} expected ED resources"]
                 + ([reasoning_floor_note] if reasoning_floor_note else [])
                 + critical_floor_reasoning,
-                "reasoning_ar": [getattr(std_det_result, "decision_path_ar", "تم استخدام الفرز الحتمي")]
-                + [ai_result.get("message_ar", "تم استخدام الفرز الحتمي") if ai_result else "تم استخدام الفرز الحتمي"]
-                + [f"تقدير الموارد المتوقعة للحالة: {fallback_resource_count}"]
-                + (
-                    ["تم تطبيق تصعيد احتياطي بناءً على الاستدلال الطبي للذكاء الاصطناعي"]
-                    if reasoning_floor_note
-                    else []
+                "reasoning_ar": derive_safe_arabic_reasoning(
+                    esi_reasoning=esi_v5_fallback.reasoning,
+                    resource_count=fallback_resource_count,
+                    silent_mi_forced="silent_mi" in fallback_floors_applied,
+                    reasoning_floor_note=reasoning_floor_note,
+                    critical_floor_notes=critical_floor_notes,
                 ),
                 "reasoning_en": (esi_v5_fallback.reasoning or [])
                 + [getattr(std_det_result, "decision_path_en", "Deterministic fallback applied")]
