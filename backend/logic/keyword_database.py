@@ -1108,7 +1108,7 @@ DEFAULT_KEYWORDS = {
         
         "dental": {
             "keywords": [
-                "ضرس", "سنة", "أسنان", "tooth", "dental", "ضرسي بيوجعني",
+                "ضرس", "وجع سنة", "أسنان", "tooth", "dental", "ضرسي بيوجعني",
                 "toothache", "وجع ضرس", "dental abscess"
             ],
             "added_by_ai": [],

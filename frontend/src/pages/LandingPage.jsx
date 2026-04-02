@@ -73,9 +73,10 @@ export default function LandingPage() {
                 qualifier: 'MIETIC + ESI Handbook (246 cases)',
             },
             {
-                value: '0%',
-                label: 'Arabic Critical Under-triage',
-                qualifier: 'Egyptian dialect — 36 MIETIC cases',
+                value: '100%',
+                label: 'Arabic–English Parity',
+                qualifier: '36/36 MIETIC cases · 2,000+ Egyptian dialect terms',
+                isNew: true,
             },
             {
                 value: '97.2%',
@@ -240,7 +241,8 @@ export default function LandingPage() {
                     <div className="st-container st-hero-stats-wrap">
                         <div className="st-hero-stats">
                             {heroStats.map((stat) => (
-                                <div key={stat.label} className="st-hero-stat">
+                                <div key={stat.label} className={`st-hero-stat${stat.isNew ? ' st-hero-stat-highlight' : ''}`}>
+                                    {stat.isNew && <span className="st-new-badge">NEW</span>}
                                     <div className="st-num">{stat.value}</div>
                                     <div className="st-stat-label">{stat.label}</div>
                                     <div className="st-qualifier">{stat.qualifier}</div>
@@ -248,7 +250,7 @@ export default function LandingPage() {
                             ))}
                         </div>
                         <div className="st-validation-banner">
-                            0% critical under-triage in English AND Egyptian Arabic · 0 resuscitation patients missed across 76 ESI-1 cases · Validated on 1,544 cases (English + Arabic + Korean) · Bilingual safety parity: Arabic 100% within-one, 0% critical under-triage
+                            0% critical under-triage in English AND Egyptian Arabic · 0 resuscitation patients missed across 76 ESI-1 cases · Validated on 1,544+ cases (English + Arabic + Korean) · <strong>Arabic 100% exact match on all 36 MIETIC cases</strong> · 2,000+ Egyptian dialect medical terms
                         </div>
                     </div>
                 </section>
@@ -414,7 +416,7 @@ export default function LandingPage() {
                                             <td>Exact ESI Match</td>
                                             <td>61.3%</td>
                                             <td className="st-good-cell">97.2% ✓</td>
-                                            <td className="st-good-cell">86.1%</td>
+                                            <td className="st-good-cell">100.0% ✓</td>
                                             <td>51.4%†</td>
                                             <td>37.8%‡</td>
                                         </tr>
@@ -437,8 +439,8 @@ export default function LandingPage() {
                                         <tr>
                                             <td>Arabic / Dialect Support</td>
                                             <td className="st-bad-cell">Limited</td>
-                                            <td className="st-good-cell">Full (1,858 terms)</td>
-                                            <td className="st-good-cell">Egyptian dialect ✓</td>
+                                            <td className="st-good-cell">Full (2,000+ terms)</td>
+                                            <td className="st-good-cell">100% parity ✓</td>
                                             <td>N/A (English only)</td>
                                             <td>N/A (English only)</td>
                                         </tr>
@@ -447,7 +449,7 @@ export default function LandingPage() {
                                 <p className="st-footnote">† ESI Handbook: official AHRQ training vignettes (TriageAgent EMNLP 2024, 210 cases). ‡ KTAS External: 1,262 Korean ED patients, expert-validated by 3 triage specialists. MIETIC Arabic: same 36 expert cases translated to Egyptian colloquial Arabic. Lower exact match on KTAS/Handbook reflects cross-protocol validation and conservative safety bias. Human nurse figures from published ED reliability studies.</p>
                                 <div style={{ marginTop: 12 }}>
                                     <div style={{ padding: 10, background: 'var(--st-teal-light)', borderRadius: 8, borderLeft: '3px solid var(--st-teal-dark)' }}>
-                                        <strong style={{ color: 'var(--st-teal-dark)' }}>Key safety result:</strong> Zero critical under-triage in both English and Egyptian Arabic across 72 expert-validated MIETIC cases. Zero ESI-1 patients missed across 76 cases from 3 independent benchmarks (US + Korean EDs). Arabic achieves 100% within-one accuracy with 0% critical under-triage — proving bilingual safety parity.
+                                        <strong style={{ color: 'var(--st-teal-dark)' }}>Key safety result:</strong> Zero critical under-triage in both English and Egyptian Arabic across 72 expert-validated MIETIC cases. Zero ESI-1 patients missed across 76 cases from 3 independent benchmarks (US + Korean EDs). Arabic achieves <strong>100% exact ESI match</strong> (36/36) with 0% critical under-triage — full bilingual safety parity powered by 2,000+ Egyptian dialect medical terms.
                                     </div>
                                 </div>
                             </div>

@@ -1,8 +1,8 @@
 {
   "metadata": {
     "version": "2.0.0",
-    "last_updated": "2026-03-31T02:09:56.911417",
-    "total_keywords": 1582,
+    "last_updated": "2026-04-02T01:59:57.378634",
+    "total_keywords": 1585,
     "updates_count": 0,
     "audit_compliance": "ESI v4 + NEWS2",
     "icd10_compliant": true,
@@ -2125,14 +2125,17 @@
     "dental": {
       "keywords": [
         "ضرس",
-        "سنة",
+        "سنتي بتوجعني",
         "أسنان",
         "tooth",
         "dental",
         "ضرسي بيوجعني",
         "toothache",
         "وجع ضرس",
-        "dental abscess"
+        "dental abscess",
+        "وجع سنة",
+        "ضرسي بينقح",
+        "سنتي وجعاني"
       ],
       "added_by_ai": [],
       "priority": 4,

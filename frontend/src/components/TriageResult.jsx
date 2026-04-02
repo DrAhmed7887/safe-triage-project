@@ -312,13 +312,17 @@ export default function TriageResult({ result, onReset }) {
                                     </span>
                                 ) : (
                                     <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-300 text-slate-600 text-xs font-mono">
-                                        Pending
+                                        {result?.isAI === false ? 'Offline mode' : 'No confident match'}
                                     </span>
                                 )}
                                 {snomedTerm ? (
                                     <span className="text-slate-700">{snomedTerm}</span>
                                 ) : (
-                                    <span className="text-slate-400 italic text-xs">AI mapping in progress | جاري التصنيف</span>
+                                    <span className="text-slate-400 italic text-xs">
+                                        {result?.isAI === false
+                                            ? 'AI required for SNOMED mapping | يتطلب الذكاء الاصطناعي'
+                                            : 'No confident SNOMED match found | لم يتم العثور على تطابق'}
+                                    </span>
                                 )}
                             </div>
                         </div>

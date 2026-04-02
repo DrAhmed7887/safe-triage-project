@@ -29,6 +29,7 @@ from models import (
     TriageConfirmationStart,
     TriageConfirmationPending,
 )
+from logic.arabic_reasoning import derive_safe_arabic_reasoning
 from logic.deterministic_triage import DeterministicTriageEngine, VitalSignsValidator
 from database import engine, Base, get_db
 from sql_models import Patient
@@ -2303,6 +2304,20 @@ def _validate_patient_id_or_raise(patient_id: Optional[str]) -> None:
     )
 
 
+def _optional_firebase_user(authorization: str = Header(None)) -> Optional[dict]:
+    """Like require_firebase_user but returns None instead of 401 when no token."""
+    if not authorization or not authorization.startswith("Bearer "):
+        return None
+    token = authorization.split(" ", 1)[1].strip()
+    try:
+        request = google_requests.Request()
+        audience = os.getenv("FIREBASE_PROJECT_ID", "safe-triage-ai")
+        claims = id_token.verify_firebase_token(token, request, audience=audience)
+        return claims or {}
+    except Exception:
+        return None
+
+
 def _resolve_clinician_id(user: Dict[str, Any]) -> str:
     for key in ("uid", "user_id", "sub"):
         value = user.get(key)
@@ -2843,7 +2858,7 @@ def confirm_triage(request: Request, confirmation: TriageConfirmationRequest):
 
 @app.post("/triage", response_model=TriageResult)
 @limiter.limit("30/minute")
-def triage_patient(request: Request, patient: PatientInput, db: Session = Depends(get_db)):
+def triage_patient(request: Request, patient: PatientInput, db: Session = Depends(get_db), firebase_user: Optional[dict] = Depends(_optional_firebase_user)):
     _validate_patient_id_or_raise(patient.patient_id)
     _normalize_patient_vitals_for_triage(patient)
     complaint_text = (patient.chief_complaint_text or "").strip()
@@ -2998,6 +3013,7 @@ def triage_patient(request: Request, patient: PatientInput, db: Session = Depend
             safety_floor_count=len(floors_applied),
             icd10_codes=[enriched.get("icd10_coding", {}).get("code")],
             ai_confidence=deterministic_confidence,
+            clinician_id=_resolve_clinician_id(firebase_user) if firebase_user else None,
             session_mode="standard"
         )
         
@@ -3008,10 +3024,10 @@ def triage_patient(request: Request, patient: PatientInput, db: Session = Depend
 
 @app.post("/ai-triage")
 @limiter.limit("30/minute")
-def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Depends(get_db)):
+def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Depends(get_db), firebase_user: Optional[dict] = Depends(_optional_firebase_user)):
     """
     AI-enhanced triage endpoint.
-    
+
     AUDIT FIX: Properly handles AI fallback flag.
     When AI fails, uses deterministic engine instead of hardcoded Level 3.
     """
@@ -3505,6 +3521,7 @@ def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Dep
                     icd10_codes=[icd10_coding.get("primary_code")] if icd10_coding else [],
                     ai_confidence=fallback_confidence,
                     rag_sources=ai_safe.get("rag_sources"),
+                    clinician_id=_resolve_clinician_id(firebase_user) if firebase_user else None,
                     session_mode="ai_fallback",
                 )
             except Exception as audit_exc:
@@ -3948,6 +3965,7 @@ def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Dep
             icd10_codes=[icd10_coding.get("primary_code")] if icd10_coding else [],
             ai_confidence=ai_result.get("confidence_score", ai_result.get("confidence")),
             rag_sources=ai_result.get("rag_sources"),
+            clinician_id=_resolve_clinician_id(firebase_user) if firebase_user else None,
             session_mode="ai" if use_ai_override else ("ai_partial" if use_gemini_partial else "ai_low_confidence_deterministic")
         )
 
@@ -3998,18 +4016,12 @@ def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Dep
             + (["Silent MI safety floor applied to prevent under-triage"] if silent_mi_forced_upgrade else [])
             + ([reasoning_floor_note] if reasoning_floor_note else [])
             + critical_floor_reasoning,
-            "reasoning_ar": (
-                [ai_result.get("reasoning_ar")] if ai_result.get("reasoning_ar") else []
-            ) + [f"تقدير الموارد المتوقعة للحالة: {resource_count}"] + (["تم تطبيق قاعدة أمان الجلطة الصامتة لمنع تقليل شدة الفرز"] if silent_mi_forced_upgrade else [])
-            + (
-                ["تم تطبيق تصعيد احتياطي بسبب نمط حرج في الاستدلال الطبي"]
-                if reasoning_floor_note
-                else []
-            )
-            + (
-                ["تم تطبيق قواعد أمان حرجة مبنية على الشكوى قبل تحليل الذكاء الاصطناعي"]
-                if critical_floor_notes
-                else []
+            "reasoning_ar": derive_safe_arabic_reasoning(
+                esi_reasoning=esi_v5_result.reasoning,
+                resource_count=resource_count,
+                silent_mi_forced=silent_mi_forced_upgrade,
+                reasoning_floor_note=reasoning_floor_note,
+                critical_floor_notes=critical_floor_notes,
             ),
             "reasoning_en": (esi_v5_result.reasoning or [])
             + ([ai_result.get("reasoning")] if ai_result.get("reasoning") else [])
@@ -4151,7 +4163,7 @@ def triage_pure_ai(request: Request, patient: PatientInput):
             "extraction_method": "gemini_online",
             "confidence": ai_result.get("confidence_score", ai_result.get("confidence")),
             "reasoning": [ai_result.get("reasoning") or "Pure AI suggestion (no deterministic rules applied)"],
-            "reasoning_ar": [ai_result.get("reasoning_ar")] if ai_result.get("reasoning_ar") else [],
+            "reasoning_ar": ["اقتراح الذكاء الاصطناعي (بدون قواعد حتمية)"],
             "red_flags": sorted(set(red_flags)),
             "ai_data": ai_result,
             "icd10_coding": icd10_coding,

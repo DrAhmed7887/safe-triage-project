@@ -55,7 +55,7 @@ The system is currently live at [safe-triage-ai.web.app](https://safe-triage-ai.
 
 4. **Safety-First Philosophy** — "AI Extracts → Rules Decide → Humans Confirm" puts patient safety above model accuracy.
 
-5. **Validated Performance** — 97.2% within-1 accuracy on MIETIC expert-validated benchmark (n=36). Critical under-triage reduction is an active area of improvement. See `backend/benchmarks/` for reproducible results.
+5. **Validated Performance** — 97.2% exact ESI match, 100% within-one-level, zero critical under-triage on the MIETIC expert-validated benchmark (n=36). See `backend/benchmarks/` for reproducible results.
 
 6. **LMIC Focus** — Built for low- and middle-income country hospitals, with offline capabilities for unreliable infrastructure.
 

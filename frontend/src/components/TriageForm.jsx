@@ -31,6 +31,7 @@ import {
     CheckboxCard 
 } from './ui/FormComponents';
 import ConfirmationDialog from './ConfirmationDialog';
+import { getIdToken } from '../lib/firebaseClient';
 import '../styles/vitals.css';
 
 const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_API_URL || 'http://localhost:8000';
@@ -700,7 +701,9 @@ export default function TriageForm({ onResult }) {
             
             // Select endpoint based on AI toggle
             const endpoint = useAI ? `${API_URL}/ai-triage` : `${API_URL}/triage`;
-            const res = await axios.post(endpoint, payload);
+            const token = await getIdToken().catch(() => null);
+            const headers = token ? { Authorization: `Bearer ${token}` } : {};
+            const res = await axios.post(endpoint, payload, { headers });
             
             // Send result to parent component
             onResult({ result: { ...res.data, isAI: useAI }, input: payload });

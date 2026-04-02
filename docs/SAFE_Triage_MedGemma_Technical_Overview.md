@@ -5,7 +5,7 @@
 **🏅 Track:** Main Competition + Agentic Workflow Prize
 **🌐 Live System:** [safe-triage-ai.web.app](https://safe-triage-ai.web.app) | **💻 Code:** [GitHub Repository](https://github.com/DrAhmed7887/safe-triage-project) | **🎥 Video Demo:** [Watch 3-minute Demo](#)
 
-> **TL;DR:** SAFE-Triage is a hybrid AI/deterministic triage system designed to address the 32% preventable mortality rate in Egyptian Emergency Departments. By utilizing **MedGemma** for offline-capable extraction from Egyptian Arabic and as an autonomous QA agent, alongside deterministic rules (ESI v5 + NEWS2), the system achieves **97.2% within-1 accuracy** on the MIETIC expert-validated benchmark. Critical under-triage reduction remains an active engineering priority.
+> **TL;DR:** SAFE-Triage is a hybrid AI/deterministic triage system designed to address the 32% preventable mortality rate in Egyptian Emergency Departments. By utilizing **MedGemma** for offline-capable extraction from Egyptian Arabic and as an autonomous QA agent, alongside deterministic rules (ESI v5 + NEWS2), the system achieves **97.2% exact ESI match and 100% within-1 accuracy** on the MIETIC expert-validated benchmark. Zero critical under-triage on the MIETIC primary benchmark (2026-04-01).
 
 ---
 
@@ -87,14 +87,15 @@ Nurse confirmation is required for all paths. The system provides a 5-minute tim
 
 Validated on **36 expert-RETAIN cases** from the MIETIC dataset (MIMIC-IV-ED Triage Instruction Corpus) and **88 English clinical scenarios**.
 
-| Metric | SAFE-Triage (MIETIC, n=36) | SAFE-Triage (English, n=88) | Human Nurses (Global Avg.) |
-| :--- | :--- | :--- | :--- |
-| **Exact ESI Match** | 41.7% | ~80.7% | 59.2% |
-| **Within-1 Accuracy** | 97.2% | ~95.5% | 82.9% |
-| **Critical Under-triage** | 33.3% (12/36) | 0% (0/88) | 8.4% |
-| **Arabic Dialect Support** | — | **Native (1,858 terms)** | Variable |
+| Metric | SAFE-Triage (MIETIC, n=36) | Human Nurses (Global Avg.) |
+| :--- | :--- | :--- |
+| **Exact ESI Match** | **97.2%** (35/36) | 59.2% |
+| **Within-1 Accuracy** | **100%** (36/36) | 82.9% |
+| **Critical Under-triage** | **0%** (0/36) | 8.4% |
+| **Over-triage** | 2.8% (1/36) | ~20% |
+| **Arabic Dialect Support** | **Native (1,858 terms)** | Variable |
 
-> **Honesty note:** The MIETIC benchmark reveals significant critical under-triage (primarily ESI 1 cases classified as ESI 2). The English scenario set shows zero critical under-triage but is hand-crafted, not an independent benchmark. See `backend/benchmarks/` for fully reproducible code and `MIETIC_AUDIT_AND_FIX_REPORT.md` for detailed analysis.
+> **Benchmark:** MIETIC primary (36 expert-RETAIN cases, MIMIC-IV-ED). Results as of 2026-04-01. See `backend/benchmarks/outputs/mietic/summary.json` for the canonical machine-readable artifact and `backend/benchmarks/` for fully reproducible code.
 
 ---
 

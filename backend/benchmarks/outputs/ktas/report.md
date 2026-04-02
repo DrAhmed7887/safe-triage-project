@@ -9,7 +9,7 @@
 - **KTAS distribution**: {1: 26, 2: 219, 3: 487, 4: 455, 5: 75}
 - **Missing SpO2**: 692 (55%)
 - **Missing pain score**: 553 (44%)
-- **Timestamp**: 20260401T214801Z
+- **Timestamp**: 20260401T233334Z
 
 ## Summary Metrics
 

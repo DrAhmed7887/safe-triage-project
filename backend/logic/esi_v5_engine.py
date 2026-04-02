@@ -565,6 +565,12 @@ ABDOMINAL_SIGNALS = {
     "بطن",
     "المعدة",
     "معده",
+    # Egyptian dialect
+    "كرشي",        # colloquial belly
+    "مغص",         # colic
+    "البطن",       # the abdomen (definite)
+    "معدتي",       # my stomach
+    "أسفل البطن",  # lower abdomen
 }
 
 BACK_PAIN_SIGNALS = {
@@ -577,6 +583,11 @@ BACK_PAIN_SIGNALS = {
     "ألم ظهر",
     "وجع ضهر",
     "الخاصرة",
+    # Egyptian dialect
+    "ضهري",         # my back (colloquial)
+    "ضهري بيوجعني",  # my back hurts
+    "وسطي",         # my lower back
+    "الخصر",        # waist/flank
 }
 
 ACUTE_ONSET_SIGNALS = {
@@ -589,6 +600,10 @@ ACUTE_ONSET_SIGNALS = {
     "فجاة",
     "فجأة",
     "حاد",
+    # Egyptian dialect
+    "لسه حصل",    # just happened
+    "من شوية",    # a little while ago
+    "دلوقتي",     # right now
 }
 
 ECTOPIC_RISK_SIGNALS = {
@@ -601,6 +616,10 @@ ECTOPIC_RISK_SIGNALS = {
     "حمل خارج الرحم",
     "نزيف مهبلي",
     "ectopic_pregnancy_risk",
+    # Egyptian dialect
+    "حامل ونزيف",      # pregnant and bleeding
+    "حامل ودم بينزل",  # pregnant and blood coming down
+    "حمل برا الرحم",    # pregnancy outside uterus
 }
 
 LOW_ACUITY_UNKNOWN_HINTS = {

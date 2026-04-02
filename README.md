@@ -42,10 +42,12 @@ SAFE-Triage is a **production-deployed, hybrid AI system** that follows one gold
 
 ## MedGemma Integration
 
-SAFE-Triage integrates **MedGemma**, Google's open medical foundation model, as a clinical quality assurance layer:
+SAFE-Triage integrates **MedGemma 4B-IT**, Google's open medical foundation model, deployed natively on **Vertex AI Model Garden** as a clinical quality assurance layer:
 
-- **Batch QA Review** — MedGemma performs asynchronous review of triage decisions, flagging cases where AI extraction may have missed atypical presentations
+- **Vertex AI Deployment** — MedGemma runs on a dedicated Vertex AI endpoint (L4 GPU, scale-to-zero) within the same `safe-triage-ai` Google Cloud project. No third-party API dependencies.
+- **Batch QA Review** — MedGemma performs asynchronous hourly review of triage decisions, flagging cases where AI extraction may have missed atypical presentations
 - **Silent Killer Detection** — Catches high-risk cases with misleading mild symptoms (e.g., diabetic patient with "mild heartburn" → atypical MI → escalated to ESI 2)
+- **QA Dashboard** — Dedicated monitoring dashboard at `/medgemma/dashboard` showing severity breakdown, pattern trends, daily flag volume, and recent flagged cases. Backed by BigQuery analytics views.
 - **Arabic Medical NLP** — Combined with Gemini 2.5-flash, provides robust bilingual understanding of Egyptian dialect medical complaints
 - **Disaster Protocol Activation** — Triggers mass casualty protocols when unusual case volume patterns are detected
 
@@ -57,13 +59,13 @@ The system was submitted to the **MedGemma Impact Challenge on Kaggle** (Februar
 
 | Metric | SAFE-Triage (MIETIC, n=36) | Human Nurses | Industry Standard |
 |--------|---------------------------|--------------|-------------------|
-| **Exact ESI Accuracy** | 69.4% | 61.3% | ~72% |
-| **Within-1 Accuracy** | 94.4% | 82.9% | ~85% |
+| **Exact ESI Accuracy** | **97.2%** (35/36) | 61.3% | ~72% |
+| **Within-1 Accuracy** | **100%** (36/36) | 82.9% | ~85% |
 | **Critical Under-triage** | **0.0%** (0/36) | 5-15% | <5% (ACS-COT) |
-| **Over-triage** | 27.8% | ~20% | ~30% |
+| **Over-triage** | 2.8% (1/36) | ~20% | ~30% |
 
 *Validated on 36 expert-reviewed MIETIC cases (MIMIC-IV-ED Triage Instruction Corpus).
-Zero critical under-triage achieved. Over-triage is the safe direction.
+Zero critical under-triage. 97.2% exact ESI match. 100% within-one-level.
 See `backend/benchmarks/` for fully reproducible benchmark code.*
 
 ---
@@ -130,7 +132,7 @@ Patient Complaint (Arabic/English)
 
 | Component | Technology |
 |-----------|-----------|
-| **AI/NLP** | Gemini 2.5-flash (Vertex AI) + MedGemma |
+| **AI/NLP** | Gemini 2.5-flash (Vertex AI) + MedGemma 4B-IT (Vertex AI Model Garden) |
 | **Backend** | Python, FastAPI |
 | **Frontend** | React, Vite |
 | **Hosting** | Google Cloud Run (backend), Firebase Hosting (frontend) |

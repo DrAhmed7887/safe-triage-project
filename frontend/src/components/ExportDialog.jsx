@@ -27,7 +27,7 @@ const ExportDialog = ({ onConfirm, onCancel, loading = false }) => {
                 </div>
                 <div>
                   <strong>What You Are Exporting:</strong>
-                  <p>This export contains only cases you personally confirmed or reviewed. This is not a system-wide export.</p>
+                  <p>This export contains cases you authored (submitted) plus cases you confirmed or reviewed. This is not a system-wide export.</p>
                 </div>
                 <div>
                   <strong>Privacy Protection:</strong>
@@ -56,7 +56,7 @@ const ExportDialog = ({ onConfirm, onCancel, loading = false }) => {
               onChange={(event) => setAcknowledged(event.target.checked)}
               className="mt-1"
             />
-            <span>I understand this export contains only my cases and I will handle it securely.</span>
+            <span>I understand this export contains my authored and reviewed cases and I will handle it securely.</span>
           </label>
         </div>
 

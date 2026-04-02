@@ -89,3 +89,11 @@ landing-preview.html
 Screenshot*.png
 8043391978AZ.pdf
 SAFE.pdf
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# Generated data and outputs
+data/
+output/

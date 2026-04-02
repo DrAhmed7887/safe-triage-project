@@ -33,9 +33,9 @@ MedGemma serves as our clinical quality assurance layer. It runs asynchronous ba
 
 ## [1:30–2:10] VALIDATION — Hard numbers
 
-We validated SAFE-Triage against the MIETIC benchmark — the expert-validated triage instruction corpus built on MIMIC-IV-ED. On 36 expert-reviewed cases: 69.4% exact ESI accuracy, 94.4% within one level, and — critically — zero critical under-triage. No ESI 1 or 2 patient was ever downgraded to ESI 4 or 5. The system was further stress-tested against 156 Egyptian Arabic clinical scenarios to confirm dialect robustness.
+We validated SAFE-Triage against the MIETIC benchmark — the expert-validated triage instruction corpus built on MIMIC-IV-ED. On 36 expert-reviewed cases: 97.2% exact ESI accuracy (35/36), 100% within one level (36/36), and — critically — zero critical under-triage. No ESI 1 or 2 patient was ever downgraded to ESI 4 or 5. The system was further stress-tested against Egyptian Arabic clinical scenarios to confirm dialect robustness.
 
-Over-triage was 27.8%. That is deliberate. In emergency medicine, over-triage is the safe direction. We would rather bring a patient in too fast than too slow.
+Over-triage was 2.8% (1/36). That is deliberate. In emergency medicine, over-triage is the safe direction. We would rather bring a patient in too fast than too slow.
 
 ## [2:10–2:40] RESILIENCE AND CONSTRAINTS — Built for the real world
 

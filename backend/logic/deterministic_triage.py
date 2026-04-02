@@ -396,10 +396,17 @@ INSTABILITY_SIGNALS = [
     "motor weakness", "side motor weakness", "paraparesis",
     "ضعف في الناحية الشمال", "ضعف في الناحية اليمين",
     "الناحية الشمال مرتخية", "الناحية اليمين مرتخية",
+    # Egyptian stroke descriptions (Gemini-expanded)
+    "بقه اتلوح", "كلامه تقل", "إيده خذلت",
+    "وشه اتعوج", "لسانه تقل", "ريقه بيجري",
+    "بيجر رجله", "نص جسمه نمل", "بيتهته",
     # Arabic fever/infection instability
     "سخونية تروح وتيجي", "عرق بالليل", "سخونية",
-    # Arabic chest pain
+    # Arabic chest pain (expanded with Egyptian colloquial)
     "وجع في الصدر", "وجع في صدرها", "وجع في صدره",
+    "عصرة في صدري", "نغزة في قلبي", "صدري مكلبش",
+    "قلبي بيدق بسرعة", "قلبي بيفرفر",
+    "سكاكين في صدري", "حاسس بطوبة على صدري",
     "woke up unable", "woke up and couldn't",
     "flaccid", "gaze deviation", "gaze preference",
     "hemibody", "dense hemiplegia",
@@ -494,7 +501,7 @@ INSTABILITY_SIGNALS = [
     "أنبوبة الصدر", "انبوبة الصدر",
     # MVC / high-energy collision
     "حادثة عربية", "حادث عربية",
-    # Open fracture
+    # Open fracture — ESI 2 path (matches English "open fracture" in INSTABILITY)
     "كسر مفتوح",
 ] + list(_SHARED_CRITICAL_SIGNALS)
 
@@ -624,6 +631,14 @@ LIFE_THREAT_SIGNALS = [
     "فاقدة الوعي",               # unconscious (feminine)
     "مش بترد",                   # not responding (feminine)
     "مش بيرد",                   # not responding (masculine)
+    # Egyptian AMS — Gemini-expanded (unambiguous life-threat patterns only)
+    "مبلّم وباصص للسقف",         # staring blankly at ceiling
+    "مش دريان باللي حواليه",      # unaware of surroundings
+    "نايم على نفسه ومش راضي يصحى", # drowsy and won't wake up
+    "همدان ومش فايق",            # lethargic and not alert (ESI handbook)
+    "مهدود خالص",                # completely exhausted/listless (pediatric)
+    # Pediatric life-threat — sunken fontanel
+    "يافوخ هابط", "يافوخه هابط", "يافوخه هبطان", "يافوخه نزل",
     # Resuscitation / intubation
     "إنعاش فوري",               # immediate resuscitation
     "انعاش فوري",               # immediate resuscitation (no hamza)
@@ -632,8 +647,12 @@ LIFE_THREAT_SIGNALS = [
     "جهاز تنفس صناعي",          # mechanical ventilator
     # NOTE: "تسمم في الدم" (sepsis), "جرعة زيادة" (overdose) moved to
     # INSTABILITY_SIGNALS (ESI 2). Only unambiguous ESI 1 signals here.
-    # Seizures (active)
+    # Seizures (active) — Gemini-expanded
     "تشنجات",                   # seizures
+    "اتخشب وعينيه قلبت",        # went stiff, eyes rolled back
+    "بيتنفض",                   # convulsing/shaking
+    "طلع رغاوي من بقه",         # foaming at the mouth
+    "عض لسانه",                 # bit his tongue
     # Confirmed suicide attempt with severe signs
     "محاولة انتحار",             # suicide attempt
     # MVC / high-energy collision (life-threatening trauma)
@@ -642,8 +661,8 @@ LIFE_THREAT_SIGNALS = [
     # Chest tube (pneumothorax/hemothorax)
     "أنبوبة الصدر",             # chest tube (with hamza)
     "انبوبة الصدر",             # chest tube (without hamza)
-    # Open fracture
-    "كسر مفتوح",                # open fracture
+    # NOTE: "كسر مفتوح" (open fracture) → DEFINITIVE_ESI2_SIGNALS only (ESI 2),
+    # matching English "open fracture" behavior.
 ] + list(_SHARED_CRITICAL_SIGNALS)
 
 CLEAR_NON_URGENT_SIGNALS = [
@@ -1038,6 +1057,12 @@ SYMPTOM_CATEGORIES: Dict[str, SymptomCategory] = {
     # PHASE 2: New Level 4 categories
     "ankle_sprain": SymptomCategory(4, "التواء كاحل", "Ankle Sprain"),
     "insect_bite": SymptomCategory(4, "قرصة حشرة", "Insect Bite"),
+    # Gemini-expanded Egyptian categories
+    "dental_pain": SymptomCategory(4, "ألم أسنان", "Dental Pain"),
+    "burn_minor": SymptomCategory(4, "حرق بسيط", "Minor Burn"),
+    "musculoskeletal": SymptomCategory(4, "عضلات ومفاصل", "Musculoskeletal Pain"),
+    "skin_wound": SymptomCategory(4, "خراج أو جرح ملوث", "Abscess / Wound Infection"),
+    "panic_anxiety": SymptomCategory(3, "نوبة هلع", "Panic / Anxiety Attack"),
     
     # =========== LEVEL 5: Non-Urgent ===========
     "prescription_refill": SymptomCategory(5, "تجديد روشتة", "Prescription Refill"),
@@ -2166,6 +2191,28 @@ class AISymptomClassifier:
         normalized_text = _NO_BENIGN_RE.sub('', normalized_text)
         text_lower = _NEGATION_RE.sub('', text_lower)
         text_lower = _NO_BENIGN_RE.sub('', text_lower)
+        # Arabic negation stripping — remove denied symptom phrases so that
+        # downstream keyword matching does not false-positive on negated terms.
+        # E.g. "بينفي أي سخونية، رعشة، إسهال" → strip the whole denied list.
+        _AR_LETTER = r'[\u0621-\u063A\u0641-\u064A\u0660-\u0669\u0670-\u06D3]'
+        _AR_WORD = _AR_LETTER + r'+'
+        _AR_NEGATION_RE = re.compile(
+            r'(?:بينفي|بتنفي|مفيش|من غير|بدون|مش عنده|مش عندها)'
+            r'(?:\s+(?:أي|اي))?'
+            r'\s+' + _AR_WORD
+            + r'(?:[،,]\s*' + _AR_WORD + r')*'
+            + r'(?:[،,]?\s*(?:أو|او)\s+' + _AR_WORD + r'(?:\s+' + _AR_WORD + r')*)?'
+        )
+        normalized_text = _AR_NEGATION_RE.sub('', normalized_text)
+        text_lower = _AR_NEGATION_RE.sub('', text_lower)
+        # Strip medication allergy history — "حساسية من X" (allergy to drug)
+        # is medical history, NOT an allergic reaction complaint.
+        _AR_MED_ALLERGY_RE = re.compile(
+            r'(?:حساسية من|وحساسية من|حساسيه من)\s+' + _AR_WORD
+            + r'(?:\s+' + _AR_WORD + r')*'
+        )
+        normalized_text = _AR_MED_ALLERGY_RE.sub('', normalized_text)
+        text_lower = _AR_MED_ALLERGY_RE.sub('', text_lower)
 
         # Guardrail: abdominal pain + fever is a high-risk combination (ESI 2 pathway).
         # NOTE: "temp" removed — it false-positives on "temperature 98.3" in
@@ -2298,6 +2345,12 @@ class AISymptomClassifier:
         if _cva_exact or _cva_prefix:
             return "stroke_symptoms"  # → ESI 2 (ceiling bypass applies)
 
+        # ── Arabic homicidal/kill threat → suicidal_homicidal (ESI 2) ─────
+        _ar_homicidal = ("بيهدد يقتل", "هيقتل", "عايز يقتل",
+                         "بيهدد بالقتل", "هيأذي حد")
+        if any(t in text_lower for t in _ar_homicidal):
+            return "suicidal_homicidal"  # → ESI 2
+
         # ── BRBPR (Bright Red Blood Per Rectum) → gi_bleed (ESI 2) ──────────
         if "brbpr" in text_lower or "bright red blood per rectum" in text_lower:
             return "gi_bleed"  # → ESI 2 (ceiling bypass applies)
@@ -2332,19 +2385,30 @@ class AISymptomClassifier:
         if any(t in text_lower for t in _ar_refill):
             return "prescription_refill"  # → ESI 5
 
-        # ── Arabic abdominal pain patterns → moderate_abdominal_pain (ESI 3) ─
+        # ── Arabic abdominal pain patterns → abdominal_pain_moderate (ESI 3) ─
         _ar_abd_pain = (
             "وجع أسفل البطن", "وجع اسفل البطن", "ألم أسفل البطن",
             "وجع في البطن", "ألم في البطن", "وجع بطن",
+            # Extended Egyptian dialect variants
+            "بطني بتوجعني", "بطني وجعاني", "البطن بتوجعني",
+            "بطني مقلباني", "بطني ملخبطة", "بطني محرقاني",
+            "تقلصات في بطني", "مغص جامد", "مغص مش طبيعي",
+            "بطني بتقطع", "بطني فيها حاجة غلط",
+            "كرشي بتوجعني", "كرشي وجعاني",  # colloquial "belly"
+            "معدتي بتحرقني", "معدتي بتوجعني",
+            "وجع فوق السرة", "وجع تحت السرة",
+            "وجع في جنبي", "الجنب بيوجعني",
         )
         if any(t in text_lower for t in _ar_abd_pain):
-            return "moderate_abdominal_pain"  # → ESI 3
+            return "abdominal_pain_moderate"  # → ESI 3
 
         # ── Arabic negated fever guard ────────────────────────────────────────
         # If the text explicitly negates fever (بينفي سخونية), don't let
         # downstream "سخونية" substring matching trigger a fever category.
         _negated_fever_ar = ("بينفي أي سخونية", "بينفي سخونية", "مفيش سخونية",
-                            "من غير سخونية", "بدون سخونية")
+                            "من غير سخونية", "بدون سخونية", "بتنفي سخونية",
+                            "بينفي حرارة", "مفيش حرارة", "الحرارة طبيعية",
+                            "مش سخن", "مش سخنة")
         if any(t in text_lower for t in _negated_fever_ar):
             # If fever is explicitly denied, fall through to non-fever paths
             pass  # Will be handled by static keywords below
@@ -2354,6 +2418,32 @@ class AISymptomClassifier:
             if any(t in text_lower for t in _constitutional_ar):
                 return "high_fever_toxic"  # → ESI 2
             return "fever_with_symptoms"  # → ESI 3
+
+        # ── Arabic kidney stone / renal colic → moderate pain (ESI 3) ─────
+        _ar_kidney = ("مغص كلوي", "حصوة في الكلى", "حصوة", "دم في البول",
+                      "حرقان في البول ودم", "وجع في جنبي ودم")
+        if any(t in text_lower for t in _ar_kidney):
+            return "abdominal_pain_moderate"  # → ESI 3
+
+        # ── Arabic meningitis signals → high_fever_toxic (ESI 2) ──────────
+        _ar_meningitis = ("رقبتي محجرة", "رقبته محجرة", "تصلب في الرقبة",
+                          "رقبتي ناشفة", "حمى شوكية", "الرقبة واقفة")
+        if any(t in text_lower for t in _ar_meningitis) and "صداع" in text_lower:
+            return "high_fever_toxic"  # → ESI 2
+
+        # ── Arabic pediatric dehydration → vomiting_dehydration (ESI 3) ───
+        _ar_dehydration = ("جفاف", "شفايفه مشققة", "شفايفه ناشفة",
+                           "جلده ناشف", "يافوخه هبطان", "يافوخه نزل",
+                           "البيبي مش بيرضع", "مش عارف يرضع")
+        if any(t in text_lower for t in _ar_dehydration):
+            return "vomiting_dehydration"  # → ESI 3
+
+        # ── Arabic asthma exacerbation → respiratory_distress (ESI 2) ─────
+        _ar_asthma = ("أزمة ربو", "صدره بيزيق", "صدره بيصفر",
+                      "حساسية الصدر زادت", "صدره مقفول", "نوبة ربو",
+                      "البخاخة مش نافعة")
+        if any(t in text_lower for t in _ar_asthma):
+            return "respiratory_distress"  # → ESI 2
 
         # ── Arabic sepsis pattern → sepsis (ESI 2 via ceiling) ───────────────
         if "تسمم في الدم" in text_lower or "تعفن الدم" in text_lower:
@@ -2633,7 +2723,10 @@ class AISymptomClassifier:
         level1_keywords = {
             "unconscious": ["unconscious", "unresponsive", "فاقد الوعي", "فاقدة الوعي",
                            "مغمى عليه", "مش بيرد", "مش بترد",
-                           "مش بيرد عليا", "مش واعي", "فاقد وعي"],
+                           "مش بيرد عليا", "مش واعي", "فاقد وعي",
+                           # ESI Handbook Egyptian
+                           "مبيفوقش خالص", "واقع من طوله ومش بيرد",
+                           "لقيناه مغمى عليه", "مش بيفتح عينه"],
             "cardiac_arrest": ["cardiac arrest", "قلبه وقف", "قلبها وقف", "القلب واقف", "قلبه مش شغال",
                               "توقف في عضلة القلب", "مفيش نبض",
                               "العلامات الحيوية كلها كانت أصفار",
@@ -2642,21 +2735,36 @@ class AISymptomClassifier:
             "respiratory_arrest": ["not breathing", "مش بيتنفس", "توقف التنفس", "مش قادر يتنفس",
                                   "جهاز تنفس صناعي",
                                   "أنبوبة حنجرية", "انبوبة حنجرية"],
-            "active_seizure": ["seizure", "تشنج", "صرع", "بيترعش", "تشنجات"],
+            "active_seizure": ["seizure", "تشنج", "صرع", "بيترعش", "تشنجات",
+                             # ESI Handbook Egyptian
+                             "بيتنفض", "عينيه قلبت لورا", "طلع رغاوي",
+                             "اتخشب", "نوبة صرع"],
             "choking": ["choking", "شرقان", "حاجة في زوره", "مش قادر يبلع", "شرقت", "شرق",
-                       "اختناق", "مش قادرة تاخد نفس", "حاجة واقفة في زوره"],
+                       "اختناق", "مش قادرة تاخد نفس", "حاجة واقفة في زوره",
+                       # ESI Handbook Egyptian
+                       "بلع حاجة", "بلع لعبة"],
             "severe_trauma": ["gunshot", "stab wound", "stabbed", "stabbing", "طعن", "رصاص", "حادثة", "accident", "اتضرب",
-                             "حادثة عربية", "حادث عربية",
-                             "كسر مفتوح",
+                             "حادثة عربية", "حادث عربية", "خبطته عربية", "اتطعن",
+                             # NOTE: "كسر مفتوح" removed — routed via fracture_deformity + DEFINITIVE_ESI2_SIGNALS (ESI 2)
                              "أنبوبة الصدر", "انبوبة الصدر"],
-            "anaphylaxis": ["anaphylaxis", "anaphylactic", "صدمة تحسسية", "حساسية شديدة", "شفايفه ورمت"],
+            "anaphylaxis": ["anaphylaxis", "anaphylactic", "صدمة تحسسية", "حساسية شديدة", "شفايفه ورمت",
+                          # Gemini-expanded Egyptian
+                          "وشي ورم", "لساني كبر في بقي", "زوري قفل",
+                          "شفايفي ورمت", "جسمي كله مأكلل ومورم"],
             "poisoning_overdose": ["overdose", "poison", "تسمم", "جرعة زيادة", "جرعة زيادة متعمدة",
                                   "أخد دوا كتير",
                                   "بلع دوا", "شرب دوا", "أخد حبوب كتير", "جرعة زايدة",
-                                  "محاولة انتحار", "تسمم في الدم"],
+                                  "محاولة انتحار", "تسمم في الدم",
+                                  # Gemini-expanded Egyptian
+                                  "بلع شريط برشام", "شرب كلور", "شرب كلوركس",
+                                  "شرب مبيد", "أكل سم", "سم فئران",
+                                  "شرب ماء نار", "بلع سم", "رشت زرع واستنشقت"],
             "drowning": ["drowning", "drown", "غرق", "غرقان", "طلعوه من المية", "وقع في المية",
-                        "حمام السباحة", "البحر", "النيل"],
-            "severe_bleeding": ["severe bleeding", "نزيف شديد", "بينزف جامد", "دم كتير"],
+                        "حمام السباحة", "البحر", "النيل", "اتغرق"],
+            "severe_bleeding": ["severe bleeding", "نزيف شديد", "بينزف جامد", "دم كتير",
+                               # Gemini-expanded Egyptian
+                               "الدم مش بيوقف", "بينزف من بقه", "بينزف بغزارة",
+                               "الجرح بيخر دم", "بتترجع دم"],
         }
 
         for category, keywords in level1_keywords.items():
@@ -2671,7 +2779,11 @@ class AISymptomClassifier:
                                   "chest palpitation",
                                   "ألم صدر", "صدري بيوجعني", "قلبي بيوجعني",
                                   "وجع في الصدر", "وجع في صدرها", "وجع في صدره",
-                                  "وجع في صدري"],
+                                  "وجع في صدري",
+                                  # ESI Handbook + Gemini Egyptian
+                                  "نغزة في القلب وعرق ساقع",
+                                  "دبحة في الصدر", "تقل على صدري وعمال أعرق",
+                                  "عرقان غرقان", "بيسمّع في دراعي"],
             "stroke_symptoms": [
                 "stroke", "جلطة", "جلطة في المخ", "سكتة", "سكتة دماغية", "شلل",
                 "aphasia", "dysarthria", "slurred speech", "speech difficulty",
@@ -2700,19 +2812,38 @@ class AISymptomClassifier:
             ],
             "respiratory_distress": ["can't breathe", "مش عارف آخد نفسي", "ضيق تنفس",
                                     "مش قادرة آخد نفسي", "صعوبة تنفس", "مش قادر اتنفس",
-                                    "تنفسه سطحي", "تنفسها سطحي"],
+                                    "تنفسه سطحي", "تنفسها سطحي",
+                                    # Gemini-expanded Egyptian
+                                    "بشحت النفس", "نفسي قصير", "مكتوم على نفسي",
+                                    "صدري بيزيق", "نفسي بيطلع بطلوع الروح",
+                                    "مش طايق الهدوم على صدري",
+                                    "البخاخة مش نافعة", "الصدر قافل عليا"],
             "suicidal_homicidal": ["suicidal", "kill myself", "عايز أموت", "عايز يموت",
                                   "يقتل نفسه", "عايز يقتل نفسه", "ينتحر", "عايز ينتحر",
                                   "هيأذي نفسه", "مش عايز يعيش",
                                   "محاولة انتحار", "جرعة زيادة متعمدة",
-                                  "suicidal ideation", "suicidal with plan"],
+                                  "suicidal ideation", "suicidal with plan",
+                                  # Gemini-expanded Egyptian + ESI Handbook
+                                  "حاسس إني لوحدي والدنيا سودة",
+                                  "بلع سم عشان ينتحر",
+                                  "بيهدد يقتل", "هيقتل", "عايز يقتل"],
             "obstetric_emergency": ["pregnant bleeding", "حامل بتنزف", "حامل وبتنزف",
-                                   "حامل في", "حامل ونزيف", "نزيف حمل", "الحمل بينزف"],
+                                   "حامل في", "حامل ونزيف", "نزيف حمل", "الحمل بينزف",
+                                   # Gemini-expanded Egyptian
+                                   "حامل ودم بينزل", "حامل واغمى عليها"],
             "diabetic_emergency": ["sugar low", "السكر واطي", "السكر عالي", "سكر منخفض",
-                                  "عنده سكر وبيترعش", "هبوط سكر"],
-            "severe_headache": ["worst headache", "صداع شديد", "راسي هتنفجر", "صداع مفاجئ"],
-            "severe_pain": ["severe pain", "ألم شديد", "بيوجعني جدا جدا", "ألم شديد جداً"],
-            "high_fever_toxic": ["سخونية عالية جداً", "حرارة عالية جداً", "معياش جداً"],
+                                  "عنده سكر وبيترعش", "هبوط سكر",
+                                  # Gemini-expanded Egyptian
+                                  "غرقان في عرقه وجسمه متلج", "مهبط خالص",
+                                  "ريحة بقه زي الفاكهة", "السكر سرح منه",
+                                  "ريقه ناشف وبيدلق مية"],
+            "severe_headache": ["worst headache", "صداع شديد", "راسي هتنفجر", "صداع مفاجئ",
+                               "دماغي هتنفجر"],
+            "severe_pain": ["severe pain", "ألم شديد", "بيوجعني جدا جدا", "ألم شديد جداً",
+                           "بيقطع في جسمي", "مش طايق الوجع"],
+            "high_fever_toxic": ["سخونية عالية جداً", "حرارة عالية جداً", "معياش جداً",
+                                "جسمي ولع نار", "جسمي ولع", "سخونية مش بتنزل",
+                                "حرارتي فوق الأربعين"],
         }
         
         for category, keywords in level2_keywords.items():
@@ -2731,12 +2862,24 @@ class AISymptomClassifier:
         level3_keywords = {
             "abdominal_pain_moderate": ["abdominal pain", "stomach pain",
                                         "ألم بطن", "بطني بتوجعني",
-                                        "معدتي", "مغص", "وجع بطن"],
-            "fever_with_symptoms": ["fever", "سخونية", "سخن"],
-            "vomiting_dehydration": ["vomiting", "بيرجع", "استفراغ", "ترجيع"],
-            "moderate_bleeding": ["bleeding", "بينزف", "نزيف", "دم"],
-            "fracture_deformity": ["fracture", "broken", "كسر", "مكسور", "ملوي"],
-            "pediatric_distress": ["child sick", "طفل", "ابني", "بنتي"],
+                                        "معدتي", "مغص", "وجع بطن",
+                                        "أسفل البطن", "وجع في البطن",
+                                        "ألم في البطن", "البطن بتوجعني",
+                                        "بطني وجعاني", "مغص شديد"],
+            "fever_with_symptoms": ["fever", "سخونية", "سخن",
+                                    "جسمي حر", "حرارتي عالية"],
+            "vomiting_dehydration": ["vomiting", "بيرجع", "استفراغ", "ترجيع",
+                                      "بتترجع", "بيستفرغ", "رجع كتير",
+                                      "جفاف", "مش بيشرب", "لسانه ناشف"],
+            "fracture_deformity": ["fracture", "broken", "deformity", "كسر", "مكسور", "ملوي",
+                                    "عضمه طلع", "العضمة بارزة", "رجله مكسورة",
+                                    "ايده مكسورة", "كسر مفتوح",
+                                    "عوجة واضحة", "شكله معووج", "العظم مش في مكانه",
+                                    "دراعه اتكسر", "رجله اتكسرت"],
+            "moderate_bleeding": ["bleeding", "بينزف", "نزيف", "نزيف دم",
+                                  "دم بينزل", "دم كتير", "بينزف دم"],
+            "pediatric_distress": ["child sick", "طفل", "ابني", "بنتي",
+                                    "طفلي", "العيل", "البيبي", "الرضيع"],
         }
 
         for category, keywords in level3_keywords.items():
@@ -2756,19 +2899,60 @@ class AISymptomClassifier:
         
         # Level 4 keywords
         level4_keywords = {
-            "minor_trauma": ["fell", "fall", "وقعت", "وقع", "اتخبط", "خبطة", "ضربة", "وارم", "ورم"],
-            "laceration_simple": ["cut", "laceration", "جرح", "قطع", "خياطة", "غرز"],
-            "uri_symptoms": ["cold", "flu", "cough", "برد", "كحة", "زكام", "رشح", "انفلونزا"],
-            "sore_throat": ["sore throat", "زور", "حلق", "بلع"],
-            "earache": ["ear pain", "earache", "ودني", "أذني"],
+            "minor_trauma": ["fell", "fall", "وقعت", "وقع", "اتخبط", "خبطة", "ضربة", "وارم", "ورم",
+                            "اتزحلقت", "اتكعبلت", "وقعت على", "ضربني", "اتلكمت",
+                            "لطشني", "خبطة خفيفة", "اترمت"],
+            "laceration_simple": ["cut", "laceration", "جرح", "قطع", "خياطة", "غرز",
+                                   "اتجرحت", "السكينة فاتت", "جرح مفتوح",
+                                   "جرح في ايدي", "اتقطعت", "بينزف من الجرح"],
+            "uri_symptoms": ["cold", "flu", "cough", "برد", "كحة", "زكام", "رشح", "انفلونزا",
+                            "عطس", "نفسي مسدود", "مناخيري مسدودة",
+                            "بلغم", "كحة بلغم", "كحة ناشفة", "زور حامي"],
+            "sore_throat": ["sore throat", "زور", "حلق", "بلع",
+                           "زوري بيوجعني", "حلقي واجعني", "مش قادر ابلع",
+                           "التهاب لوز", "اللوز وارمة", "التهاب حلق"],
+            "earache": ["ear pain", "earache", "ودني", "أذني",
+                       "ودني بتوجعني", "وداني بتوجعني",
+                       "التهاب أذن", "ودني بتنقط", "طنين"],
             "uti_symptoms": ["burning urination", "حرقان بول", "التهاب مجرى", "حرقان في البول",
-                           "رايح الحمام كتير", "بول كتير", "التهاب بولي"],
-            "mild_allergic": ["rash", "allergy", "حساسية", "طفح", "حكة", "هرش"],
-            "back_pain_chronic": ["back pain", "ظهري", "وجع ضهر"],
-            "mild_gi": ["diarrhea", "إسهال", "مشي", "معدة"],
+                           "رايح الحمام كتير", "بول كتير", "التهاب بولي",
+                           "حرقان وقت البول", "بيحرقني لما بتبول",
+                           "لون البول غامق", "البول فيه ريحة"],
+            "mild_allergic": ["rash", "allergy", "طفح", "حكة", "هرش",
+                             "حساسية جلد", "جلدي بيحكني", "بقع حمرا",
+                             "حبوب في جسمي", "ارتيكاريا", "جسمي بيهرشني"],
+            "back_pain_chronic": ["back pain", "ظهري", "وجع ضهر",
+                                   "ضهري بيوجعني", "ضهري واجعني",
+                                   "ألم في ظهري", "ضهري مخلعني",
+                                   "ضهري بيقطع", "وسطي بيوجعني"],
+            "mild_gi": ["diarrhea", "إسهال", "مشي", "معدة",
+                        "بطني بتمشي", "اسهال", "معدتي تعبة",
+                        "غثيان", "لوعة", "حموضة", "حرقة معدة"],
             "mild_pain": ["pain", "وجع", "بيوجعني", "ألم"],
-            "headache_mild": ["headache", "صداع", "راسي", "دماغي"],
-            "eye_complaint": ["عيني", "عين", "حمرا", "مدمعة", "رمد"],
+            "headache_mild": ["headache", "صداع", "راسي", "دماغي",
+                              "راسي بتوجعني", "صداع نصفي", "شقيقة",
+                              "دوخة", "دايخ", "دايخة", "عيني بتزغلل"],
+            "eye_complaint": ["عيني", "عين", "حمرا", "مدمعة", "رمد",
+                             "عيني بتوجعني", "عيني حمرا", "عيني ورمت",
+                             "مش شايف كويس", "نظري ضعف", "عيني فيها حاجة"],
+            # Gemini-expanded Egyptian categories
+            "dental_pain": ["toothache", "tooth pain", "dental",
+                           "درسي", "سنتي", "اللثة وارمة", "وجع دروس",
+                           "درسي بينقح", "عصب درسي", "خراج في اللثة"],
+            "burn_minor": ["burn", "burned", "حرق", "اتحرق", "اتحرقت",
+                          "مية سخنة اتلقت", "جلدي اتحرق", "حرق زيت",
+                          "وشه اتحرق", "جلده قبب"],
+            "musculoskeletal": ["sprain", "strain", "muscle", "joint",
+                               "ركبتي بتخونني", "رجلي اتلوت", "شد عضلي",
+                               "رقبتي ملووحة", "كتفي تقيل", "مفاصلي بتزيق",
+                               "كعب رجلي بيوجعني", "عضمي مكسر"],
+            "skin_wound": ["abscess", "خراج", "دمل", "صديد",
+                          "الجرح صديد", "الحتة دي قابة", "قرصة حشرة",
+                          "الخياطة فكت", "خراج محتاج يتفتح"],
+            "panic_anxiety": ["panic attack", "anxiety",
+                             "خنقة في زوري", "خايف أموت",
+                             "روحي بتطلع", "قلبي هيقف وحاسس بخنقة",
+                             "جسمي بيترعش من غير سبب"],
         }
         
         for category, keywords in level4_keywords.items():
@@ -2778,11 +2962,17 @@ class AISymptomClassifier:
         
         # Level 5 keywords
         level5_keywords = {
-            "prescription_refill": ["refill", "prescription", "روشتة", "تجديد", "الدوا خلص", "عايز دوا"],
-            "medical_certificate": ["certificate", "تقرير", "شهادة", "إجازة مرضية"],
-            "suture_removal": ["remove stitches", "suture removal", "فك غرز", "فك الغرز"],
-            "chronic_stable": ["follow up", "متابعة", "كشف"],
-            "minor_complaint": ["check up", "فحص", "اطمن"],
+            "prescription_refill": ["refill", "prescription", "روشتة", "تجديد", "الدوا خلص", "عايز دوا",
+                                    "محتاج روشتة", "الروشتة خلصت", "عايز تجديد",
+                                    "محتاج دوا", "الأدوية خلصت"],
+            "medical_certificate": ["certificate", "تقرير", "شهادة", "إجازة مرضية",
+                                     "عايز تقرير طبي", "عايز إجازة"],
+            "suture_removal": ["remove stitches", "suture removal", "فك غرز", "فك الغرز",
+                               "شيل الغرز", "مواعيد الغرز"],
+            "chronic_stable": ["follow up", "متابعة", "كشف", "مراجعة",
+                               "عايز أتابع", "مواعيد متابعة"],
+            "minor_complaint": ["check up", "فحص", "اطمن", "اطمئنان",
+                                "عايز أعمل تحاليل", "عايز أشيك"],
         }
         
         for category, keywords in level5_keywords.items():
@@ -3846,6 +4036,19 @@ class DeterministicTriageEngine:
         _EXTREMITY_CC_TOKENS = (
             "wrist", "ankle", "foot", "knee", "elbow", "finger",
             "toe", "hand", "arm", "leg", "shoulder", "hip",
+            # Arabic / Egyptian dialect extremity tokens
+            "رسغ",      # wrist
+            "كاحل",     # ankle
+            "كوع",      # elbow
+            "ركبة",     # knee
+            "صباع",     # finger (Egyptian)
+            "إصبع",     # finger (MSA)
+            "كتف",      # shoulder
+            "إيد",      # hand/arm (Egyptian)
+            "ايد",      # hand/arm (no hamza)
+            "رجل",      # leg/foot (Egyptian)
+            "قدم",      # foot
+            "ورك",      # hip
         )
         complaint_lower_for_pain = (complaint or "").lower()
         is_extremity = (
