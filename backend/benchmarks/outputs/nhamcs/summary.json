@@ -1,0 +1,62 @@
+{
+  "benchmark": "NHAMCS_2021_ED",
+  "timestamp": "20260404T211243Z",
+  "source": "National Hospital Ambulatory Medical Care Survey 2021 (CDC/NCHS)",
+  "dataset": {
+    "total_rows": 10495,
+    "esi_distribution": {
+      "1": 229,
+      "2": 1651,
+      "3": 5429,
+      "4": 2767,
+      "5": 419
+    }
+  },
+  "metrics": {
+    "total_attempted": 10495,
+    "valid_predictions": 10495,
+    "failed_predictions": 0,
+    "exact_match_accuracy": 39.96,
+    "within_one_level_accuracy": 83.74,
+    "over_triage_rate": 43.22,
+    "under_triage_rate": 16.82,
+    "critical_under_triage_rate": 7.9181,
+    "critical_under_triage_count": 831,
+    "esi1_recall": 27.1,
+    "esi2_recall": 48.5,
+    "confusion_matrix": {
+      "1": {
+        "1": 62,
+        "2": 72,
+        "3": 59,
+        "4": 36
+      },
+      "2": {
+        "1": 186,
+        "2": 801,
+        "3": 479,
+        "4": 185
+      },
+      "3": {
+        "1": 324,
+        "2": 1866,
+        "3": 2305,
+        "4": 933,
+        "5": 1
+      },
+      "4": {
+        "1": 201,
+        "2": 624,
+        "3": 916,
+        "4": 1026
+      },
+      "5": {
+        "1": 38,
+        "2": 79,
+        "3": 160,
+        "4": 142
+      }
+    }
+  },
+  "failures": []
+}

@@ -238,28 +238,67 @@ class ComplaintValidator:
 class AIService:
     def __init__(self):
         self.client = None
+        self.gemini_client = None  # Gemini fallback
         self.mode = "none"
         self.model_name = "gemini-2.5-flash"
         self.gemini_timeout_seconds = float(os.getenv("GEMINI_TIMEOUT_SECONDS", "15.0"))
         self.snomed_timeout_seconds = float(os.getenv("SNOMED_GEMINI_TIMEOUT_SECONDS", "2.0"))
         self._executor = ThreadPoolExecutor(max_workers=int(os.getenv("GEMINI_WORKERS", "4")))
         atexit.register(lambda: self._executor.shutdown(wait=False, cancel_futures=True))
-        
+
         # Initialize UMLS RAG
         cache_path = os.path.join(os.path.dirname(__file__), "umls_cache.db")
         self.umls_rag = UMLSMedicalRAG(cache_path)
         print(f"✅ UMLS RAG initialized", flush=True)
 
+        # --- Model priority: Gemma 4 (primary) → Gemini 2.5-flash (fallback) ---
+
+        # Try Gemma 4 endpoint first (if GEMMA4_ENDPOINT_ID is set)
+        gemma4_endpoint = os.getenv("GEMMA4_ENDPOINT_ID", "").strip()
+        if gemma4_endpoint:
+            try:
+                from gemma4_client import Gemma4VertexModel
+                self.client = Gemma4VertexModel()
+                self.model_name = "gemma-4-27b-it"
+                self.mode = "gemma4_vertex"
+                print(f"✅ Gemma 4 endpoint initialized (primary extraction model)", flush=True)
+            except Exception as e:
+                print(f"⚠️ Gemma 4 init failed: {e} — falling back to Gemini", flush=True)
+
+        # Always init Gemini as fallback (or primary if no Gemma 4)
         try:
             vertexai.init(project="safe-triage-ai", location="us-central1")
-            self.client = GenerativeModel(self.model_name)
-            print(f"✅ Vertex AI initialized with {self.model_name}", flush=True)
-            self.mode = "vertex_ai"
+            gemini = GenerativeModel("gemini-2.5-flash")
+            if self.client is None:
+                self.client = gemini
+                self.model_name = "gemini-2.5-flash"
+                self.mode = "vertex_ai"
+                print(f"✅ Vertex AI initialized with gemini-2.5-flash (primary)", flush=True)
+            else:
+                self.gemini_client = gemini
+                print(f"✅ Gemini 2.5-flash initialized (fallback)", flush=True)
         except Exception as e:
-            print(f"❌ Vertex AI init failed: {e}", flush=True)
+            print(f"❌ Vertex AI / Gemini init failed: {e}", flush=True)
 
     def get_status(self):
-        return {"status": "ok" if self.client else "unavailable", "mode": self.mode, "model": self.model_name}
+        fallback = "gemini-2.5-flash" if self.gemini_client else "none"
+        return {
+            "status": "ok" if self.client else "unavailable",
+            "mode": self.mode,
+            "model": self.model_name,
+            "fallback_model": fallback,
+        }
+
+    def _fallback_to_gemini(self) -> bool:
+        """Switch to Gemini fallback. Returns True if fallback is available."""
+        if self.gemini_client:
+            print("🔄 Switching to Gemini 2.5-flash fallback", flush=True)
+            self.client = self.gemini_client
+            self.gemini_client = None
+            self.model_name = "gemini-2.5-flash"
+            self.mode = "vertex_ai"
+            return True
+        return False
 
     def _generate_content_with_timeout(self, prompt: str, timeout_seconds: float, label: str):
         if not self.client:
@@ -481,21 +520,22 @@ Return this exact JSON structure:
 {{"extracted_symptoms": ["list of symptoms"], "clinical_impression": "brief assessment", "risk_factors": [], "recommended_workup": ["tests needed"], "expected_resources": ["labs", "imaging"], "resource_count": 2, "differential_diagnosis": ["possible diagnoses"], "reasoning": "one sentence clinical reasoning in English", "reasoning_ar": "reasoning in Arabic", "followup_question": "one short follow-up question in English", "followup_question_ar": "follow-up question in Arabic", "confidence": 0.0, "confidence_rationale": "short reason for confidence level"}}"""
 
         try:
-            print(f"🤖 Calling Vertex AI...", flush=True)
+            print(f"🤖 Calling {self.model_name}...", flush=True)
             response = self._generate_content_with_timeout(
                 prompt,
                 timeout_seconds=self.gemini_timeout_seconds,
-                label="Gemini triage analysis call",
+                label=f"{self.model_name} triage analysis call",
             )
             text = response.text.strip()
-            
+
             # Clean markdown
             text = re.sub(r'^```json\s*', '', text)
             text = re.sub(r'\s*```$', '', text)
             text = re.sub(r'^```\s*', '', text)
-            
+
             result = json.loads(text.strip())
-            print(f"✅ Vertex AI success!", flush=True)
+            result["model_used"] = self.model_name
+            print(f"✅ {self.model_name} success!", flush=True)
 
             # Ensure optional fields exist to avoid empty UI slots
             if not result.get("reasoning"):
@@ -512,7 +552,7 @@ Return this exact JSON structure:
             )
             result["confidence_score"] = confidence_value
             result["confidence"] = confidence_value
-            
+
             # Add SNOMED mapping
             snomed_started = time.perf_counter()
             snomed_data = self._map_to_snomed(result, patient_data)
@@ -522,41 +562,53 @@ Return this exact JSON structure:
             )
             result.update(snomed_data)
             self._apply_resource_expectation_overrides(result, patient_data)
-            
+
             return result
-            
-        except TimeoutError as e:
-            logger.error("Gemini timeout: %s", e)
-            print(f"❌ Vertex AI timeout: {e}", flush=True)
+
+        except (TimeoutError, RuntimeError, json.JSONDecodeError) as e:
+            # If Gemma 4 failed and Gemini fallback is available, retry once
+            if self.gemini_client and self.mode == "gemma4_vertex":
+                logger.warning(
+                    "%s failed (%s: %s) — retrying with Gemini fallback",
+                    self.model_name, type(e).__name__, e,
+                )
+                print(f"⚠️ {self.model_name} failed: {e} — retrying with Gemini", flush=True)
+                self._fallback_to_gemini()
+                return self.analyze_triage(patient_data)
+
+            logger.error("AI extraction error: %s", e)
+            print(f"❌ {self.model_name} error: {e}", flush=True)
+            error_type = {
+                TimeoutError: "ai_timeout",
+                json.JSONDecodeError: "ai_parse_error",
+            }.get(type(e), "ai_error")
             return {
                 "fallback": True,
                 "success": False,
-                "error": "gemini_timeout",
-                "fallback_reason": "timeout",
-                "message": "Gemini request timed out",
-                "message_ar": "انتهت مهلة طلب Gemini",
-            }
-        except json.JSONDecodeError as e:
-            logger.error("Gemini JSON parse error: %s", e)
-            print(f"❌ Vertex AI JSON parse error: {e}", flush=True)
-            return {
-                "fallback": True,
-                "success": False,
-                "error": "gemini_parse_error",
-                "fallback_reason": "parse_error",
-                "message": "Gemini response parsing failed",
-                "message_ar": "فشل تحليل استجابة Gemini",
+                "error": error_type,
+                "fallback_reason": type(e).__name__.lower(),
+                "message": f"{self.model_name} request failed",
+                "message_ar": f"فشل طلب {self.model_name}",
             }
         except Exception as e:
-            logger.error("Gemini API error: %s", e)
-            print(f"❌ Vertex AI error: {e}", flush=True)
+            if self.gemini_client and self.mode == "gemma4_vertex":
+                logger.warning(
+                    "%s unexpected error (%s) — retrying with Gemini",
+                    self.model_name, e,
+                )
+                print(f"⚠️ {self.model_name} unexpected error: {e} — retrying with Gemini", flush=True)
+                self._fallback_to_gemini()
+                return self.analyze_triage(patient_data)
+
+            logger.error("AI API error: %s", e)
+            print(f"❌ {self.model_name} error: {e}", flush=True)
             return {
                 "fallback": True,
                 "success": False,
-                "error": "gemini_api_error",
+                "error": "ai_api_error",
                 "fallback_reason": "api_error",
-                "message": "Gemini API request failed",
-                "message_ar": "فشل طلب Gemini API",
+                "message": f"{self.model_name} request failed",
+                "message_ar": f"فشل طلب {self.model_name}",
             }
     
     def _map_to_snomed(self, gemini_result: dict, patient_data: dict) -> dict:

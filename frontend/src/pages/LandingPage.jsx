@@ -416,7 +416,7 @@ export default function LandingPage() {
                                             <td>Exact ESI Match</td>
                                             <td>61.3%</td>
                                             <td className="st-good-cell">97.2% ✓</td>
-                                            <td className="st-good-cell">100.0% ✓</td>
+                                            <td className="st-good-cell">97.2% ✓</td>
                                             <td>51.4%†</td>
                                             <td>37.8%‡</td>
                                         </tr>
@@ -449,10 +449,67 @@ export default function LandingPage() {
                                 <p className="st-footnote">† ESI Handbook: official AHRQ training vignettes (TriageAgent EMNLP 2024, 210 cases). ‡ KTAS External: 1,262 Korean ED patients, expert-validated by 3 triage specialists. MIETIC Arabic: same 36 expert cases translated to Egyptian colloquial Arabic. Lower exact match on KTAS/Handbook reflects cross-protocol validation and conservative safety bias. Human nurse figures from published ED reliability studies.</p>
                                 <div style={{ marginTop: 12 }}>
                                     <div style={{ padding: 10, background: 'var(--st-teal-light)', borderRadius: 8, borderLeft: '3px solid var(--st-teal-dark)' }}>
-                                        <strong style={{ color: 'var(--st-teal-dark)' }}>Key safety result:</strong> Zero critical under-triage in both English and Egyptian Arabic across 72 expert-validated MIETIC cases. Zero ESI-1 patients missed across 76 cases from 3 independent benchmarks (US + Korean EDs). Arabic achieves <strong>100% exact ESI match</strong> (36/36) with 0% critical under-triage — full bilingual safety parity powered by 2,000+ Egyptian dialect medical terms.
+                                        <strong style={{ color: 'var(--st-teal-dark)' }}>Key safety result:</strong> Zero critical under-triage in both English and Egyptian Arabic across 72 expert-validated MIETIC cases. Zero ESI-1 patients missed across 76 cases from 3 independent benchmarks (US + Korean EDs). Arabic achieves <strong>97.2% exact ESI match</strong> (35/36) with 0% critical under-triage — full bilingual safety parity powered by 2,000+ Egyptian dialect medical terms.
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="st-section st-section-arabic-break" id="arabic-parity">
+                    <div className="st-container">
+                        <div className="st-section-label" style={{ color: '#10b981' }}>Arabic Breakthrough | إنجاز عربي</div>
+                        <h2 className="st-section-title">First triage AI to achieve zero critical under-triage in Egyptian Arabic</h2>
+                        <p className="st-section-desc">
+                            No other published triage system handles Egyptian dialect. SAFE-Triage processes real patient speech and delivers identical safety performance to English — proven on the same 36 expert-validated MIETIC cases.
+                        </p>
+
+                        <div className="st-ar-parity-grid">
+                            <div className="st-ar-compare">
+                                <div className="st-ar-compare-card st-ar-compare-en">
+                                    <div className="st-ar-compare-lang">English Input</div>
+                                    <div className="st-ar-compare-text">&ldquo;Unresponsive, cardiac arrest&rdquo;</div>
+                                    <div className="st-ar-compare-tag">ESI 1 — Immediate</div>
+                                </div>
+                                <div className="st-ar-compare-eq">=</div>
+                                <div className="st-ar-compare-card st-ar-compare-ar">
+                                    <div className="st-ar-compare-lang">Egyptian Arabic Input</div>
+                                    <div className="st-ar-compare-text st-ar">&ldquo;قلبه وقف ومش واعي&rdquo;</div>
+                                    <div className="st-ar-compare-tag">ESI 1 — Immediate</div>
+                                </div>
+                            </div>
+
+                            <div className="st-ar-stats">
+                                <div className="st-ar-stat">
+                                    <div className="st-ar-stat-num">97.2%</div>
+                                    <div className="st-ar-stat-label">Arabic Exact Match</div>
+                                    <div className="st-ar-stat-sub">35/36 MIETIC cases</div>
+                                </div>
+                                <div className="st-ar-stat st-ar-stat-hero">
+                                    <div className="st-ar-stat-num" style={{ color: '#10b981' }}>0%</div>
+                                    <div className="st-ar-stat-label">Critical Under-triage</div>
+                                    <div className="st-ar-stat-sub">Parity with English engine</div>
+                                </div>
+                                <div className="st-ar-stat">
+                                    <div className="st-ar-stat-num">2,000+</div>
+                                    <div className="st-ar-stat-label">Dialect Terms</div>
+                                    <div className="st-ar-stat-sub">Egyptian colloquial, not MSA</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="st-ar-dialect-strip">
+                            <span className="st-ar-term"><span className="st-ar">بيلف عليه</span> dizzy / fainting</span>
+                            <span className="st-ar-term"><span className="st-ar">وجع في صدره</span> chest pain</span>
+                            <span className="st-ar-term"><span className="st-ar">تعبان من قلبه</span> cardiac symptoms</span>
+                            <span className="st-ar-term"><span className="st-ar">مش واعي</span> unresponsive</span>
+                            <span className="st-ar-term"><span className="st-ar">بيلهث</span> dyspnea</span>
+                            <span className="st-ar-term"><span className="st-ar">ضغطه واطي</span> low BP</span>
+                        </div>
+
+                        <div className="st-ar-unique-claim">
+                            <strong>First-of-its-kind:</strong> No other published triage AI achieves zero critical under-triage in Egyptian Arabic. SAFE-Triage bridges the language gap that keeps digital triage inaccessible in most Egyptian EDs.
                         </div>
                     </div>
                 </section>

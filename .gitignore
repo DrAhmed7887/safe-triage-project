@@ -57,9 +57,10 @@ Thumbs.db
 *.sqlite3
 !backend/umls_cache.db
 
-# Logs and cache
+# Logs, cache, and budget tracking
 *.log
 logs/
+backend/budget_spend.json
 .cache/
 .pytest_cache/
 

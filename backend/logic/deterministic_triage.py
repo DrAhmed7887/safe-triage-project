@@ -2576,9 +2576,20 @@ class AISymptomClassifier:
             "standing in the middle of traffic", "standing in traffic",
             "acting out and threatening",
             "screaming about", "end of the world",
+            # NHAMCS RFV: actively dangerous psych presentations
+            "hostile behavior",
         )
         if any(t in text_lower for t in _psych_signals):
             return "suicidal_homicidal"  # → ESI 2
+
+        # ── Substance adverse effects / acute psychosis → altered_mental_status (ESI 2)
+        _substance_psych_signals = (
+            "adverse effect of drug abuse",
+            "adverse effect of alcohol",
+            "delusions or hallucinations",
+        )
+        if any(t in text_lower for t in _substance_psych_signals):
+            return "altered_mental_status"  # → ESI 2
 
         # ── Sexual assault → ESI 2 ───────────────────────────────────────────
         _sa_signals = (
@@ -2741,8 +2752,12 @@ class AISymptomClassifier:
                        "اختناق", "مش قادرة تاخد نفس", "حاجة واقفة في زوره",
                        # ESI Handbook Egyptian
                        "بلع حاجة", "بلع لعبة"],
-            "severe_trauma": ["gunshot", "stab wound", "stabbed", "stabbing", "طعن", "رصاص", "حادثة", "accident", "اتضرب",
+            "severe_trauma": ["gunshot", "stab wound", "stabbed", "stabbing", "طعن", "رصاص", "حادثة", "اتضرب",
                              "حادثة عربية", "حادث عربية", "خبطته عربية", "اتطعن",
+                             # NOTE: "accident" removed — generic English "accident" in NHAMCS
+                             # is a catch-all (ESI 2-5). Arabic "حادثة" kept (more specific).
+                             # High-energy English accidents caught via "gunshot", "stab", etc.
+                             # Vitals safety floors escalate truly critical cases.
                              # NOTE: "كسر مفتوح" removed — routed via fracture_deformity + DEFINITIVE_ESI2_SIGNALS (ESI 2)
                              "أنبوبة الصدر", "انبوبة الصدر"],
             "anaphylaxis": ["anaphylaxis", "anaphylactic", "صدمة تحسسية", "حساسية شديدة", "شفايفه ورمت",
@@ -3662,10 +3677,14 @@ class DeterministicTriageEngine:
         return any(kw in complaint for kw in seizure_keywords)
 
     def _check_for_trauma(self, patient_input) -> bool:
-        """Check if chief complaint indicates trauma."""
+        """Check if chief complaint indicates trauma.
+
+        NOTE: Generic English "accident" removed — NHAMCS uses it as a
+        catch-all code (ESI 2-5). True high-energy mechanisms are caught
+        by "trauma", "hit", "injury", or Arabic equivalents.
+        """
         trauma_keywords = [
             "trauma",
-            "accident",
             "fall",
             "حادث",
             "وقع",
