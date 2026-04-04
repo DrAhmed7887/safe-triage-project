@@ -120,17 +120,9 @@ _AR_NORMAL_TEMP_RE = re.compile(
     r'حرارة\s*[:=]?\s*(?:3[5-7](?:\.\d+)?)\s*(?:مئوية|درجة)?'
 )
 
-# ===== PERFORMANCE FIX: Lazy import of google.generativeai =====
-# This module takes ~500ms to import, so we defer it until first use
-genai = None  # Will be loaded on demand
-
-def _get_genai():
-    """Lazy load google.generativeai module."""
-    global genai
-    if genai is None:
-        import google.generativeai as _genai
-        genai = _genai
-    return genai
+# Legacy google.generativeai removed — all AI extraction now goes through
+# ai_service.py (Vertex AI: Gemma 4 primary, Gemini 2.5-flash fallback).
+# The AISymptomClassifier below runs keyword-only in deterministic mode.
 
 
 def _normalize_guardrail_text(complaint_text: str) -> str:
@@ -1981,31 +1973,22 @@ class AISymptomClassifier:
         return str(os.getenv("TRIAGE_OFFLINE_MODE", "false")).strip().lower() in {"1", "true", "yes"}
 
     def __init__(self):
-        api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            print("Warning: GEMINI_API_KEY not found. AI classifier disabled.")
-            self.model = None
-            self._genai_loaded = False
-        else:
-            # ===== PERFORMANCE FIX: Lazy load genai =====
-            # Don't initialize until first actual use
-            self._api_key = api_key
-            self.model = "deferred"  # Marker for deferred initialization
-            self._genai_loaded = False
-        
+        # AI extraction is handled by ai_service.py (Vertex AI).
+        # This classifier runs keyword-only in the deterministic engine.
+        self.model = None
+        self._genai_loaded = False
+
         # Build category list for prompt
         self.category_list = list(SYMPTOM_CATEGORIES.keys())
         self.category_descriptions = {
-            k: f"{v.name_ar} / {v.name_en}" 
+            k: f"{v.name_ar} / {v.name_en}"
             for k, v in SYMPTOM_CATEGORIES.items()
         }
-        
-        # ===== PERFORMANCE FIX: Circuit Breaker Pattern =====
-        # After N consecutive failures, stop trying AI for a cooldown period
+
         self._failure_count = 0
-        self._failure_threshold = 3  # After 3 failures, circuit opens
-        self._circuit_open_until = 0  # Unix timestamp when circuit can close
-        self._cooldown_seconds = 60  # Wait 60 seconds before retrying AI
+        self._failure_threshold = 3
+        self._circuit_open_until = 0
+        self._cooldown_seconds = 60
         self.last_extraction_method = "keyword_offline"
 
         # Lazy semantic matcher (EgyBERT offline). Instantiate only when needed.
@@ -2072,18 +2055,8 @@ class AISymptomClassifier:
         return None
     
     def _ensure_model_loaded(self):
-        """Lazy load the generative AI model on first use."""
-        if self.model == "deferred" and not self._genai_loaded:
-            try:
-                genai = _get_genai()
-                genai.configure(api_key=self._api_key)
-                self.model = genai.GenerativeModel('gemini-2.5-flash')
-                self._genai_loaded = True
-                print("[AI] Gemini model loaded on first use")
-            except Exception as e:
-                print(f"[AI] Failed to load Gemini model: {e}")
-                self.model = None
-                self._genai_loaded = True
+        """No-op. AI extraction is handled by ai_service.py (Vertex AI)."""
+        pass
     
     def _is_circuit_open(self) -> bool:
         """Check if circuit breaker is open (AI calls disabled temporarily)."""

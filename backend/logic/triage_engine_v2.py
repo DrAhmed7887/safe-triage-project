@@ -439,20 +439,9 @@ class SymptomClassifier:
     """
     
     def __init__(self):
-        api_key = os.getenv("GEMINI_API_KEY")
-        genai = None
-        try:
-            import google.generativeai as _genai
-            genai = _genai
-        except Exception as e:
-            print(f"Warning: google.generativeai not available: {e}")
-        if api_key and genai:
-            genai.configure(api_key=api_key)
-            self.model = genai.GenerativeModel('gemini-2.5-flash')
-        else:
-            self.model = None
-            if not api_key:
-                print("Warning: GEMINI_API_KEY not found. AI classification disabled.")
+        # AI extraction is handled by ai_service.py (Vertex AI).
+        # This classifier runs keyword-only in the deterministic engine.
+        self.model = None
     
     def classify(self, chief_complaint: str, age: int = 30) -> Tuple[str, str]:
         """

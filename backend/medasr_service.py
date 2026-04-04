@@ -77,20 +77,17 @@ if USE_VERTEX_SPEECH:
     except Exception as e:
         print(f"[ASR] WARNING: google-cloud-speech not available: {e}")
 
-# Optional: Google Gemini API (google-generativeai)
-api_key = os.getenv("GEMINI_API_KEY")
-genai = None
+# Gemini via Vertex AI (same backend as ai_service.py)
+_vertex_gemini = None
 try:
-    import google.generativeai as _genai
-    genai = _genai
+    import vertexai
+    from vertexai.generative_models import GenerativeModel as _VertexGenModel
+    vertexai.init(project=os.getenv("PROJECT_ID", "safe-triage-ai"),
+                  location=os.getenv("VERTEX_REGION", "us-central1"))
+    _vertex_gemini = _VertexGenModel("gemini-2.5-flash")
+    print("[Gemini] Vertex AI configured for audio transcription")
 except Exception as e:
-    print(f"[Gemini] WARNING: google-generativeai not available: {e}")
-
-if api_key and genai:
-    genai.configure(api_key=api_key)
-    print("[Gemini] API configured")
-elif not api_key:
-    print("[Gemini] WARNING: No API key found")
+    print(f"[Gemini] WARNING: Vertex AI not available for transcription: {e}")
 
 
 class MedASRService:
@@ -328,15 +325,15 @@ class MedASRService:
         return len(latin_chars) / max(len(text), 1)
 
     def _transcribe_with_gemini(self, audio_path: str, content_type: Optional[str] = None) -> dict:
-        if not genai:
-            return {"success": False, "error": "Gemini API not configured"}
+        if not _vertex_gemini:
+            return {"success": False, "error": "Vertex AI not configured for transcription"}
         try:
             with open(audio_path, "rb") as f:
                 audio_data = f.read()
 
             mime_type = content_type or "audio/webm"
 
-            model = genai.GenerativeModel("gemini-2.5-flash")
+            model = _vertex_gemini
             response = model.generate_content([
                 {
                     "mime_type": mime_type,
