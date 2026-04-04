@@ -8,6 +8,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import LandingPage from './pages/LandingPage';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
+import MedGemmaDashboard from './pages/MedGemmaDashboard';
 import { useAuth } from './context/AuthContext';
 
 function AppRoutes() {
@@ -23,6 +24,7 @@ function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/analytics/dashboard" element={<AnalyticsDashboard />} />
+          <Route path="/medgemma/dashboard" element={<MedGemmaDashboard />} />
         </Route>
       </Routes>
     </Router>

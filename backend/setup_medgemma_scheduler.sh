@@ -16,8 +16,8 @@ if gcloud scheduler jobs describe "${JOB_NAME}" --location="${REGION}" --project
     --http-method=POST \
     --location="${REGION}" \
     --project="${PROJECT_ID}" \
-    --description="MedGemma-2B hourly QA review + reports" \
-    --attempt-deadline=300s \
+    --description="MedGemma-4B-IT hourly QA review (Vertex AI)" \
+    --attempt-deadline=600s \
     --max-retry-attempts=2
   echo "Updated existing job ${JOB_NAME}"
 else
@@ -27,8 +27,8 @@ else
     --http-method=POST \
     --location="${REGION}" \
     --project="${PROJECT_ID}" \
-    --description="MedGemma-2B hourly QA review + reports" \
-    --attempt-deadline=300s \
+    --description="MedGemma-4B-IT hourly QA review (Vertex AI)" \
+    --attempt-deadline=600s \
     --max-retry-attempts=2
   echo "Created job ${JOB_NAME}"
 fi
