@@ -17,6 +17,7 @@ slowapi==0.1.9
 reportlab==4.1.0
 arabic-reshaper==3.0.0
 python-bidi==0.4.2
---extra-index-url https://download.pytorch.org/whl/cpu
-torch>=2.2.0
-transformers>=4.30.0
+# PyTorch + Transformers only needed for EgyBERT offline mode.
+# Not required in production (Gemma 4 / Gemini handle extraction).
+# To enable EgyBERT locally:
+#   pip install --extra-index-url https://download.pytorch.org/whl/cpu torch>=2.2.0 transformers>=4.30.0
