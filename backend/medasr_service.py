@@ -106,10 +106,8 @@ class MedASRService:
             except Exception as e:
                 print(f"[ASR] Failed to init Speech-to-Text: {e}")
 
-        if not self.available and genai is not None and api_key:
-            self.provider = "gemini"
-            self.available = True
-            print("[ASR] Using Gemini multimodal")
+        # Legacy google.generativeai (genai) import removed — all AI via Vertex AI.
+        # Gemini multimodal ASR fallback is no longer available through genai SDK.
 
         if not self.available:
             print("[ASR] Transcription service unavailable")
