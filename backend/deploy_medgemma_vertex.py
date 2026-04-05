@@ -23,7 +23,18 @@ Prerequisites:
 from __future__ import annotations
 
 import argparse
+import os
 import sys
+from pathlib import Path
+
+# Load .env from backend/ directory so HF_TOKEN is available
+_env_file = Path(__file__).parent / ".env"
+if _env_file.exists():
+    for _line in _env_file.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _, _v = _line.partition("=")
+            os.environ.setdefault(_k.strip(), _v.strip())
 
 from google.cloud import aiplatform
 
@@ -48,21 +59,32 @@ def deploy_medgemma(
 
     serving_container_image = (
         "us-docker.pkg.dev/vertex-ai/vertex-vision-model-garden-dockers/"
-        "pytorch-vllm-serve:20240220_0936_RC01"
+        "pytorch-vllm-serve:latest"
     )
 
+    # The gcs_download_launcher.sh does `exec "$@"` — args must be the full command.
     model = aiplatform.Model.upload(
         display_name="medgemma-4b-it",
         serving_container_image_uri=serving_container_image,
+        # MedGemma 27B needs ~23.5GB weights on 1x L4 (24GB) — no room for KV cache.
+        # 4B-IT fits easily (~3GB weights), leaves plenty of headroom for async QA batches.
+        serving_container_environment_variables={
+            "MODEL_ID": "google/medgemma-4b-it",
+            "DEPLOY_SOURCE": "notebook",
+            "HUGGING_FACE_HUB_TOKEN": os.getenv("HF_TOKEN", ""),
+        },
         serving_container_args=[
+            "python", "-m", "vllm.entrypoints.openai.api_server",
             "--model=google/medgemma-4b-it",
+            "--host=0.0.0.0",
+            "--port=7080",
             "--tensor-parallel-size=1",
             "--max-model-len=8192",
-            "--dtype=float16",
+            "--dtype=bfloat16",  # gemma3 arch requires bfloat16
         ],
         serving_container_ports=[7080],
-        serving_container_predict_route="/generate",
-        serving_container_health_route="/ping",
+        serving_container_predict_route="/v1/completions",
+        serving_container_health_route="/health",
     )
     print(f"    Model uploaded: {model.resource_name}")
 

@@ -14,6 +14,7 @@ between Gemini and Gemma 4 with minimal code changes:
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import time
@@ -21,6 +22,8 @@ from types import SimpleNamespace
 from typing import Any, Optional
 
 from google.cloud import aiplatform
+from google.protobuf import json_format
+from google.protobuf.struct_pb2 import Value
 
 logger = logging.getLogger(__name__)
 
@@ -115,37 +118,56 @@ class Gemma4VertexModel:
         Send prompt to the Gemma 4 endpoint and return a response
         with a ``.text`` attribute (matching the Gemini SDK shape).
 
+        Uses raw_predict() to send OpenAI-compatible /v1/completions
+        format directly to the vLLM container (bypasses the instances wrapper).
+
+        Retries up to 3 times with backoff for cold-start (scale-to-zero).
         Raises RuntimeError if the endpoint returns no usable text.
         """
         formatted = self._format_prompt(prompt)
-        started = time.perf_counter()
 
-        response = self.endpoint.predict(
-            instances=[
-                {
-                    "prompt": formatted,
-                    "max_tokens": self.max_tokens,
-                    "temperature": self.temperature,
-                }
-            ]
-        )
+        payload = {
+            "model": "google/gemma-4-E4B-it",
+            "prompt": formatted,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+        }
 
-        elapsed = time.perf_counter() - started
-        logger.info("Gemma 4 inference: %.3fs", elapsed)
+        last_exc: Optional[Exception] = None
+        for attempt in range(3):
+            started = time.perf_counter()
+            try:
+                http_body = json.dumps(payload).encode("utf-8")
+                response = self.endpoint.raw_predict(
+                    body=http_body,
+                    headers={"Content-Type": "application/json"},
+                )
+                elapsed = time.perf_counter() - started
+                logger.info("Gemma 4 inference: %.3fs (attempt %d)", elapsed, attempt + 1)
 
-        # response.predictions is a list of prediction objects
-        predictions = getattr(response, "predictions", None) or []
-        for pred in predictions:
-            text = self._parse_prediction(pred)
-            if text:
-                # Strip the Gemma turn markers if echoed back
-                text = text.replace("<end_of_turn>", "").strip()
-                return SimpleNamespace(text=text)
+                result = json.loads(response.text) if hasattr(response, "text") else json.loads(response)
+                text = self._parse_prediction(result)
+                if text:
+                    text = text.replace("<end_of_turn>", "").strip()
+                    return SimpleNamespace(text=text)
 
-        raise RuntimeError(
-            f"Gemma 4 endpoint returned no usable text. "
-            f"Raw predictions: {predictions!r}"
-        )
+                raise RuntimeError(
+                    f"Gemma 4 endpoint returned no usable text. Raw: {result!r}"
+                )
+            except Exception as exc:
+                last_exc = exc
+                elapsed = time.perf_counter() - started
+                if attempt < 2:
+                    wait = (attempt + 1) * 10  # 10s, 20s backoff for cold starts
+                    logger.warning(
+                        "Gemma 4 attempt %d failed (%.1fs): %s — retrying in %ds",
+                        attempt + 1, elapsed, exc, wait,
+                    )
+                    time.sleep(wait)
+                else:
+                    logger.error("Gemma 4 all 3 attempts failed: %s", exc)
+
+        raise RuntimeError(f"Gemma 4 endpoint failed after 3 attempts: {last_exc}")
 
     def generate(
         self,

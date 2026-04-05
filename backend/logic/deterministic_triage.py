@@ -125,11 +125,30 @@ _AR_NORMAL_TEMP_RE = re.compile(
 # The AISymptomClassifier below runs keyword-only in deterministic mode.
 
 
+_NEGATION_SENTENCE_RE = re.compile(
+    r'(?:there were |were )?'
+    r'(?:no|denies?|denied|negative for|without)\s+'
+    r'(?:symptoms?\s+of\s+|evidence\s+of\s+|signs?\s+of\s+|history\s+of\s+)?'
+    r'[^.]*?\.',
+    re.IGNORECASE,
+)
+
+
 def _normalize_guardrail_text(complaint_text: str) -> str:
-    """Normalize complaint text for narrow, text-only safety guardrails."""
+    """Normalize complaint text for narrow, text-only safety guardrails.
+
+    Strips English and Arabic negation clauses so that denied symptoms
+    (e.g. "denies melena, hematochezia") do not false-positive as signals.
+    """
     normalized = (complaint_text or "").strip().lower()
     normalized = normalized.replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
     normalized = normalized.replace("ى", "ي")
+    # Strip complete negation sentences (e.g. "There were no symptoms of X, Y, Z.")
+    normalized = _NEGATION_SENTENCE_RE.sub("", normalized)
+    # Strip inline negation clauses (e.g. "denies fever, cough")
+    normalized = _NEGATION_RE.sub("", normalized)
+    normalized = _NO_BENIGN_RE.sub("", normalized)
+    normalized = _AR_NEGATION_RE.sub("", normalized)
     return " ".join(normalized.split())
 
 
@@ -391,7 +410,7 @@ INSTABILITY_SIGNALS = [
     "loc",
     # Hemorrhage
     "uncontrolled bleeding", "spurting", "massive blood loss",
-    "hematemesis", "bright red blood", "won't stop bleeding",
+    "hematemesis", "melena", "bright red blood", "won't stop bleeding",
     # Explicit severity
     "sepsis", "septic", "shock", "in shock",
     "cardiac arrest", "not breathing", "no pulse",
@@ -407,6 +426,8 @@ INSTABILITY_SIGNALS = [
     "wake up deficit", "wake-up deficit", "focal deficit", "focal neurological",
     "aphasia", "hemiplegia", "hemiparesis", "tia", "transient ischemic",
     "sudden weakness", "sudden numbness", "sudden vision loss",
+    "visual acuity", "visual abnormality", "vision abnormality",
+    "amnesia", "transient global amnesia",
     "neurological symptoms", "resolved neurological",
     # Stroke — motor/speech deficit language
     "unable to move", "can't move", "cannot move",
@@ -542,8 +563,9 @@ NON_URGENT_SIGNALS = [
 ]
 
 LIFE_THREAT_SIGNALS = [
-    # Cardiac arrest / pulselessness
+    # Cardiac arrest / pulselessness / post-resuscitation
     "cardiac arrest",
+    "arrest",           # bare keyword — catches "arrest" without "cardiac" prefix
     "not breathing",
     "no pulse",
     "pulseless",
@@ -551,6 +573,16 @@ LIFE_THREAT_SIGNALS = [
     "vitals absent",
     "found down",
     "found unresponsive",
+    # Post-CPR / ROSC — definitionally ESI 1 (resuscitation)
+    "post-cpr",
+    "post cpr",
+    "after cpr",
+    "rosc",
+    "return of spontaneous circulation",
+    "post-resuscitation",
+    "post resuscitation",
+    "post-arrest",
+    "post arrest",
     # Airway / breathing failure
     "respiratory distress",
     "respiratory failure",
@@ -618,7 +650,8 @@ LIFE_THREAT_SIGNALS = [
     "drooling",
     "intentional overdose",
     "toxic ingestion",
-    # Seizure
+    # Seizure — any seizure is ESI 1 until proven otherwise
+    "seizure",
     "status epilepticus",
     "continuous seizure",
     "seizure not stopping",
@@ -626,6 +659,8 @@ LIFE_THREAT_SIGNALS = [
     "tonic clonic seizure",
     "seizure activity",
     "active seizure",
+    "convulsion",
+    "convulsing",
     # Transfer patients with critical conditions
     "transfer",  # patients transferred between facilities are often ESI 1-2
     # Altered mental status (when in combination with other signals)
@@ -4011,6 +4046,19 @@ class DeterministicTriageEngine:
         if age >= 65 and category in ["chest_pain_cardiac", "chest_pain_noncardiac"]:
             modifier_level = min(modifier_level, 2)
             modifiers.append("مسن مع ألم صدر / Elderly with chest pain")
+
+        # Elderly + epigastric pain + hypertension → ACS screening (ESI 2)
+        _epigastric_tokens = ("epigastr", "فم المعدة", "فم المعده")
+        if (
+            age >= 60
+            and any(tok in normalized_complaint for tok in _epigastric_tokens)
+            and vitals.sbp is not None and vitals.sbp >= 150
+        ):
+            modifier_level = min(modifier_level, 2)
+            modifiers.append(
+                "⚠️ مسن + ألم شرسوفي + ارتفاع ضغط → فحص ACS / "
+                "Elderly + epigastric pain + hypertension → ACS screening → ESI 2"
+            )
         
         # ===== PAIN SCORE MODIFIER =====
         # ESI v4: Severe pain (≥8/10) triggers ESI 2 EXCEPT for isolated
@@ -4023,27 +4071,26 @@ class DeterministicTriageEngine:
             "mild_pain", "minor_trauma", "fracture_deformity",
             "back_pain_chronic", "laceration_simple",
         })
-        _EXTREMITY_CC_TOKENS = (
+        _EXTREMITY_CC_TOKENS_EN = (
             "wrist", "ankle", "foot", "knee", "elbow", "finger",
             "toe", "hand", "arm", "leg", "shoulder", "hip",
-            # Arabic / Egyptian dialect extremity tokens
-            "رسغ",      # wrist
-            "كاحل",     # ankle
-            "كوع",      # elbow
-            "ركبة",     # knee
-            "صباع",     # finger (Egyptian)
-            "إصبع",     # finger (MSA)
-            "كتف",      # shoulder
-            "إيد",      # hand/arm (Egyptian)
-            "ايد",      # hand/arm (no hamza)
-            "رجل",      # leg/foot (Egyptian)
-            "قدم",      # foot
-            "ورك",      # hip
+        )
+        # Arabic tokens use word-boundary regex to avoid substring collisions
+        # (e.g. "إيد" matching inside "إيدز" (AIDS), "رجل" inside "راجل" (man))
+        _EXTREMITY_CC_RE_AR = re.compile(
+            r'(?:^|[\s،,.])'     # preceded by start/whitespace/punctuation
+            r'('
+            r'رسغ|كاحل|كوع|ركبة|صباع|إصبع|كتف|إيد|ايد|رجل|قدم|ورك'
+            r')'
+            r'(?:[\s،,.]|$)'     # followed by end/whitespace/punctuation
         )
         complaint_lower_for_pain = (complaint or "").lower()
         is_extremity = (
             category in _EXTREMITY_CATEGORIES
-            and any(tok in complaint_lower_for_pain for tok in _EXTREMITY_CC_TOKENS)
+            and (
+                any(tok in complaint_lower_for_pain for tok in _EXTREMITY_CC_TOKENS_EN)
+                or bool(_EXTREMITY_CC_RE_AR.search(complaint_lower_for_pain))
+            )
         )
         if vitals.pain_score and vitals.pain_score >= 8 and not is_extremity:
             # Pain ≥8 with instability signals → ESI 2 (emergent).
@@ -4296,6 +4343,20 @@ class DeterministicTriageEngine:
                 f"Hypertensive emergency (SBP {vitals.sbp} >= 200)"
             )
 
+        # Hypertensive urgency with symptoms: SBP >= 180 + neuro/cardiac symptoms
+        _hypertensive_symptoms = ("dizziness", "dizzy", "headache", "visual",
+                                  "chest pain", "dyspnea", "shortness of breath",
+                                  "vomiting", "weakness", "دوخة", "صداع")
+        if (
+            vitals and vitals.sbp is not None and vitals.sbp >= 180
+            and final_level > 2
+            and any(s in (complaint or "").lower() for s in _hypertensive_symptoms)
+        ):
+            vital_esi2_reasons.append(
+                f"ارتفاع ضغط دم مع أعراض ({vitals.sbp}) / "
+                f"Hypertensive urgency + symptoms (SBP {vitals.sbp} >= 180)"
+            )
+
         # Fever + tachycardia (sepsis pathway): temp >= 38.0 AND HR > 100
         # NOTE: "حرارة" removed from simple substring check — it false-positives
         # on Arabic normal-temp reporting ("وحرارة 37.4 مئوية").  The temp_elevated
@@ -4313,6 +4374,19 @@ class DeterministicTriageEngine:
                 f"Fever + tachycardia (temp={temp_val}, HR={vitals.hr}) — sepsis pathway"
             )
 
+        # Symptomatic tachycardia: HR >= 110 with weakness/dizziness/syncope
+        _tachy_symptoms = ("weakness", "general weakness", "dizziness", "dizzy",
+                           "syncope", "fainted", "passed out", "ضعف", "دوخة")
+        if (
+            vitals and vitals.hr is not None and vitals.hr >= 110
+            and final_level > 2
+            and any(s in (complaint or "").lower() for s in _tachy_symptoms)
+        ):
+            vital_esi2_reasons.append(
+                f"تسارع القلب مع أعراض (HR={vitals.hr}) / "
+                f"Symptomatic tachycardia (HR {vitals.hr} >= 110 + {complaint})"
+            )
+
         # Significant fever (temp >= 38.5) alone
         if vitals and vitals.temp is not None and vitals.temp >= 38.5 and final_level > 2:
             vital_esi2_reasons.append(
@@ -4324,6 +4398,62 @@ class DeterministicTriageEngine:
             final_level = 2
             for reason in vital_esi2_reasons:
                 modifiers.append(f"⚠️ {reason}")
+
+        # =================================================================
+        # ALTERED MENTAL STATUS + MISSING VITALS → ESI 1
+        # =================================================================
+        # When a patient presents with altered consciousness (C/V/P/U on
+        # ACVPU) and most vital signs are unmeasurable/missing, assume the
+        # worst — this pattern indicates a patient too unstable to assess.
+        # =================================================================
+        if final_level > 1 and consciousness in ("C", "V", "P", "U"):
+            _ams_vitals_count = sum(1 for v in [
+                vitals.hr if vitals else None,
+                vitals.rr if vitals else None,
+                vitals.sbp if vitals else None,
+                vitals.spo2 if vitals else None,
+            ] if v is not None)
+            if _ams_vitals_count <= 1:
+                final_level = 1
+                modifiers.append(
+                    "🚨 وعي متغير مع عدم توفر علامات حيوية → إنعاش فوري / "
+                    "Altered consciousness + missing vitals → assume worst → ESI 1"
+                )
+
+        # =================================================================
+        # SYMPTOMATIC BRADYCARDIA → ESI 2
+        # =================================================================
+        # HR 40-50 with symptoms (dizziness, weakness, syncope) suggests
+        # hemodynamically significant bradycardia (AV block, sick sinus).
+        # =================================================================
+        if final_level > 2 and vitals and vitals.hr is not None and 40 <= vitals.hr <= 55:
+            _brady_symptoms = ("dizziness", "dizzy", "weakness", "syncope",
+                               "fainted", "passed out", "general weakness",
+                               "دوخة", "ضعف عام", "اغمى")
+            complaint_lower_brady = (complaint or "").lower()
+            if any(sym in complaint_lower_brady for sym in _brady_symptoms):
+                final_level = 2
+                modifiers.append(
+                    f"⚠️ بطء قلب مصحوب بأعراض (HR={vitals.hr}) / "
+                    f"Symptomatic bradycardia (HR {vitals.hr} + {complaint}) → ESI 2"
+                )
+
+        # =================================================================
+        # ELDERLY + FEVER + BORDERLINE HYPOTENSION → ESI 2 (SEPSIS)
+        # =================================================================
+        # Elderly (>=65) with fever and SBP<=100 suggests early sepsis.
+        # =================================================================
+        if (
+            final_level > 2
+            and age >= 65
+            and vitals and vitals.sbp is not None and vitals.sbp <= 100
+            and vitals and vitals.temp is not None and vitals.temp >= 37.8
+        ):
+            final_level = 2
+            modifiers.append(
+                f"⚠️ مسن + حمى + ضغط منخفض (SBP={vitals.sbp}, T={vitals.temp}) → مسار تعفن / "
+                f"Elderly (age {age}) + fever ({vitals.temp}°C) + borderline hypotension (SBP {vitals.sbp}) → sepsis pathway → ESI 2"
+            )
 
         # =================================================================
         # TEXT-BASED LIFE-THREAT SAFETY FLOOR — ESI 1 ESCALATION
@@ -4379,7 +4509,9 @@ class DeterministicTriageEngine:
                 "open left tibia", "open right tibia",
                 "open left femur", "open right femur",
                 "acute stroke", "facial droop", "hemiplegia", "hemiparesis",
-                "flaccid", "gaze deviation",
+                "flaccid", "gaze deviation", "amnesia",
+                "visual acuity", "visual abnormality", "vision abnormality",
+                "melena", "hematemesis",
                 "sepsis", "septic",
                 "anaphylaxis", "anaphylactic",
                 "dissection", "aortic dissection",
@@ -4410,7 +4542,7 @@ class DeterministicTriageEngine:
         # and clinical guidelines recommend minimum ESI 2 for elderly
         # respiratory complaints.
         # =================================================================
-        if final_level > 2 and age >= 75:
+        if final_level > 2 and age >= 65:
             complaint_lower_resp = (complaint or "").lower()
             _resp_signals = ("dyspnea", "shortness of breath", "breathing difficulty",
                              "can't breathe", "difficulty breathing", "ضيق تنفس",
@@ -4419,7 +4551,32 @@ class DeterministicTriageEngine:
                 final_level = 2
                 modifiers.append(
                     "⚠️ مريض مسن + ضيق تنفس → مستوى 2 / "
-                    "Elderly (>=75) + respiratory complaint → ESI 2 safety floor"
+                    "Elderly (>=65) + respiratory complaint → ESI 2 safety floor"
+                )
+
+        # =================================================================
+        # DYSPNEA + HYPOXIA/INSTABILITY → ESI 2
+        # =================================================================
+        # Dyspnea with SpO2 < 95% or SBP <= 100 indicates respiratory or
+        # hemodynamic compromise requiring emergent evaluation.
+        # =================================================================
+        if final_level > 2:
+            complaint_lower_dh = (complaint or "").lower()
+            _dyspnea_signals = ("dyspnea", "shortness of breath", "can't breathe",
+                                "cannot breathe", "difficulty breathing",
+                                "breathing difficulty", "acute dyspnea",
+                                "ضيق تنفس", "مش قادر اتنفس")
+            has_dyspnea = any(sig in complaint_lower_dh for sig in _dyspnea_signals)
+            has_resp_instability = (
+                (vitals and vitals.spo2 is not None and vitals.spo2 < 95)
+                or (vitals and vitals.sbp is not None and vitals.sbp <= 100)
+                or (vitals and vitals.hr is not None and vitals.hr >= 100)
+            )
+            if has_dyspnea and has_resp_instability:
+                final_level = 2
+                modifiers.append(
+                    "⚠️ ضيق تنفس مع عدم استقرار فسيولوجي → مستوى 2 / "
+                    "Dyspnea + physiologic instability → ESI 2 safety floor"
                 )
 
         # =================================================================
@@ -4450,6 +4607,23 @@ class DeterministicTriageEngine:
                 modifiers.append(
                     "⚠️ شكوى تنفسية بدون علامات حيوية → مستوى 2 / "
                     "Respiratory complaint + no vital signs available → ESI 2 safety floor"
+                )
+
+        # =================================================================
+        # UPPER BACK PAIN IN OLDER ADULTS → ESI 2
+        # =================================================================
+        # Upper/mid back pain in patients >=50 can represent aortic
+        # dissection or atypical MI. Minimum ESI 2 for safety.
+        # =================================================================
+        if final_level > 2:
+            complaint_lower_bp = (complaint or "").lower()
+            _upper_back_tokens = ("upper back pain", "mid back pain",
+                                  "interscapular", "between shoulder blades")
+            if any(tok in complaint_lower_bp for tok in _upper_back_tokens) and age >= 50:
+                final_level = 2
+                modifiers.append(
+                    "⚠️ ألم أعلى الظهر في مريض >=50 → فحص تسلخ/ACS / "
+                    "Upper back pain in patient >=50 → dissection/ACS screening → ESI 2"
                 )
 
         # Offline fallback safety policy for unrecognized complaints.

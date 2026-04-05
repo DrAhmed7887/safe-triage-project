@@ -280,11 +280,8 @@ class AIService:
             except Exception as e:
                 print(f"⚠️ Gemma 4 shadow init failed: {e}", flush=True)
 
-        # Legacy: keep gemini_client alias for fallback logic compatibility
-        self.gemini_client = None
-
     def get_status(self):
-        fallback = "gemini-2.5-flash" if self.gemini_client else "none"
+        fallback = "gemma-4-E4B" if self.shadow_client else "none"
         return {
             "status": "ok" if self.client else "unavailable",
             "mode": self.mode,
@@ -292,14 +289,14 @@ class AIService:
             "fallback_model": fallback,
         }
 
-    def _fallback_to_gemini(self) -> bool:
-        """Switch to Gemini fallback. Returns True if fallback is available."""
-        if self.gemini_client:
-            print("🔄 Switching to Gemini 2.5-flash fallback", flush=True)
-            self.client = self.gemini_client
-            self.gemini_client = None
-            self.model_name = "gemini-2.5-flash"
-            self.mode = "vertex_ai"
+    def _fallback_to_shadow(self) -> bool:
+        """Switch to Gemma 4 shadow/backup. Returns True if available."""
+        if self.shadow_client:
+            print(">> Switching to Gemma 4 E4B backup", flush=True)
+            self.client = self.shadow_client
+            self.shadow_client = None
+            self.model_name = "gemma-4-E4B-it"
+            self.mode = "gemma4_vertex"
             return True
         return False
 
@@ -497,7 +494,7 @@ class AIService:
         prompt = f"""You are an ER triage expert. Analyze and respond with ONLY valid JSON (no markdown).
 
 Patient: Age {patient_data.get('age')}, {patient_data.get('gender')}
-Complaint: {patient_data.get('chief_complaint_text')}
+Complaint: {complaint}
 Vitals: {json.dumps(patient_data.get('vitals', {}))}
 
 Important classification hints:
@@ -573,18 +570,18 @@ Return this exact JSON structure:
             return result
 
         except (TimeoutError, RuntimeError, json.JSONDecodeError) as e:
-            # If Gemma 4 failed and Gemini fallback is available, retry once
-            if self.gemini_client and self.mode == "gemma4_vertex":
+            # If primary (Gemini) failed and Gemma 4 backup is available, retry once
+            if self.shadow_client and self.mode == "vertex_ai":
                 logger.warning(
-                    "%s failed (%s: %s) — retrying with Gemini fallback",
+                    "%s failed (%s: %s) — retrying with Gemma 4 backup",
                     self.model_name, type(e).__name__, e,
                 )
-                print(f"⚠️ {self.model_name} failed: {e} — retrying with Gemini", flush=True)
-                self._fallback_to_gemini()
+                print(f">> {self.model_name} failed: {e} — retrying with Gemma 4", flush=True)
+                self._fallback_to_shadow()
                 return self.analyze_triage(patient_data)
 
             logger.error("AI extraction error: %s", e)
-            print(f"❌ {self.model_name} error: {e}", flush=True)
+            print(f">> {self.model_name} error: {e}", flush=True)
             error_type = {
                 TimeoutError: "ai_timeout",
                 json.JSONDecodeError: "ai_parse_error",
@@ -598,13 +595,13 @@ Return this exact JSON structure:
                 "message_ar": f"فشل طلب {self.model_name}",
             }
         except Exception as e:
-            if self.gemini_client and self.mode == "gemma4_vertex":
+            if self.shadow_client and self.mode == "vertex_ai":
                 logger.warning(
-                    "%s unexpected error (%s) — retrying with Gemini",
+                    "%s unexpected error (%s) — retrying with Gemma 4 backup",
                     self.model_name, e,
                 )
-                print(f"⚠️ {self.model_name} unexpected error: {e} — retrying with Gemini", flush=True)
-                self._fallback_to_gemini()
+                print(f">> {self.model_name} unexpected error: {e} — retrying with Gemma 4", flush=True)
+                self._fallback_to_shadow()
                 return self.analyze_triage(patient_data)
 
             logger.error("AI API error: %s", e)

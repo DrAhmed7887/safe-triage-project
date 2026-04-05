@@ -27,8 +27,8 @@ ktas_row_27,4,2,0,0,over_triage,face laceration
 ktas_row_28,3,4,0,1,under_triage,throat pain
 ktas_row_29,2,2,1,1,exact_match,chest wall pain right
 ktas_row_30,4,4,1,1,exact_match,"pain, arm"
-ktas_row_31,3,2,0,1,over_triage,Seizure Like Activity
-ktas_row_32,3,2,0,1,over_triage,post seizure
+ktas_row_31,3,1,0,0,over_triage,Seizure Like Activity
+ktas_row_32,3,1,0,0,over_triage,post seizure
 ktas_row_33,4,3,0,1,over_triage,vomiting
 ktas_row_34,3,2,0,1,over_triage,palpitation
 ktas_row_35,3,2,0,1,over_triage,syncope
@@ -41,8 +41,8 @@ ktas_row_43,5,4,0,1,over_triage,Urticarial rash
 ktas_row_44,5,3,0,0,over_triage,Foreign body sensation in neck
 ktas_row_45,5,4,0,1,over_triage,throat pain
 ktas_row_46,5,2,0,0,over_triage,"swelling, facial"
-ktas_row_47,3,2,0,1,over_triage,post seizure
-ktas_row_48,3,3,1,1,exact_match,dyspnea
+ktas_row_47,3,1,0,0,over_triage,post seizure
+ktas_row_48,3,2,0,1,over_triage,dyspnea
 ktas_row_49,2,2,1,1,exact_match,mental change
 ktas_row_50,3,2,0,1,over_triage,fever
 ktas_row_51,3,2,0,1,over_triage,melena
@@ -58,7 +58,7 @@ ktas_row_60,2,2,1,1,exact_match,fever
 ktas_row_61,2,3,0,1,critical_under_triage,abd pain
 ktas_row_62,3,3,1,1,exact_match,fever
 ktas_row_63,1,1,1,1,exact_match,dyspnea
-ktas_row_64,3,3,1,1,exact_match,vomiting
+ktas_row_64,3,2,0,1,over_triage,vomiting
 ktas_row_65,4,2,0,0,over_triage,lip laceration
 ktas_row_66,2,2,1,1,exact_match,ant. chest pain
 ktas_row_67,4,3,0,1,over_triage,?? ??
@@ -126,32 +126,32 @@ ktas_row_128,3,3,1,1,exact_match,dyspnea
 ktas_row_129,3,2,0,1,over_triage,general weakness
 ktas_row_130,3,3,1,1,exact_match,fever
 ktas_row_131,2,2,1,1,exact_match,fever & chill
-ktas_row_132,2,3,0,1,critical_under_triage,fever
+ktas_row_132,2,2,1,1,exact_match,fever
 ktas_row_133,2,1,0,1,over_triage,dyspnea
 ktas_row_134,1,1,1,1,exact_match,dyspnea
 ktas_row_135,1,1,1,1,exact_match,acute dyspnea
 ktas_row_136,2,1,0,1,over_triage,dyspnea
-ktas_row_137,3,3,1,1,exact_match,general weakness
+ktas_row_137,3,2,0,1,over_triage,general weakness
 ktas_row_138,3,3,1,1,exact_match,vomiting
 ktas_row_139,4,3,0,1,over_triage,weakness
 ktas_row_140,2,2,1,1,exact_match,diffuse chest discomfort
-ktas_row_141,3,3,1,1,exact_match,dizziness
+ktas_row_141,3,2,0,1,over_triage,dizziness
 ktas_row_142,2,2,1,1,exact_match,dyspnea
 ktas_row_143,3,3,1,1,exact_match,dizziness
 ktas_row_144,4,4,1,1,exact_match,D - Diarrhea
-ktas_row_145,4,3,0,1,over_triage,general weakness
+ktas_row_145,4,2,0,0,over_triage,general weakness
 ktas_row_146,3,3,1,1,exact_match,dizziness
 ktas_row_147,3,3,1,1,exact_match,low Hb
 ktas_row_148,2,2,1,1,exact_match,Suicidal Attempt
 ktas_row_149,3,2,0,1,over_triage,chest palpitation
 ktas_row_150,3,3,1,1,exact_match,general weakness
 ktas_row_151,2,2,1,1,exact_match,AVF site bleeding
-ktas_row_152,1,2,0,1,critical_under_triage,mental change
+ktas_row_152,1,1,1,1,exact_match,mental change
 ktas_row_153,2,2,1,1,exact_match,dyspnea
 ktas_row_154,2,1,0,1,over_triage,mental change
 ktas_row_155,1,1,1,1,exact_match,mental change
 ktas_row_156,3,2,0,1,over_triage,acute delirium
-ktas_row_157,1,2,0,1,critical_under_triage,Motor weakness
+ktas_row_157,1,1,1,1,exact_match,Motor weakness
 ktas_row_158,2,3,0,1,critical_under_triage,fever
 ktas_row_159,2,2,1,1,exact_match,fever
 ktas_row_160,4,3,0,1,over_triage,Catheter removal
@@ -163,7 +163,7 @@ ktas_row_165,2,2,1,1,exact_match,oliguria
 ktas_row_166,1,2,0,1,critical_under_triage,dyspnea
 ktas_row_167,3,2,0,1,over_triage,both leg  motor weakness
 ktas_row_168,2,2,1,1,exact_match,Drug Intoxication
-ktas_row_169,2,3,0,1,critical_under_triage,Amnesia
+ktas_row_169,2,2,1,1,exact_match,Amnesia
 ktas_row_170,3,3,1,1,exact_match,limb paresthesia
 ktas_row_171,2,2,1,1,exact_match,right hemiparesis
 ktas_row_172,2,2,1,1,exact_match,fever
@@ -271,7 +271,7 @@ ktas_row_274,4,3,0,1,over_triage,vomiting
 ktas_row_275,3,2,0,1,over_triage,vaginal spotting
 ktas_row_276,4,4,1,1,exact_match,abdomen pain
 ktas_row_277,4,2,0,0,over_triage,Open Wound
-ktas_row_278,4,3,0,1,over_triage,anxiety
+ktas_row_278,4,4,1,1,exact_match,anxiety
 ktas_row_279,4,3,0,1,over_triage,?? ???
 ktas_row_280,5,3,0,0,over_triage,myalgia
 ktas_row_281,4,4,1,1,exact_match,headache
@@ -318,7 +318,7 @@ ktas_row_321,4,3,0,1,over_triage,Rt. flank pain
 ktas_row_322,4,2,0,0,over_triage,Open Wound
 ktas_row_323,4,4,1,1,exact_match,LLQ pain
 ktas_row_324,4,3,0,1,over_triage,HA
-ktas_row_325,3,3,1,1,exact_match,dyspnea
+ktas_row_325,3,2,0,1,over_triage,dyspnea
 ktas_row_326,5,4,0,1,over_triage,"Pain, Ankle"
 ktas_row_327,3,4,0,1,under_triage,Abd. pain
 ktas_row_328,4,4,1,1,exact_match,abdomen pain
@@ -349,7 +349,7 @@ ktas_row_352,5,2,0,0,over_triage,pain on Knee
 ktas_row_353,4,4,1,1,exact_match,abd pain
 ktas_row_354,2,2,1,1,exact_match,Left chest pain
 ktas_row_355,4,3,0,1,over_triage,Epigastric discomfort(+)
-ktas_row_356,5,2,0,0,over_triage,both leg pain
+ktas_row_356,5,1,0,0,over_triage,both leg pain
 ktas_row_357,4,4,1,1,exact_match,abd pain
 ktas_row_358,4,3,0,1,over_triage,abd. Distension
 ktas_row_359,4,4,1,1,exact_match,epigastric pain
@@ -357,7 +357,7 @@ ktas_row_360,5,3,0,0,over_triage,for medication
 ktas_row_361,4,2,0,0,over_triage,"ocular pain, Rt."
 ktas_row_362,4,3,0,1,over_triage,Lt flank pain
 ktas_row_363,2,2,1,1,exact_match,ant. chest pain
-ktas_row_364,4,4,1,1,exact_match,headache
+ktas_row_364,4,2,0,0,over_triage,headache
 ktas_row_365,2,2,1,1,exact_match,Lt hemiparesis
 ktas_row_366,2,2,1,1,exact_match,ant. chest pain
 ktas_row_367,4,2,0,0,over_triage,Open Wound
@@ -400,9 +400,9 @@ ktas_row_403,4,3,0,1,over_triage,abd pain
 ktas_row_404,2,2,1,1,exact_match,ant. chest pain
 ktas_row_405,2,2,1,1,exact_match,ant. chest pain
 ktas_row_406,2,2,1,1,exact_match,diffuse chest discomfort
-ktas_row_407,2,3,0,1,critical_under_triage,dyspnea
+ktas_row_407,2,2,1,1,exact_match,dyspnea
 ktas_row_408,4,3,0,1,over_triage,epigastric pain
-ktas_row_409,2,3,0,1,critical_under_triage,general weakness
+ktas_row_409,2,2,1,1,exact_match,general weakness
 ktas_row_410,4,3,0,1,over_triage,abdomen pain
 ktas_row_411,4,3,0,1,over_triage,Abd. pain
 ktas_row_412,4,2,0,0,over_triage,Lower Back Pain
@@ -459,7 +459,7 @@ ktas_row_462,4,2,0,0,over_triage,Open Wound
 ktas_row_463,4,2,0,0,over_triage,mandibular pain
 ktas_row_464,4,3,0,1,over_triage,Toe injury
 ktas_row_465,4,2,0,0,over_triage,both leg pain
-ktas_row_466,3,2,0,1,over_triage,Convulsion
+ktas_row_466,3,1,0,0,over_triage,Convulsion
 ktas_row_467,3,4,0,1,under_triage,abd pain
 ktas_row_468,4,3,0,1,over_triage,"otalgia, Rt."
 ktas_row_469,3,2,0,1,over_triage,"pain, chest"
@@ -490,10 +490,10 @@ ktas_row_493,3,4,0,1,under_triage,Throat Pain
 ktas_row_494,4,2,0,0,over_triage,Open Wound
 ktas_row_495,2,2,1,1,exact_match,ant. chest pain
 ktas_row_496,4,3,0,1,over_triage,"injury, finger"
-ktas_row_497,3,3,1,1,exact_match,general weakness
+ktas_row_497,3,2,0,1,over_triage,general weakness
 ktas_row_498,4,2,0,0,over_triage,Open Wound
 ktas_row_499,4,4,1,1,exact_match,facial painful swelling
-ktas_row_500,2,3,0,1,critical_under_triage,dizziness
+ktas_row_500,2,2,1,1,exact_match,dizziness
 ktas_row_501,3,2,0,1,over_triage,"pain, chest"
 ktas_row_502,4,3,0,1,over_triage,"otalgia, Lt."
 ktas_row_503,4,3,0,1,over_triage,facial injury
@@ -519,7 +519,7 @@ ktas_row_522,4,3,0,1,over_triage,left eye swelling
 ktas_row_523,3,4,0,1,under_triage,"pain, abdominal"
 ktas_row_524,3,4,0,1,under_triage,abd pain
 ktas_row_525,4,2,0,0,over_triage,"wrist pain, Lt"
-ktas_row_526,3,4,0,1,under_triage,epigastric pain
+ktas_row_526,3,2,0,1,over_triage,epigastric pain
 ktas_row_527,3,2,0,1,over_triage,abd pain
 ktas_row_528,3,2,0,1,over_triage,Open Wound
 ktas_row_529,2,2,1,1,exact_match,ant. chest pain
@@ -617,7 +617,7 @@ ktas_row_620,3,4,0,1,under_triage,abd pain
 ktas_row_621,4,2,0,0,over_triage,FB in eye
 ktas_row_622,3,4,0,1,under_triage,abdomen pain
 ktas_row_623,3,4,0,1,under_triage,abdomen pain
-ktas_row_624,3,3,1,1,exact_match,dizziness
+ktas_row_624,3,2,0,1,over_triage,dizziness
 ktas_row_625,3,4,0,1,under_triage,abd pain
 ktas_row_626,4,3,0,1,over_triage,Chin swelling
 ktas_row_627,3,4,0,1,under_triage,abd pain
@@ -675,7 +675,7 @@ ktas_row_678,3,4,0,1,under_triage,abd pain
 ktas_row_679,3,2,0,1,over_triage,foreign body ingestion
 ktas_row_680,4,2,0,0,over_triage,Open Wound
 ktas_row_681,3,4,0,1,under_triage,RLQ pain
-ktas_row_682,3,4,0,1,under_triage,headache
+ktas_row_682,3,2,0,1,over_triage,headache
 ktas_row_683,4,3,0,1,over_triage,Wrist Injury
 ktas_row_684,4,2,0,0,over_triage,Vaginal Bleeding
 ktas_row_685,3,4,0,1,under_triage,"pain, flank"
@@ -687,7 +687,7 @@ ktas_row_690,3,2,0,1,over_triage,headache
 ktas_row_691,4,2,0,0,over_triage,"pain, arm"
 ktas_row_692,2,2,1,1,exact_match,lower extremity paraparesis
 ktas_row_693,3,2,0,1,over_triage,Foreign Body Sense
-ktas_row_694,2,4,0,0,critical_under_triage,upper back pain
+ktas_row_694,2,2,1,1,exact_match,upper back pain
 ktas_row_695,4,2,0,0,over_triage,"ocular pain, Rt."
 ktas_row_696,3,4,0,1,under_triage,"pain, low back"
 ktas_row_697,3,4,0,1,under_triage,ocular pain
@@ -706,7 +706,7 @@ ktas_row_709,3,4,0,1,under_triage,D - Diarrhea
 ktas_row_710,3,2,0,1,over_triage,facial injury
 ktas_row_711,3,2,0,1,over_triage,headache
 ktas_row_712,3,3,1,1,exact_match,RUQ pain
-ktas_row_713,2,3,0,1,critical_under_triage,epigastric pain
+ktas_row_713,2,2,1,1,exact_match,epigastric pain
 ktas_row_714,2,2,1,1,exact_match,chest discomfort
 ktas_row_715,4,2,0,0,over_triage,Rt. shoulder pain
 ktas_row_716,2,2,1,1,exact_match,Left chest pain
@@ -743,14 +743,14 @@ ktas_row_746,3,4,0,1,under_triage,LLQ pain
 ktas_row_747,4,4,1,1,exact_match,leg pain
 ktas_row_748,3,3,1,1,exact_match,"Flank pain, Rt."
 ktas_row_749,3,4,0,1,under_triage,epigastric pain
-ktas_row_750,3,3,1,1,exact_match,epigastric pain
+ktas_row_750,3,2,0,1,over_triage,epigastric pain
 ktas_row_751,4,3,0,1,over_triage,"pain, low back"
 ktas_row_752,4,4,1,1,exact_match,"tooth pain, Lt"
 ktas_row_753,3,3,1,1,exact_match,abd pain
 ktas_row_754,3,2,0,1,over_triage,"pain, shoulder"
 ktas_row_755,2,2,1,1,exact_match,ant. chest pain
 ktas_row_756,3,2,0,1,over_triage,finger pain
-ktas_row_757,2,3,0,1,critical_under_triage,upper back pain
+ktas_row_757,2,2,1,1,exact_match,upper back pain
 ktas_row_758,2,2,1,1,exact_match,abdomen pain
 ktas_row_759,2,2,1,1,exact_match,HA
 ktas_row_760,2,1,0,1,over_triage,"pain, chest"
@@ -758,14 +758,14 @@ ktas_row_761,3,2,0,1,over_triage,dyspnea
 ktas_row_762,3,2,0,1,over_triage,dizziness
 ktas_row_763,4,2,0,0,over_triage,for PEG tube change
 ktas_row_764,3,2,0,1,over_triage,Rt.arm weakness
-ktas_row_765,4,3,0,1,over_triage,general weakness
+ktas_row_765,4,2,0,0,over_triage,general weakness
 ktas_row_766,3,3,1,1,exact_match,high BSL
 ktas_row_767,3,1,0,0,over_triage,dyspnea
 ktas_row_768,2,1,0,1,over_triage,"Discomfort, Chest"
 ktas_row_769,4,3,0,1,over_triage,sezure like motion
 ktas_row_770,3,3,1,1,exact_match,dizziness
 ktas_row_771,3,3,1,1,exact_match,dizziness
-ktas_row_772,3,3,1,1,exact_match,general weakness
+ktas_row_772,3,2,0,1,over_triage,general weakness
 ktas_row_773,3,3,1,1,exact_match,vomiting
 ktas_row_774,3,3,1,1,exact_match,dizziness
 ktas_row_775,4,3,0,1,over_triage,Nasal swelling
@@ -785,16 +785,16 @@ ktas_row_788,4,3,0,1,over_triage,vomiting
 ktas_row_789,3,2,0,1,over_triage,sezure like motion
 ktas_row_790,2,2,1,1,exact_match,fever
 ktas_row_791,3,2,0,1,over_triage,rt. side weakness
-ktas_row_792,2,2,1,1,exact_match,post seizure
+ktas_row_792,2,1,0,1,over_triage,post seizure
 ktas_row_793,4,3,0,1,over_triage,"Retention, Bladder"
 ktas_row_794,4,3,0,1,over_triage,Free voiding
 ktas_row_795,4,3,0,1,over_triage,??? ??
 ktas_row_796,4,3,0,1,over_triage,facial injury
 ktas_row_797,3,2,0,1,over_triage,Amnesia
-ktas_row_798,3,3,1,1,exact_match,dyspnea
+ktas_row_798,3,2,0,1,over_triage,dyspnea
 ktas_row_799,3,2,0,1,over_triage,dizziness
 ktas_row_800,4,3,0,1,over_triage,fever
-ktas_row_801,3,3,1,1,exact_match,dyspnea
+ktas_row_801,3,2,0,1,over_triage,dyspnea
 ktas_row_802,4,3,0,1,over_triage,for PEG tube change
 ktas_row_803,4,3,0,1,over_triage,anxiety
 ktas_row_804,2,2,1,1,exact_match,fever
@@ -815,7 +815,7 @@ ktas_row_818,3,3,1,1,exact_match,abnormal lab.
 ktas_row_819,3,3,1,1,exact_match,vomiting
 ktas_row_820,3,3,1,1,exact_match,general weakness
 ktas_row_821,2,2,1,1,exact_match,dyspnea
-ktas_row_822,1,2,0,1,critical_under_triage,mental change
+ktas_row_822,1,1,1,1,exact_match,mental change
 ktas_row_823,3,3,1,1,exact_match,dizziness
 ktas_row_824,2,2,1,1,exact_match,dyspnea
 ktas_row_825,2,2,1,1,exact_match,dyspnea
@@ -823,7 +823,7 @@ ktas_row_826,3,3,1,1,exact_match,anemia w/u
 ktas_row_827,3,2,0,1,over_triage,DZ - Dizziness
 ktas_row_828,2,2,1,1,exact_match,"Discomfort, Chest"
 ktas_row_829,4,2,0,0,over_triage,forehead laceration
-ktas_row_830,3,2,0,1,over_triage,post seizure
+ktas_row_830,3,1,0,0,over_triage,post seizure
 ktas_row_831,3,3,1,1,exact_match,light headness
 ktas_row_832,3,2,0,1,over_triage,H-Headache
 ktas_row_833,2,2,1,1,exact_match,altered mentality
@@ -835,7 +835,7 @@ ktas_row_838,4,3,0,1,over_triage,??? ??? ??
 ktas_row_839,4,2,0,0,over_triage,finger laceration
 ktas_row_840,3,2,0,1,over_triage,Sexual Abuse of Adult
 ktas_row_841,2,2,1,1,exact_match,"DI, drug intoxication"
-ktas_row_842,3,3,1,1,exact_match,dyspnea
+ktas_row_842,3,2,0,1,over_triage,dyspnea
 ktas_row_843,4,4,1,1,exact_match,skin rash
 ktas_row_844,3,1,0,0,over_triage,hematemesis
 ktas_row_845,4,3,0,1,over_triage,"bleeding, gingival"
@@ -846,7 +846,7 @@ ktas_row_849,4,3,0,1,over_triage,nasal injury
 ktas_row_850,3,2,0,1,over_triage,Near syncope
 ktas_row_851,5,3,0,0,over_triage,po medication
 ktas_row_852,3,3,1,1,exact_match,dyspnea
-ktas_row_853,2,2,1,1,exact_match,post seizure
+ktas_row_853,2,1,0,1,over_triage,post seizure
 ktas_row_854,4,2,0,0,over_triage,syncope
 ktas_row_855,3,3,1,1,exact_match,vomiting
 ktas_row_856,3,2,0,1,over_triage,hematochezia
@@ -880,9 +880,9 @@ ktas_row_883,3,2,0,1,over_triage,dyspnea
 ktas_row_884,3,2,0,1,over_triage,Suicidal thoughts (finding)
 ktas_row_885,4,3,0,1,over_triage,right nasal bleeding
 ktas_row_886,3,2,0,1,over_triage,fever
-ktas_row_887,3,2,0,1,over_triage,post seizure
+ktas_row_887,3,1,0,0,over_triage,post seizure
 ktas_row_888,4,3,0,1,over_triage,epistaxis
-ktas_row_889,1,2,0,1,critical_under_triage,seizure
+ktas_row_889,1,1,1,1,exact_match,seizure
 ktas_row_890,5,3,0,0,over_triage,eye discomfort
 ktas_row_891,4,2,0,0,over_triage,nausea
 ktas_row_892,3,3,1,1,exact_match,Delusional Idea
@@ -891,10 +891,10 @@ ktas_row_894,3,3,1,1,exact_match,DZ - Dizziness
 ktas_row_895,4,2,0,0,over_triage,cerebral concussion
 ktas_row_896,4,3,0,1,over_triage,fever
 ktas_row_897,4,3,0,1,over_triage,fever
-ktas_row_898,3,2,0,1,over_triage,Convulsion
+ktas_row_898,3,1,0,0,over_triage,Convulsion
 ktas_row_899,3,2,0,1,over_triage,anterior chest discomfort
 ktas_row_900,3,2,0,1,over_triage,Vaginal Bleeding
-ktas_row_901,3,3,1,1,exact_match,anxiety
+ktas_row_901,3,4,0,1,under_triage,anxiety
 ktas_row_902,3,2,0,1,over_triage,Vaginal Bleeding
 ktas_row_903,3,3,1,1,exact_match,dyspnea
 ktas_row_904,3,2,0,1,over_triage,vaginal bleeding
@@ -910,7 +910,7 @@ ktas_row_913,2,1,0,1,over_triage,Confusion state
 ktas_row_914,2,2,1,1,exact_match,Vaginal Bleeding
 ktas_row_915,4,2,0,0,over_triage,anxiety
 ktas_row_916,4,2,0,0,over_triage,Open Wound
-ktas_row_917,4,3,0,1,over_triage,anxiety
+ktas_row_917,4,4,1,1,exact_match,anxiety
 ktas_row_918,3,2,0,1,over_triage,sexual violence
 ktas_row_919,5,2,0,0,over_triage,scratch wound
 ktas_row_920,3,3,1,1,exact_match,facial injury
@@ -972,7 +972,7 @@ ktas_row_976,2,1,0,1,over_triage,hematemesis
 ktas_row_977,2,1,0,1,over_triage,hematemesis
 ktas_row_978,3,1,0,0,over_triage,hematemesis
 ktas_row_979,3,1,0,0,over_triage,hematemesis
-ktas_row_980,2,3,0,1,critical_under_triage,"Abnormality, Visual Acuity"
+ktas_row_980,2,2,1,1,exact_match,"Abnormality, Visual Acuity"
 ktas_row_981,3,4,0,1,under_triage,diarrhea
 ktas_row_982,3,2,0,1,over_triage,dizziness
 ktas_row_983,3,3,1,1,exact_match,dizziness
@@ -1000,10 +1000,10 @@ ktas_row_1004,3,3,1,1,exact_match,palpitation
 ktas_row_1005,4,4,1,1,exact_match,dysuria
 ktas_row_1006,3,3,1,1,exact_match,fever
 ktas_row_1007,3,4,0,1,under_triage,D - Diarrhea
-ktas_row_1008,1,2,0,1,critical_under_triage,post-CPR state
+ktas_row_1008,1,1,1,1,exact_match,post-CPR state
 ktas_row_1009,2,1,0,1,over_triage,"Discomfort, Throat"
 ktas_row_1010,2,3,0,1,critical_under_triage,vomiting
-ktas_row_1011,1,2,0,1,critical_under_triage,post-CPR state
+ktas_row_1011,1,1,1,1,exact_match,post-CPR state
 ktas_row_1012,5,3,0,0,over_triage,facial lesion
 ktas_row_1013,3,2,0,1,over_triage,Rt. side motor weakness
 ktas_row_1014,2,3,0,1,critical_under_triage,dizziness
@@ -1027,20 +1027,20 @@ ktas_row_1031,5,4,0,1,over_triage,skin rash
 ktas_row_1032,4,3,0,1,over_triage,PTBD malfunction
 ktas_row_1033,4,3,0,1,over_triage,PTBD malfunction
 ktas_row_1034,3,2,0,1,over_triage,dizziness
-ktas_row_1035,3,3,1,1,exact_match,dizziness
+ktas_row_1035,3,2,0,1,over_triage,dizziness
 ktas_row_1036,3,3,1,1,exact_match,dizziness
 ktas_row_1037,3,2,0,1,over_triage,Lt. side weakness
 ktas_row_1038,3,3,1,1,exact_match,mood depression
 ktas_row_1039,3,3,1,1,exact_match,dizziness
 ktas_row_1040,2,2,1,1,exact_match,Rt. side motor weakness
-ktas_row_1041,1,2,0,1,critical_under_triage,arrest
-ktas_row_1042,3,3,1,1,exact_match,dyspnea
+ktas_row_1041,1,1,1,1,exact_match,arrest
+ktas_row_1042,3,2,0,1,over_triage,dyspnea
 ktas_row_1043,5,3,0,0,over_triage,"distension, abd"
 ktas_row_1044,5,3,0,0,over_triage,hiccup
 ktas_row_1045,2,2,1,1,exact_match,rigth side weakness
 ktas_row_1046,3,2,0,1,over_triage,dysarthria
 ktas_row_1047,3,2,0,1,over_triage,hematochezia
-ktas_row_1048,3,2,0,1,over_triage,Convulsion
+ktas_row_1048,3,1,0,0,over_triage,Convulsion
 ktas_row_1049,5,3,0,0,over_triage,"distension, abd"
 ktas_row_1050,2,2,1,1,exact_match,confuse mentality
 ktas_row_1051,3,2,0,1,over_triage,dyspnea
@@ -1065,31 +1065,31 @@ ktas_row_1069,4,3,0,1,over_triage,vomiting
 ktas_row_1070,5,4,0,1,over_triage,Urticarial rash
 ktas_row_1071,4,3,0,1,over_triage,AVF malfunction
 ktas_row_1072,3,3,1,1,exact_match,general weakness
-ktas_row_1073,3,3,1,1,exact_match,dizziness
-ktas_row_1074,3,3,1,1,exact_match,dyspnea
+ktas_row_1073,3,2,0,1,over_triage,dizziness
+ktas_row_1074,3,2,0,1,over_triage,dyspnea
 ktas_row_1075,1,2,0,1,critical_under_triage,mental change
 ktas_row_1076,2,2,1,1,exact_match,drowsy mentality
-ktas_row_1077,2,2,1,1,exact_match,post seizure
+ktas_row_1077,2,1,0,1,over_triage,post seizure
 ktas_row_1078,3,2,0,1,over_triage,Motor weakness
 ktas_row_1079,3,2,0,1,over_triage,hematochezia
-ktas_row_1080,1,2,0,1,critical_under_triage,altered mental change
+ktas_row_1080,1,1,1,1,exact_match,altered mental change
 ktas_row_1081,2,2,1,1,exact_match,hypoglycemic
 ktas_row_1082,5,4,0,1,over_triage,"Whole body, skin rash"
 ktas_row_1083,4,3,0,1,over_triage,fever
 ktas_row_1084,2,2,1,1,exact_match,dyspnea
-ktas_row_1085,3,3,1,1,exact_match,dyspnea
-ktas_row_1086,3,3,1,1,exact_match,dyspnea
+ktas_row_1085,3,2,0,1,over_triage,dyspnea
+ktas_row_1086,3,2,0,1,over_triage,dyspnea
 ktas_row_1087,5,3,0,0,over_triage,Catheter removal
 ktas_row_1088,3,2,0,1,over_triage,hematochezia
 ktas_row_1089,3,3,1,1,exact_match,dizziness
-ktas_row_1090,2,3,0,1,critical_under_triage,general weakness
+ktas_row_1090,2,2,1,1,exact_match,general weakness
 ktas_row_1091,3,3,1,1,exact_match,Facial Palsy
-ktas_row_1092,3,3,1,1,exact_match,dyspnea
+ktas_row_1092,3,2,0,1,over_triage,dyspnea
 ktas_row_1093,4,4,1,1,exact_match,Urinary frequency
 ktas_row_1094,3,2,0,1,over_triage,melena
 ktas_row_1095,3,2,0,1,over_triage,C - Coughing
 ktas_row_1096,3,3,1,1,exact_match,dizziness
-ktas_row_1097,2,3,0,1,critical_under_triage,DZ - Dizziness
+ktas_row_1097,2,2,1,1,exact_match,DZ - Dizziness
 ktas_row_1098,3,3,1,1,exact_match,rotatory vertigo
 ktas_row_1099,3,2,0,1,over_triage,chest palpitation
 ktas_row_1100,2,2,1,1,exact_match,mental change
@@ -1098,38 +1098,38 @@ ktas_row_1102,2,2,1,1,exact_match,dyspnea
 ktas_row_1103,2,2,1,1,exact_match,L side weakness
 ktas_row_1104,3,3,1,1,exact_match,palpitation
 ktas_row_1105,4,3,0,1,over_triage,voiding difficulty
-ktas_row_1106,3,3,1,1,exact_match,dizziness
+ktas_row_1106,3,2,0,1,over_triage,dizziness
 ktas_row_1107,3,3,1,1,exact_match,fever
 ktas_row_1108,2,2,1,1,exact_match,LOC
 ktas_row_1109,2,2,1,1,exact_match,Lt. hemiparesis
 ktas_row_1110,3,2,0,1,over_triage,rigth side weakness
 ktas_row_1111,4,3,0,1,over_triage,PTBD leaukage
-ktas_row_1112,3,3,1,1,exact_match,dyspnea
+ktas_row_1112,3,2,0,1,over_triage,dyspnea
 ktas_row_1113,2,2,1,1,exact_match,BST high
 ktas_row_1114,3,2,0,1,over_triage,melena
 ktas_row_1115,3,3,1,1,exact_match,DZ - Dizziness
 ktas_row_1116,3,2,0,1,over_triage,epistaxis
 ktas_row_1117,3,3,1,1,exact_match,numbness
 ktas_row_1118,3,3,1,1,exact_match,dizziness
-ktas_row_1119,3,3,1,1,exact_match,dyspnea
+ktas_row_1119,3,2,0,1,over_triage,dyspnea
 ktas_row_1120,5,2,0,0,over_triage,right motor weakness
 ktas_row_1121,4,3,0,1,over_triage,fever
 ktas_row_1122,5,3,0,0,over_triage,itching sensation
 ktas_row_1123,2,2,1,1,exact_match,"Aphasia, Motor"
 ktas_row_1124,3,3,1,1,exact_match,nasal bleeding
-ktas_row_1125,3,2,0,1,over_triage,Seizure Like Activity
+ktas_row_1125,3,1,0,0,over_triage,Seizure Like Activity
 ktas_row_1126,4,3,0,1,over_triage,dizziness
 ktas_row_1127,4,2,0,0,over_triage,fever
 ktas_row_1128,2,2,1,1,exact_match,dizziness
 ktas_row_1129,2,2,1,1,exact_match,confused mental status
 ktas_row_1130,2,2,1,1,exact_match,mental change
-ktas_row_1131,3,3,1,1,exact_match,dyspnea
+ktas_row_1131,3,2,0,1,over_triage,dyspnea
 ktas_row_1132,3,2,0,1,over_triage,dysarthria
 ktas_row_1133,2,1,0,1,over_triage,mental change
 ktas_row_1134,1,2,0,1,critical_under_triage,mental change
 ktas_row_1135,3,2,0,1,over_triage,acute dyspnea
-ktas_row_1136,2,2,1,1,exact_match,altered mentality
-ktas_row_1137,3,3,1,1,exact_match,dizziness
+ktas_row_1136,2,1,0,1,over_triage,altered mentality
+ktas_row_1137,3,2,0,1,over_triage,dizziness
 ktas_row_1138,5,3,0,0,over_triage,diffuse abdominal discomfort
 ktas_row_1139,3,2,0,1,over_triage,syncope
 ktas_row_1140,2,2,1,1,exact_match,Rt. side motor weakness
@@ -1137,14 +1137,14 @@ ktas_row_1141,3,2,0,1,over_triage,Rt. side motor weakness
 ktas_row_1142,4,2,0,0,over_triage,dysuria
 ktas_row_1143,4,3,0,1,over_triage,blurred vision
 ktas_row_1144,3,3,1,1,exact_match,fever
-ktas_row_1145,1,2,0,1,critical_under_triage,post-CPR state
+ktas_row_1145,1,1,1,1,exact_match,post-CPR state
 ktas_row_1146,3,1,0,0,over_triage,hematemesis
-ktas_row_1147,3,3,1,1,exact_match,dizziness
+ktas_row_1147,3,2,0,1,over_triage,dizziness
 ktas_row_1148,3,3,1,1,exact_match,dizziness
 ktas_row_1149,3,2,0,1,over_triage,dyspnea
 ktas_row_1150,3,1,0,0,over_triage,dizziness
 ktas_row_1151,2,2,1,1,exact_match,Lt. motor weakness
-ktas_row_1152,3,3,1,1,exact_match,dizziness
+ktas_row_1152,3,2,0,1,over_triage,dizziness
 ktas_row_1153,3,3,1,1,exact_match,dizziness
 ktas_row_1154,3,2,0,1,over_triage,dyspnea
 ktas_row_1155,3,2,0,1,over_triage,mental confusion
@@ -1170,7 +1170,7 @@ ktas_row_1174,3,2,0,1,over_triage,general weakness
 ktas_row_1175,2,2,1,1,exact_match,mental change
 ktas_row_1176,2,2,1,1,exact_match,mental change
 ktas_row_1177,3,3,1,1,exact_match,general weakness
-ktas_row_1178,3,2,0,1,over_triage,Convulsion
+ktas_row_1178,3,1,0,0,over_triage,Convulsion
 ktas_row_1179,2,2,1,1,exact_match,left motor weakness
 ktas_row_1180,3,3,1,1,exact_match,"Numbness, Arm"
 ktas_row_1181,2,2,1,1,exact_match,syncope
@@ -1193,11 +1193,11 @@ ktas_row_1197,4,3,0,1,over_triage,fever
 ktas_row_1198,3,2,0,1,over_triage,dysarthria
 ktas_row_1199,3,2,0,1,over_triage,dyspnea
 ktas_row_1200,3,2,0,1,over_triage,dizziness
-ktas_row_1201,3,3,1,1,exact_match,dizziness
+ktas_row_1201,3,2,0,1,over_triage,dizziness
 ktas_row_1202,3,4,0,1,under_triage,watery diarrhea
 ktas_row_1203,4,2,0,0,over_triage,hand laceration
 ktas_row_1204,3,2,0,1,over_triage,dyspnea
-ktas_row_1205,3,2,0,1,over_triage,Convulsion
+ktas_row_1205,3,1,0,0,over_triage,Convulsion
 ktas_row_1206,3,2,0,1,over_triage,dysarthria
 ktas_row_1207,2,1,0,1,over_triage,melena
 ktas_row_1208,5,3,0,0,over_triage,medication
@@ -1225,10 +1225,10 @@ ktas_row_1229,4,2,0,0,over_triage,eye pain left eye
 ktas_row_1230,4,3,0,1,over_triage,Rt. flank pain
 ktas_row_1231,2,2,1,1,exact_match,ant. chest pain
 ktas_row_1232,4,4,1,1,exact_match,headache
-ktas_row_1233,3,3,1,1,exact_match,dyspnea
+ktas_row_1233,3,2,0,1,over_triage,dyspnea
 ktas_row_1234,2,2,1,1,exact_match,ant. chest pain
 ktas_row_1235,4,2,0,0,over_triage,dyspnea
-ktas_row_1236,4,3,0,1,over_triage,epigastric pain
+ktas_row_1236,4,2,0,0,over_triage,epigastric pain
 ktas_row_1237,4,3,0,1,over_triage,"Pain, Abdomen"
 ktas_row_1238,3,2,0,1,over_triage,Vaginal Bleeding
 ktas_row_1239,3,3,1,1,exact_match,Abdominal pain (finding)
@@ -1251,7 +1251,7 @@ ktas_row_1255,3,3,1,1,exact_match,dizziness
 ktas_row_1256,2,2,1,1,exact_match,behavior change
 ktas_row_1257,3,2,0,1,over_triage,LOC - Loss of consciousness
 ktas_row_1258,3,3,1,1,exact_match,general weakness
-ktas_row_1259,3,3,1,1,exact_match,Amnesia
+ktas_row_1259,3,2,0,1,over_triage,Amnesia
 ktas_row_1260,3,3,1,1,exact_match,epistaxis
 ktas_row_1261,3,3,1,1,exact_match,dizziness
 ktas_row_1262,2,2,1,1,exact_match,syncope

@@ -4,7 +4,7 @@ Deploy Gemma 4 27B-IT from Vertex AI Model Garden.
 
 Usage:
     python deploy_gemma4_vertex.py
-    python deploy_gemma4_vertex.py --model google/gemma-4-27b-it
+    python deploy_gemma4_vertex.py --model google/gemma-4-E4B-it
     python deploy_gemma4_vertex.py --single-gpu  # int8 quantization on 1x L4
 
 What this does:
@@ -21,7 +21,7 @@ Prerequisites:
     - gcloud auth application-default login
     - GPU quota: NVIDIA_L4_GPUS in us-central1 (at least 2 for default, 1 for --single-gpu)
     - pip install google-cloud-aiplatform>=1.60.0
-    - Hugging Face token with access to google/gemma-4-27b-it (gated model)
+    - Hugging Face token with access to google/gemma-4-E4B-it (gated model)
       Set HF_TOKEN env var or pass --hf-token
 """
 
@@ -30,6 +30,16 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+from pathlib import Path
+
+# Load .env from backend/ directory so HF_TOKEN and other vars are available
+_env_file = Path(__file__).parent / ".env"
+if _env_file.exists():
+    for _line in _env_file.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _, _v = _line.partition("=")
+            os.environ.setdefault(_k.strip(), _v.strip())
 
 from google.cloud import aiplatform
 
@@ -41,7 +51,6 @@ DUAL_GPU_CONFIG = {
     "accelerator_type": "NVIDIA_L4",
     "accelerator_count": 2,
     "vllm_args": [
-        "--model=google/gemma-4-27b-it",
         "--tensor-parallel-size=2",
         "--max-model-len=8192",
         "--dtype=float16",
@@ -54,21 +63,18 @@ SINGLE_GPU_CONFIG = {
     "accelerator_type": "NVIDIA_L4",
     "accelerator_count": 1,
     "vllm_args": [
-        "--model=google/gemma-4-27b-it",
         "--tensor-parallel-size=1",
-        "--max-model-len=4096",
-        "--dtype=float16",
-        "--quantization=bitsandbytes",
-        "--load-format=bitsandbytes",
+        "--max-model-len=8192",
+        "--dtype=bfloat16",  # Gemma arch requires bfloat16; E4B ~8GB bf16, 16GB free for KV
     ],
-    "description": "1x L4 GPU (24GB VRAM) — int8 quantized, budget option",
+    "description": "1x L4 GPU (24GB VRAM) — Gemma 4 E4B dense, no quantization needed",
 }
 
 
 def deploy_gemma4(
     project_id: str = "safe-triage-ai",
     region: str = "us-central1",
-    model_id: str = "google/gemma-4-27b-it",
+    model_id: str = "google/gemma-4-E4B-it",
     hf_token: str = "",
     single_gpu: bool = False,
     min_replicas: int = 0,
@@ -84,7 +90,7 @@ def deploy_gemma4(
 
     # Override model ID in vllm args if custom model specified
     vllm_args = list(config["vllm_args"])
-    if model_id != "google/gemma-4-27b-it":
+    if model_id != "google/gemma-4-E4B-it":
         vllm_args = [
             f"--model={model_id}" if arg.startswith("--model=") else arg
             for arg in vllm_args
@@ -95,24 +101,35 @@ def deploy_gemma4(
 
     serving_container_image = (
         "us-docker.pkg.dev/vertex-ai/vertex-vision-model-garden-dockers/"
-        "pytorch-vllm-serve:20240220_0936_RC01"
+        "pytorch-vllm-serve:gemma4"
     )
 
     # Gemma models are gated on HuggingFace — pass token to container
-    container_env = {}
+    container_env = {
+        "MODEL_ID": model_id,
+        "DEPLOY_SOURCE": "notebook",
+    }
     if hf_token:
         container_env["HUGGING_FACE_HUB_TOKEN"] = hf_token
     elif os.getenv("HF_TOKEN"):
         container_env["HUGGING_FACE_HUB_TOKEN"] = os.environ["HF_TOKEN"]
 
+    # The gcs_download_launcher.sh does `exec "$@"` — args must be the full command.
+    full_args = [
+        "python", "-m", "vllm.entrypoints.openai.api_server",
+        f"--model={model_id}",
+        "--host=0.0.0.0",
+        "--port=7080",
+    ] + vllm_args
+
     model = aiplatform.Model.upload(
         display_name="gemma-4-27b-it",
         serving_container_image_uri=serving_container_image,
-        serving_container_args=vllm_args,
+        serving_container_args=full_args,
         serving_container_ports=[7080],
-        serving_container_predict_route="/generate",
-        serving_container_health_route="/ping",
-        serving_container_environment_variables=container_env or None,
+        serving_container_predict_route="/v1/completions",
+        serving_container_health_route="/health",
+        serving_container_environment_variables=container_env,
     )
     print(f"    Model uploaded: {model.resource_name}")
 
@@ -165,8 +182,8 @@ def main() -> None:
     parser.add_argument("--region", default="us-central1", help="GCP region")
     parser.add_argument(
         "--model",
-        default="google/gemma-4-27b-it",
-        help="HuggingFace model ID (default: google/gemma-4-27b-it)",
+        default="google/gemma-4-E4B-it",
+        help="HuggingFace model ID (default: google/gemma-4-E4B-it)",
     )
     parser.add_argument(
         "--hf-token",

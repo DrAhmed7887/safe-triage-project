@@ -4,7 +4,7 @@
   "description": "1,267 ED patients from two Korean hospitals, expert-validated KTAS levels",
   "gold_standard": "KTAS_expert (3 triage experts consensus)",
   "engine_mode": "deterministic_only (no Gemini/MedGemma)",
-  "timestamp": "20260401T233334Z",
+  "timestamp": "20260405T115427Z",
   "dataset": {
     "total": 1262,
     "ktas_expert_distribution": {
@@ -29,62 +29,61 @@
   },
   "metrics": {
     "total": 1262,
-    "exact_match": 477,
-    "exact_match_rate": 0.378,
-    "within_one": 1042,
-    "within_one_rate": 0.8257,
-    "under_triage": 136,
-    "under_triage_rate": 0.1078,
-    "over_triage": 649,
-    "over_triage_rate": 0.5143,
-    "high_acuity_under_triage": 37,
-    "high_acuity_under_triage_rate": 0.0293,
-    "critical_under_triage_note": "Metric = any under-triage of KTAS 1 or 2 by >=1 level. Under strict ACS-COT definition (>=2-level miss of KTAS 1/2), true critical under-triage = 1 case (ktas_row_694, 0.08%).",
+    "exact_match": 464,
+    "exact_match_rate": 0.3677,
+    "within_one": 1028,
+    "within_one_rate": 0.8146,
+    "under_triage": 115,
+    "under_triage_rate": 0.0911,
+    "over_triage": 683,
+    "over_triage_rate": 0.5412,
+    "critical_under_triage": 17,
+    "critical_under_triage_rate": 0.0135,
     "per_class_recall": {
-      "1": 0.2692,
-      "2": 0.7854,
-      "3": 0.4127,
-      "4": 0.2132,
+      "1": 0.6154,
+      "2": 0.8174,
+      "3": 0.3511,
+      "4": 0.2154,
       "5": 0.0
     },
     "confusion_matrix": {
       "1": {
-        "1": 7,
-        "2": 19,
+        "1": 16,
+        "2": 10,
         "3": 0,
         "4": 0,
         "5": 0
       },
       "2": {
-        "1": 29,
-        "2": 172,
-        "3": 17,
-        "4": 1,
+        "1": 33,
+        "2": 179,
+        "3": 7,
+        "4": 0,
         "5": 0
       },
       "3": {
-        "1": 10,
-        "2": 177,
-        "3": 201,
-        "4": 99,
+        "1": 21,
+        "2": 197,
+        "3": 171,
+        "4": 98,
         "5": 0
       },
       "4": {
         "1": 0,
-        "2": 154,
-        "3": 204,
-        "4": 97,
+        "2": 158,
+        "3": 199,
+        "4": 98,
         "5": 0
       },
       "5": {
-        "1": 0,
-        "2": 19,
+        "1": 1,
+        "2": 18,
         "3": 36,
         "4": 20,
         "5": 0
       }
     },
-    "high_acuity_under_triage_cases": [
+    "critical_under_triage_cases": [
       {
         "case_id": "ktas_row_61",
         "actual_esi": 2,
@@ -102,24 +101,6 @@
         "actual_esi": 1,
         "predicted_esi": 2,
         "chief_complaint": "dyspnea"
-      },
-      {
-        "case_id": "ktas_row_132",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "fever"
-      },
-      {
-        "case_id": "ktas_row_152",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "mental change"
-      },
-      {
-        "case_id": "ktas_row_157",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "Motor weakness"
       },
       {
         "case_id": "ktas_row_158",
@@ -140,12 +121,6 @@
         "chief_complaint": "dyspnea"
       },
       {
-        "case_id": "ktas_row_169",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "Amnesia"
-      },
-      {
         "case_id": "ktas_row_217",
         "actual_esi": 1,
         "predicted_esi": 2,
@@ -158,46 +133,10 @@
         "chief_complaint": "dyspnea"
       },
       {
-        "case_id": "ktas_row_407",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "dyspnea"
-      },
-      {
-        "case_id": "ktas_row_409",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "general weakness"
-      },
-      {
-        "case_id": "ktas_row_500",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "dizziness"
-      },
-      {
-        "case_id": "ktas_row_694",
-        "actual_esi": 2,
-        "predicted_esi": 4,
-        "chief_complaint": "upper back pain"
-      },
-      {
         "case_id": "ktas_row_707",
         "actual_esi": 1,
         "predicted_esi": 2,
         "chief_complaint": "abd pain"
-      },
-      {
-        "case_id": "ktas_row_713",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "epigastric pain"
-      },
-      {
-        "case_id": "ktas_row_757",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "upper back pain"
       },
       {
         "case_id": "ktas_row_806",
@@ -206,40 +145,10 @@
         "chief_complaint": "mental change"
       },
       {
-        "case_id": "ktas_row_822",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "mental change"
-      },
-      {
-        "case_id": "ktas_row_889",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "seizure"
-      },
-      {
-        "case_id": "ktas_row_980",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "Abnormality, Visual Acuity"
-      },
-      {
-        "case_id": "ktas_row_1008",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "post-CPR state"
-      },
-      {
         "case_id": "ktas_row_1010",
         "actual_esi": 2,
         "predicted_esi": 3,
         "chief_complaint": "vomiting"
-      },
-      {
-        "case_id": "ktas_row_1011",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "post-CPR state"
       },
       {
         "case_id": "ktas_row_1014",
@@ -248,46 +157,16 @@
         "chief_complaint": "dizziness"
       },
       {
-        "case_id": "ktas_row_1041",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "arrest"
-      },
-      {
         "case_id": "ktas_row_1075",
         "actual_esi": 1,
         "predicted_esi": 2,
         "chief_complaint": "mental change"
       },
       {
-        "case_id": "ktas_row_1080",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "altered mental change"
-      },
-      {
-        "case_id": "ktas_row_1090",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "general weakness"
-      },
-      {
-        "case_id": "ktas_row_1097",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "DZ - Dizziness"
-      },
-      {
         "case_id": "ktas_row_1134",
         "actual_esi": 1,
         "predicted_esi": 2,
         "chief_complaint": "mental change"
-      },
-      {
-        "case_id": "ktas_row_1145",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "post-CPR state"
       },
       {
         "case_id": "ktas_row_1173",
