@@ -1,0 +1,39 @@
+{
+  "no_questions": {
+    "exact_match": 0.9722222222222222,
+    "within_one": 1.0,
+    "under_triage": 0.0,
+    "over_triage": 0.027777777777777776,
+    "critical_under_triage": 0.0,
+    "questions_triggered": 0,
+    "esi_changed": 0,
+    "question_types": {}
+  },
+  "1_question": {
+    "exact_match": 0.9722222222222222,
+    "within_one": 1.0,
+    "under_triage": 0.0,
+    "over_triage": 0.027777777777777776,
+    "critical_under_triage": 0.0,
+    "questions_triggered": 20,
+    "esi_changed": 0,
+    "question_types": {
+      "danger": 16,
+      "resource": 4
+    }
+  },
+  "up_to_3": {
+    "exact_match": 0.9722222222222222,
+    "within_one": 1.0,
+    "under_triage": 0.0,
+    "over_triage": 0.027777777777777776,
+    "critical_under_triage": 0.0,
+    "questions_triggered": 20,
+    "esi_changed": 0,
+    "question_types": {
+      "danger": 16,
+      "hidden_risk": 2,
+      "resource": 4
+    }
+  }
+}

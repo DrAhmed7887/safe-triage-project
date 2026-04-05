@@ -219,6 +219,11 @@ class TriageResult(BaseModel):
     icd10_description: str = ""
     icd10_category: str = ""
 
+    # Boundary Clarification Mode
+    triage_status: str = "final"  # "final" or "pending_clarification"
+    boundary_questions: List[Dict[str, str]] = []
+    clarification_token: Optional[str] = None
+
 
 class TriageConfirmationRequest(BaseModel):
     patient_id: str

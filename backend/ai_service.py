@@ -251,34 +251,37 @@ class AIService:
         self.umls_rag = UMLSMedicalRAG(cache_path)
         print(f"✅ UMLS RAG initialized", flush=True)
 
-        # --- Model priority: Gemma 4 (primary) → Gemini 2.5-flash (fallback) ---
+        # --- Model priority: Gemini 2.5-flash (primary, fast) → Gemma 4 (shadow/backup) ---
+        # Hackathon strategy:
+        #   Live primary  : Gemini 2.5-flash  — real-time, ~1-2s, uses $1K GenAI credit
+        #   Shadow/backup : Gemma 4 26B A4B   — open-weight story, uses $105 free trial
+        #   Async QA      : MedGemma 27B      — batch reviewer, uses $105 free trial
+        #   Final authority: deterministic SAFE-Triage rules (always)
 
-        # Try Gemma 4 endpoint first (if GEMMA4_ENDPOINT_ID is set)
+        # 1. Primary: Gemini 2.5-flash (fast, real-time triage)
+        try:
+            vertexai.init(project="safe-triage-ai", location="us-central1")
+            gemini = GenerativeModel("gemini-2.5-flash")
+            self.client = gemini
+            self.model_name = "gemini-2.5-flash"
+            self.mode = "vertex_ai"
+            print(f"✅ Gemini 2.5-flash initialized (live primary — fast real-time triage)", flush=True)
+        except Exception as e:
+            print(f"❌ Vertex AI / Gemini init failed: {e}", flush=True)
+
+        # 2. Shadow: Gemma 4 26B A4B (open-weight, privacy story, async shadow runs)
+        self.shadow_client = None
         gemma4_endpoint = os.getenv("GEMMA4_ENDPOINT_ID", "").strip()
         if gemma4_endpoint:
             try:
                 from gemma4_client import Gemma4VertexModel
-                self.client = Gemma4VertexModel()
-                self.model_name = "gemma-4-27b-it"
-                self.mode = "gemma4_vertex"
-                print(f"✅ Gemma 4 endpoint initialized (primary extraction model)", flush=True)
+                self.shadow_client = Gemma4VertexModel()
+                print(f"✅ Gemma 4 26B A4B initialized (shadow/backup — open-weight deployment)", flush=True)
             except Exception as e:
-                print(f"⚠️ Gemma 4 init failed: {e} — falling back to Gemini", flush=True)
+                print(f"⚠️ Gemma 4 shadow init failed: {e}", flush=True)
 
-        # Always init Gemini as fallback (or primary if no Gemma 4)
-        try:
-            vertexai.init(project="safe-triage-ai", location="us-central1")
-            gemini = GenerativeModel("gemini-2.5-flash")
-            if self.client is None:
-                self.client = gemini
-                self.model_name = "gemini-2.5-flash"
-                self.mode = "vertex_ai"
-                print(f"✅ Vertex AI initialized with gemini-2.5-flash (primary)", flush=True)
-            else:
-                self.gemini_client = gemini
-                print(f"✅ Gemini 2.5-flash initialized (fallback)", flush=True)
-        except Exception as e:
-            print(f"❌ Vertex AI / Gemini init failed: {e}", flush=True)
+        # Legacy: keep gemini_client alias for fallback logic compatibility
+        self.gemini_client = None
 
     def get_status(self):
         fallback = "gemini-2.5-flash" if self.gemini_client else "none"
@@ -516,8 +519,18 @@ For this patient, estimate expected ED resources likely needed:
 Return standardized resource labels using only:
 ["labs", "ecg", "imaging", "iv_meds_or_fluids", "procedure", "specialty_consult", "monitoring"]
 
+Additionally, generate up to 3 candidate boundary clarification questions for cases that may sit on an ESI boundary. These help discriminate between ESI levels when the case is ambiguous.
+Rules for boundary questions:
+- Under 15 words each, patient-friendly, non-leading
+- Do NOT mention any diagnoses (no "heart attack", "stroke", "ectopic", "MI", "جلطة", "ذبحة")
+- Questions must be purely symptom-clarifying (e.g., "Does the pain move?" not "Could it be a heart attack?")
+- Provide both English and simplified Arabic (Egyptian dialect, patient-accessible)
+- Tag each with exactly one type: "danger" (acute deterioration), "hidden_risk" (undetected comorbidity/syndrome), or "resource" (prior care/resources)
+- Include upgrade_signal describing what feature to add if answered "yes"
+- If the case is clearly life-threatening (ESI 1) or non-urgent (ESI 5), return an empty array
+
 Return this exact JSON structure:
-{{"extracted_symptoms": ["list of symptoms"], "clinical_impression": "brief assessment", "risk_factors": [], "recommended_workup": ["tests needed"], "expected_resources": ["labs", "imaging"], "resource_count": 2, "differential_diagnosis": ["possible diagnoses"], "reasoning": "one sentence clinical reasoning in English", "reasoning_ar": "reasoning in Arabic", "followup_question": "one short follow-up question in English", "followup_question_ar": "follow-up question in Arabic", "confidence": 0.0, "confidence_rationale": "short reason for confidence level"}}"""
+{{"extracted_symptoms": ["list of symptoms"], "clinical_impression": "brief assessment", "risk_factors": [], "recommended_workup": ["tests needed"], "expected_resources": ["labs", "imaging"], "resource_count": 2, "differential_diagnosis": ["possible diagnoses"], "reasoning": "one sentence clinical reasoning in English", "reasoning_ar": "reasoning in Arabic", "followup_question": "one short follow-up question in English", "followup_question_ar": "follow-up question in Arabic", "confidence": 0.0, "confidence_rationale": "short reason for confidence level", "candidate_boundary_questions": [{{"type": "danger", "question_en": "Is the pain getting worse right now?", "question_ar": "هل الألم بيزيد دلوقتي؟", "upgrade_signal": {{"action": "add_red_flag", "value": "acute_deterioration", "severity_override": "severe", "category_hint": null}}, "clinical_rationale": "brief reason"}}]}}"""
 
         try:
             print(f"🤖 Calling {self.model_name}...", flush=True)
@@ -552,6 +565,12 @@ Return this exact JSON structure:
             )
             result["confidence_score"] = confidence_value
             result["confidence"] = confidence_value
+
+            # Validate boundary clarification questions
+            from logic.boundary_clarification import validate_boundary_questions
+            result["candidate_boundary_questions"] = validate_boundary_questions(
+                result.get("candidate_boundary_questions", [])
+            )
 
             # Add SNOMED mapping
             snomed_started = time.perf_counter()

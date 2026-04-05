@@ -1584,6 +1584,25 @@ def apply_safety_floors(
     return final_esi, floors
 
 
+def stage2_was_near_miss(features: PatientFeatures, vitals: VitalSigns, news2: NEWS2Result) -> bool:
+    """
+    Return True if stage2_high_risk did NOT trigger but the case has
+    high-risk body system / severity signals — i.e., it almost triggered ESI 2.
+
+    Used by boundary_clarification to detect ESI 2/3 boundary cases.
+    """
+    result = stage2_high_risk(features, vitals, news2)
+    if result is not None:
+        return False  # It actually triggered — not a near-miss
+    body = _clean_text(features.body_system)
+    near_miss_systems = {
+        "chest_pain_cardiac", "stroke_symptoms", "neurological",
+        "respiratory_distress", "sepsis_concern", "abdominal_pain",
+        "cardiac", "respiratory", "neurological_emergency",
+    }
+    return body in near_miss_systems or _clean_text(features.severity) in ("moderate", "severe")
+
+
 def triage_patient(features: PatientFeatures, vitals: VitalSigns, news2: NEWS2Result) -> TriageResult:
     all_reasons: List[str] = []
     stage_reached = "stage3_resources"

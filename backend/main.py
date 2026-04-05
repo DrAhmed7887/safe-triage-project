@@ -4060,8 +4060,89 @@ def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Dep
                 if low_confidence else None
             ),
             "insufficient_info_warning": insufficient_info_warning,
-            "gahar_notice": GAHAR_NOTICE
+            "gahar_notice": GAHAR_NOTICE,
+            # Boundary Clarification Mode defaults (may be overridden below)
+            "triage_status": "final",
+            "boundary_questions": [],
+            "clarification_token": None,
         }
+
+        # --- Boundary Clarification Mode ---
+        # Detect if this case sits on an ESI boundary where adaptive
+        # follow-up questions could improve discrimination.
+        try:
+            from logic.boundary_clarification import (
+                detect_boundary_zone,
+                select_questions,
+                build_clarification_token,
+            )
+
+            boundary_zone = detect_boundary_zone(
+                esi_level=level,
+                stage_reached=esi_v5_result.stage_reached or "",
+                ai_confidence=float(ai_confidence or 0.0),
+                body_system=resolved_body_system or "",
+                severity=resolved_severity or "",
+                age=int(patient.age),
+                gender=str(patient.gender),
+                news2_total=int(det_result.news2_score or 0),
+                resources_estimated=int(resource_count or 0),
+                safety_floors_applied=floors_applied,
+            )
+
+            if boundary_zone.questions > 0:
+                candidate_questions = ai_result.get("candidate_boundary_questions", []) if ai_result else []
+                questions_to_ask = select_questions(
+                    boundary_zone,
+                    candidate_questions,
+                    body_system=resolved_body_system or "",
+                    chief_complaint=complaint_text,
+                )
+                if questions_to_ask:
+                    vitals_snapshot = patient.vitals.model_dump() if patient.vitals else {}
+                    features_snapshot = {
+                        "chief_complaint": patient.chief_complaint_text,
+                        "body_system": resolved_body_system or "",
+                        "severity": resolved_severity or "",
+                        "onset": resolved_onset or "unknown",
+                        "red_flags": resolved_red_flags,
+                        "snomed_codes": resolved_snomed_codes,
+                        "age": int(patient.age),
+                        "gender": str(patient.gender),
+                        "comorbidities": list(patient.comorbidities or []),
+                        "mental_status": "alert",
+                        "pain_score": patient.pain_scale,
+                        "ai_confidence": float(ai_confidence or 0.0),
+                        "is_offline": False,
+                    }
+                    clarification_token = build_clarification_token(
+                        initial_esi=level,
+                        stage_reached=esi_v5_result.stage_reached or "",
+                        news2_total=int(det_result.news2_score or 0),
+                        resources_estimated=int(resource_count or 0),
+                        selected_questions=questions_to_ask,
+                        patient_features=features_snapshot,
+                        patient_vitals=vitals_snapshot,
+                        initial_result_snapshot={
+                            "level": level,
+                            "esi_baseline": esi_baseline,
+                        },
+                    )
+                    response_payload["triage_status"] = "pending_clarification"
+                    response_payload["boundary_questions"] = [
+                        {
+                            "id": f"q{i}",
+                            "type": q["type"],
+                            "question_en": q["question_en"],
+                            "question_ar": q["question_ar"],
+                        }
+                        for i, q in enumerate(questions_to_ask)
+                    ]
+                    response_payload["clarification_token"] = clarification_token
+        except Exception as bc_exc:
+            # Boundary clarification is non-blocking; if it fails, triage is final
+            print(f"⚠️ Boundary clarification error (non-blocking): {bc_exc}", flush=True)
+
         print(
             f"[Timing] AI-TRIAGE total endpoint time: {(time.perf_counter() - endpoint_started):.3f}s",
             flush=True,
@@ -4077,6 +4158,173 @@ def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Dep
     except Exception as e:
         print(f"[ERROR] Internal server error: {e}", flush=True)
         raise HTTPException(status_code=500, detail="An internal error occurred. Contact support.")
+
+
+# =============================================================================
+# BOUNDARY CLARIFICATION ENDPOINT
+# =============================================================================
+
+class ClarificationAnswer(BaseModel):
+    question_id: str
+    response: str  # "yes", "no", "unknown"
+
+class ClarificationRequest(BaseModel):
+    clarification_token: str
+    answers: List[ClarificationAnswer]
+
+
+@app.post("/triage-clarify")
+@limiter.limit("30/minute")
+def triage_clarify(request: Request, payload: ClarificationRequest):
+    """
+    Process boundary clarification answers and return final triage.
+
+    Accepts the clarification token from a prior /ai-triage response
+    (triage_status="pending_clarification") plus patient answers.
+    Re-runs the ESI v5 engine with augmented features. NO new LLM call.
+
+    Safety invariant: answers can only ADD features (upgrade acuity).
+    "I don't know" -> abort, keep original (safer) ESI.
+    """
+    try:
+        from logic.boundary_clarification import (
+            decode_clarification_token,
+            apply_answers,
+            ClarificationResult,
+        )
+        from logic.esi_v5_engine import (
+            PatientFeatures as ESIPatientFeatures,
+            VitalSigns as ESIVitalSigns,
+            NEWS2Result as ESINEWS2Result,
+            triage_patient as esi_triage_patient,
+        )
+
+        state = decode_clarification_token(payload.clarification_token)
+        if not state:
+            raise HTTPException(
+                status_code=400,
+                detail={
+                    "error": "invalid_token",
+                    "message": "Invalid or expired clarification token",
+                    "message_ar": "رمز التوضيح غير صالح أو منتهي الصلاحية",
+                },
+            )
+
+        selected_questions = state["selected_questions"]
+        feat_data = state["patient_features"]
+        vit_data = state["patient_vitals"]
+
+        # Reconstruct PatientFeatures
+        features = ESIPatientFeatures(
+            chief_complaint=feat_data.get("chief_complaint", ""),
+            snomed_codes=feat_data.get("snomed_codes", []),
+            body_system=feat_data.get("body_system", ""),
+            severity=feat_data.get("severity", ""),
+            onset=feat_data.get("onset", "unknown"),
+            red_flags=feat_data.get("red_flags", []),
+            age=int(feat_data.get("age", 30)),
+            gender=feat_data.get("gender", "unknown"),
+            comorbidities=feat_data.get("comorbidities", []),
+            mental_status=feat_data.get("mental_status", "alert"),
+            pain_score=feat_data.get("pain_score"),
+            ai_confidence=float(feat_data.get("ai_confidence", 0.80)),
+            is_offline=bool(feat_data.get("is_offline", False)),
+        )
+
+        # Apply answers
+        answers_dicts = [{"question_id": a.question_id, "response": a.response} for a in payload.answers]
+        clarification_result: ClarificationResult = apply_answers(
+            answers_dicts,
+            selected_questions,
+            features,
+        )
+
+        initial_esi = state["initial_esi"]
+
+        if clarification_result.aborted:
+            # Patient said "I don't know" -> return original ESI (safer tier)
+            colors = {1: "#ef4444", 2: "#f97316", 3: "#eab308", 4: "#22c55e", 5: "#3b82f6"}
+            labels_en = {1: "Resuscitation", 2: "Emergent", 3: "Urgent", 4: "Less Urgent", 5: "Non-Urgent"}
+            labels_ar = {1: "إنعاش", 2: "طوارئ", 3: "عاجل", 4: "أقل إلحاحاً", 5: "غير عاجل"}
+            times_en = {1: "Immediate", 2: "< 15 minutes", 3: "< 30 minutes", 4: "< 60 minutes", 5: "< 120 minutes"}
+            times_ar = {1: "فوري", 2: "< 15 دقيقة", 3: "< 30 دقيقة", 4: "< 60 دقيقة", 5: "< 120 دقيقة"}
+            return {
+                "level": initial_esi,
+                "triage_status": "final",
+                "boundary_questions": [],
+                "clarification_token": None,
+                "clarification_outcome": "aborted_safer_tier",
+                "clarification_modifications": [],
+                "color_code": colors.get(initial_esi, "#eab308"),
+                "label_en": labels_en.get(initial_esi, "Urgent"),
+                "label_ar": labels_ar.get(initial_esi, "عاجل"),
+                "time_en": times_en.get(initial_esi, "< 30 minutes"),
+                "time_ar": times_ar.get(initial_esi, "< 30 دقيقة"),
+                "reasoning": [
+                    "Boundary clarification aborted: patient answered 'unknown' -> keeping safer ESI tier",
+                    "تم إلغاء توضيح الحدود: المريض أجاب 'غير معروف' -> الاحتفاظ بمستوى ESI الأكثر أماناً",
+                ],
+            }
+
+        # Re-run ESI v5 with augmented features (no LLM call)
+        modified_features = clarification_result.features
+
+        # Reconstruct VitalSigns and NEWS2
+        vitals = ESIVitalSigns(
+            heart_rate=vit_data.get("heart_rate") or vit_data.get("hr"),
+            systolic_bp=vit_data.get("systolic_bp") or vit_data.get("sbp"),
+            diastolic_bp=vit_data.get("diastolic_bp") or vit_data.get("dbp"),
+            respiratory_rate=vit_data.get("respiratory_rate") or vit_data.get("rr"),
+            spo2=vit_data.get("spo2"),
+            temperature=vit_data.get("temperature") or vit_data.get("temp"),
+            gcs=vit_data.get("gcs"),
+        )
+        news2 = ESINEWS2Result(
+            total_score=state["news2_total"],
+            risk_level="HIGH" if state["news2_total"] >= 7 else ("MEDIUM" if state["news2_total"] >= 5 else "LOW"),
+            parameter_scores={},
+            single_param_3=state["news2_total"] >= 7,
+        )
+
+        new_result = esi_triage_patient(modified_features, vitals, news2)
+        new_esi = new_result.final_esi
+
+        colors = {1: "#ef4444", 2: "#f97316", 3: "#eab308", 4: "#22c55e", 5: "#3b82f6"}
+        labels_en = {1: "Resuscitation", 2: "Emergent", 3: "Urgent", 4: "Less Urgent", 5: "Non-Urgent"}
+        labels_ar = {1: "إنعاش", 2: "طوارئ", 3: "عاجل", 4: "أقل إلحاحاً", 5: "غير عاجل"}
+        times_en = {1: "Immediate", 2: "< 15 minutes", 3: "< 30 minutes", 4: "< 60 minutes", 5: "< 120 minutes"}
+        times_ar = {1: "فوري", 2: "< 15 دقيقة", 3: "< 30 دقيقة", 4: "< 60 دقيقة", 5: "< 120 دقيقة"}
+
+        esi_changed = new_esi != initial_esi
+        outcome = "esi_upgraded" if new_esi < initial_esi else ("esi_unchanged" if not esi_changed else "esi_downgraded_by_floors")
+
+        return {
+            "level": new_esi,
+            "triage_status": "final",
+            "boundary_questions": [],
+            "clarification_token": None,
+            "clarification_outcome": outcome,
+            "clarification_modifications": clarification_result.modifications,
+            "initial_esi": initial_esi,
+            "esi_changed": esi_changed,
+            "color_code": colors.get(new_esi, "#eab308"),
+            "label_en": labels_en.get(new_esi, "Urgent"),
+            "label_ar": labels_ar.get(new_esi, "عاجل"),
+            "time_en": times_en.get(new_esi, "< 30 minutes"),
+            "time_ar": times_ar.get(new_esi, "< 30 دقيقة"),
+            "reasoning": new_result.reasoning + [
+                f"Boundary clarification applied: {len(clarification_result.modifications)} feature(s) added",
+            ],
+            "safety_floors_applied": new_result.safety_floors_applied,
+            "stage_reached": new_result.stage_reached,
+            "resources_estimated": new_result.resources_estimated,
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"[ERROR] Clarification endpoint error: {e}", flush=True)
+        raise HTTPException(status_code=500, detail="Clarification processing failed. Original triage remains valid.")
 
 
 @app.post("/triage-pure-ai")
