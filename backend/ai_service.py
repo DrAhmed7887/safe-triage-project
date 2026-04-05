@@ -519,18 +519,8 @@ For this patient, estimate expected ED resources likely needed:
 Return standardized resource labels using only:
 ["labs", "ecg", "imaging", "iv_meds_or_fluids", "procedure", "specialty_consult", "monitoring"]
 
-Additionally, generate up to 3 candidate boundary clarification questions for cases that may sit on an ESI boundary. These help discriminate between ESI levels when the case is ambiguous.
-Rules for boundary questions:
-- Under 15 words each, patient-friendly, non-leading
-- Do NOT mention any diagnoses (no "heart attack", "stroke", "ectopic", "MI", "جلطة", "ذبحة")
-- Questions must be purely symptom-clarifying (e.g., "Does the pain move?" not "Could it be a heart attack?")
-- Provide both English and simplified Arabic (Egyptian dialect, patient-accessible)
-- Tag each with exactly one type: "danger" (acute deterioration), "hidden_risk" (undetected comorbidity/syndrome), or "resource" (prior care/resources)
-- Include upgrade_signal describing what feature to add if answered "yes"
-- If the case is clearly life-threatening (ESI 1) or non-urgent (ESI 5), return an empty array
-
 Return this exact JSON structure:
-{{"extracted_symptoms": ["list of symptoms"], "clinical_impression": "brief assessment", "risk_factors": [], "recommended_workup": ["tests needed"], "expected_resources": ["labs", "imaging"], "resource_count": 2, "differential_diagnosis": ["possible diagnoses"], "reasoning": "one sentence clinical reasoning in English", "reasoning_ar": "reasoning in Arabic", "followup_question": "one short follow-up question in English", "followup_question_ar": "follow-up question in Arabic", "confidence": 0.0, "confidence_rationale": "short reason for confidence level", "candidate_boundary_questions": [{{"type": "danger", "question_en": "Is the pain getting worse right now?", "question_ar": "هل الألم بيزيد دلوقتي؟", "upgrade_signal": {{"action": "add_red_flag", "value": "acute_deterioration", "severity_override": "severe", "category_hint": null}}, "clinical_rationale": "brief reason"}}]}}"""
+{{"extracted_symptoms": ["list of symptoms"], "clinical_impression": "brief assessment", "risk_factors": [], "recommended_workup": ["tests needed"], "expected_resources": ["labs", "imaging"], "resource_count": 2, "differential_diagnosis": ["possible diagnoses"], "reasoning": "one sentence clinical reasoning in English", "reasoning_ar": "reasoning in Arabic", "followup_question": "one short follow-up question in English", "followup_question_ar": "follow-up question in Arabic", "confidence": 0.0, "confidence_rationale": "short reason for confidence level"}}"""
 
         try:
             print(f"🤖 Calling {self.model_name}...", flush=True)
@@ -566,11 +556,9 @@ Return this exact JSON structure:
             result["confidence_score"] = confidence_value
             result["confidence"] = confidence_value
 
-            # Validate boundary clarification questions
-            from logic.boundary_clarification import validate_boundary_questions
-            result["candidate_boundary_questions"] = validate_boundary_questions(
-                result.get("candidate_boundary_questions", [])
-            )
+            # Boundary questions are generated separately via generate_boundary_questions()
+            # to keep the core extraction fast. Initialize empty here.
+            result["candidate_boundary_questions"] = []
 
             # Add SNOMED mapping
             snomed_started = time.perf_counter()
@@ -630,6 +618,60 @@ Return this exact JSON structure:
                 "message_ar": f"فشل طلب {self.model_name}",
             }
     
+    def generate_boundary_questions(self, patient_data: dict, core_result: dict) -> list:
+        """
+        Generate boundary clarification questions in a SEPARATE LLM call.
+
+        Called ONLY when detect_boundary_zone() determines questions are needed
+        (i.e., the case is near an ESI threshold). This keeps the core extraction
+        fast (~5-8s) and adds question generation (~3-5s) only for boundary cases.
+
+        Returns validated list of candidate questions, or [] on failure.
+        """
+        if not self.client:
+            return []
+
+        complaint = patient_data.get("chief_complaint_text") or patient_data.get("chief_complaint") or ""
+        symptoms = ", ".join(core_result.get("extracted_symptoms", []))
+        impression = core_result.get("clinical_impression", "")
+
+        prompt = f"""You are an ER triage expert. Generate up to 3 boundary clarification questions for this case.
+
+Patient: Age {patient_data.get('age')}, {patient_data.get('gender')}
+Complaint: {complaint}
+Symptoms found: {symptoms}
+Clinical impression: {impression}
+
+Generate short follow-up questions to help discriminate ESI levels. Rules:
+- Under 15 words each, patient-friendly, non-leading
+- Do NOT mention any diagnoses (no "heart attack", "stroke", "ectopic", "MI", "جلطة", "ذبحة")
+- Questions must be purely symptom-clarifying
+- Provide both English and simplified Arabic (Egyptian dialect)
+- Tag each with one type: "danger", "hidden_risk", or "resource"
+- Include upgrade_signal with action and value
+
+Return ONLY valid JSON (no markdown):
+[{{"type": "danger", "question_en": "...", "question_ar": "...", "upgrade_signal": {{"action": "add_red_flag", "value": "...", "severity_override": null, "category_hint": null}}, "clinical_rationale": "..."}}]"""
+
+        try:
+            boundary_timeout = float(os.getenv("BOUNDARY_QUESTION_TIMEOUT_SECONDS", "8.0"))
+            response = self._generate_content_with_timeout(
+                prompt,
+                timeout_seconds=boundary_timeout,
+                label="boundary question generation",
+            )
+            text = response.text.strip()
+            text = re.sub(r'^```json\s*', '', text)
+            text = re.sub(r'\s*```$', '', text)
+            text = re.sub(r'^```\s*', '', text)
+
+            raw = json.loads(text.strip())
+            from logic.boundary_clarification import validate_boundary_questions
+            return validate_boundary_questions(raw)
+        except Exception as e:
+            print(f"⚠️ Boundary question generation failed (non-blocking): {e}", flush=True)
+            return []
+
     def _map_to_snomed(self, gemini_result: dict, patient_data: dict) -> dict:
         """Map to SNOMED + ICD-10"""
         complaint = patient_data.get('chief_complaint_text', '')

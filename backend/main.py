@@ -4091,7 +4091,17 @@ def ai_triage_patient(request: Request, patient: PatientInput, db: Session = Dep
             )
 
             if boundary_zone.questions > 0:
-                candidate_questions = ai_result.get("candidate_boundary_questions", []) if ai_result else []
+                # Call 2: Generate boundary questions ONLY when needed (separate LLM call).
+                # This keeps Call 1 (core extraction) fast. The complaint-aware bank
+                # provides fallback if this call fails or is slow.
+                bq_started = time.perf_counter()
+                candidate_questions = ai_service.generate_boundary_questions(
+                    patient.model_dump(), ai_result or {},
+                )
+                print(
+                    f"[Timing] Boundary question generation: {(time.perf_counter() - bq_started):.3f}s",
+                    flush=True,
+                )
                 questions_to_ask = select_questions(
                     boundary_zone,
                     candidate_questions,
