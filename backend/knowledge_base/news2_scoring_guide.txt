@@ -1,0 +1,182 @@
+NEWS2 NATIONAL EARLY WARNING SCORE 2 — COMPLETE SCORING GUIDE
+===============================================================
+Source: Royal College of Physicians (RCP), adapted for SAFE-Triage
+
+
+OVERVIEW
+--------
+NEWS2 is a standardized early warning score that tracks six physiological
+parameters. Each parameter scores 0-3 points. The total score (0-20)
+indicates clinical deterioration risk and guides escalation of care.
+
+NEWS2 is used alongside ESI in SAFE-Triage to provide an objective
+severity measure. NEWS2 can override ESI assignments upward (never
+downward) via safety floor rules.
+
+
+PARAMETER SCORING TABLE
+-------------------------
+
+1. RESPIRATORY RATE (breaths per minute)
+   Score 3: ≤ 8
+   Score 1: 9-11
+   Score 0: 12-20  (normal range)
+   Score 2: 21-24
+   Score 3: ≥ 25
+
+2. SpO2 OXYGEN SATURATION — Scale 1 (standard patients)
+   Score 3: ≤ 91%
+   Score 2: 92-93%
+   Score 1: 94-95%
+   Score 0: ≥ 96%  (normal)
+
+   SpO2 — Scale 2 (COPD or patients on prescribed supplemental O2)
+   Score 3: ≤ 83%
+   Score 2: 84-85%
+   Score 1: 86-87%
+   Score 0: 88-92%  (target range for COPD)
+   Score 2: 93-94% on room air
+   Score 3: ≥ 95% on room air
+
+   Note: Scale 2 is used when the patient has a documented target SpO2
+   of 88-92% (e.g., COPD with chronic CO2 retention). If in doubt,
+   use Scale 1.
+
+3. SUPPLEMENTAL OXYGEN
+   Score 2: Patient is on supplemental oxygen
+   Score 0: Patient is on room air
+
+4. SYSTOLIC BLOOD PRESSURE (mmHg)
+   Score 3: ≤ 90
+   Score 2: 91-100
+   Score 1: 101-110
+   Score 0: 111-219  (normal range)
+   Score 3: ≥ 220
+
+5. HEART RATE (beats per minute)
+   Score 3: ≤ 40
+   Score 1: 41-50
+   Score 0: 51-90  (normal range)
+   Score 1: 91-110
+   Score 2: 111-130
+   Score 3: ≥ 131
+
+6. LEVEL OF CONSCIOUSNESS
+   Score 0: Alert (A) — fully awake, eyes open spontaneously
+   Score 3: Confusion, Voice, Pain, or Unresponsive (C/V/P/U)
+
+   When using GCS instead of AVPU:
+   GCS 15 = Alert (score 0)
+   GCS < 15 = Not fully alert (score 3)
+
+7. TEMPERATURE (degrees Celsius)
+   Score 3: ≤ 35.0
+   Score 1: 35.1-36.0
+   Score 0: 36.1-38.0  (normal range)
+   Score 1: 38.1-39.0
+   Score 2: ≥ 39.1
+
+
+TOTAL SCORE INTERPRETATION
+---------------------------
+
+Score 0:
+  Risk level: LOW
+  Clinical response: Continue routine monitoring.
+  Minimum observation frequency: Every 12 hours.
+
+Score 1-4:
+  Risk level: LOW
+  Clinical response: Inform registered nurse. Assess if increased monitoring needed.
+  Minimum observation frequency: Every 4-6 hours.
+
+Score 3 in any SINGLE parameter:
+  Risk level: LOW-MEDIUM
+  Clinical response: Urgent review by ward-based doctor. Consider whether
+  escalation is needed. The single elevated parameter may indicate an
+  organ-specific problem.
+  Minimum observation frequency: Every hour.
+
+Score 5-6:
+  Risk level: MEDIUM
+  Clinical response: Urgent response. Clinician with competence in acute
+  illness assessment to review. Consider transfer to higher-dependency
+  environment.
+  Minimum observation frequency: Every hour.
+
+Score 7 or more:
+  Risk level: HIGH
+  Clinical response: Emergency response. Immediate assessment by critical
+  care team. Transfer to ICU / resuscitation area. Continuous monitoring.
+  Minimum observation frequency: Continuous.
+
+
+NEWS2 INTEGRATION WITH ESI IN SAFE-TRIAGE
+------------------------------------------
+
+NEWS2 provides safety floors that can only RAISE the ESI level (never lower it):
+
+• NEWS2 ≥ 7 OR any single parameter scores 3 → Minimum ESI 1
+  Rationale: Score ≥ 7 indicates imminent risk of cardiac arrest or organ
+  failure. Any single parameter at 3 indicates a critical derangement in
+  one organ system.
+
+• NEWS2 ≥ 5 → Minimum ESI 2
+  Rationale: Score 5-6 indicates medium risk of deterioration requiring
+  urgent medical review.
+
+• NEWS2 ≥ 3 → Minimum ESI 3
+  Rationale: Score 3-4 indicates early signs of deterioration requiring
+  closer monitoring.
+
+These safety floors are applied AFTER the ESI decision algorithm. If the
+ESI algorithm assigns a lower level (e.g., ESI 4) but NEWS2 is ≥ 5, the
+patient is upgraded to ESI 2.
+
+
+CLINICAL SIGNIFICANCE OF PARAMETER SCORES
+-------------------------------------------
+
+Heart Rate:
+  A score of 3 (≤ 40 or ≥ 131) suggests: severe bradycardia requiring
+  atropine or pacing; or tachycardia suggesting hypovolemia, sepsis,
+  pain, cardiac arrhythmia, or pulmonary embolism.
+
+Respiratory Rate:
+  A score of 3 (≤ 8 or ≥ 25) suggests: respiratory depression from opioids,
+  neurological injury, or exhaustion; or tachypnea from pneumonia, PE,
+  metabolic acidosis, sepsis, or heart failure.
+
+SpO2:
+  A score of 3 (≤ 91%) suggests: significant hypoxemia requiring
+  supplemental oxygen and investigation. Consider pneumonia, PE, COPD
+  exacerbation, pneumothorax, or heart failure.
+
+Systolic BP:
+  A score of 3 (≤ 90 or ≥ 220) suggests: hypotension from sepsis,
+  hemorrhage, cardiogenic shock, or anaphylaxis; or hypertensive crisis
+  requiring urgent treatment.
+
+Temperature:
+  A score of 3 (≤ 35.0°C) suggests: hypothermia from environmental
+  exposure, sepsis (paradoxical hypothermia is a sign of severe sepsis),
+  or metabolic derangement.
+  A score of 2 (≥ 39.1°C) suggests: significant fever requiring
+  investigation for infection source.
+
+Consciousness:
+  A score of 3 (not alert) suggests: neurological emergency (stroke,
+  intracranial hemorrhage), metabolic derangement (hypoglycemia, hepatic
+  encephalopathy), drug effect, or post-ictal state.
+
+
+LIMITATIONS OF NEWS2
+---------------------
+• Does not replace clinical judgment — a patient can be critically ill
+  with a low NEWS2 score (e.g., young patient compensating).
+• Pain is not included in NEWS2 — severe pain requires separate assessment.
+• Does not account for chronic conditions — baseline abnormalities may
+  inflate scores (e.g., chronic kidney disease with baseline low BP).
+• Pediatric patients require age-adjusted vital sign thresholds (NEWS2
+  is validated for adults only).
+• Pregnancy alters normal vital sign ranges (lower BP, higher HR).

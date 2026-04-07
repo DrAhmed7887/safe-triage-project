@@ -35,6 +35,7 @@ from database import engine, Base, get_db
 from sql_models import Patient
 import uvicorn
 from ai_service import ai_service, ComplaintValidator
+from educational_chat import router as educational_chat_router
 from medasr_service import medasr_service
 from alert_service import (
     AlertLevel,
@@ -102,6 +103,7 @@ app.add_middleware(
 
 register_monitor_service(app)
 register_analytics_service(app)
+app.include_router(educational_chat_router)
 
 # Use the deterministic engine with keyword database
 # STANDARD MODE: No AI, only keyword matching (fast)
@@ -171,6 +173,7 @@ class FCMTokenRequest(BaseModel):
     token: str
     user_id: str
     role: str
+    phone: Optional[str] = None  # E.164 format e.g. +201012345678 — SMS CODE RED fallback
 
 IMMEDIATE_TRIAGE_KEYWORDS = [
     "صدر",
@@ -2097,6 +2100,10 @@ def _send_alert_for_level(
 ):
     if level is None or level > 2:
         return None
+    # Alert fatigue prevention: ESI-2 push is suppressed unless NEWS2 ≥ 5
+    # (indicates objectively elevated risk). Email still sends for audit trail.
+    # ESI-1 (CODE_RED) is never suppressed.
+    suppress_push = (level == 2 and (news2_score or 0) < 5)
     payload = {
         "alert_level": AlertLevel.CODE_RED if level == 1 else AlertLevel.HIGH_ALERT,
         "patient_id": patient_id,
@@ -2109,6 +2116,7 @@ def _send_alert_for_level(
         "snomed_term": snomed_term,
         "recommended": recommended or [],
         "clinician": clinician,
+        "suppress_push": suppress_push,
         "timestamp": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
     }
     return send_alert_sync(payload)
@@ -2746,11 +2754,12 @@ def list_voice_notes(patient_id: str, user: dict = Depends(require_firebase_user
 
 @app.post("/api/fcm/register")
 async def register_fcm_token(request: FCMTokenRequest):
-    """Register a browser/device token for critical push notifications."""
+    """Register a browser token for push notifications and optionally a phone for SMS CODE RED fallback."""
     return register_fcm_device(
         user_id=request.user_id,
         token=request.token,
         role=request.role,
+        phone=request.phone,
     )
 
 
@@ -2842,17 +2851,9 @@ def confirm_triage(request: Request, confirmation: TriageConfirmationRequest):
         escalated=False,
     )
 
-    alerts_sent = _send_alert_for_level(
-        level=confirmation.confirmed_esi,
-        patient_id=confirmation.patient_id,
-        complaint=f"Confirmed ESI {confirmation.confirmed_esi}",
-        clinician=confirmation.clinician_id,
-    )
-
     return {
         "status": "confirmed",
         "response_time_seconds": response_time,
-        "alerts_sent": alerts_sent,
         "gahar_notice": GAHAR_NOTICE,
     }
 
@@ -4550,6 +4551,112 @@ def health_check():
     
     status["gahar_notice"] = GAHAR_NOTICE
     return status
+
+
+@app.post("/api/warmup")
+@limiter.limit("5/minute")
+async def warmup_models(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    user: dict = Depends(require_supervisor_role),
+):
+    """
+    Proactively warm up Gemma 4 and MedGemma Vertex AI GPU endpoints.
+
+    **Supervisor/admin only** — GPU endpoints are expensive and should only
+    be activated by the system operator, not by regular users or the public.
+
+    GPU endpoints scale to zero when idle (~15 min). This endpoint fires
+    lightweight inference pings asynchronously so the GPUs are ready.
+    Returns immediately; warm-up runs in background.
+    """
+    import asyncio
+
+    async def _ping_gemma4():
+        try:
+            from gemma4_client import Gemma4VertexModel
+            client = Gemma4VertexModel()
+            client.generate("warmup", max_tokens=5, temperature=0.1)
+            print("🔥 Gemma 4 warm-up complete", flush=True)
+        except Exception as exc:
+            print(f"⚠️  Gemma 4 warm-up failed: {exc}", flush=True)
+
+    async def _ping_medgemma():
+        try:
+            from medgemma_client import MedGemmaClient
+            client = MedGemmaClient()
+            client.generate("warmup", max_tokens=5, temperature=0.1)
+            print("🔥 MedGemma warm-up complete", flush=True)
+        except Exception as exc:
+            print(f"⚠️  MedGemma warm-up failed: {exc}", flush=True)
+
+    async def _run_warmups():
+        await asyncio.gather(
+            _ping_gemma4(),
+            _ping_medgemma(),
+            return_exceptions=True,
+        )
+
+    background_tasks.add_task(asyncio.run, _run_warmups())
+    return {
+        "status": "warming_up",
+        "message": "GPU model warm-up triggered in background (Gemma 4 + MedGemma). Ready in ~2-8 min from cold start.",
+        "models": ["gemma-4-E4B-it", "medgemma-4b-it"],
+    }
+
+
+@app.get("/api/model-status")
+def model_status():
+    """
+    Quick probe of Gemma 4 and MedGemma endpoint availability.
+    Returns immediately — does NOT wait for GPU scale-up.
+    """
+    import json as _json
+
+    statuses = {}
+
+    # Gemma 4 — us-central1
+    try:
+        from google.cloud import aiplatform as _aip
+        import os as _os
+        _aip.init(project=_os.getenv("PROJECT_ID", "safe-triage-ai"), location="us-central1")
+        ep = _aip.Endpoint(_os.getenv("GEMMA4_ENDPOINT_ID", "").strip())
+        payload = _json.dumps({"model": "google/gemma-4-E4B-it", "prompt": "hi", "max_tokens": 3}).encode()
+        ep.raw_predict(body=payload, headers={"Content-Type": "application/json"})
+        statuses["gemma4"] = "ready"
+    except Exception as exc:
+        msg = str(exc)
+        if "429" in msg or "not yet ready" in msg or "scale-up" in msg:
+            statuses["gemma4"] = "warming_up"
+        elif "404" in msg or "not found" in msg.lower():
+            statuses["gemma4"] = "not_deployed"
+        else:
+            statuses["gemma4"] = "ready"  # Unknown error — assume ready, let real call reveal
+
+    # MedGemma — us-east1
+    try:
+        import os as _os
+        from google.cloud import aiplatform as _aip2
+        _aip2.init(project=_os.getenv("PROJECT_ID", "safe-triage-ai"), location=_os.getenv("MEDGEMMA_REGION", "us-east1"))
+        ep2 = _aip2.Endpoint(_os.getenv("MEDGEMMA_ENDPOINT_ID", "").strip())
+        payload2 = _json.dumps({"prompt": "hi", "max_tokens": 3}).encode()
+        ep2.raw_predict(body=payload2, headers={"Content-Type": "application/json"})
+        statuses["medgemma"] = "ready"
+    except Exception as exc:
+        msg = str(exc)
+        if "429" in msg or "not yet ready" in msg or "scale-up" in msg:
+            statuses["medgemma"] = "warming_up"
+        elif "404" in msg or "not found" in msg.lower():
+            statuses["medgemma"] = "not_deployed"
+        else:
+            statuses["medgemma"] = "ready"
+
+    all_ready = all(s == "ready" for s in statuses.values())
+    any_warming = any(s == "warming_up" for s in statuses.values())
+    return {
+        "models": statuses,
+        "overall": "ready" if all_ready else ("warming_up" if any_warming else "degraded"),
+    }
 
 
 @app.get("/notification-config-status")

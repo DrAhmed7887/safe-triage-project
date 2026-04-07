@@ -1,0 +1,182 @@
+SAFE-TRIAGE CLINICAL RULES — SYSTEM-SPECIFIC DECISION LOGIC
+==============================================================
+Source: SAFE-Triage deterministic engine v2.0
+
+
+ARCHITECTURE PRINCIPLE
+-----------------------
+"AI Extracts → Rules Decide → Humans Confirm"
+
+1. AI Layer: Gemini 2.5-flash extracts the chief complaint into a fixed
+   symptom category (e.g., "chest_pain_cardiac", "respiratory_distress").
+2. Rules Layer: Deterministic ESI v5 + NEWS2 engine assigns the ESI level
+   using the category, vital signs, patient demographics, and red flags.
+3. Human Layer: The treating clinician reviews and confirms or overrides
+   the ESI assignment. All overrides are audited.
+
+The AI layer can only classify — it NEVER directly assigns an ESI level.
+The deterministic rules always have final authority.
+
+
+SAFETY FLOOR RULES (CANNOT BE OVERRIDDEN BY AI)
+-------------------------------------------------
+
+Safety floors are hard-coded escalation rules. They can only RAISE
+the ESI level, never lower it. The AI confidence score does not
+affect safety floors.
+
+1. NEWS2 ≥ 7 or any single parameter = 3 → Forces ESI 1
+2. NEWS2 ≥ 5 → Forces minimum ESI 2
+3. NEWS2 ≥ 3 → Forces minimum ESI 3
+4. Chest pain (any presentation) → Forces minimum ESI 2
+5. Stroke FAST positive (≥ 2/3 components) → Forces ESI 1 or 2
+6. Neonate (0-28 days) with fever ≥ 38°C → Forces ESI 2
+7. Immunocompromised patient with fever → Forces ESI 2
+8. GCS ≤ 8 → Forces ESI 1
+9. SBP < 70 → Forces ESI 1
+10. SpO2 < 85% with respiratory distress → Forces ESI 1
+
+These safety floors are the primary mechanism preventing under-triage.
+Over-triage (assigning a higher level than necessary) is always
+acceptable; under-triage (assigning a lower level) is not.
+
+
+RED FLAG DEFINITIONS
+---------------------
+
+Life-threatening red flags (trigger ESI 1):
+• airway_obstruction — Complete or near-complete airway blockage
+• anaphylaxis — Severe allergic reaction with cardiovascular/respiratory compromise
+• angioedema_airway — Angioedema threatening the airway
+• severe_respiratory_distress — Respiratory failure, accessory muscle use, cyanosis
+• apnea — Absence of breathing
+• intubated — Patient already on mechanical ventilation
+• respiratory_arrest — Cessation of breathing
+• severe_asthma_attack — Life-threatening asthma (silent chest, cyanosis)
+• tension_pneumothorax — Tension pneumothorax with hemodynamic compromise
+• cardiac_arrest — No pulse, no breathing
+• pulseless — Absence of palpable pulse
+• active_massive_hemorrhage — Uncontrolled major bleeding
+• hemodynamic_instability — Shock (tachycardia + hypotension + poor perfusion)
+• shock — Circulatory failure (septic, hypovolemic, cardiogenic, obstructive)
+• unresponsive — No response to any stimulus
+• gcs_3_to_8 — Severe impairment of consciousness
+• status_epilepticus — Continuous seizure > 5 minutes or repeated without recovery
+• actively_seizing — Active convulsive seizure
+• major_trauma — Multi-system trauma, significant mechanism of injury
+• penetrating_chest_wound — Open chest wound
+
+High-risk red flags (trigger ESI 2):
+• radiation_to_arm — Chest pain radiating to left arm (ACS pattern)
+• radiation_to_jaw — Chest pain radiating to jaw (ACS pattern)
+• diaphoresis — Profuse sweating with pain (suggests cardiac event)
+• crushing_substernal_pressure — Classic MI presentation
+
+
+CONTEXT RULES (PATTERN DETECTION)
+-----------------------------------
+
+These rules detect high-risk clinical patterns that may present atypically.
+
+1. SILENT MYOCARDIAL INFARCTION IN DIABETICS
+   Triggers when ALL of:
+   • Male ≥ 50 years OR any patient ≥ 65 years
+   • Known diabetes (in comorbidities)
+   • GI body system (nausea, vomiting, epigastric pain) OR cardiac OR heartburn
+   • Vital sign abnormality: HR > 95 bpm OR RR > 20/min
+   Action: Upgrade to ESI 2 with reasoning "Silent MI risk pattern in diabetic patient"
+
+2. ATYPICAL ACUTE CORONARY SYNDROME IN WOMEN
+   Triggers when ALL of:
+   • Female ≥ 45 years
+   • GI, cardiac, or musculoskeletal body system
+   • Atypical ACS signals: jaw pain, fatigue, nausea, back pain
+   Action: Upgrade to ESI 2 with reasoning "Atypical ACS pattern in female patient"
+
+3. SEPSIS SCREENING
+   Triggers when ALL of:
+   • Immunocompromised, diabetic, elderly (≥ 65), or cancer patient
+   • Sepsis-related body system (infectious, urinary, respiratory, GI, skin)
+   • Temperature > 38.5°C
+   • At least 2 of: HR > 100, RR > 22, altered mental status
+   Action: Upgrade to ESI 2 with reasoning "Sepsis screening positive"
+
+
+ECTOPIC PREGNANCY DETECTION
+-----------------------------
+Triggers when ALL of:
+• Female, age 15-50 years
+• Acute abdominal or back pain
+• Acute onset
+• At least one abnormal vital: HR ≥ 100, SBP < 100, RR ≥ 22, SpO2 < 94%
+Action: Upgrade to ESI 2 with reasoning "High-risk ectopic pregnancy pattern"
+
+
+SYMPTOM CATEGORY MAPPING
+--------------------------
+
+The AI layer classifies complaints into standardized categories:
+
+ESI Level 1 categories:
+cardiac_arrest, respiratory_arrest, unconscious, active_seizure,
+severe_trauma, anaphylaxis, poisoning_overdose, choking_airway
+
+ESI Level 2 categories:
+chest_pain_cardiac, stroke_symptoms, respiratory_distress, severe_bleeding,
+altered_mental_status, psychiatric_emergency, obstetric_emergency,
+severe_pain, diabetic_emergency, allergic_reaction_moderate
+
+ESI Level 3 categories:
+abdominal_pain_moderate, moderate_trauma, headache_severe,
+fever_with_symptoms, vomiting_diarrhea_dehydration,
+urinary_symptoms_severe, pediatric_moderate
+
+ESI Level 4 categories:
+minor_trauma, fever_simple, mild_pain, skin_rash_stable,
+minor_bleeding, cold_flu_symptoms, ear_eye_throat
+
+ESI Level 5 categories:
+chronic_refill, minor_complaint, medical_certificate
+
+
+RESOURCE ESTIMATION
+--------------------
+
+Resources are estimated based on the complaint category, severity,
+and clinical context. Resource modifiers include:
+
+• Fever: Adds labs (blood cultures, CBC)
+• Vomiting/dehydration: Adds IV fluids
+• Age extremes (< 1 year or > 65 years): Adds monitoring, labs
+• Comorbidities: Adds specialty consult
+• NEWS2 ≥ 3: Adds monitoring
+• High AI confidence in complex category: Adds specialty consult
+
+Mapping:
+• 0 resources → ESI 5
+• 1 resource → ESI 4
+• 2+ resources → ESI 3
+
+
+BILINGUAL SUPPORT
+------------------
+
+SAFE-Triage supports 1,858 Arabic medical keywords including Egyptian
+colloquial dialect variants. The AI layer processes complaints in both
+Arabic and English. Examples:
+• "ألم في الصدر" (chest pain) → chest_pain_cardiac
+• "مش قادر أتنفس" (can't breathe) → respiratory_distress
+• "وجع بطن شديد" (severe abdominal pain) → abdominal_pain_moderate
+• "دوخة وتنميل" (dizziness and numbness) → stroke_symptoms
+
+All educational explanations are available in both English and Egyptian
+Arabic to match the clinician's preferred language.
+
+
+COMPLIANCE STANDARDS
+---------------------
+• GAHAR: Egyptian Hospital Accreditation Program
+• ESI v5: AHRQ Emergency Severity Index, 5th edition
+• NEWS2: Royal College of Physicians National Early Warning Score 2
+• SNOMED-CT: Systematized Nomenclature of Medicine — Clinical Terms
+• ICD-10: International Classification of Diseases, 10th revision

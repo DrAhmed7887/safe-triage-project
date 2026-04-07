@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { AlertTriangle, Clock, Activity, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import TriageConfirmation from './TriageConfirmation';
+import EducationalChat from './EducationalChat';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
@@ -475,6 +476,18 @@ export default function TriageResult({ result, onReset }) {
                     <span>ID: {result.patient_id || 'N/A'}</span>
                 </div>
             </div>
+
+            {/* Educational Chat — read-only explanation layer */}
+            <EducationalChat
+                esiLevel={result.level}
+                news2Score={result.news2_score ?? 0}
+                chiefComplaint={result.chief_complaint || result.ai_data?.category || ''}
+                vitals={result.vitals || {}}
+                snomedCode={snomedCode}
+                snomedTerm={snomedTerm}
+                icd10Code={icd10Code}
+                icd10Description={icd10Desc}
+            />
         </div>
     );
 }

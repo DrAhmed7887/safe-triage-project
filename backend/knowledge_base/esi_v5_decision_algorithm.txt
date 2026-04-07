@@ -1,0 +1,157 @@
+ESI v5 EMERGENCY SEVERITY INDEX — COMPLETE DECISION ALGORITHM
+==============================================================
+Source: AHRQ Emergency Severity Index Handbook, adapted for SAFE-Triage
+
+OVERVIEW
+--------
+The Emergency Severity Index (ESI) is a five-level triage algorithm that
+stratifies patients into five groups from ESI 1 (most urgent) to ESI 5
+(least urgent). The algorithm uses four sequential Decision Points (A-D).
+Each patient enters at Decision Point A and exits at the first decision
+point that assigns a level.
+
+
+DECISION POINT A — DOES THIS PATIENT REQUIRE IMMEDIATE LIFE-SAVING INTERVENTION?
+----------------------------------------------------------------------------------
+If YES → ESI Level 1 (Resuscitation). If NO → proceed to Decision Point B.
+
+Life-saving interventions include:
+• Intubation or emergency airway management
+• Emergency medications (epinephrine for anaphylaxis, naloxone for overdose)
+• Electrical therapy (defibrillation, cardioversion, transcutaneous pacing)
+• Procedural sedation for immediate procedures
+
+Objective criteria that trigger ESI 1:
+• Glasgow Coma Scale (GCS) ≤ 8
+• Systolic blood pressure < 70 mmHg
+• Heart rate < 30 bpm
+• SpO2 < 85% with respiratory distress
+• Unresponsive or responds only to pain
+• Active seizure (status epilepticus)
+• Cardiac or respiratory arrest
+• Active massive hemorrhage
+• Major trauma with hemodynamic instability
+• Penetrating chest wound
+• Airway obstruction
+• Anaphylaxis with airway compromise
+• Tension pneumothorax
+
+NEWS2 integration: Total NEWS2 score ≥ 7 triggers ESI 1.
+
+Stroke FAST protocol: If ≥ 2 FAST components (Face drooping, Arm weakness,
+Speech difficulty) or confusion with speech changes → ESI 1.
+
+
+DECISION POINT B — IS THIS A HIGH-RISK SITUATION? SHOULD THIS PATIENT NOT WAIT?
+----------------------------------------------------------------------------------
+If YES → ESI Level 2 (Emergent). If NO → proceed to Decision Point C.
+
+High-risk situations:
+• Altered mental status: confused, lethargic, disoriented, responds only to voice
+• New-onset neurological deficit (stroke symptoms, unilateral weakness)
+• Chest pain with cardiac risk factors
+• Severe respiratory distress (SpO2 < 90%, RR > 30)
+• Hemodynamic instability (SBP 70-90 mmHg, HR > 150 or < 50 while conscious)
+• Severe allergic reaction
+• Diabetic emergencies (hypoglycemia with altered consciousness, DKA)
+• Ectopic pregnancy pattern (reproductive-age female + acute abdominal/back pain
+  + abnormal vitals: HR ≥ 100, SBP < 100, RR ≥ 22, SpO2 < 94%)
+• Severe pain (≥ 7/10) WITH objective vital sign abnormalities
+• Immunocompromised patient with fever
+
+NEWS2 integration: Total NEWS2 score ≥ 5 triggers at minimum ESI 2.
+
+Chest Pain Safety Floor: ALL chest pain presentations are a minimum ESI 2.
+This is a safety floor that cannot be overridden.
+
+Context Rules that trigger ESI 2:
+• Silent MI in diabetics: Male ≥ 50 or any patient ≥ 65, diabetes,
+  GI symptoms (nausea, vomiting, epigastric pain) + HR > 95 or RR > 20
+• Atypical ACS in women: Female ≥ 45, GI/cardiac/musculoskeletal
+  body system, atypical symptoms (jaw pain, fatigue, nausea)
+• Sepsis screening: Immunocompromised/diabetic/elderly/cancer patient +
+  sepsis-related body system + fever > 38.5°C + ≥ 2 of (HR > 100,
+  RR > 22, altered mental status)
+
+
+DECISION POINT C — HOW MANY RESOURCES WILL THIS PATIENT NEED?
+--------------------------------------------------------------
+Resource count determines ESI level:
+• 2 or more resources → ESI Level 3 (Urgent)
+• 1 resource → ESI Level 4 (Less Urgent)
+• 0 resources → ESI Level 5 (Non-Urgent)
+
+What counts as a resource (each item = 1 resource):
+• Labs: blood work, urinalysis, cultures
+• ECG / EKG
+• Imaging: X-ray, CT scan, ultrasound, MRI
+• IV fluids or IV medications (NOT oral medications)
+• Procedures: sutures, splinting, incision & drainage, catheter
+• Specialty consult
+• Continuous monitoring (cardiac monitor, continuous pulse oximetry)
+
+What does NOT count as a resource:
+• History and physical examination
+• Point-of-care tests (fingerstick glucose)
+• Oral medications
+• Tetanus immunization
+• Simple wound care (bandaging)
+• Prescription refills
+• Discharge instructions
+
+
+DECISION POINT D — ARE VITAL SIGNS IN THE DANGER ZONE?
+-------------------------------------------------------
+Applied ONLY to patients triaged ESI 4 or ESI 5. If vital signs are in
+the danger zone → upgrade to ESI Level 3.
+
+Danger zone thresholds:
+• Heart rate > 100 bpm
+• Respiratory rate > 20 breaths/min
+• SpO2 < 92%
+
+If any danger zone vital is present AND patient was initially ESI 4 or 5,
+the patient is upgraded to ESI 3 for closer monitoring.
+
+
+VITAL SIGN DANGER ZONES (SUMMARY TABLE)
+-----------------------------------------
+Parameter       | ESI 1 Trigger    | ESI 2 Trigger    | Danger Zone (D)
+Heart Rate      | < 30 bpm         | < 50 or > 150    | > 100 bpm
+Systolic BP     | < 70 mmHg        | 70-90 mmHg       | —
+Respiratory Rate| Apnea            | > 30/min         | > 20/min
+SpO2            | < 85% + distress | < 90%            | < 92%
+Temperature     | —                | —                 | —
+GCS             | ≤ 8              | 9-13             | —
+
+
+SPECIAL POPULATIONS
+--------------------
+
+Pediatric vital sign thresholds vary by age:
+• Neonate (0-28 days): HR ≤ 205, RR ≤ 60, SpO2 > 92%. Fever ≥ 38°C is
+  MANDATORY ESI 2 (sepsis risk).
+• Infant 1-3 months: HR ≤ 180, RR ≤ 55. Fever ≥ 38°C → Consider ESI 2.
+• Infant 3-12 months: HR ≤ 180, RR ≤ 50. Fever ≥ 39°C → ESI 3.
+• Toddler 1-3 years: HR ≤ 160, RR ≤ 40.
+• Preschool 3-6 years: HR ≤ 140, RR ≤ 34.
+• School 6-12 years: HR ≤ 120, RR ≤ 30.
+• Adolescent 12-18: HR ≤ 100, RR ≤ 20.
+
+Geriatric patients:
+• Vital signs may be misleadingly normal due to medications (beta-blockers).
+• Lower threshold for ESI 2 when comorbidities are present.
+• Atypical presentations are more common (painless MI, afebrile sepsis).
+
+Severe pain context:
+• Systemic pain (renal colic, sickle cell, cancer) + pain ≥ 7/10 → ESI 2.
+• Orthopedic pain (sprain, strain) + pain ≥ 7/10 → ESI 3.
+• Pain ≥ 8/10 without clear context → ESI 2.
+
+
+CONFIDENCE AND REVIEW REQUIREMENTS
+------------------------------------
+• AI confidence > 0.85: Trust classification.
+• AI confidence 0.70-0.85: Use deterministic ESI, review recommended.
+• AI confidence < 0.70: Use deterministic ESI, review required.
+• Offline mode: Conservative floor (ESI > 4 → forced to 4).
