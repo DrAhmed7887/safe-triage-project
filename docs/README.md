@@ -32,3 +32,4 @@ Expected:
 - `docs/DEFENSE_CHECKLIST.md`
 - `docs/thesis_defense/Deployment_Guide.md`
 - `docs/thesis_defense/Performance_Benchmark.md`
+- `docs/wiki/README.md`
