@@ -1,6 +1,6 @@
 # KTAS Arabic vs English — Parity Benchmark
 
-**Date:** 20260402T004158Z
+**Date:** 20260408T220311Z
 **Cases:** 1262
 **Translation:** Gemini CLI (Egyptian colloquial Arabic)
 
@@ -8,13 +8,13 @@
 
 | Metric | Arabic | English | Delta |
 |--------|--------|---------|-------|
-| Exact match | 39.3% | 37.9% | +1.4% |
-| Within-one | 82.6% | 82.6% | 0.0% |
-| Under-triage | 14.8% | 10.9% | +4.0% |
-| Over-triage | 45.9% | 51.3% | -5.4% |
-| Critical under-triage | 4.3% | 2.9% | +1.3% |
+| Exact match | 39.9% | 36.8% | +3.1% |
+| Within-one | 82.6% | 81.5% | +1.1% |
+| Under-triage | 13.1% | 9.1% | +4.0% |
+| Over-triage | 47.1% | 54.1% | -7.1% |
+| Critical under-triage | 3.6% | 1.3% | +2.2% |
 
-## Parity Differences (390 cases)
+## Parity Differences (381 cases)
 
 | Row | Arabic Complaint | English | Actual | AR ESI | EN ESI | AR✓ | EN✓ |
 |-----|-----------------|---------|--------|--------|--------|-----|-----|
@@ -25,13 +25,12 @@
 | 23 | صباعي اتعور/اتخبط | Finger Injury | 4 | 4 | 3 | ✓ | ✗ |
 | 25 | ضعف حركي في الجنب اليمين | Rt. side motor weakness | 3 | 3 | 2 | ✓ | ✗ |
 | 30 | وجع في دراعي | pain, arm | 4 | 3 | 4 | ✗ | ✓ |
-| 31 | نوبة شبه التشنجات | Seizure Like Activity | 3 | 1 | 2 | ✗ | ✗ |
-| 32 | بعد ما جاله تشنجات | post seizure | 3 | 1 | 2 | ✗ | ✗ |
 | 35 | أغمى عليا | syncope | 3 | 3 | 2 | ✓ | ✗ |
 | 37 | دم نازل مع البراز | hematochezia | 3 | 3 | 2 | ✓ | ✗ |
 | 39 | أغمى عليا | syncope | 4 | 3 | 2 | ✗ | ✗ |
-| 47 | بعد ما جاله تشنجات | post seizure | 3 | 1 | 2 | ✗ | ✗ |
+| 48 | نهجان / كرشة نفس | dyspnea | 3 | 3 | 2 | ✓ | ✗ |
 | 49 | مش دريان باللي حواليه | mental change | 2 | 1 | 2 | ✗ | ✓ |
+| 64 | ترجيع | vomiting | 3 | 3 | 2 | ✓ | ✗ |
 | 68 | وجع في الربع التحتاني اليمين م | right lower quadrant abdo | 3 | 4 | 3 | ✗ | ✓ |
 | 69 | تقل في جنبي اليمين | right hemiparesis | 2 | 3 | 2 | ✗ | ✓ |
 | 71 | ورم في الرسغ الشمال | left wrist swelling | 4 | 4 | 3 | ✓ | ✗ |
@@ -48,3 +47,4 @@
 | 99 | وجع في البطن | abd pain | 3 | 3 | 4 | ✓ | ✗ |
 | 102 | وجع حاد في فم المعدة | acute epigastric pain | 3 | 4 | 3 | ✗ | ✓ |
 | 104 | خبطة في الكوع | Elbow Injury | 3 | 4 | 3 | ✗ | ✓ |
+| 106 | وجع في الجنب اليمين (الخاصرة) | Rt. flank pain | 3 | 4 | 3 | ✗ | ✓ |

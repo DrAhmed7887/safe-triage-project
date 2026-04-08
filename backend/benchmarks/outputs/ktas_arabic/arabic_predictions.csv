@@ -112,7 +112,7 @@ ktas_ar_row_114,3,3,1,1,exact_match,وجع في جنبي الشمال
 ktas_ar_row_115,3,2,0,1,over_triage,وجع في الرجلين الاثنين
 ktas_ar_row_116,3,4,0,1,under_triage,وجع في عيني الشمال
 ktas_ar_row_117,2,2,1,1,exact_match,جرح مفتوح
-ktas_ar_row_118,3,4,0,1,under_triage,وجع في الرجل الشمال
+ktas_ar_row_118,3,3,1,1,exact_match,وجع في الرجل الشمال
 ktas_ar_row_119,2,3,0,1,critical_under_triage,صداع
 ktas_ar_row_120,3,3,1,1,exact_match,خبطة في دراعي
 ktas_ar_row_121,2,2,1,1,exact_match,صداع
@@ -126,7 +126,7 @@ ktas_ar_row_128,3,3,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_129,3,2,0,1,over_triage,همدان وتعب عام
 ktas_ar_row_130,3,3,1,1,exact_match,سخونية
 ktas_ar_row_131,2,2,1,1,exact_match,سخونية ورعشة
-ktas_ar_row_132,2,3,0,1,critical_under_triage,سخونية
+ktas_ar_row_132,2,2,1,1,exact_match,سخونية
 ktas_ar_row_133,2,1,0,1,over_triage,نهجان / كرشة نفس
 ktas_ar_row_134,1,1,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_135,1,1,1,1,exact_match,نهجان شديد
@@ -135,7 +135,7 @@ ktas_ar_row_137,3,3,1,1,exact_match,همدان وتعب عام
 ktas_ar_row_138,3,3,1,1,exact_match,ترجيع
 ktas_ar_row_139,4,3,0,1,over_triage,ضعف أو همدان
 ktas_ar_row_140,2,3,0,1,critical_under_triage,ضيقة في الصدر كله
-ktas_ar_row_141,3,4,0,1,under_triage,دوخة
+ktas_ar_row_141,3,2,0,1,over_triage,دوخة
 ktas_ar_row_142,2,2,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_143,3,4,0,1,under_triage,دوخة
 ktas_ar_row_144,4,4,1,1,exact_match,إسهال
@@ -151,7 +151,7 @@ ktas_ar_row_153,2,2,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_154,2,1,0,1,over_triage,مش دريان باللي حواليه
 ktas_ar_row_155,1,1,1,1,exact_match,مش دريان باللي حواليه
 ktas_ar_row_156,3,3,1,1,exact_match,توهان مفاجئ
-ktas_ar_row_157,1,2,0,1,critical_under_triage,مش قادر أحرك أطرافي
+ktas_ar_row_157,1,1,1,1,exact_match,مش قادر أحرك أطرافي
 ktas_ar_row_158,2,3,0,1,critical_under_triage,سخونية
 ktas_ar_row_159,2,2,1,1,exact_match,سخونية
 ktas_ar_row_160,4,3,0,1,over_triage,شيل القسطرة
@@ -349,7 +349,7 @@ ktas_ar_row_352,5,2,0,0,over_triage,وجع في الركبة
 ktas_ar_row_353,4,3,0,1,over_triage,وجع في البطن
 ktas_ar_row_354,2,2,1,1,exact_match,وجع في صدري ناحية الشمال
 ktas_ar_row_355,4,4,1,1,exact_match,وجع في فم المعدة
-ktas_ar_row_356,5,2,0,0,over_triage,وجع في الرجلين الاثنين
+ktas_ar_row_356,5,1,0,0,over_triage,وجع في الرجلين الاثنين
 ktas_ar_row_357,4,3,0,1,over_triage,وجع في البطن
 ktas_ar_row_358,4,3,0,1,over_triage,انتفاخ في البطن
 ktas_ar_row_359,4,4,1,1,exact_match,وجع في فم المعدة
@@ -357,7 +357,7 @@ ktas_ar_row_360,5,3,0,0,over_triage,عشان صرف دوا
 ktas_ar_row_361,4,2,0,0,over_triage,وجع في عيني اليمين
 ktas_ar_row_362,4,3,0,1,over_triage,وجع في جنبي الشمال
 ktas_ar_row_363,2,2,1,1,exact_match,وجع في صدري من قدام
-ktas_ar_row_364,4,4,1,1,exact_match,صداع
+ktas_ar_row_364,4,2,0,0,over_triage,صداع
 ktas_ar_row_365,2,2,1,1,exact_match,ثقل في نص جسمي الشمال
 ktas_ar_row_366,2,2,1,1,exact_match,وجع في صدري من قدام
 ktas_ar_row_367,4,2,0,0,over_triage,جرح مفتوح
@@ -493,7 +493,7 @@ ktas_ar_row_496,4,3,0,1,over_triage,إصابة في الصباع
 ktas_ar_row_497,3,3,1,1,exact_match,همدان وتعب عام
 ktas_ar_row_498,4,2,0,0,over_triage,جرح مفتوح
 ktas_ar_row_499,4,4,1,1,exact_match,ورم ووجع في الوش
-ktas_ar_row_500,2,4,0,0,critical_under_triage,دوخة
+ktas_ar_row_500,2,2,1,1,exact_match,دوخة
 ktas_ar_row_501,3,2,0,1,over_triage,وجع في صدري / نغزة
 ktas_ar_row_502,4,4,1,1,exact_match,وجع في ودني الشمال
 ktas_ar_row_503,4,3,0,1,over_triage,إصابة في الوش
@@ -519,7 +519,7 @@ ktas_ar_row_522,4,4,1,1,exact_match,ورم في عيني الشمال
 ktas_ar_row_523,3,3,1,1,exact_match,وجع في البطن / مغص
 ktas_ar_row_524,3,3,1,1,exact_match,وجع في البطن
 ktas_ar_row_525,4,2,0,0,over_triage,وجع في رسغ الإيد الشمال
-ktas_ar_row_526,3,4,0,1,under_triage,وجع في فم المعدة
+ktas_ar_row_526,3,2,0,1,over_triage,وجع في فم المعدة
 ktas_ar_row_527,3,2,0,1,over_triage,وجع في البطن
 ktas_ar_row_528,3,2,0,1,over_triage,جرح مفتوح
 ktas_ar_row_529,2,2,1,1,exact_match,وجع في صدري من قدام
@@ -617,7 +617,7 @@ ktas_ar_row_620,3,3,1,1,exact_match,وجع في البطن
 ktas_ar_row_621,4,2,0,0,over_triage,حاجة دخلت في عيني
 ktas_ar_row_622,3,4,0,1,under_triage,وجع في بطني
 ktas_ar_row_623,3,4,0,1,under_triage,وجع في بطني
-ktas_ar_row_624,3,4,0,1,under_triage,دوخة
+ktas_ar_row_624,3,2,0,1,over_triage,دوخة
 ktas_ar_row_625,3,3,1,1,exact_match,وجع في البطن
 ktas_ar_row_626,4,4,1,1,exact_match,ورم في الدقن
 ktas_ar_row_627,3,3,1,1,exact_match,وجع في البطن
@@ -675,7 +675,7 @@ ktas_ar_row_678,3,3,1,1,exact_match,وجع في البطن
 ktas_ar_row_679,3,2,0,1,over_triage,بلع جسم غريب
 ktas_ar_row_680,4,2,0,0,over_triage,جرح مفتوح
 ktas_ar_row_681,3,4,0,1,under_triage,وجع في الجنب اليمين تحت
-ktas_ar_row_682,3,4,0,1,under_triage,صداع
+ktas_ar_row_682,3,2,0,1,over_triage,صداع
 ktas_ar_row_683,4,3,0,1,over_triage,إصابة في مفصل الإيد (الرسغ)
 ktas_ar_row_684,4,3,0,1,over_triage,نزيف مهبلي
 ktas_ar_row_685,3,3,1,1,exact_match,وجع في جنبي
@@ -706,7 +706,7 @@ ktas_ar_row_709,3,4,0,1,under_triage,إسهال
 ktas_ar_row_710,3,2,0,1,over_triage,إصابة في الوش
 ktas_ar_row_711,3,2,0,1,over_triage,صداع
 ktas_ar_row_712,3,3,1,1,exact_match,وجع في الجنب اليمين فوق
-ktas_ar_row_713,2,4,0,0,critical_under_triage,وجع في فم المعدة
+ktas_ar_row_713,2,2,1,1,exact_match,وجع في فم المعدة
 ktas_ar_row_714,2,2,1,1,exact_match,ضيقة في صدري
 ktas_ar_row_715,4,2,0,0,over_triage,وجع في الكتف اليمين
 ktas_ar_row_716,2,2,1,1,exact_match,وجع في صدري ناحية الشمال
@@ -743,7 +743,7 @@ ktas_ar_row_746,3,3,1,1,exact_match,وجع أسفل البطن ناحية الش
 ktas_ar_row_747,4,4,1,1,exact_match,وجع في الرجل
 ktas_ar_row_748,3,3,1,1,exact_match,وجع في جنبي اليمين
 ktas_ar_row_749,3,4,0,1,under_triage,وجع في فم المعدة
-ktas_ar_row_750,3,4,0,1,under_triage,وجع في فم المعدة
+ktas_ar_row_750,3,2,0,1,over_triage,وجع في فم المعدة
 ktas_ar_row_751,4,4,1,1,exact_match,وجع في أسفل الظهر
 ktas_ar_row_752,4,3,0,1,over_triage,وجع في سناني الشمال
 ktas_ar_row_753,3,3,1,1,exact_match,وجع في البطن
@@ -992,7 +992,7 @@ ktas_ar_row_996,5,5,1,1,exact_match,عشان كشف / فحص
 ktas_ar_row_997,4,3,0,1,over_triage,صعوبة في البول
 ktas_ar_row_998,4,4,1,1,exact_match,طفح جلدي (أرتيكاريا)
 ktas_ar_row_999,3,3,1,1,exact_match,نفسي غمة عليا / عايز أرجع
-ktas_ar_row_1000,3,3,1,1,exact_match,ضعف في جنبي اليمين
+ktas_ar_row_1000,3,2,0,1,over_triage,ضعف في جنبي اليمين
 ktas_ar_row_1001,2,2,1,1,exact_match,نقص أكسجين
 ktas_ar_row_1002,4,2,0,0,over_triage,جرح في الحاجب
 ktas_ar_row_1003,2,4,0,0,critical_under_triage,خبطة في العين
@@ -1003,7 +1003,7 @@ ktas_ar_row_1007,3,4,0,1,under_triage,إسهال
 ktas_ar_row_1008,1,2,0,1,critical_under_triage,حالة بعد إنعاش قلبي
 ktas_ar_row_1009,2,2,1,1,exact_match,وجع في زوري
 ktas_ar_row_1010,2,3,0,1,critical_under_triage,ترجيع
-ktas_ar_row_1011,1,2,0,1,critical_under_triage,حالة بعد إنعاش قلبي
+ktas_ar_row_1011,1,1,1,1,exact_match,حالة بعد إنعاش قلبي
 ktas_ar_row_1012,5,3,0,0,over_triage,حاجة طالعة في الوش
 ktas_ar_row_1013,3,3,1,1,exact_match,ضعف حركي في الجنب اليمين
 ktas_ar_row_1014,2,4,0,0,critical_under_triage,دوخة
@@ -1018,7 +1018,7 @@ ktas_ar_row_1022,5,2,0,0,over_triage,نسخة
 ktas_ar_row_1023,3,4,0,1,under_triage,كحة فيها دم
 ktas_ar_row_1024,3,3,1,1,exact_match,عوجة في الوش ناحية الشمال
 ktas_ar_row_1025,3,4,0,1,under_triage,دوخة
-ktas_ar_row_1026,4,3,0,1,over_triage,ضعف حركي في الجنب اليمين
+ktas_ar_row_1026,4,2,0,0,over_triage,ضعف حركي في الجنب اليمين
 ktas_ar_row_1027,4,3,0,1,over_triage,سخونية
 ktas_ar_row_1028,3,3,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_1029,3,3,1,1,exact_match,نهجان / كرشة نفس
@@ -1027,13 +1027,13 @@ ktas_ar_row_1031,5,4,0,1,over_triage,طفح جلدي / حساسية
 ktas_ar_row_1032,4,3,0,1,over_triage,عطل في قسطرة المرارة
 ktas_ar_row_1033,4,3,0,1,over_triage,عطل في قسطرة المرارة
 ktas_ar_row_1034,3,2,0,1,over_triage,دوخة
-ktas_ar_row_1035,3,4,0,1,under_triage,دوخة
+ktas_ar_row_1035,3,2,0,1,over_triage,دوخة
 ktas_ar_row_1036,3,4,0,1,under_triage,دوخة
 ktas_ar_row_1037,3,2,0,1,over_triage,ضعف في الجنب الشمال
 ktas_ar_row_1038,3,3,1,1,exact_match,مودي وحش / اكتئاب
 ktas_ar_row_1039,3,4,0,1,under_triage,دوخة
 ktas_ar_row_1040,2,3,0,1,critical_under_triage,ضعف حركي في الجنب اليمين
-ktas_ar_row_1041,1,2,0,1,critical_under_triage,توقف قلب ونفس
+ktas_ar_row_1041,1,1,1,1,exact_match,توقف قلب ونفس
 ktas_ar_row_1042,3,3,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_1043,5,3,0,0,over_triage,انتفاخ في البطن
 ktas_ar_row_1044,5,4,0,1,over_triage,زغطة
@@ -1065,14 +1065,14 @@ ktas_ar_row_1069,4,3,0,1,over_triage,ترجيع
 ktas_ar_row_1070,5,4,0,1,over_triage,طفح جلدي (أرتيكاريا)
 ktas_ar_row_1071,4,3,0,1,over_triage,وصلة الغسيل فيها مشكلة
 ktas_ar_row_1072,3,3,1,1,exact_match,همدان وتعب عام
-ktas_ar_row_1073,3,4,0,1,under_triage,دوخة
+ktas_ar_row_1073,3,2,0,1,over_triage,دوخة
 ktas_ar_row_1074,3,3,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_1075,1,1,1,1,exact_match,مش دريان باللي حواليه
 ktas_ar_row_1076,2,2,1,1,exact_match,همدان وعايز ينام
 ktas_ar_row_1077,2,1,0,1,over_triage,بعد ما جاله تشنجات
 ktas_ar_row_1078,3,3,1,1,exact_match,مش قادر أحرك أطرافي
 ktas_ar_row_1079,3,3,1,1,exact_match,دم نازل مع البراز
-ktas_ar_row_1080,1,2,0,1,critical_under_triage,وعيه اتغير
+ktas_ar_row_1080,1,1,1,1,exact_match,وعيه اتغير
 ktas_ar_row_1081,2,2,1,1,exact_match,السكر واطي
 ktas_ar_row_1082,5,4,0,1,over_triage,طفح جلدي في الجسم كله
 ktas_ar_row_1083,4,3,0,1,over_triage,سخونية
@@ -1089,7 +1089,7 @@ ktas_ar_row_1093,4,3,0,1,over_triage,دخول الحمام كتير (تبول م
 ktas_ar_row_1094,3,2,0,1,over_triage,براز أسود زي الفحم
 ktas_ar_row_1095,3,2,0,1,over_triage,كحة
 ktas_ar_row_1096,3,4,0,1,under_triage,دوخة
-ktas_ar_row_1097,2,4,0,0,critical_under_triage,دوخة
+ktas_ar_row_1097,2,2,1,1,exact_match,دوخة
 ktas_ar_row_1098,3,2,0,1,over_triage,دوخة والدنيا بتلف بيا
 ktas_ar_row_1099,3,3,1,1,exact_match,ضربات قلب سريعة
 ktas_ar_row_1100,2,1,0,1,over_triage,مش دريان باللي حواليه
@@ -1098,7 +1098,7 @@ ktas_ar_row_1102,2,2,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_1103,2,2,1,1,exact_match,ثقل في جنبي الشمال
 ktas_ar_row_1104,3,3,1,1,exact_match,رفرفة في قلبي / ضربات قلب سريعة
 ktas_ar_row_1105,4,3,0,1,over_triage,صعوبة في البول
-ktas_ar_row_1106,3,4,0,1,under_triage,دوخة
+ktas_ar_row_1106,3,2,0,1,over_triage,دوخة
 ktas_ar_row_1107,3,3,1,1,exact_match,سخونية
 ktas_ar_row_1108,2,2,1,1,exact_match,إغماء (مغمى عليه)
 ktas_ar_row_1109,2,2,1,1,exact_match,ثقل في نص جسمي الشمال
@@ -1129,7 +1129,7 @@ ktas_ar_row_1133,2,1,0,1,over_triage,مش دريان باللي حواليه
 ktas_ar_row_1134,1,1,1,1,exact_match,مش دريان باللي حواليه
 ktas_ar_row_1135,3,2,0,1,over_triage,نهجان شديد
 ktas_ar_row_1136,2,1,0,1,over_triage,مش دريان باللي حواليه
-ktas_ar_row_1137,3,4,0,1,under_triage,دوخة
+ktas_ar_row_1137,3,2,0,1,over_triage,دوخة
 ktas_ar_row_1138,5,3,0,0,over_triage,تعب وكركبة في البطن كلها
 ktas_ar_row_1139,3,3,1,1,exact_match,أغمى عليا
 ktas_ar_row_1140,2,3,0,1,critical_under_triage,ضعف حركي في الجنب اليمين
@@ -1137,14 +1137,14 @@ ktas_ar_row_1141,3,3,1,1,exact_match,ضعف حركي في الجنب اليمي�
 ktas_ar_row_1142,4,2,0,0,over_triage,حرقان في البول
 ktas_ar_row_1143,4,4,1,1,exact_match,زغللة في عيني
 ktas_ar_row_1144,3,3,1,1,exact_match,سخونية
-ktas_ar_row_1145,1,2,0,1,critical_under_triage,حالة بعد إنعاش قلبي
+ktas_ar_row_1145,1,1,1,1,exact_match,حالة بعد إنعاش قلبي
 ktas_ar_row_1146,3,2,0,1,over_triage,ترجيع دم
-ktas_ar_row_1147,3,4,0,1,under_triage,دوخة
+ktas_ar_row_1147,3,2,0,1,over_triage,دوخة
 ktas_ar_row_1148,3,4,0,1,under_triage,دوخة
 ktas_ar_row_1149,3,3,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_1150,3,1,0,0,over_triage,دوخة
 ktas_ar_row_1151,2,3,0,1,critical_under_triage,مش قادر أحرك جنبي الشمال
-ktas_ar_row_1152,3,4,0,1,under_triage,دوخة
+ktas_ar_row_1152,3,2,0,1,over_triage,دوخة
 ktas_ar_row_1153,3,4,0,1,under_triage,دوخة
 ktas_ar_row_1154,3,3,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_1155,3,2,0,1,over_triage,توهان / مش مركز
@@ -1193,7 +1193,7 @@ ktas_ar_row_1197,4,3,0,1,over_triage,سخونية
 ktas_ar_row_1198,3,2,0,1,over_triage,لسانه تقيل في الكلام
 ktas_ar_row_1199,3,3,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_1200,3,2,0,1,over_triage,دوخة
-ktas_ar_row_1201,3,4,0,1,under_triage,دوخة
+ktas_ar_row_1201,3,2,0,1,over_triage,دوخة
 ktas_ar_row_1202,3,4,0,1,under_triage,إسهال زي الميه
 ktas_ar_row_1203,4,2,0,0,over_triage,تعويرة في إيدي
 ktas_ar_row_1204,3,3,1,1,exact_match,نهجان / كرشة نفس
@@ -1228,7 +1228,7 @@ ktas_ar_row_1232,4,4,1,1,exact_match,صداع
 ktas_ar_row_1233,3,3,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_1234,2,2,1,1,exact_match,وجع في صدري من قدام
 ktas_ar_row_1235,4,3,0,1,over_triage,نهجان / كرشة نفس
-ktas_ar_row_1236,4,4,1,1,exact_match,وجع في فم المعدة
+ktas_ar_row_1236,4,2,0,0,over_triage,وجع في فم المعدة
 ktas_ar_row_1237,4,3,0,1,over_triage,وجع في البطن
 ktas_ar_row_1238,3,3,1,1,exact_match,نزيف مهبلي
 ktas_ar_row_1239,3,3,1,1,exact_match,ألم في البطن
