@@ -1,7 +1,7 @@
 {
   "benchmark": "KTAS_arabic",
   "description": "KTAS cases with Egyptian Arabic chief complaints (Gemini-translated)",
-  "timestamp": "20260402T004158Z",
+  "timestamp": "20260408T221716Z",
   "dataset": {
     "total": 1262,
     "ktas_expert_distribution": {
@@ -26,56 +26,56 @@
   },
   "arabic_metrics": {
     "total": 1262,
-    "exact_match": 496,
-    "exact_match_rate": 0.393,
-    "within_one": 1042,
-    "within_one_rate": 0.8257,
-    "under_triage": 187,
-    "under_triage_rate": 0.1482,
-    "over_triage": 579,
-    "over_triage_rate": 0.4588,
-    "critical_under_triage": 54,
-    "critical_under_triage_rate": 0.0428,
+    "exact_match": 460,
+    "exact_match_rate": 0.3645,
+    "within_one": 1036,
+    "within_one_rate": 0.8209,
+    "under_triage": 131,
+    "under_triage_rate": 0.1038,
+    "over_triage": 671,
+    "over_triage_rate": 0.5317,
+    "critical_under_triage": 12,
+    "critical_under_triage_rate": 0.0095,
     "per_class_recall": {
-      "1": 0.5769,
-      "2": 0.6393,
-      "3": 0.4394,
-      "4": 0.2769,
+      "1": 0.8077,
+      "2": 0.8174,
+      "3": 0.2772,
+      "4": 0.2725,
       "5": 0.0133
     },
     "confusion_matrix": {
       "1": {
-        "1": 15,
-        "2": 7,
-        "3": 4,
+        "1": 21,
+        "2": 4,
+        "3": 1,
         "4": 0,
         "5": 0
       },
       "2": {
-        "1": 36,
-        "2": 140,
-        "3": 35,
-        "4": 8,
+        "1": 33,
+        "2": 179,
+        "3": 5,
+        "4": 2,
         "5": 0
       },
       "3": {
-        "1": 19,
-        "2": 121,
-        "3": 214,
-        "4": 133,
+        "1": 17,
+        "2": 216,
+        "3": 135,
+        "4": 119,
         "5": 0
       },
       "4": {
         "1": 1,
-        "2": 146,
-        "3": 182,
-        "4": 126,
+        "2": 163,
+        "3": 167,
+        "4": 124,
         "5": 0
       },
       "5": {
-        "1": 0,
+        "1": 1,
         "2": 19,
-        "3": 23,
+        "3": 22,
         "4": 32,
         "5": 1
       }
@@ -88,12 +88,6 @@
         "chief_complaint": "وجع في البطن"
       },
       {
-        "case_id": "ktas_ar_row_69",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "تقل في جنبي اليمين"
-      },
-      {
         "case_id": "ktas_ar_row_119",
         "actual_esi": 2,
         "predicted_esi": 3,
@@ -102,26 +96,8 @@
       {
         "case_id": "ktas_ar_row_123",
         "actual_esi": 1,
-        "predicted_esi": 3,
-        "chief_complaint": "نهجان / كرشة نفس"
-      },
-      {
-        "case_id": "ktas_ar_row_132",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "سخونية"
-      },
-      {
-        "case_id": "ktas_ar_row_140",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضيقة في الصدر كله"
-      },
-      {
-        "case_id": "ktas_ar_row_157",
-        "actual_esi": 1,
         "predicted_esi": 2,
-        "chief_complaint": "مش قادر أحرك أطرافي"
+        "chief_complaint": "نهجان / كرشة نفس"
       },
       {
         "case_id": "ktas_ar_row_158",
@@ -138,104 +114,8 @@
       {
         "case_id": "ktas_ar_row_166",
         "actual_esi": 1,
-        "predicted_esi": 3,
+        "predicted_esi": 2,
         "chief_complaint": "نهجان / كرشة نفس"
-      },
-      {
-        "case_id": "ktas_ar_row_171",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "تقل في جنبي اليمين"
-      },
-      {
-        "case_id": "ktas_ar_row_182",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "انتصاب"
-      },
-      {
-        "case_id": "ktas_ar_row_206",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "نزيف مهبلي"
-      },
-      {
-        "case_id": "ktas_ar_row_290",
-        "actual_esi": 2,
-        "predicted_esi": 4,
-        "chief_complaint": "مع وجع أو ضيقة في الصدر"
-      },
-      {
-        "case_id": "ktas_ar_row_329",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضربات قلب سريعة"
-      },
-      {
-        "case_id": "ktas_ar_row_382",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "نهجان / كرشة نفس"
-      },
-      {
-        "case_id": "ktas_ar_row_406",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضيقة في الصدر كله"
-      },
-      {
-        "case_id": "ktas_ar_row_407",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "نهجان / كرشة نفس"
-      },
-      {
-        "case_id": "ktas_ar_row_409",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "همدان وتعب عام"
-      },
-      {
-        "case_id": "ktas_ar_row_421",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضعف حركة في الجنب الشمال"
-      },
-      {
-        "case_id": "ktas_ar_row_424",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "نهجان / كرشة نفس"
-      },
-      {
-        "case_id": "ktas_ar_row_454",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "تعب وضيقة في الصدر"
-      },
-      {
-        "case_id": "ktas_ar_row_500",
-        "actual_esi": 2,
-        "predicted_esi": 4,
-        "chief_complaint": "دوخة"
-      },
-      {
-        "case_id": "ktas_ar_row_532",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضعف في الجنب الشمال"
-      },
-      {
-        "case_id": "ktas_ar_row_553",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "نهجان / كرشة نفس"
-      },
-      {
-        "case_id": "ktas_ar_row_694",
-        "actual_esi": 2,
-        "predicted_esi": 4,
-        "chief_complaint": "وجع أعلى الظهر"
       },
       {
         "case_id": "ktas_ar_row_707",
@@ -244,52 +124,10 @@
         "chief_complaint": "وجع في البطن"
       },
       {
-        "case_id": "ktas_ar_row_713",
-        "actual_esi": 2,
-        "predicted_esi": 4,
-        "chief_complaint": "وجع في فم المعدة"
-      },
-      {
-        "case_id": "ktas_ar_row_757",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "وجع أعلى الظهر"
-      },
-      {
-        "case_id": "ktas_ar_row_786",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "دم نازل مع البراز"
-      },
-      {
-        "case_id": "ktas_ar_row_825",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "نهجان / كرشة نفس"
-      },
-      {
-        "case_id": "ktas_ar_row_914",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "نزيف مهبلي"
-      },
-      {
         "case_id": "ktas_ar_row_980",
         "actual_esi": 2,
         "predicted_esi": 4,
         "chief_complaint": "زغللة في العين"
-      },
-      {
-        "case_id": "ktas_ar_row_1003",
-        "actual_esi": 2,
-        "predicted_esi": 4,
-        "chief_complaint": "خبطة في العين"
-      },
-      {
-        "case_id": "ktas_ar_row_1008",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "حالة بعد إنعاش قلبي"
       },
       {
         "case_id": "ktas_ar_row_1010",
@@ -298,166 +136,76 @@
         "chief_complaint": "ترجيع"
       },
       {
-        "case_id": "ktas_ar_row_1011",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "حالة بعد إنعاش قلبي"
-      },
-      {
         "case_id": "ktas_ar_row_1014",
         "actual_esi": 2,
         "predicted_esi": 4,
         "chief_complaint": "دوخة"
       },
       {
-        "case_id": "ktas_ar_row_1015",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضعف حركة في الناحية اليمين"
-      },
-      {
-        "case_id": "ktas_ar_row_1040",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضعف حركي في الجنب اليمين"
-      },
-      {
-        "case_id": "ktas_ar_row_1041",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "توقف قلب ونفس"
-      },
-      {
-        "case_id": "ktas_ar_row_1045",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضعف في جنبي اليمين"
-      },
-      {
-        "case_id": "ktas_ar_row_1058",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضعف في الجنب الشمال"
-      },
-      {
-        "case_id": "ktas_ar_row_1080",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "وعيه اتغير"
-      },
-      {
-        "case_id": "ktas_ar_row_1090",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "همدان وتعب عام"
-      },
-      {
-        "case_id": "ktas_ar_row_1097",
-        "actual_esi": 2,
-        "predicted_esi": 4,
-        "chief_complaint": "دوخة"
-      },
-      {
-        "case_id": "ktas_ar_row_1140",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ضعف حركي في الجنب اليمين"
-      },
-      {
-        "case_id": "ktas_ar_row_1145",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "حالة بعد إنعاش قلبي"
-      },
-      {
-        "case_id": "ktas_ar_row_1151",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "مش قادر أحرك جنبي الشمال"
-      },
-      {
         "case_id": "ktas_ar_row_1173",
         "actual_esi": 1,
-        "predicted_esi": 3,
+        "predicted_esi": 2,
         "chief_complaint": "نهجان شديد"
-      },
-      {
-        "case_id": "ktas_ar_row_1179",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "ثقل في حركة الناحية الشمال"
-      },
-      {
-        "case_id": "ktas_ar_row_1181",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "أغمى عليا"
       },
       {
         "case_id": "ktas_ar_row_1187",
         "actual_esi": 2,
         "predicted_esi": 3,
         "chief_complaint": "?? ???"
-      },
-      {
-        "case_id": "ktas_ar_row_1262",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "أغمى عليا"
       }
     ]
   },
   "english_metrics": {
     "total": 1262,
-    "exact_match": 478,
-    "exact_match_rate": 0.3788,
-    "within_one": 1042,
-    "within_one_rate": 0.8257,
-    "under_triage": 137,
-    "under_triage_rate": 0.1086,
-    "over_triage": 647,
-    "over_triage_rate": 0.5127,
-    "critical_under_triage": 37,
-    "critical_under_triage_rate": 0.0293,
+    "exact_match": 464,
+    "exact_match_rate": 0.3677,
+    "within_one": 1028,
+    "within_one_rate": 0.8146,
+    "under_triage": 115,
+    "under_triage_rate": 0.0911,
+    "over_triage": 683,
+    "over_triage_rate": 0.5412,
+    "critical_under_triage": 17,
+    "critical_under_triage_rate": 0.0135,
     "per_class_recall": {
-      "1": 0.2692,
-      "2": 0.7854,
-      "3": 0.4107,
-      "4": 0.2176,
+      "1": 0.6154,
+      "2": 0.8174,
+      "3": 0.3511,
+      "4": 0.2154,
       "5": 0.0
     },
     "confusion_matrix": {
       "1": {
-        "1": 7,
-        "2": 19,
+        "1": 16,
+        "2": 10,
         "3": 0,
         "4": 0,
         "5": 0
       },
       "2": {
-        "1": 29,
-        "2": 172,
-        "3": 17,
-        "4": 1,
+        "1": 33,
+        "2": 179,
+        "3": 7,
+        "4": 0,
         "5": 0
       },
       "3": {
-        "1": 10,
-        "2": 177,
-        "3": 200,
-        "4": 100,
+        "1": 21,
+        "2": 197,
+        "3": 171,
+        "4": 98,
         "5": 0
       },
       "4": {
         "1": 0,
-        "2": 154,
-        "3": 202,
-        "4": 99,
+        "2": 158,
+        "3": 199,
+        "4": 98,
         "5": 0
       },
       "5": {
-        "1": 0,
-        "2": 19,
+        "1": 1,
+        "2": 18,
         "3": 36,
         "4": 20,
         "5": 0
@@ -483,24 +231,6 @@
         "chief_complaint": "dyspnea"
       },
       {
-        "case_id": "ktas_en_row_132",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "fever"
-      },
-      {
-        "case_id": "ktas_en_row_152",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "mental change"
-      },
-      {
-        "case_id": "ktas_en_row_157",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "Motor weakness"
-      },
-      {
         "case_id": "ktas_en_row_158",
         "actual_esi": 2,
         "predicted_esi": 3,
@@ -519,12 +249,6 @@
         "chief_complaint": "dyspnea"
       },
       {
-        "case_id": "ktas_en_row_169",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "Amnesia"
-      },
-      {
         "case_id": "ktas_en_row_217",
         "actual_esi": 1,
         "predicted_esi": 2,
@@ -537,46 +261,10 @@
         "chief_complaint": "dyspnea"
       },
       {
-        "case_id": "ktas_en_row_407",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "dyspnea"
-      },
-      {
-        "case_id": "ktas_en_row_409",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "general weakness"
-      },
-      {
-        "case_id": "ktas_en_row_500",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "dizziness"
-      },
-      {
-        "case_id": "ktas_en_row_694",
-        "actual_esi": 2,
-        "predicted_esi": 4,
-        "chief_complaint": "upper back pain"
-      },
-      {
         "case_id": "ktas_en_row_707",
         "actual_esi": 1,
         "predicted_esi": 2,
         "chief_complaint": "abd pain"
-      },
-      {
-        "case_id": "ktas_en_row_713",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "epigastric pain"
-      },
-      {
-        "case_id": "ktas_en_row_757",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "upper back pain"
       },
       {
         "case_id": "ktas_en_row_806",
@@ -585,40 +273,10 @@
         "chief_complaint": "mental change"
       },
       {
-        "case_id": "ktas_en_row_822",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "mental change"
-      },
-      {
-        "case_id": "ktas_en_row_889",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "seizure"
-      },
-      {
-        "case_id": "ktas_en_row_980",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "Abnormality, Visual Acuity"
-      },
-      {
-        "case_id": "ktas_en_row_1008",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "post-CPR state"
-      },
-      {
         "case_id": "ktas_en_row_1010",
         "actual_esi": 2,
         "predicted_esi": 3,
         "chief_complaint": "vomiting"
-      },
-      {
-        "case_id": "ktas_en_row_1011",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "post-CPR state"
       },
       {
         "case_id": "ktas_en_row_1014",
@@ -627,46 +285,16 @@
         "chief_complaint": "dizziness"
       },
       {
-        "case_id": "ktas_en_row_1041",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "arrest"
-      },
-      {
         "case_id": "ktas_en_row_1075",
         "actual_esi": 1,
         "predicted_esi": 2,
         "chief_complaint": "mental change"
       },
       {
-        "case_id": "ktas_en_row_1080",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "altered mental change"
-      },
-      {
-        "case_id": "ktas_en_row_1090",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "general weakness"
-      },
-      {
-        "case_id": "ktas_en_row_1097",
-        "actual_esi": 2,
-        "predicted_esi": 3,
-        "chief_complaint": "DZ - Dizziness"
-      },
-      {
         "case_id": "ktas_en_row_1134",
         "actual_esi": 1,
         "predicted_esi": 2,
         "chief_complaint": "mental change"
-      },
-      {
-        "case_id": "ktas_en_row_1145",
-        "actual_esi": 1,
-        "predicted_esi": 2,
-        "chief_complaint": "post-CPR state"
       },
       {
         "case_id": "ktas_en_row_1173",
@@ -688,18 +316,8 @@
       }
     ]
   },
-  "parity_differences": 390,
+  "parity_differences": 309,
   "parity_diff_details": [
-    {
-      "row": "8",
-      "arabic_complaint": "مع وجع أو ضيقة في الصدر",
-      "english_complaint": "With chest discomfort",
-      "actual_ktas": 3,
-      "arabic_esi": 4,
-      "english_esi": 2,
-      "arabic_correct": false,
-      "english_correct": false
-    },
     {
       "row": "11",
       "arabic_complaint": "إكزيما في جفن العين",
@@ -741,16 +359,6 @@
       "english_correct": false
     },
     {
-      "row": "25",
-      "arabic_complaint": "ضعف حركي في الجنب اليمين",
-      "english_complaint": "Rt. side motor weakness",
-      "actual_ktas": 3,
-      "arabic_esi": 3,
-      "english_esi": 2,
-      "arabic_correct": true,
-      "english_correct": false
-    },
-    {
       "row": "30",
       "arabic_complaint": "وجع في دراعي",
       "english_complaint": "pain, arm",
@@ -761,62 +369,12 @@
       "english_correct": true
     },
     {
-      "row": "31",
-      "arabic_complaint": "نوبة شبه التشنجات",
-      "english_complaint": "Seizure Like Activity",
-      "actual_ktas": 3,
-      "arabic_esi": 1,
-      "english_esi": 2,
-      "arabic_correct": false,
-      "english_correct": false
-    },
-    {
-      "row": "32",
-      "arabic_complaint": "بعد ما جاله تشنجات",
-      "english_complaint": "post seizure",
-      "actual_ktas": 3,
-      "arabic_esi": 1,
-      "english_esi": 2,
-      "arabic_correct": false,
-      "english_correct": false
-    },
-    {
-      "row": "35",
-      "arabic_complaint": "أغمى عليا",
-      "english_complaint": "syncope",
-      "actual_ktas": 3,
-      "arabic_esi": 3,
-      "english_esi": 2,
-      "arabic_correct": true,
-      "english_correct": false
-    },
-    {
-      "row": "37",
-      "arabic_complaint": "دم نازل مع البراز",
-      "english_complaint": "hematochezia",
-      "actual_ktas": 3,
-      "arabic_esi": 3,
-      "english_esi": 2,
-      "arabic_correct": true,
-      "english_correct": false
-    },
-    {
-      "row": "39",
-      "arabic_complaint": "أغمى عليا",
-      "english_complaint": "syncope",
+      "row": "41",
+      "arabic_complaint": "نهجان وسرعة تنفس",
+      "english_complaint": "hyperventilation",
       "actual_ktas": 4,
-      "arabic_esi": 3,
-      "english_esi": 2,
-      "arabic_correct": false,
-      "english_correct": false
-    },
-    {
-      "row": "47",
-      "arabic_complaint": "بعد ما جاله تشنجات",
-      "english_complaint": "post seizure",
-      "actual_ktas": 3,
-      "arabic_esi": 1,
-      "english_esi": 2,
+      "arabic_esi": 2,
+      "english_esi": 3,
       "arabic_correct": false,
       "english_correct": false
     },
@@ -831,22 +389,32 @@
       "english_correct": true
     },
     {
+      "row": "59",
+      "arabic_complaint": "رفرفة في قلبي / ضربات قلب سريعة",
+      "english_complaint": "palpitation",
+      "actual_ktas": 3,
+      "arabic_esi": 2,
+      "english_esi": 3,
+      "arabic_correct": false,
+      "english_correct": true
+    },
+    {
+      "row": "64",
+      "arabic_complaint": "ترجيع",
+      "english_complaint": "vomiting",
+      "actual_ktas": 3,
+      "arabic_esi": 3,
+      "english_esi": 2,
+      "arabic_correct": true,
+      "english_correct": false
+    },
+    {
       "row": "68",
       "arabic_complaint": "وجع في الربع التحتاني اليمين من البطن",
       "english_complaint": "right lower quadrant abdominal pain",
       "actual_ktas": 3,
       "arabic_esi": 4,
       "english_esi": 3,
-      "arabic_correct": false,
-      "english_correct": true
-    },
-    {
-      "row": "69",
-      "arabic_complaint": "تقل في جنبي اليمين",
-      "english_complaint": "right hemiparesis",
-      "actual_ktas": 2,
-      "arabic_esi": 3,
-      "english_esi": 2,
       "arabic_correct": false,
       "english_correct": true
     },
@@ -1031,6 +599,16 @@
       "english_correct": false
     },
     {
+      "row": "118",
+      "arabic_complaint": "وجع في الرجل الشمال",
+      "english_complaint": "leg pain left",
+      "actual_ktas": 3,
+      "arabic_esi": 3,
+      "english_esi": 4,
+      "arabic_correct": true,
+      "english_correct": false
+    },
+    {
       "row": "120",
       "arabic_complaint": "خبطة في دراعي",
       "english_complaint": "Arm Injury",
@@ -1041,44 +619,34 @@
       "english_correct": false
     },
     {
-      "row": "123",
+      "row": "128",
       "arabic_complaint": "نهجان / كرشة نفس",
       "english_complaint": "dyspnea",
-      "actual_ktas": 1,
-      "arabic_esi": 3,
-      "english_esi": 2,
+      "actual_ktas": 3,
+      "arabic_esi": 2,
+      "english_esi": 3,
       "arabic_correct": false,
-      "english_correct": false
+      "english_correct": true
     },
     {
-      "row": "126",
-      "arabic_complaint": "أغمى عليا",
-      "english_complaint": "syncope",
-      "actual_ktas": 3,
-      "arabic_esi": 3,
-      "english_esi": 2,
+      "row": "136",
+      "arabic_complaint": "نهجان / كرشة نفس",
+      "english_complaint": "dyspnea",
+      "actual_ktas": 2,
+      "arabic_esi": 2,
+      "english_esi": 1,
       "arabic_correct": true,
       "english_correct": false
     },
     {
-      "row": "140",
-      "arabic_complaint": "ضيقة في الصدر كله",
-      "english_complaint": "diffuse chest discomfort",
-      "actual_ktas": 2,
-      "arabic_esi": 3,
-      "english_esi": 2,
-      "arabic_correct": false,
-      "english_correct": true
-    },
-    {
-      "row": "141",
-      "arabic_complaint": "دوخة",
-      "english_complaint": "dizziness",
-      "actual_ktas": 3,
-      "arabic_esi": 4,
+      "row": "139",
+      "arabic_complaint": "ضعف أو همدان",
+      "english_complaint": "weakness",
+      "actual_ktas": 4,
+      "arabic_esi": 2,
       "english_esi": 3,
       "arabic_correct": false,
-      "english_correct": true
+      "english_correct": false
     },
     {
       "row": "143",
@@ -1111,39 +679,19 @@
       "english_correct": true
     },
     {
-      "row": "149",
-      "arabic_complaint": "ضربات قلب سريعة",
-      "english_complaint": "chest palpitation",
+      "row": "150",
+      "arabic_complaint": "همدان وتعب عام",
+      "english_complaint": "general weakness",
       "actual_ktas": 3,
-      "arabic_esi": 3,
-      "english_esi": 2,
-      "arabic_correct": true,
-      "english_correct": false
-    },
-    {
-      "row": "152",
-      "arabic_complaint": "مش دريان باللي حواليه",
-      "english_complaint": "mental change",
-      "actual_ktas": 1,
-      "arabic_esi": 1,
-      "english_esi": 2,
-      "arabic_correct": true,
-      "english_correct": false
+      "arabic_esi": 2,
+      "english_esi": 3,
+      "arabic_correct": false,
+      "english_correct": true
     },
     {
       "row": "156",
       "arabic_complaint": "توهان مفاجئ",
       "english_complaint": "acute delirium",
-      "actual_ktas": 3,
-      "arabic_esi": 3,
-      "english_esi": 2,
-      "arabic_correct": true,
-      "english_correct": false
-    },
-    {
-      "row": "161",
-      "arabic_complaint": "نهجان / كرشة نفس",
-      "english_complaint": "dyspnea",
       "actual_ktas": 3,
       "arabic_esi": 3,
       "english_esi": 2,
@@ -1161,19 +709,69 @@
       "english_correct": false
     },
     {
-      "row": "166",
-      "arabic_complaint": "نهجان / كرشة نفس",
-      "english_complaint": "dyspnea",
-      "actual_ktas": 1,
+      "row": "179",
+      "arabic_complaint": "وجع أعلى البطن",
+      "english_complaint": "upper abdominal pain",
+      "actual_ktas": 3,
+      "arabic_esi": 4,
+      "english_esi": 3,
+      "arabic_correct": false,
+      "english_correct": true
+    },
+    {
+      "row": "180",
+      "arabic_complaint": "وجع في الجنب اليمين (الخاصرة)",
+      "english_complaint": "Rt. flank pain",
+      "actual_ktas": 3,
+      "arabic_esi": 4,
+      "english_esi": 3,
+      "arabic_correct": false,
+      "english_correct": true
+    },
+    {
+      "row": "181",
+      "arabic_complaint": "وجع في دراعي اليمين",
+      "english_complaint": "arm pain, Rt",
+      "actual_ktas": 4,
       "arabic_esi": 3,
-      "english_esi": 2,
+      "english_esi": 4,
+      "arabic_correct": false,
+      "english_correct": true
+    },
+    {
+      "row": "187",
+      "arabic_complaint": "وشي اتعوج (العصب السابع)",
+      "english_complaint": "Facial Palsy",
+      "actual_ktas": 3,
+      "arabic_esi": 2,
+      "english_esi": 3,
+      "arabic_correct": false,
+      "english_correct": true
+    },
+    {
+      "row": "198",
+      "arabic_complaint": "وجع في عضم صدري الشمال",
+      "english_complaint": "chest wall pain left",
+      "actual_ktas": 5,
+      "arabic_esi": 2,
+      "english_esi": 3,
       "arabic_correct": false,
       "english_correct": false
     },
     {
-      "row": "167",
-      "arabic_complaint": "ثقل في حركة الرجلين",
-      "english_complaint": "both leg  motor weakness",
+      "row": "200",
+      "arabic_complaint": "صداع",
+      "english_complaint": "HA",
+      "actual_ktas": 4,
+      "arabic_esi": 4,
+      "english_esi": 3,
+      "arabic_correct": true,
+      "english_correct": false
+    },
+    {
+      "row": "208",
+      "arabic_complaint": "وجع في جنبي اليمين",
+      "english_complaint": "Flank pain, Rt.",
       "actual_ktas": 3,
       "arabic_esi": 3,
       "english_esi": 2,
@@ -1181,14 +779,44 @@
       "english_correct": false
     },
     {
-      "row": "169",
-      "arabic_complaint": "مش فاكر حاجة/فقدان ذاكرة",
-      "english_complaint": "Amnesia",
-      "actual_ktas": 2,
-      "arabic_esi": 2,
+      "row": "213",
+      "arabic_complaint": "وجع في بطني عاليمين",
+      "english_complaint": "abdominal pain, Rt",
+      "actual_ktas": 4,
+      "arabic_esi": 4,
       "english_esi": 3,
       "arabic_correct": true,
       "english_correct": false
+    },
+    {
+      "row": "214",
+      "arabic_complaint": "خبطة في دراعي",
+      "english_complaint": "Arm Injury",
+      "actual_ktas": 5,
+      "arabic_esi": 4,
+      "english_esi": 3,
+      "arabic_correct": false,
+      "english_correct": false
+    },
+    {
+      "row": "217",
+      "arabic_complaint": "مش دريان باللي حواليه",
+      "english_complaint": "mental change",
+      "actual_ktas": 1,
+      "arabic_esi": 1,
+      "english_esi": 2,
+      "arabic_correct": true,
+      "english_correct": false
+    },
+    {
+      "row": "218",
+      "arabic_complaint": "وجع في جنبي",
+      "english_complaint": "pain, flank",
+      "actual_ktas": 4,
+      "arabic_esi": 3,
+      "english_esi": 4,
+      "arabic_correct": false,
+      "english_correct": true
     }
   ]
 }

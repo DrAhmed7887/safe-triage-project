@@ -49,7 +49,7 @@ These are the best current intake candidates because they recur in actual benchm
 ## Arabic-versus-English parity drift
 
 Current KTAS Arabic artifact:
-- parity-difference count: `50`
+- parity-difference count: `309`
 - source: `backend/benchmarks/outputs/ktas_arabic/arabic_summary.json`
 
 Representative parity drift examples:

@@ -1,6 +1,6 @@
 # KTAS Arabic vs English — Parity Benchmark
 
-**Date:** 20260402T004158Z
+**Date:** 20260408T221716Z
 **Cases:** 1262
 **Translation:** Gemini CLI (Egyptian colloquial Arabic)
 
@@ -8,32 +8,26 @@
 
 | Metric | Arabic | English | Delta |
 |--------|--------|---------|-------|
-| Exact match | 39.3% | 37.9% | +1.4% |
-| Within-one | 82.6% | 82.6% | 0.0% |
-| Under-triage | 14.8% | 10.9% | +4.0% |
-| Over-triage | 45.9% | 51.3% | -5.4% |
-| Critical under-triage | 4.3% | 2.9% | +1.3% |
+| Exact match | 36.5% | 36.8% | -0.3% |
+| Within-one | 82.1% | 81.5% | +0.6% |
+| Under-triage | 10.4% | 9.1% | +1.3% |
+| Over-triage | 53.2% | 54.1% | -1.0% |
+| Critical under-triage | 1.0% | 1.3% | -0.4% |
 
-## Parity Differences (390 cases)
+## Parity Differences (309 cases)
 
 | Row | Arabic Complaint | English | Actual | AR ESI | EN ESI | AR✓ | EN✓ |
 |-----|-----------------|---------|--------|--------|--------|-----|-----|
-| 8 | مع وجع أو ضيقة في الصدر | With chest discomfort | 3 | 4 | 2 | ✗ | ✗ |
 | 11 | إكزيما في جفن العين | Eczema, Eyelid | 5 | 4 | 3 | ✗ | ✗ |
 | 15 | وجع في البطن | abd pain | 4 | 3 | 4 | ✗ | ✓ |
 | 21 | لثتي ورمة | Gingival swelling | 4 | 4 | 3 | ✓ | ✗ |
 | 23 | صباعي اتعور/اتخبط | Finger Injury | 4 | 4 | 3 | ✓ | ✗ |
-| 25 | ضعف حركي في الجنب اليمين | Rt. side motor weakness | 3 | 3 | 2 | ✓ | ✗ |
 | 30 | وجع في دراعي | pain, arm | 4 | 3 | 4 | ✗ | ✓ |
-| 31 | نوبة شبه التشنجات | Seizure Like Activity | 3 | 1 | 2 | ✗ | ✗ |
-| 32 | بعد ما جاله تشنجات | post seizure | 3 | 1 | 2 | ✗ | ✗ |
-| 35 | أغمى عليا | syncope | 3 | 3 | 2 | ✓ | ✗ |
-| 37 | دم نازل مع البراز | hematochezia | 3 | 3 | 2 | ✓ | ✗ |
-| 39 | أغمى عليا | syncope | 4 | 3 | 2 | ✗ | ✗ |
-| 47 | بعد ما جاله تشنجات | post seizure | 3 | 1 | 2 | ✗ | ✗ |
+| 41 | نهجان وسرعة تنفس | hyperventilation | 4 | 2 | 3 | ✗ | ✗ |
 | 49 | مش دريان باللي حواليه | mental change | 2 | 1 | 2 | ✗ | ✓ |
+| 59 | رفرفة في قلبي / ضربات قلب سريع | palpitation | 3 | 2 | 3 | ✗ | ✓ |
+| 64 | ترجيع | vomiting | 3 | 3 | 2 | ✓ | ✗ |
 | 68 | وجع في الربع التحتاني اليمين م | right lower quadrant abdo | 3 | 4 | 3 | ✗ | ✓ |
-| 69 | تقل في جنبي اليمين | right hemiparesis | 2 | 3 | 2 | ✗ | ✓ |
 | 71 | ورم في الرسغ الشمال | left wrist swelling | 4 | 4 | 3 | ✓ | ✗ |
 | 73 | وجع في البطن | abd pain | 3 | 3 | 4 | ✓ | ✗ |
 | 76 | وجع في فم المعدة | epigastric pain | 3 | 4 | 3 | ✗ | ✓ |
@@ -48,3 +42,9 @@
 | 99 | وجع في البطن | abd pain | 3 | 3 | 4 | ✓ | ✗ |
 | 102 | وجع حاد في فم المعدة | acute epigastric pain | 3 | 4 | 3 | ✗ | ✓ |
 | 104 | خبطة في الكوع | Elbow Injury | 3 | 4 | 3 | ✗ | ✓ |
+| 106 | وجع في الجنب اليمين (الخاصرة) | Rt. flank pain | 3 | 4 | 3 | ✗ | ✓ |
+| 109 | وجع أسفل البطن ناحية الشمال | LLQ pain | 3 | 3 | 4 | ✓ | ✗ |
+| 116 | وجع في عيني الشمال | ocular pain, Lt. | 3 | 4 | 3 | ✗ | ✓ |
+| 117 | جرح مفتوح | Open Wound | 2 | 2 | 1 | ✓ | ✗ |
+| 118 | وجع في الرجل الشمال | leg pain left | 3 | 3 | 4 | ✓ | ✗ |
+| 120 | خبطة في دراعي | Arm Injury | 3 | 3 | 2 | ✓ | ✗ |
