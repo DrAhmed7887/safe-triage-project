@@ -57,28 +57,39 @@ The system was submitted to the **MedGemma Impact Challenge on Kaggle** (Februar
 
 ## Validated Performance
 
-| Metric | SAFE-Triage (MIETIC, n=36) | Human Nurses | Industry Standard |
-|--------|---------------------------|--------------|-------------------|
+### Primary Benchmark — MIETIC (n=36, expert-validated)
+
+| Metric | SAFE-Triage | Human Nurses | Industry Standard |
+|--------|-------------|--------------|-------------------|
 | **Exact ESI Accuracy** | **97.2%** (35/36) | 61.3% | ~72% |
 | **Within-1 Accuracy** | **100%** (36/36) | 82.9% | ~85% |
 | **Critical Under-triage** | **0.0%** (0/36) | 5-15% | <5% (ACS-COT) |
 | **Over-triage** | 2.8% (1/36) | ~20% | ~30% |
 
-*Validated on 36 expert-reviewed MIETIC cases (MIMIC-IV-ED Triage Instruction Corpus).
-Zero critical under-triage. 97.2% exact ESI match. 100% within-one-level.
-See `backend/benchmarks/` for fully reproducible benchmark code.*
+*Zero critical under-triage on 36 expert-reviewed cases. Arabic mirror benchmark matches identical safety profile.*
+
+### External Benchmark — KTAS (n=1,262, cross-national)
+
+| Language | Exact Match | Within-1 | Critical Under-triage |
+|----------|-------------|----------|-----------------------|
+| English | 36.8% | 81.5% | 1.3% (17 cases) |
+| Arabic (Egyptian dialect) | 36.5% | 82.1% | **1.0%** (12 cases) |
+
+*Korean ED dataset. Arabic dialect achieves lower critical under-triage rate than English — demonstrating Arabic parity. Cross-protocol comparison (KTAS vs ESI) explains lower exact match.*
+
+See `backend/benchmarks/` for fully reproducible benchmark code.
 
 ---
 
 ## Key Features
 
-**🇪🇬 Arabic Dialect Support** — 1,858 Egyptian Arabic medical keywords, not just Modern Standard Arabic. Understands colloquial complaints like "قلبي بيوجعني" and "حاسس إني هموت".
+**🇪🇬 Arabic Dialect Support** — 2,101 Egyptian Arabic medical keywords, not just Modern Standard Arabic. Understands colloquial complaints like "قلبي بيوجعني" and "حاسس إني هموت".
 
 **🔒 Safety-First Architecture** — Zero critical under-triage achieved on the MIETIC benchmark. Over-triage is always safer than under-triage. Deterministic safety floors (vital-sign escalation, life-threat text detection) enforce patient safety that AI cannot override.
 
 **🧬 MedGemma QA Layer** — Google's medical foundation model reviews triage decisions asynchronously, catching atypical presentations and silent killers that pattern matching alone would miss.
 
-**📴 Offline Mode** — When internet fails (common in Egyptian hospitals), the system falls back to a local keyword engine with 1,858 terms. No internet ≠ no triage.
+**📴 Offline Mode** — When internet fails (common in Egyptian hospitals), the system falls back to a local keyword engine with 2,101 terms. No internet ≠ no triage.
 
 **🌍 Bilingual Output** — Every triage result includes English and Arabic descriptions, actions, and time estimates. Serves both local patients and international tourists.
 
@@ -139,7 +150,7 @@ Patient Complaint (Arabic/English)
 | **Database** | BigQuery (audit logs), SQLite (rules engine) |
 | **Medical Standards** | ESI v5, NEWS2, SNOMED-CT, ICD-10 |
 | **Alerts** | Real-time physician notification system |
-| **Terminology** | 1,858 Arabic keywords, 6,370 SNOMED-CT concepts |
+| **Terminology** | 2,101 Arabic keywords, 6,370 SNOMED-CT concepts |
 
 ---
 
@@ -148,9 +159,10 @@ Patient Complaint (Arabic/English)
 | Dataset | Source | Cases | Purpose |
 |---------|--------|-------|---------|
 | MIMIC-IV-ED | MIT/PhysioNet | 425,000+ | Large-scale ED visit validation |
-| MIETIC (RETAIN subset) | Expert panel | 36 | Primary validation benchmark (36 expert-reviewed cases from MIMIC-IV-ED Triage Instruction Corpus) |
-| Korean KTAS | External | — | Cross-cultural generalizability |
-| Custom Arabic | Internal | 156+ | Egyptian dialect stress testing |
+| MIETIC (RETAIN subset) | Expert panel | 36 | Primary validation — 97.2% exact, 0% critical under-triage |
+| MIETIC Arabic mirror | Internal | 36 | Arabic parity — identical safety profile to English |
+| Korean KTAS | External | 1,262 | Cross-cultural stress test — Arabic achieves lower critical under-triage than English |
+| NHAMCS (CDC) | US CDC | 10,495 | Large low-context stress test |
 
 ---
 
