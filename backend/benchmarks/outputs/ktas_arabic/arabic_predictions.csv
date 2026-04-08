@@ -133,7 +133,7 @@ ktas_ar_row_135,1,1,1,1,exact_match,نهجان شديد
 ktas_ar_row_136,2,2,1,1,exact_match,نهجان / كرشة نفس
 ktas_ar_row_137,3,2,0,1,over_triage,همدان وتعب عام
 ktas_ar_row_138,3,3,1,1,exact_match,ترجيع
-ktas_ar_row_139,4,2,0,0,over_triage,ضعف أو همدان
+ktas_ar_row_139,4,3,0,1,over_triage,ضعف أو همدان
 ktas_ar_row_140,2,2,1,1,exact_match,ضيقة في الصدر كله
 ktas_ar_row_141,3,2,0,1,over_triage,دوخة
 ktas_ar_row_142,2,2,1,1,exact_match,نهجان / كرشة نفس
@@ -176,7 +176,7 @@ ktas_ar_row_178,4,3,0,1,over_triage,تنميل في نص الوش الشمال
 ktas_ar_row_179,3,4,0,1,under_triage,وجع أعلى البطن
 ktas_ar_row_180,3,4,0,1,under_triage,وجع في الجنب اليمين (الخاصرة)
 ktas_ar_row_181,4,3,0,1,over_triage,وجع في دراعي اليمين
-ktas_ar_row_182,2,2,1,1,exact_match,انتصاب
+ktas_ar_row_182,2,3,0,1,critical_under_triage,انتصاب
 ktas_ar_row_183,2,1,0,1,over_triage,براز أسود زي الفحم
 ktas_ar_row_184,3,2,0,1,over_triage,لسانه تقيل في الكلام
 ktas_ar_row_185,3,3,1,1,exact_match,جيب المية اتفتح بدري

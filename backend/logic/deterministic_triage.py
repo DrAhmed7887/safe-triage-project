@@ -2392,7 +2392,8 @@ class AISymptomClassifier:
         _ar_ams_early = (
             "تغيّر في الوعي", "تغير في الوعي", "تغيّر في مستوى الوعي",
             "كلامه غريب ومش عارف", "مش عارف هو فين",
-            "همدان",
+            "همدان ومش فايق",  # lethargic + not alert (already in LIFE_THREAT_SIGNALS)
+            "همدان وتعب",      # lethargic + fatigue (compound = real concern)
         )
         if any(t in text_lower for t in _ar_ams_early):
             return "altered_mental_status"  # → ESI 2
@@ -2417,6 +2418,13 @@ class AISymptomClassifier:
             "وجع في جنبي", "الجنب بيوجعني",
         )
         if any(t in text_lower for t in _ar_abd_pain):
+            return "abdominal_pain_moderate"  # → ESI 3
+
+        # ── Abbreviated abdominal pain → abdominal_pain_moderate (ESI 3) ─────
+        # "abd pain" is a common ED abbreviation that the dynamic keyword DB
+        # routes to mild_pain (ESI 4). Catch it here before the DB lookup.
+        _abd_pain_abbrev = ("abd pain", "abd. pain", "abdo pain", "abdo. pain")
+        if any(t in text_lower for t in _abd_pain_abbrev):
             return "abdominal_pain_moderate"  # → ESI 3
 
         # ── Arabic negated fever guard ────────────────────────────────────────
@@ -2544,10 +2552,10 @@ class AISymptomClassifier:
         if any(t in text_lower for t in _vaginal_bleed_tokens):
             return "obstetric_emergency"  # → ESI 2
 
-        # ── Acute dyspnea → respiratory_distress (ESI 2) ────────────────────
-        # "acute dyspnea" is different from chronic dyspnea — implies acute
-        # respiratory failure requiring immediate intervention.
-        if "acute dyspnea" in text_lower:
+        # ── Dyspnea → respiratory_distress (ESI 2) ────────────────────────
+        # Bare "dyspnea" is a recognized chief complaint that should never fall
+        # through to "unclear". Both acute and unqualified dyspnea → ESI 2.
+        if "dyspnea" in text_lower:
             return "respiratory_distress"  # → ESI 2
 
         # ── Hypoglycemic/hyperglycemic signals → diabetic_emergency (ESI 2) ─
@@ -2560,7 +2568,11 @@ class AISymptomClassifier:
             return "diabetic_emergency"  # → ESI 2
 
         # ── Priapism → urological emergency (ESI 2) ─────────────────────────
-        if "priapism" in text_lower or "erection, penile" in text_lower or "انتصاب" in normalized_text:
+        # Note: bare "انتصاب" excluded — also covers non-emergent ED complaints.
+        # Only match Arabic priapism with duration/pain context.
+        _priapism_tokens = ("priapism", "erection, penile",
+                            "انتصاب مستمر", "انتصاب مؤلم")
+        if any(t in text_lower for t in _priapism_tokens):
             return "altered_mental_status"  # → ESI 2 (urological emergency via high-acuity bucket)
 
         # ── Eye trauma → eye emergency (ESI 2) ──────────────────────────────
