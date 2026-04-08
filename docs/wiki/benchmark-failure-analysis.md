@@ -9,7 +9,7 @@ This file is the starting point for systematic error reduction.
 | MIETIC | `35/36` = `97.22%` | `36/36` = `100%` | `0` | primary expert-validated safety benchmark |
 | MIETIC Arabic mirror | `35/36` = `97.22%` | `36/36` = `100%` | `0` | Arabic parity benchmark |
 | KTAS external | `36.77%` | `81.46%` | `17` | external generalizability signal |
-| KTAS Arabic | `39.86%` | `82.57%` | `45` | Arabic parity and phrase-coverage stress test |
+| KTAS Arabic | `36.45%` | `82.09%` | `12` | Arabic parity and phrase-coverage stress test |
 | NHAMCS | `39.96%` | `83.74%` | `831` | large low-context stress test, not primary validation |
 
 Primary source files:

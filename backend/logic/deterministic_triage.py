@@ -445,6 +445,7 @@ INSTABILITY_SIGNALS = [
     "بقه اتلوح", "كلامه تقل", "إيده خذلت",
     "وشه اتعوج", "لسانه تقل", "ريقه بيجري",
     "بيجر رجله", "نص جسمه نمل", "بيتهته",
+    "زغللة",  # sudden blurred vision — stroke/TIA sign
     # Arabic fever/infection instability
     "سخونية تروح وتيجي", "عرق بالليل", "سخونية",
     # Arabic chest pain (expanded with Egyptian colloquial)
@@ -701,6 +702,9 @@ LIFE_THREAT_SIGNALS = [
     # Resuscitation / intubation
     "إنعاش فوري",               # immediate resuscitation
     "انعاش فوري",               # immediate resuscitation (no hamza)
+    "إنعاش قلبي",               # cardiac resuscitation
+    "انعاش قلبي",               # cardiac resuscitation (no hamza)
+    "بعد إنعاش",                # post-resuscitation (Arabic)
     "أنبوبة حنجرية",            # laryngeal tube / intubated
     "انبوبة حنجرية",            # laryngeal tube (no hamza)
     "جهاز تنفس صناعي",          # mechanical ventilator
@@ -2295,6 +2299,7 @@ class AISymptomClassifier:
             "حرقان صدر",
             "حارق بالصدر",
             "ضغط على الصدر",
+            "ضيقة في الصدر",
         ]
         has_silent_mi_gi = any(token in normalized_text for token in silent_mi_gi_tokens)
         has_silent_mi_signal = any(token in normalized_text for token in silent_mi_signal_tokens)
@@ -2373,7 +2378,12 @@ class AISymptomClassifier:
             return "altered_mental_status"  # → ESI 2
 
         # ── Syncope → altered_mental_status (ESI 2) ──────────────────────────
-        if "syncope" in text_lower:
+        _syncope_tokens = (
+            "syncope",
+            "اغمى عليا", "اغمى عليه", "اغمي عليا", "اغمي عليه",
+            "أغمى عليا", "أغمى عليه", "أغمي عليا", "أغمي عليه",
+        )
+        if any(t in normalized_text for t in _syncope_tokens):
             return "altered_mental_status"  # → ESI 2
 
         # ── Arabic AMS patterns → altered_mental_status (ESI 2) ──────────────
@@ -2382,6 +2392,7 @@ class AISymptomClassifier:
         _ar_ams_early = (
             "تغيّر في الوعي", "تغير في الوعي", "تغيّر في مستوى الوعي",
             "كلامه غريب ومش عارف", "مش عارف هو فين",
+            "همدان",
         )
         if any(t in text_lower for t in _ar_ams_early):
             return "altered_mental_status"  # → ESI 2
@@ -2451,6 +2462,14 @@ class AISymptomClassifier:
         if any(t in text_lower for t in _ar_asthma):
             return "respiratory_distress"  # → ESI 2
 
+        # ── Arabic dyspnea → respiratory_distress (ESI 2) ────────────────
+        # "نهجان" = gasping/out of breath (Egyptian), "كرشة نفس" = shortness of breath
+        _ar_dyspnea = (
+            "نهجان", "كرشة نفس", "بنهج", "كتمة",
+        )
+        if any(t in normalized_text for t in _ar_dyspnea):
+            return "respiratory_distress"  # → ESI 2
+
         # ── Arabic sepsis pattern → sepsis (ESI 2 via ceiling) ───────────────
         if "تسمم في الدم" in text_lower or "تعفن الدم" in text_lower:
             return "sepsis"  # → category level 1 but ceiling caps to ESI 2
@@ -2460,6 +2479,7 @@ class AISymptomClassifier:
         _chest_reversed = (
             "pain, chest", "pain chest", "discomfort, chest", "discomfort chest",
             "chest palpitation",
+            "ضربات قلب سريعة", "ضربات قلب",
         )
         if any(t in text_lower for t in _chest_reversed):
             return "chest_pain_cardiac"  # → ESI 2
@@ -2478,6 +2498,12 @@ class AISymptomClassifier:
             "lt side weakness", "rt side weakness",
             "left motor weakness", "right motor weakness",
             "lower extremity paraparesis", "paraparesis",
+            # Arabic stroke / lateralized weakness variants
+            "ضعف في الجنب", "ضعف في جنبي",
+            "ضعف حركي", "ضعف حركة",
+            "تقل في جنبي",
+            "ثقل في حركة",
+            "مش قادر أحرك جنبي", "مش قادر احرك جنبي",
         )
         if any(t in text_lower for t in _lateralized_weakness):
             return "stroke_symptoms"  # → ESI 2
@@ -2505,12 +2531,17 @@ class AISymptomClassifier:
             "hematochezia", "melena", "bloody stool", "blood in stool",
             "rectal bleeding", "gi bleed", "gi bleeding",
             "hematemesis", "vomiting blood", "coffee ground",
+            "دم نازل مع البراز", "دم مع البراز", "دم في البراز",
         )
         if not _is_abscess and any(t in text_lower for t in _gi_bleed_signals):
             return "gi_bleed"  # → ESI 2
 
         # ── Vaginal bleeding → obstetric_emergency (ESI 2) ──────────────────
-        if "vaginal bleeding" in text_lower or "vaginal bleed" in text_lower:
+        _vaginal_bleed_tokens = (
+            "vaginal bleeding", "vaginal bleed",
+            "نزيف مهبلي",
+        )
+        if any(t in text_lower for t in _vaginal_bleed_tokens):
             return "obstetric_emergency"  # → ESI 2
 
         # ── Acute dyspnea → respiratory_distress (ESI 2) ────────────────────
@@ -2529,13 +2560,14 @@ class AISymptomClassifier:
             return "diabetic_emergency"  # → ESI 2
 
         # ── Priapism → urological emergency (ESI 2) ─────────────────────────
-        if "priapism" in text_lower or "erection, penile" in text_lower:
+        if "priapism" in text_lower or "erection, penile" in text_lower or "انتصاب" in normalized_text:
             return "altered_mental_status"  # → ESI 2 (urological emergency via high-acuity bucket)
 
         # ── Eye trauma → eye emergency (ESI 2) ──────────────────────────────
         _eye_emergency_signals = (
             "eye trauma", "hyphema", "eye injury", "globe rupture",
             "chemical eye", "eye burn",
+            "خبطة في العين",
         )
         if any(t in text_lower for t in _eye_emergency_signals):
             return "altered_mental_status"  # → ESI 2 (via high-acuity bucket)
@@ -4618,7 +4650,8 @@ class DeterministicTriageEngine:
         if final_level > 2:
             complaint_lower_bp = (complaint or "").lower()
             _upper_back_tokens = ("upper back pain", "mid back pain",
-                                  "interscapular", "between shoulder blades")
+                                  "interscapular", "between shoulder blades",
+                                  "وجع أعلى الظهر", "ألم أعلى الظهر", "وجع اعلى الظهر")
             if any(tok in complaint_lower_bp for tok in _upper_back_tokens) and age >= 50:
                 final_level = 2
                 modifiers.append(
