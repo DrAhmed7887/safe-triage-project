@@ -59,4 +59,22 @@ Results:
 - Clusters: mental change ×5, dyspnea ×3, abd pain ×2, acute dyspnea ×1, melena ×1, headache ×1, fever ×1, vomiting ×1, dizziness ×1, garbled ×1
 - 2 potentially fixable: "dyspnea" → ESI 3 (should be ESI 2), "abd pain" actual ESI 1 → predicted ESI 3 (2-level miss)
 - Remaining 15: vitals-dependent or correct behavior given sparse complaint text
-- Status: pending investigation of the 2 fixable cases
+- Status: fixed — see entry below
+
+## [2026-04-09] fix | English keyword fixes + Codex review fixes
+
+Engine fixes:
+- "dyspnea" was missing from `_fallback_keyword_match()` entirely → added to pre-keyword guardrail → respiratory_distress (ESI 2)
+- "abd pain" mapped to `mild_pain` (ESI 4) in dynamic keyword DB → added abbreviation guardrail → abdominal_pain_moderate (ESI 3)
+
+Codex review fixes (from PR #8 comments):
+- `انتصاب` (priapism) narrowed to `انتصاب مستمر`/`انتصاب مؤلم` — bare word too broad, covers non-emergent ED visits
+- `همدان` (fatigue) narrowed to compound phrases `همدان ومش فايق`/`همدان وتعب` — standalone too aggressive for common fatigue
+
+Results:
+- KTAS English critical: 17 → 16 (-1)
+- KTAS English exact: 36.8% → 37.8% (+1.0%)
+- KTAS Arabic critical: 12 → 13 (+1, expected from hemdan narrowing)
+- MIETIC: 0 critical (unchanged), MIETIC Arabic: 0 critical (unchanged)
+
+Remaining 16 English critical cases are vitals-dependent — not fixable by keywords
