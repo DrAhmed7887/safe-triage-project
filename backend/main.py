@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, Request, UploadFile, File, Form, Header, Body
+from fastapi import FastAPI, HTTPException, Depends, Request, UploadFile, File, Form, Header, Body, BackgroundTasks
 from fastapi.responses import StreamingResponse, JSONResponse
 from validators import validate_gender_complaint
 from audit_service import audit_service
@@ -173,7 +173,6 @@ class FCMTokenRequest(BaseModel):
     token: str
     user_id: str
     role: str
-    phone: Optional[str] = None  # E.164 format e.g. +201012345678 — SMS CODE RED fallback
 
 IMMEDIATE_TRIAGE_KEYWORDS = [
     "صدر",
@@ -2754,12 +2753,11 @@ def list_voice_notes(patient_id: str, user: dict = Depends(require_firebase_user
 
 @app.post("/api/fcm/register")
 async def register_fcm_token(request: FCMTokenRequest):
-    """Register a browser token for push notifications and optionally a phone for SMS CODE RED fallback."""
+    """Register a browser/device token for critical push notifications."""
     return register_fcm_device(
         user_id=request.user_id,
         token=request.token,
         role=request.role,
-        phone=request.phone,
     )
 
 
@@ -4545,6 +4543,17 @@ def health_check():
     except Exception as e:
         status["components"]["alerts"] = {"status": "error", "error": str(e)}
     
+    # Check ASR / Voice Transcription
+    try:
+        from medasr_service import medasr_service
+        asr_status = medasr_service.get_status()
+        status["components"]["asr"] = {
+            "status": "ok" if asr_status["available"] else "degraded",
+            "provider": asr_status["provider"],
+        }
+    except Exception as e:
+        status["components"]["asr"] = {"status": "error", "error": str(e)}
+
     # Overall status
     all_ok = all(c.get("status") == "ok" for c in status["components"].values())
     status["status"] = "healthy" if all_ok else "degraded"

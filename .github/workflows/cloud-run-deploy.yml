@@ -100,7 +100,7 @@ jobs:
             --max-instances 3 \
             --no-traffic \
             --tag "${REVISION_TAG}" \
-            --update-env-vars "PYTHONUNBUFFERED=1,GEMINI_API_KEY=${GEMINI_API_KEY},PROJECT_ID=${PROJECT_ID},FIREBASE_PROJECT_ID=${PROJECT_ID},ALERT_FRONTEND_URL=${FRONTEND_URL}" \
+            --update-env-vars "PYTHONUNBUFFERED=1,GEMINI_API_KEY=${GEMINI_API_KEY},PROJECT_ID=${PROJECT_ID},FIREBASE_PROJECT_ID=${PROJECT_ID},ALERT_FRONTEND_URL=${FRONTEND_URL},USE_VERTEX_SPEECH=true,VERTEX_REGION=${REGION}" \
             --format='value(status.latestCreatedRevisionName)')"
           test -n "${deployed_revision}"
           # Build the tagged URL deterministically. Cloud Run tagged URLs

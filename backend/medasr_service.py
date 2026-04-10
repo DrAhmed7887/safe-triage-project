@@ -106,14 +106,24 @@ class MedASRService:
             except Exception as e:
                 print(f"[ASR] Failed to init Speech-to-Text: {e}")
 
-        # Legacy google.generativeai (genai) import removed — all AI via Vertex AI.
-        # Gemini multimodal ASR fallback is no longer available through genai SDK.
+        # Fallback: Vertex AI Gemini multimodal transcription
+        if not self.available and _vertex_gemini is not None:
+            self.provider = "gemini"
+            self.available = True
+            print("[ASR] Using Vertex AI Gemini for transcription (Speech-to-Text unavailable)")
 
         if not self.available:
             print("[ASR] Transcription service unavailable")
 
     def get_status(self) -> dict:
         return {"available": self.available, "provider": self.provider}
+
+    @staticmethod
+    def _is_mp4_audio(audio_path: str, content_type: Optional[str] = None) -> bool:
+        """Detect MP4/M4A audio (typically from Safari/iOS)."""
+        ct = (content_type or "").lower()
+        ext = Path(audio_path).suffix.lower()
+        return "mp4" in ct or "m4a" in ct or ext in {".m4a", ".mp4"}
 
     def transcribe(
         self,
@@ -123,6 +133,12 @@ class MedASRService:
     ) -> dict:
         if not self.available:
             return {"success": False, "error": "Voice transcription disabled"}
+
+        # MP4/M4A (Safari/iOS) is not supported by Speech-to-Text — route to Gemini
+        if self._is_mp4_audio(audio_path, content_type):
+            if _vertex_gemini is not None:
+                return self._transcribe_with_gemini(audio_path, content_type)
+            return {"success": False, "error": "MP4 audio requires Gemini (not available)"}
 
         if self.provider == "speech":
             requested_lang = (language_code or "").strip().lower()
@@ -329,7 +345,11 @@ class MedASRService:
             with open(audio_path, "rb") as f:
                 audio_data = f.read()
 
-            mime_type = content_type or "audio/webm"
+            # Infer MIME from extension when content_type is missing/generic
+            ext = Path(audio_path).suffix.lower()
+            ext_mime = {".webm": "audio/webm", ".m4a": "audio/mp4", ".mp4": "audio/mp4",
+                        ".ogg": "audio/ogg", ".wav": "audio/wav", ".flac": "audio/flac"}
+            mime_type = content_type or ext_mime.get(ext, "audio/webm")
 
             model = _vertex_gemini
             response = model.generate_content([

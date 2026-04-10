@@ -334,15 +334,21 @@ export default function TriageForm({ onResult }) {
             };
             updateLevel();
 
-            mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+            // Negotiate MIME type: Safari/iOS doesn't support audio/webm
+            const mimePreference = ['audio/webm', 'audio/mp4', 'audio/ogg', 'audio/wav'];
+            const selectedMime = mimePreference.find(m => MediaRecorder.isTypeSupported(m)) || '';
+            const recorderOptions = selectedMime ? { mimeType: selectedMime } : {};
+            mediaRecorderRef.current = new MediaRecorder(stream, recorderOptions);
             audioChunksRef.current = [];
+            // Store the actual MIME for blob creation and upload
+            const actualMime = mediaRecorderRef.current.mimeType || 'audio/webm';
 
             mediaRecorderRef.current.ondataavailable = (e) => {
                 if (e.data.size > 0) audioChunksRef.current.push(e.data);
             };
 
             mediaRecorderRef.current.onstop = () => {
-                const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                const audioBlob = new Blob(audioChunksRef.current, { type: actualMime });
                 const url = URL.createObjectURL(audioBlob);
                 setPendingAudioBlob(audioBlob);
                 setPendingAudioUrl(url);
@@ -428,7 +434,10 @@ export default function TriageForm({ onResult }) {
         setIsTranscribing(true);
         try {
             const formDataUpload = new FormData();
-            formDataUpload.append('audio', audioBlob, 'recording.webm');
+            // Derive file extension from blob MIME type for correct backend format detection
+            const extMap = { 'audio/webm': '.webm', 'audio/mp4': '.m4a', 'audio/ogg': '.ogg', 'audio/wav': '.wav' };
+            const ext = extMap[audioBlob.type] || '.webm';
+            formDataUpload.append('audio', audioBlob, `recording${ext}`);
             formDataUpload.append('language', voiceLanguage || 'auto');
             formDataUpload.append('patient_id', formData.patient_id || '');
             formDataUpload.append('save_recording', 'true');
@@ -452,7 +461,9 @@ export default function TriageForm({ onResult }) {
             }
         } catch (err) {
             const backendDetail = err?.response?.data?.detail || err?.response?.data?.error;
-            if (backendDetail) {
+            if (backendDetail && backendDetail.toLowerCase().includes('disabled')) {
+                setError('Voice transcription is not enabled on the server. Please contact your administrator. | خاصية التفريغ الصوتي غير مفعّلة على الخادم. يرجى التواصل مع المسؤول.');
+            } else if (backendDetail) {
                 setError(`Transcription failed: ${backendDetail} | فشل التفريغ الصوتي: ${backendDetail}`);
             } else if (!err?.response) {
                 setError('Transcription failed: cannot reach backend API. | فشل التفريغ الصوتي: تعذر الوصول إلى الخادم.');

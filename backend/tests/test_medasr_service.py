@@ -23,6 +23,9 @@ lifetime of each test, not just during service construction.
 
 The `speech_ctx` fixture does exactly that: it patches the module-level name,
 creates the service, and keeps the patch active for the whole test body.
+
+The `gemini_ctx` fixture patches `_vertex_gemini` (the module-level Vertex AI
+GenerativeModel instance) — legacy `genai` / `api_key` SDK symbols were removed.
 """
 
 import contextlib
@@ -83,7 +86,7 @@ def speech_ctx():
 
     with patch.object(_mod, "speech", speech_mock), \
          patch.object(_mod, "USE_VERTEX_SPEECH", True), \
-         patch.object(_mod, "genai", None):  # disable Gemini so speech wins
+         patch.object(_mod, "_vertex_gemini", None):  # disable Gemini so speech wins
         service = _mod.MedASRService()
         # Put the mock client on the service so recognize() calls are captured
         service._speech_client = MagicMock()
@@ -93,17 +96,15 @@ def speech_ctx():
 @pytest.fixture
 def gemini_ctx():
     """
-    Fixture that patches genai + api_key so MedASRService uses the Gemini
-    provider, and yields (service, genai_mock).
+    Fixture that patches _vertex_gemini so MedASRService uses the Gemini
+    provider (Vertex AI), and yields (service, vertex_model_mock).
     """
-    genai_mock = MagicMock()
-    with patch.object(_mod, "genai", genai_mock), \
-         patch.object(_mod, "api_key", "test-key"), \
+    vertex_model_mock = MagicMock()
+    with patch.object(_mod, "_vertex_gemini", vertex_model_mock), \
          patch.object(_mod, "USE_VERTEX_SPEECH", False), \
          patch.object(_mod, "speech", None):
         service = _mod.MedASRService()
-        # Keep genai active after construction too
-        yield service, genai_mock
+        yield service, vertex_model_mock
 
 
 @pytest.fixture
@@ -128,8 +129,7 @@ def tmp_audio():
 
 class TestGetStatus:
     def test_disabled_when_no_providers(self):
-        with patch.object(_mod, "genai", None), \
-             patch.object(_mod, "api_key", None), \
+        with patch.object(_mod, "_vertex_gemini", None), \
              patch.object(_mod, "USE_VERTEX_SPEECH", False), \
              patch.object(_mod, "speech", None):
             service = _mod.MedASRService()
@@ -157,8 +157,7 @@ class TestGetStatus:
 
 class TestTranscribeUnavailable:
     def test_returns_error_dict_when_disabled(self):
-        with patch.object(_mod, "genai", None), \
-             patch.object(_mod, "api_key", None), \
+        with patch.object(_mod, "_vertex_gemini", None), \
              patch.object(_mod, "USE_VERTEX_SPEECH", False), \
              patch.object(_mod, "speech", None):
             service = _mod.MedASRService()
@@ -529,13 +528,11 @@ class TestHallucinationDetection:
         return r
 
     def test_short_audio_long_transcription_rejected(self, gemini_ctx, tmp_audio):
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 8000)  # 8000 B = 1 s
         long_text = "ع" * 201  # > 200 chars
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response(long_text)
+        vertex_model.generate_content.return_value = self._gemini_response(long_text)
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
@@ -544,13 +541,11 @@ class TestHallucinationDetection:
         assert "unreliable" in result["error"].lower() or "موثوق" in result["error"]
 
     def test_short_audio_short_transcription_passes(self, gemini_ctx, tmp_audio):
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 8000)
         short_text = "صدري بيوجعني"  # < 200 chars
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response(short_text)
+        vertex_model.generate_content.return_value = self._gemini_response(short_text)
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
@@ -558,13 +553,11 @@ class TestHallucinationDetection:
         assert result["transcription"] == short_text
 
     def test_long_audio_long_transcription_passes(self, gemini_ctx, tmp_audio):
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 32000)  # 32 000 B = 4 s
         long_text = "ع" * 201
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response(long_text)
+        vertex_model.generate_content.return_value = self._gemini_response(long_text)
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
@@ -572,13 +565,11 @@ class TestHallucinationDetection:
 
     def test_exactly_16000_bytes_passes_boundary(self, gemini_ctx, tmp_audio):
         """16 000 B / 8000 = 2.0 s; condition is < 2, so 2.0 is NOT rejected."""
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 16000)
         long_text = "ع" * 201
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response(long_text)
+        vertex_model.generate_content.return_value = self._gemini_response(long_text)
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
@@ -586,13 +577,11 @@ class TestHallucinationDetection:
 
     def test_exactly_200_chars_with_short_audio_passes(self, gemini_ctx, tmp_audio):
         """200 chars is NOT > 200, so it should pass even with short audio."""
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 8000)
         text_200 = "a" * 200
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response(text_200)
+        vertex_model.generate_content.return_value = self._gemini_response(text_200)
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
@@ -600,13 +589,11 @@ class TestHallucinationDetection:
 
     def test_201_chars_with_short_audio_rejected(self, gemini_ctx, tmp_audio):
         """201 chars > 200 with short audio IS hallucination-flagged."""
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 8000)
         text_201 = "a" * 201
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response(text_201)
+        vertex_model.generate_content.return_value = self._gemini_response(text_201)
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
@@ -614,13 +601,11 @@ class TestHallucinationDetection:
 
     def test_just_under_16000_bytes_long_transcription_rejected(self, gemini_ctx, tmp_audio):
         """15 999 B / 8000 = 1.999…s < 2 — should still be rejected."""
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 15999)
         long_text = "a" * 201
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response(long_text)
+        vertex_model.generate_content.return_value = self._gemini_response(long_text)
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
@@ -639,12 +624,10 @@ class TestUnclearAudio:
         return r
 
     def test_unclear_audio_marker_returns_error(self, gemini_ctx, tmp_audio):
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 32000)
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response("[unclear audio]")
+        vertex_model.generate_content.return_value = self._gemini_response("[unclear audio]")
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
@@ -652,36 +635,30 @@ class TestUnclearAudio:
         assert "unclear" in result["error"].lower() or "واضح" in result["error"]
 
     def test_unclear_marker_is_case_insensitive(self, gemini_ctx, tmp_audio):
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 32000)
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response("[UNCLEAR AUDIO]")
+        vertex_model.generate_content.return_value = self._gemini_response("[UNCLEAR AUDIO]")
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
         assert result["success"] is False
 
     def test_empty_transcription_returns_error(self, gemini_ctx, tmp_audio):
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 32000)
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response("")
+        vertex_model.generate_content.return_value = self._gemini_response("")
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
         assert result["success"] is False
 
     def test_whitespace_only_transcription_returns_error(self, gemini_ctx, tmp_audio):
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 32000)
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.return_value = self._gemini_response("   ")
+        vertex_model.generate_content.return_value = self._gemini_response("   ")
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
@@ -694,39 +671,34 @@ class TestUnclearAudio:
 
 class TestGeminiAPIErrors:
     def test_api_exception_message_in_error(self, gemini_ctx, tmp_audio):
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 32000)
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
-        model_mock.generate_content.side_effect = Exception("API quota exceeded")
+        vertex_model.generate_content.side_effect = Exception("API quota exceeded")
 
         result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
         assert result["success"] is False
         assert "API quota exceeded" in result["error"]
 
-    def test_genai_none_returns_not_configured_error(self, tmp_audio):
+    def test_vertex_gemini_none_returns_not_configured_error(self, tmp_audio):
         audio_path = tmp_audio(b"x" * 32000)
 
-        # Build a service with provider=gemini but genai is None at call time
-        with patch.object(_mod, "genai", MagicMock()), \
-             patch.object(_mod, "api_key", "key"), \
+        # Build a service with provider=gemini but _vertex_gemini is None at call time
+        with patch.object(_mod, "_vertex_gemini", MagicMock()), \
              patch.object(_mod, "USE_VERTEX_SPEECH", False), \
              patch.object(_mod, "speech", None):
             service = _mod.MedASRService()
 
-        # Now patch genai to None so the method body sees None
-        with patch.object(_mod, "genai", None):
+        # Now patch _vertex_gemini to None so the method body sees None
+        with patch.object(_mod, "_vertex_gemini", None):
             result = service._transcribe_with_gemini(audio_path, "audio/webm")
 
         assert result["success"] is False
         assert "not configured" in result["error"].lower()
 
     def test_file_not_found_returns_error(self, gemini_ctx):
-        service, genai_mock = gemini_ctx
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
+        service, _ = gemini_ctx
 
         result = service._transcribe_with_gemini("/nonexistent/audio.webm", "audio/webm")
 
@@ -734,14 +706,12 @@ class TestGeminiAPIErrors:
 
     def test_default_mime_type_when_none(self, gemini_ctx, tmp_audio):
         """content_type=None should default to audio/webm and not crash."""
-        service, genai_mock = gemini_ctx
+        service, vertex_model = gemini_ctx
         audio_path = tmp_audio(b"x" * 32000)
 
-        model_mock = MagicMock()
-        genai_mock.GenerativeModel.return_value = model_mock
         r = MagicMock()
         r.text = "chest pain"
-        model_mock.generate_content.return_value = r
+        vertex_model.generate_content.return_value = r
 
         result = service._transcribe_with_gemini(audio_path, None)
 
@@ -979,12 +949,11 @@ class TestSpeechClientInitFailure:
     def test_falls_back_to_gemini_when_speech_client_init_fails(self):
         bad_speech = _make_speech_mock()
         bad_speech.SpeechClient = MagicMock(side_effect=Exception("auth failure"))
-        genai_mock = MagicMock()
+        vertex_model_mock = MagicMock()
 
         with patch.object(_mod, "speech", bad_speech), \
              patch.object(_mod, "USE_VERTEX_SPEECH", True), \
-             patch.object(_mod, "genai", genai_mock), \
-             patch.object(_mod, "api_key", "test-key"):
+             patch.object(_mod, "_vertex_gemini", vertex_model_mock):
             service = _mod.MedASRService()
 
         assert service.provider == "gemini"
