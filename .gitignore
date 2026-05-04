@@ -84,12 +84,14 @@ backend/tests/benchmark_outputs/
 english_ai_*.json
 mimic_*.json
 
-# Local presentation/doc files
+# Local presentation/doc files — private, never commit
 *.pptx
+*.docx
 landing-preview.html
 Screenshot*.png
 8043391978AZ.pdf
 SAFE.pdf
+SAFE_Triage_*hackathon*.pdf
 
 # Coverage reports
 .coverage
