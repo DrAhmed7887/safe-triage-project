@@ -1,0 +1,260 @@
+/* =============================================================
+   SAFE-Triage Design System — Colors & Type
+   Pulled directly from frontend/src/pages/LandingPage.css and the
+   Tailwind config in frontend/tailwind.config.js.
+
+   Two visual surfaces share the same palette:
+     1. Editorial / marketing  (Plus Jakarta Sans, dark hero)
+     2. Clinical app          (Inter + Cairo, slate/teal)
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Cairo:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* ── Brand core ───────────────────────────────────────────── */
+  --st-teal:        #006480;   /* primary brand teal — editorial */
+  --st-teal-dark:   #0b3f52;   /* deep teal — hero gradients */
+  --st-teal-light:  #d9eef4;   /* tinted callout backgrounds */
+  --st-teal-app:    #0d9488;   /* app-surface teal (Tailwind teal-600) */
+  --st-teal-app-2:  #0f766e;   /* hover / pressed teal-700 */
+  --st-teal-700:    #14b8a6;   /* lighter accent */
+  --st-teal-mint:   #5eead4;   /* gradient stop, link highlight on dark */
+
+  --st-gold:        #b7791f;   /* warm accent — primary CTA */
+  --st-gold-light:  #eab308;   /* gradient companion to gold */
+  --st-orange:      #c2410c;   /* deep orange — gradient stop */
+
+  --st-navy:        #0f172a;   /* base dark surface */
+  --st-navy-2:      #0b1220;   /* deeper navy — footer */
+  --st-navy-hero:   #101d33;   /* mid navy — hero blend */
+
+  /* ── Neutrals (tracks Tailwind slate scale) ─────────────── */
+  --st-white:       #ffffff;
+  --st-off-white:   #f6fafe;   /* warm off-white surface */
+  --st-bg:          #f8fafc;   /* slate-50 — app body */
+  --st-gray-100:    #e7edf1;   /* hairline borders */
+  --st-gray-200:    #e2e8f0;   /* slate-200 — inputs */
+  --st-gray-300:    #c5d0d8;
+  --st-gray-500:    #64748b;   /* slate-500 — body copy on light */
+  --st-slate:       #475569;   /* slate-600 */
+  --st-ink:         #0f172a;   /* slate-900 — primary text */
+
+  /* ── ESI semantic scale (frontend/tailwind.config.js) ────── */
+  --esi-1:          #ef4444;   /* Resuscitation — Red */
+  --esi-2:          #f97316;   /* Emergent      — Orange */
+  --esi-3:          #eab308;   /* Urgent        — Yellow */
+  --esi-4:          #22c55e;   /* Less Urgent   — Green */
+  --esi-5:          #3b82f6;   /* Non-Urgent    — Blue */
+
+  /* ── Status / feedback ──────────────────────────────────── */
+  --st-red:         #b91c1c;
+  --st-red-light:   #fee2e2;
+  --st-red-bg:      #fef2f2;
+  --st-amber-bg:    #fffbeb;
+  --st-amber-border:#fde68a;
+  --st-amber-text:  #92400e;
+  --st-green:       #0f766e;
+  --st-green-light: #ecfdf5;
+  --st-emerald:     #10b981;
+  --st-purple:      #6d28d9;   /* ICD-10 chip background */
+
+  /* ── Foreground / semantic text tokens ─────────────────── */
+  --fg-1: var(--st-ink);          /* primary text on light */
+  --fg-2: var(--st-slate);        /* secondary text on light */
+  --fg-3: var(--st-gray-500);     /* tertiary, captions, sources */
+  --fg-on-dark:        rgba(255, 255, 255, 0.94);
+  --fg-on-dark-muted:  rgba(226, 232, 240, 0.85);
+  --fg-on-dark-faint:  rgba(203, 213, 225, 0.70);
+
+  /* ── Background tokens ──────────────────────────────────── */
+  --bg-app:       var(--st-bg);
+  --bg-card:      var(--st-white);
+  --bg-elevated:  rgba(255, 255, 255, 0.84);
+  --bg-dark:      var(--st-navy);
+  --bg-dark-grad: linear-gradient(180deg, #0f172a 0%, #0d1628 100%);
+  --bg-warm-grad: linear-gradient(160deg, #0b1220 0%, #101d33 42%, #153a47 100%);
+
+  /* ── Borders / dividers ─────────────────────────────────── */
+  --border-hairline:  var(--st-gray-100);
+  --border-input:     #cbd5e1;
+  --border-glass:     rgba(231, 237, 241, 0.85);
+  --border-on-dark:   rgba(255, 255, 255, 0.12);
+
+  /* ── Shadows ────────────────────────────────────────────── */
+  --shadow-sm:   0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md:   0 6px 18px rgba(15, 23, 42, 0.08);
+  --shadow-lg:   0 18px 36px rgba(15, 23, 42, 0.08);
+  --shadow-xl:   0 18px 50px rgba(15, 23, 42, 0.12);
+  --shadow-dark: 0 24px 60px rgba(15, 23, 42, 0.14);
+  --shadow-cta:  0 16px 30px rgba(183, 121, 31, 0.25);
+
+  /* ── Radii ──────────────────────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;     /* inputs, badges */
+  --radius-lg: 16px;     /* cards, panels */
+  --radius-xl: 20px;     /* hero panels */
+  --radius-2xl: 28px;    /* CTA boxes */
+  --radius-pill: 999px;
+
+  /* ── Spacing scale ──────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 108px;     /* section padding (LandingPage) */
+
+  /* ── Type families ──────────────────────────────────────── */
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:    'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-arabic:  'Cairo', sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ── Type weights ───────────────────────────────────────── */
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+  --fw-black:    800;
+}
+
+/* =============================================================
+   Semantic typographic styles
+   Two specimens: editorial (display) and app (UI)
+   Editorial uses Plus Jakarta Sans + tight letter-spacing.
+   App uses Inter at compact sizes.
+   ============================================================= */
+
+/* Editorial — used on landing / marketing surfaces */
+.h-editorial-eyebrow {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--st-teal);
+}
+
+.h-display {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5.4vw, 72px);
+  font-weight: var(--fw-black);
+  line-height: 1.02;
+  letter-spacing: -2.5px;
+  color: var(--st-white);
+}
+
+.h-section-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: var(--fw-black);
+  line-height: 1.15;
+  letter-spacing: -1px;
+  color: var(--fg-1);
+}
+
+.h-section-desc {
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--fg-3);
+}
+
+/* App — used inside the Dashboard / forms */
+.h-app-h1 {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: var(--fw-bold);
+  color: var(--fg-1);
+  line-height: 1.25;
+}
+
+.h-app-h2 {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: var(--fw-semibold);
+  color: var(--fg-1);
+  line-height: 1.35;
+}
+
+.h-app-label {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: var(--fw-semibold);
+  color: var(--st-slate);
+  line-height: 1.4;
+}
+
+.h-app-body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--fw-regular);
+  color: var(--fg-1);
+  line-height: 1.6;
+}
+
+.h-app-caption {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: var(--fw-regular);
+  color: var(--fg-3);
+  line-height: 1.5;
+}
+
+.h-eyebrow-tiny {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--fg-3);
+}
+
+.h-mono-code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.02em;
+}
+
+.h-arabic-body {
+  font-family: var(--font-arabic);
+  font-size: 14px;
+  font-weight: var(--fw-medium);
+  line-height: 1.7;
+  direction: rtl;
+}
+
+.h-arabic-display {
+  font-family: var(--font-arabic);
+  font-size: clamp(18px, 2.4vw, 27px);
+  font-weight: var(--fw-bold);
+  line-height: 1.4;
+  direction: rtl;
+}
+
+/* =============================================================
+   Utility — common patterns from the codebase
+   ============================================================= */
+
+.bilingual-pair {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.bilingual-pair .sep {
+  color: var(--st-gray-300);
+  font-weight: var(--fw-regular);
+}
+.bilingual-pair .ar {
+  font-family: var(--font-arabic);
+  color: var(--st-slate);
+  font-weight: var(--fw-regular);
+}

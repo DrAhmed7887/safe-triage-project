@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56" viewBox="0 0 220 56">
+  <rect x="0" y="4" width="48" height="48" rx="12" fill="#0d9488"></rect>
+  
+  <path d="M10 28 L18 28 L22 18 L28 38 L32 28 L40 28" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+  <text x="60" y="36" font-family="&#39;Plus Jakarta Sans&#39;, system-ui, sans-serif" font-size="22" font-weight="800" letter-spacing="-0.5" fill="#0f172a">SAFE-Triage</text>
+</svg>
