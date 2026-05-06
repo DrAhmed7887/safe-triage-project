@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SAFE-Triage clinical app UI kit — bilingual ED triage decision-support preview (ESI v5 + NEWS2). Static design surface, no live backend.">
+  <meta name="color-scheme" content="light">
+  <title>SAFE-Triage · Clinical App UI Kit</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/safe-triage-logo.svg">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    html, body { margin: 0; padding: 0; background: #f8fafc; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', system-ui, sans-serif; color: #0f172a; }
+    button { font-family: 'Inter', sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; }
+
+    /* Animations used across SignIn + critical-row pulse */
+    @keyframes st-float {
+      0%,100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-30px) translateX(20px); }
+    }
+    @keyframes si-gradient {
+      0%,100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    @keyframes si-fade-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes st-pulse-red {
+      0%,100% { box-shadow: 0 4px 10px rgba(15,23,42,0.12), 0 0 0 0 rgba(239,68,68,0.6); }
+      50%     { box-shadow: 0 4px 10px rgba(15,23,42,0.12), 0 0 0 8px rgba(239,68,68,0); }
+    }
+
+    /* Respect reduced-motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+    }
+
+    /* Focus states — design preview surfaces still need keyboard a11y */
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid #0d9488;
+      outline-offset: 2px;
+    }
+
+    /* Loading placeholder shown until React hydrates the dashboard */
+    .ui-kit-bootstrap {
+      max-width: 640px; margin: 80px auto; padding: 32px;
+      background: #fff; border: 1px solid #e7edf1; border-radius: 16px;
+      box-shadow: 0 18px 36px rgba(15,23,42,0.06);
+      text-align: center;
+    }
+    .ui-kit-bootstrap h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; margin: 0 0 6px; color: #0f172a; }
+    .ui-kit-bootstrap p  { font-size: 13.5px; color: #475569; margin: 0; line-height: 1.6; }
+
+    /* Main 3-column dashboard grid: collapses gracefully on narrower viewports.
+       Class used by the App component below (instead of inline styles) so we can
+       hook in responsive breakpoints from CSS. */
+    .ui-kit-dashboard {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr) minmax(0, 1fr);
+      gap: 20px;
+      align-items: flex-start;
+    }
+    @media (max-width: 1180px) {
+      .ui-kit-dashboard { grid-template-columns: 280px minmax(0, 1fr); }
+      .ui-kit-dashboard > .ui-kit-result-col { grid-column: 1 / -1; }
+    }
+    @media (max-width: 760px) {
+      .ui-kit-dashboard { grid-template-columns: minmax(0, 1fr); padding: 16px; gap: 16px; }
+      .ui-kit-dashboard > .ui-kit-result-col { grid-column: auto; }
+    }
+  </style>
+  <!-- React 18 + Babel standalone for the static design preview. Pinned + SRI. -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <noscript>
+    <div class="ui-kit-bootstrap">
+      <h1>JavaScript required</h1>
+      <p>This is a static React design preview. Enable JavaScript to view the SAFE-Triage clinical app UI kit.</p>
+    </div>
+  </noscript>
+  <div id="root">
+    <div class="ui-kit-bootstrap" aria-live="polite">
+      <h1>SAFE-Triage Clinical App</h1>
+      <p>Loading the bilingual triage dashboard preview…</p>
+    </div>
+  </div>
+
+  <!-- Design components. ESI_GRADIENTS lives in TriageResult.jsx and is referenced
+       at *render time* by QueuePanel, so the lexical binding is available before
+       the App tree mounts. Keep load order: data-providers last is fine. -->
+  <script type="text/babel" src="SignIn.jsx"></script>
+  <script type="text/babel" src="AppHeader.jsx"></script>
+  <script type="text/babel" src="SectionCard.jsx"></script>
+  <script type="text/babel" src="QueuePanel.jsx"></script>
+  <script type="text/babel" src="TriageForm.jsx"></script>
+  <script type="text/babel" src="TriageResult.jsx"></script>
+  <script type="text/babel" src="WorkupCard.jsx"></script>
+
+  <script type="text/babel" data-presets="react">
+    function App() {
+      const [signedIn, setSignedIn] = React.useState(true);
+      const [confirmed, setConfirmed] = React.useState(false);
+      const [activeId, setActiveId] = React.useState('P-2841');
+      const [form, setForm] = React.useState({
+        id: 'P-2841', age: '58', sex: 'M', pregnant: 'no',
+        comorbid: ['Diabetes', 'Hypertension'],
+        complaint: 'Chest pain radiating to left arm for 30 minutes, sweating. ألم في الصدر يمتد للذراع اليسرى مع عرق.',
+        hr: '118', bp: '156/94', spo2: '94', temp: '37.1', rr: '24', gcs: '15',
+      });
+
+      // Re-render lucide icons after every commit so newly mounted nodes get hydrated.
+      React.useEffect(() => {
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.lucide.createIcons();
+        }
+      });
+
+      if (!signedIn) {
+        return <SignIn onSignIn={() => setSignedIn(true)} />;
+      }
+
+      return (
+        <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+          <AppHeader active="triage" />
+          <main className="ui-kit-dashboard">
+            <QueuePanel activeId={activeId} onSelect={setActiveId} />
+            <TriageForm form={form} onChange={setForm} />
+            <div className="ui-kit-result-col" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <TriageResult
+                level={2}
+                confidence={92}
+                confirmed={confirmed}
+                onConfirm={() => setConfirmed(true)}
+                onOverride={() => { setConfirmed(false); setSignedIn(false); }} />
+              <WorkupCard />
+            </div>
+          </main>
+          <footer style={{ padding: '24px', textAlign: 'center', color: '#64748b', fontSize: 12 }}>
+            Static design preview — no live backend. Confirm/override actions update local state only.
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
