@@ -1,12 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Shared clinical tokens — adapted from ui_kits/colors_and_type.css. Keep in
+   sync with tailwind.config.js (triage.1..5 mirror --esi-1..5). */
+:root {
+  --esi-1: #ef4444;
+  --esi-2: #f97316;
+  --esi-3: #eab308;
+  --esi-4: #22c55e;
+  --esi-5: #3b82f6;
+  --st-teal-app:  #0d9488;
+  --st-teal-app-2: #0f766e;
+  --st-ink:       #0f172a;
+  --st-slate:     #475569;
+}
+
 @layer base {
   body {
     @apply font-sans antialiased bg-slate-50 text-slate-900;
+  }
+
+  /* Keyboard-visible focus ring across all interactive surfaces. */
+  :focus-visible {
+    outline: 2px solid var(--st-teal-app);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
 
