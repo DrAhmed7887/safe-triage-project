@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getIdToken } from '../lib/firebaseClient';
+import AppHeader from '../components/AppHeader';
 
 const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_API_URL || 'http://localhost:8000';
 
@@ -77,14 +78,20 @@ export default function MedGemmaDashboard() {
 
   if (!isSupervisor) {
     return (
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
-          <div className="font-semibold">Access Denied</div>
-          <div className="text-sm mt-1">MedGemma QA dashboard requires supervisor access.</div>
-        </div>
-        <button onClick={() => navigate('/dashboard')} className="mt-4 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-100">
-          Back to Dashboard
-        </button>
+      <div className="min-h-screen bg-slate-50 font-sans" dir="ltr">
+        <AppHeader />
+        <main className="max-w-4xl mx-auto p-6">
+          <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
+            <div className="font-semibold">Access Denied | تم رفض الوصول</div>
+            <div className="text-sm mt-1">MedGemma QA dashboard requires supervisor access.</div>
+          </div>
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="mt-4 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-100"
+          >
+            Back to Triage
+          </button>
+        </main>
       </div>
     );
   }
@@ -103,31 +110,30 @@ export default function MedGemmaDashboard() {
   const maxDaily = Math.max(...daily.map(d => d.total_flags || 0), 1);
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      {/* Header */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">MedGemma QA Dashboard</h1>
-          <p className="text-sm text-slate-500 mt-0.5">AI quality assurance — flagged case monitoring</p>
+    <div className="min-h-screen bg-slate-50 font-sans" dir="ltr">
+      <AppHeader />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 inline-flex items-baseline gap-2 flex-wrap">
+              <span>MedGemma QA</span>
+              <span className="text-slate-300 font-normal" aria-hidden="true">|</span>
+              <span dir="rtl" className="font-arabic text-xl text-slate-700">جودة الذكاء الطبي</span>
+            </h1>
+            <p className="text-sm text-slate-500 mt-0.5">AI quality assurance — flagged case monitoring</p>
+          </div>
+          <div className="flex items-center gap-2">
+            {[7, 14, 30].map(d => (
+              <button
+                key={d}
+                onClick={() => setDays(d)}
+                className={`rounded-md px-3 py-1.5 text-sm ${days === d ? 'bg-purple-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+              >
+                {d}d
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          {[7, 14, 30].map(d => (
-            <button
-              key={d}
-              onClick={() => setDays(d)}
-              className={`rounded-md px-3 py-1.5 text-sm ${days === d ? 'bg-purple-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-            >
-              {d}d
-            </button>
-          ))}
-          <button onClick={() => navigate('/analytics/dashboard')} className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
-            Analytics
-          </button>
-          <button onClick={() => navigate('/dashboard')} className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
-            Triage
-          </button>
-        </div>
-      </div>
 
       <div className="mb-4 rounded-lg border border-purple-200 bg-purple-50 p-3 text-sm text-purple-800">
         MedGemma reviews triage cases hourly, flagging concerning patterns (silent MI, atypical stroke, sepsis). No patient-identifiable data is shown.
@@ -252,6 +258,7 @@ export default function MedGemmaDashboard() {
           </div>
         </>
       )}
+      </main>
     </div>
   );
 }
