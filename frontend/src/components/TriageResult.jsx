@@ -254,11 +254,43 @@ export default function TriageResult({ result, onReset }) {
 
             {/* Main Card */}
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                <div className={`p-8 bg-gradient-to-br ${getGradient(result.color_code)} text-white text-center`}>
-                    <h2 className="text-sm uppercase tracking-wider font-semibold opacity-90 mb-2">ESI Triage Level</h2>
-                    <h1 className="text-6xl font-black mb-4">{result.level}</h1>
-                    <div className="text-3xl font-bold mb-2">{result.label_en}</div>
-                    <div className="text-2xl font-arabic">{result.label_ar}</div>
+                <div className={`px-6 sm:px-8 pt-7 pb-6 bg-gradient-to-br ${getGradient(result.color_code)} text-white text-center`}>
+                    <h2 className="text-[11px] uppercase tracking-[0.18em] font-bold opacity-90 mb-1">
+                        Recommended ESI Level
+                    </h2>
+                    <h1 className="text-7xl sm:text-8xl font-black leading-none tracking-tight mb-3">
+                        {result.level}
+                    </h1>
+                    <div className="text-2xl sm:text-3xl font-bold">{result.label_en}</div>
+                    <div className="text-xl sm:text-2xl font-arabic opacity-95 mt-1" dir="rtl">{result.label_ar}</div>
+                    {/* Audit chips — render only when the underlying data exists, no fabrication */}
+                    {(typeof result.news2_score === 'number'
+                      || result.confidence
+                      || result.isAI !== undefined
+                      || (Array.isArray(result.red_flags) && result.red_flags.length > 0)) && (
+                        <div className="mt-4 flex flex-wrap gap-1.5 justify-center">
+                            {typeof result.news2_score === 'number' && (
+                                <span className="font-mono text-[11px] font-semibold bg-black/20 border border-white/20 rounded-full px-2.5 py-0.5">
+                                    NEWS2 · {result.news2_score}
+                                </span>
+                            )}
+                            {result.confidence && (
+                                <span className="font-mono text-[11px] font-semibold bg-black/20 border border-white/20 rounded-full px-2.5 py-0.5">
+                                    Confidence · {result.confidence}
+                                </span>
+                            )}
+                            {result.isAI !== undefined && (
+                                <span className="font-mono text-[11px] font-semibold bg-black/20 border border-white/20 rounded-full px-2.5 py-0.5">
+                                    {result.isAI ? 'AI-assisted' : 'Deterministic'}
+                                </span>
+                            )}
+                            {Array.isArray(result.red_flags) && result.red_flags.length > 0 && (
+                                <span className="font-mono text-[11px] font-semibold bg-black/30 border border-white/20 rounded-full px-2.5 py-0.5">
+                                    {result.red_flags.length} red flag{result.red_flags.length === 1 ? '' : 's'}
+                                </span>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <div className="p-6 space-y-6">
@@ -471,9 +503,19 @@ export default function TriageResult({ result, onReset }) {
                     🏥 Designed to Align with GAHAR Safety Requirements | مصمم وفقاً لمتطلبات سلامة الجهار
                 </div>
 
-                <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400">
-                    <span>Confidence: <span className="font-medium text-slate-600">{result.confidence}</span></span>
-                    <span>ID: {result.patient_id || 'N/A'}</span>
+                <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center text-xs text-slate-500">
+                    <span>
+                        Confidence:{' '}
+                        <span className="font-mono font-semibold text-slate-700">
+                            {result.confidence ?? '—'}
+                        </span>
+                    </span>
+                    <span>
+                        ID:{' '}
+                        <span className="font-mono font-semibold text-slate-700">
+                            {result.patient_id || 'N/A'}
+                        </span>
+                    </span>
                 </div>
             </div>
 

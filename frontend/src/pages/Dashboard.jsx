@@ -61,46 +61,54 @@ export default function Dashboard() {
     return (
         <div className="min-h-screen bg-slate-50 font-sans" dir="ltr">
             <header className="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <div className="bg-blue-600 p-2 rounded-lg">
-                            <Activity className="w-6 h-6 text-white" />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-16 flex flex-wrap items-center justify-between gap-y-2 gap-x-4 py-2">
+                    <div className="flex items-center gap-3 min-w-0">
+                        <div className="bg-teal-600 p-2 rounded-xl shadow-sm shadow-teal-600/20">
+                            <Activity className="w-6 h-6 text-white" aria-hidden="true" />
                         </div>
-                        <div>
-                            <h1 className="text-xl font-bold text-slate-900">SAFE-Triage AI</h1>
-                            <p className="text-xs text-slate-500">
-                                Hello Dr. <span className="font-semibold">{user?.name || 'Clinician'}</span>
+                        <div className="min-w-0">
+                            <h1 className="text-base sm:text-lg font-bold text-slate-900 leading-tight tracking-tight">
+                                SAFE-Triage AI
+                            </h1>
+                            <p className="text-[11px] text-slate-500 leading-tight flex items-center gap-1.5 flex-wrap">
+                                <span>ED · {user?.name ? `Dr. ${user.name}` : 'Clinician'}</span>
+                                <span className="text-slate-300" aria-hidden="true">|</span>
+                                <span dir="rtl" className="font-arabic">قسم الطوارئ</span>
                             </p>
                         </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                         <NotificationBell />
                         <button
                             onClick={() => navigate('/analytics/dashboard')}
                             disabled={!isSupervisor}
-                            className={`text-sm font-medium px-3 py-1.5 rounded-md flex items-center gap-1 ${
+                            className={`text-sm font-medium px-3 py-1.5 rounded-md flex items-center gap-1 transition-colors ${
                                 isSupervisor
                                     ? 'text-white bg-[#1a5f7a] hover:bg-[#164d63]'
                                     : 'text-slate-500 bg-slate-200 cursor-not-allowed'
                             }`}
                             title={isSupervisor ? 'View analytics dashboard' : 'Supervisor role required'}
+                            aria-label={isSupervisor ? 'View analytics dashboard' : 'Supervisor role required to view analytics'}
                         >
-                            <BarChart3 className="w-4 h-4" />
-                            View Analytics Dashboard | عرض لوحة التحليلات
+                            <BarChart3 className="w-4 h-4" aria-hidden="true" />
+                            <span className="hidden sm:inline">View Analytics Dashboard | عرض لوحة التحليلات</span>
+                            <span className="sm:hidden">Analytics</span>
                         </button>
                         <button
                             onClick={() => window.location.reload()}
-                            className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                            className="text-sm font-medium text-teal-700 hover:text-teal-800 flex items-center gap-1"
+                            aria-label="Start new patient"
                         >
-                            <ClipboardList className="w-4 h-4" />
+                            <ClipboardList className="w-4 h-4" aria-hidden="true" />
                             New Patient
                         </button>
                         <button
                             onClick={logout}
-                            className="text-sm font-medium text-slate-500 hover:text-red-600 flex items-center gap-1 ml-4"
+                            className="text-sm font-medium text-slate-500 hover:text-red-600 flex items-center gap-1 ml-2"
                             title="Sign Out"
+                            aria-label="Sign out"
                         >
-                            <LogOut className="w-4 h-4" />
+                            <LogOut className="w-4 h-4" aria-hidden="true" />
                             Sign Out
                         </button>
                     </div>

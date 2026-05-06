@@ -114,14 +114,16 @@ export default function PatientList({ refreshTrigger = 0 }) {
         loadPatients();
     }, [refreshTrigger, loadPatients]);
 
-    const getLevelColor = (level) => {
+    // ESI gradient badge — adapted from ui_kits/clinical-app/QueuePanel.jsx.
+    // Renders a 32x32 rounded-square badge with the level digit on the ESI gradient.
+    const getLevelGradient = (level) => {
         switch (level) {
-            case 1: return "bg-red-100 text-red-800 border-red-200";
-            case 2: return "bg-orange-100 text-orange-800 border-orange-200";
-            case 3: return "bg-yellow-100 text-yellow-800 border-yellow-200";
-            case 4: return "bg-green-100 text-green-800 border-green-200";
-            case 5: return "bg-blue-100 text-blue-800 border-blue-200";
-            default: return "bg-slate-100 text-slate-800";
+            case 1: return "bg-gradient-to-br from-red-500 to-red-600 shadow-red-500/30";
+            case 2: return "bg-gradient-to-br from-orange-500 to-orange-600 shadow-orange-500/30";
+            case 3: return "bg-gradient-to-br from-yellow-400 to-yellow-500 shadow-yellow-500/30";
+            case 4: return "bg-gradient-to-br from-green-500 to-green-600 shadow-green-500/30";
+            case 5: return "bg-gradient-to-br from-blue-500 to-blue-600 shadow-blue-500/30";
+            default: return "bg-gradient-to-br from-slate-400 to-slate-500 shadow-slate-400/30";
         }
     };
 
@@ -187,35 +189,38 @@ export default function PatientList({ refreshTrigger = 0 }) {
                             onClick={() => setSelectedPatient(patient)}
                             className="p-4 hover:bg-slate-50 cursor-pointer transition-colors flex items-center justify-between group"
                         >
-                            <div className="space-y-1">
-                                <div className="flex items-center gap-2">
-                                    <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${getLevelColor(patient.triage_level)}`}>
-                                        {patient.triage_level}
-                                    </span>
+                            <div className="flex items-start gap-3 min-w-0">
+                                <span
+                                    className={`flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-lg text-white font-extrabold text-base shadow-md ${getLevelGradient(patient.triage_level)}`}
+                                    aria-label={`ESI level ${patient.triage_level}`}
+                                >
+                                    {patient.triage_level}
+                                </span>
+                                <div className="space-y-1 min-w-0">
                                     <div className="flex flex-col">
-                                        <span className="text-sm font-bold text-slate-900">
+                                        <span className="text-sm font-bold text-slate-900 truncate">
                                             {patient.name || 'Anonymous'}
                                         </span>
                                         {patient.patient_id && (
-                                            <span className={`text-[10px] font-mono px-1 rounded ${
-                                                patient.patient_id.startsWith('TEMP-') 
-                                                    ? 'text-amber-600 bg-amber-50' 
-                                                    : 'text-blue-600 bg-blue-50'
+                                            <span className={`text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded mt-0.5 inline-block w-fit ${
+                                                patient.patient_id.startsWith('TEMP-')
+                                                    ? 'text-amber-700 bg-amber-50 border border-amber-200'
+                                                    : 'text-teal-700 bg-teal-50 border border-teal-200'
                                             }`}>
                                                 {patient.patient_id}
                                             </span>
                                         )}
                                     </div>
+                                    <div className="flex items-center gap-2 text-xs text-slate-500 font-mono">
+                                        <span>{patient.gender === 'male' ? 'M' : 'F'} · {Math.round(patient.age)}y</span>
+                                    </div>
+                                    <p className="text-xs text-slate-500 line-clamp-1 max-w-[180px]" title={patient.chief_complaint}>
+                                        {patient.chief_complaint}
+                                    </p>
                                 </div>
-                                <div className="flex items-center gap-2 text-xs text-slate-500">
-                                    <span>{patient.gender === 'male' ? 'M' : 'F'} / {Math.round(patient.age)}y</span>
-                                </div>
-                                <p className="text-xs text-slate-500 line-clamp-1 max-w-[180px]" title={patient.chief_complaint}>
-                                    {patient.chief_complaint}
-                                </p>
                             </div>
-                            <div className="text-right">
-                                <div className="text-xs font-bold text-slate-700">
+                            <div className="text-right flex-shrink-0">
+                                <div className="text-xs font-mono font-semibold text-slate-700">
                                     {new Date(patient.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                 </div>
                                 {patient.triage_red_flags && patient.triage_red_flags.length > 0 ? (
