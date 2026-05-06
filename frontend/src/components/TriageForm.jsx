@@ -23,12 +23,13 @@ import {
 } from 'lucide-react';
 
 // Import reusable UI components
-import { 
-    SectionCard, 
-    InputField, 
-    SelectField, 
-    VitalInput, 
-    CheckboxCard 
+import {
+    SectionCard,
+    InputField,
+    SelectField,
+    Segmented,
+    Chip,
+    VitalInput
 } from './ui/FormComponents';
 import ConfirmationDialog from './ConfirmationDialog';
 import { getIdToken } from '../lib/firebaseClient';
@@ -469,6 +470,25 @@ export default function TriageForm({ onResult }) {
     const painScaleValue = formData.pain_scale ?? 0;
     const monitorLocked = vitalsSource === 'monitor' && !manualVitalsUnlocked;
 
+    // Per-vital out-of-range flags. Visual cue only — does not affect
+    // submission gating (validateVitalSigns still runs unchanged on submit).
+    const isOutOfRange = (field) => {
+        const range = VITAL_RANGES[field];
+        const raw = formData.vitals[field];
+        if (range == null || raw === '' || raw == null) return false;
+        const num = parseFloat(raw);
+        if (Number.isNaN(num)) return false;
+        return num < range.min || num > range.max;
+    };
+    const vitalFlags = {
+        hr:   isOutOfRange('hr')   || (Number(formData.vitals.hr) > 110)  || (Number(formData.vitals.hr) > 0 && Number(formData.vitals.hr) < 50),
+        rr:   isOutOfRange('rr')   || (Number(formData.vitals.rr) > 24)   || (Number(formData.vitals.rr) > 0 && Number(formData.vitals.rr) < 8),
+        spo2: isOutOfRange('spo2') || (Number(formData.vitals.spo2) > 0 && Number(formData.vitals.spo2) < 93),
+        temp: isOutOfRange('temp') || (Number(formData.vitals.temp) > 39) || (Number(formData.vitals.temp) > 0 && Number(formData.vitals.temp) < 35),
+        sbp:  isOutOfRange('sbp')  || (Number(formData.vitals.sbp) > 0 && Number(formData.vitals.sbp) < 90),
+        dbp:  isOutOfRange('dbp'),
+    };
+
     // ==================== RISK FACTOR HANDLERS ====================
     
     /**
@@ -799,39 +819,68 @@ export default function TriageForm({ onResult }) {
     // ==================== RENDER ====================
     
     return (
-        <div className="max-w-2xl mx-auto">
-            {/* ===== HEADER with AI Toggle ===== */}
-            <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-t-xl p-5 flex justify-between items-center">
-                <div>
-                    <h2 className="text-xl font-bold flex items-center gap-2">
-                        <Stethoscope className="w-6 h-6" />
-                        SAFE-Triage
-                    </h2>
-                    <p className="text-teal-100 text-sm mt-0.5">
-                        AI-Powered Emergency Triage | نظام الفرز الذكي
-                    </p>
+        <div className="max-w-3xl mx-auto">
+            {/* ===== Slim engine bar — replaces the prior teal gradient hero.
+                Brand identity now lives in AppHeader; this surface is a clean
+                clinical workspace with just the engine selector. ===== */}
+            <div className="bg-white border border-slate-200 rounded-2xl shadow-sm px-4 py-2.5 mb-4 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-teal-50 text-teal-700 border border-teal-200 flex-shrink-0">
+                        <Stethoscope className="w-4 h-4" aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0 leading-tight">
+                        <h2 className="text-[14px] font-bold text-slate-900 truncate">
+                            New triage
+                        </h2>
+                        <p className="text-[11.5px] text-slate-500 truncate">
+                            <span>Emergency intake</span>
+                            <span className="text-slate-300 mx-1.5" aria-hidden="true">|</span>
+                            <span dir="rtl" className="font-arabic">فرز جديد</span>
+                        </p>
+                    </div>
                 </div>
-                
-                {/* AI Mode Toggle */}
-                <div className="flex items-center gap-2 bg-teal-800/50 p-2 rounded-lg border border-teal-500/30">
-                    <span className={`text-xs font-semibold transition-colors ${!useAI ? 'text-white' : 'text-teal-300'}`}>
-                        Standard
+                <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+                        Engine
                     </span>
-                    <button 
-                        type="button" 
-                        onClick={() => setUseAI(!useAI)}
-                        className={`w-11 h-6 rounded-full relative transition-colors ${useAI ? 'bg-purple-500' : 'bg-slate-500'}`}
+                    <div
+                        role="radiogroup"
+                        aria-label="Triage engine selection"
+                        className="inline-flex bg-slate-100 p-1 rounded-lg border border-slate-200"
                     >
-                        <div className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-all shadow-sm ${useAI ? 'left-6' : 'left-1'}`} />
-                    </button>
-                    <span className={`text-xs font-semibold transition-colors ${useAI ? 'text-white' : 'text-teal-300'}`}>
-                        AI
-                    </span>
+                        <button
+                            type="button"
+                            role="radio"
+                            aria-checked={!useAI}
+                            onClick={() => setUseAI(false)}
+                            className={`px-3 py-1 rounded-md text-[12.5px] font-semibold transition-colors ${
+                                !useAI
+                                    ? 'bg-white text-slate-900 shadow-sm'
+                                    : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                        >
+                            Standard
+                        </button>
+                        <button
+                            type="button"
+                            role="radio"
+                            aria-checked={useAI}
+                            onClick={() => setUseAI(true)}
+                            className={`px-3 py-1 rounded-md text-[12.5px] font-semibold transition-colors inline-flex items-center gap-1.5 ${
+                                useAI
+                                    ? 'bg-white text-purple-700 shadow-sm'
+                                    : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                        >
+                            <Brain className="w-3.5 h-3.5" aria-hidden="true" />
+                            AI
+                        </button>
+                    </div>
                 </div>
             </div>
 
             {/* ===== FORM BODY ===== */}
-            <form onSubmit={handleSubmit} className="bg-slate-50 rounded-b-xl p-5 space-y-0">
+            <form onSubmit={handleSubmit} className="space-y-4">
                 
                 {/* Error Display */}
                 {error && (
@@ -893,7 +942,7 @@ export default function TriageForm({ onResult }) {
                             )}
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         <InputField
                             label="Age"
                             labelAr="العمر"
@@ -903,24 +952,37 @@ export default function TriageForm({ onResult }) {
                             placeholder="Years"
                             required
                         />
-                        <SelectField
-                            label="Gender"
-                            labelAr="الجنس"
-                            value={formData.gender}
-                            onChange={e => setFormData({ ...formData, gender: e.target.value })}
-                        >
-                            <option value="male">Male | ذكر</option>
-                            <option value="female">Female | أنثى</option>
-                        </SelectField>
+                        <div>
+                            <label className="block text-[12.5px] font-semibold text-slate-700 mb-1.5">
+                                Sex
+                                <span className="text-slate-300 font-normal mx-1.5" aria-hidden="true">|</span>
+                                <span className="text-slate-500 font-normal font-arabic" dir="rtl">الجنس</span>
+                            </label>
+                            <Segmented
+                                ariaLabel="Patient sex"
+                                value={formData.gender}
+                                options={[
+                                    { value: 'male', label: 'Male | ذكر' },
+                                    { value: 'female', label: 'Female | أنثى' },
+                                ]}
+                                onChange={(v) => setFormData({ ...formData, gender: v })}
+                            />
+                        </div>
                     </div>
                 </SectionCard>
 
                 {/* ===== SECTION 2: Chief Complaint with Voice Input ===== */}
-                <SectionCard 
-                    icon={Mic} 
-                    title="Chief Complaint" 
+                <SectionCard
+                    icon={Mic}
+                    title="Chief Complaint"
                     titleAr="الشكوى الرئيسية"
                     accentColor="blue"
+                    action={
+                        <span className="hidden sm:inline-flex text-[11px] text-slate-500 items-center gap-1">
+                            <span>Type in English or</span>
+                            <span dir="rtl" className="font-arabic">العربية</span>
+                        </span>
+                    }
                 >
                     <div className="flex justify-between items-center mb-3">
                         <label className="text-sm font-medium text-slate-700">
@@ -1094,12 +1156,12 @@ export default function TriageForm({ onResult }) {
                     )}
 
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <VitalInput icon={Heart} label="HR" unit="bpm" name="hr" value={formData.vitals.hr} onChange={handleVitalChange} disabled={monitorLocked} />
-                        <VitalInput icon={Wind} label="RR" unit="/min" name="rr" value={formData.vitals.rr} onChange={handleVitalChange} disabled={monitorLocked} />
-                        <VitalInput icon={Droplets} label="SpO2" unit="%" name="spo2" value={formData.vitals.spo2} onChange={handleVitalChange} disabled={monitorLocked} />
-                        <VitalInput icon={Thermometer} label="Temp" unit="°C" name="temp" value={formData.vitals.temp} onChange={handleVitalChange} disabled={monitorLocked} />
-                        <VitalInput icon={Activity} label="SBP" unit="mmHg" name="sbp" value={formData.vitals.sbp} onChange={handleVitalChange} disabled={monitorLocked} />
-                        <VitalInput icon={Activity} label="DBP" unit="mmHg" name="dbp" value={formData.vitals.dbp} onChange={handleVitalChange} disabled={monitorLocked} />
+                        <VitalInput icon={Heart}       label="HR"   unit="bpm"   name="hr"   value={formData.vitals.hr}   onChange={handleVitalChange} disabled={monitorLocked} flag={vitalFlags.hr} />
+                        <VitalInput icon={Wind}        label="RR"   unit="/min"  name="rr"   value={formData.vitals.rr}   onChange={handleVitalChange} disabled={monitorLocked} flag={vitalFlags.rr} />
+                        <VitalInput icon={Droplets}    label="SpO2" unit="%"     name="spo2" value={formData.vitals.spo2} onChange={handleVitalChange} disabled={monitorLocked} flag={vitalFlags.spo2} />
+                        <VitalInput icon={Thermometer} label="Temp" unit="°C"    name="temp" value={formData.vitals.temp} onChange={handleVitalChange} disabled={monitorLocked} flag={vitalFlags.temp} />
+                        <VitalInput icon={Activity}    label="SBP"  unit="mmHg"  name="sbp"  value={formData.vitals.sbp}  onChange={handleVitalChange} disabled={monitorLocked} flag={vitalFlags.sbp} />
+                        <VitalInput icon={Activity}    label="DBP"  unit="mmHg"  name="dbp"  value={formData.vitals.dbp}  onChange={handleVitalChange} disabled={monitorLocked} flag={vitalFlags.dbp} />
                     </div>
 
                     <div className="mt-4 bg-slate-50 rounded-lg p-3 border border-slate-200 glucose-input-card">
@@ -1165,50 +1227,51 @@ export default function TriageForm({ onResult }) {
                 </SectionCard>
 
                 {/* ===== SECTION 4: Clinical Risk Factors (NEWS2) ===== */}
-                <SectionCard 
-                    icon={Shield} 
-                    title="Clinical Risk Factors" 
+                <SectionCard
+                    icon={Shield}
+                    title="Clinical Risk Factors"
                     titleAr="عوامل الخطورة السريرية"
                     accentColor="emerald"
                 >
-                    <p className="text-sm text-slate-600 mb-4">
-                        These factors affect NEWS2 scoring. Check all that apply.
+                    <p className="text-[13px] text-slate-600 mb-3 leading-relaxed">
+                        These factors affect NEWS2 scoring. Tap to toggle.
+                        <span className="text-slate-300 mx-1.5" aria-hidden="true">|</span>
+                        <span className="font-arabic" dir="rtl">تؤثر هذه العوامل على درجة NEWS2.</span>
                     </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <CheckboxCard
+                    <div className="flex flex-wrap gap-2">
+                        <Chip
                             name="is_copd"
                             checked={formData.is_copd}
                             onChange={handleRiskFactorChange}
-                            title="COPD / CO₂ Retainer"
-                            subtitle="Uses SpO₂ Scale 2 (target 88-92%)"
+                            label="COPD / CO₂ Retainer"
+                            title="Uses SpO₂ Scale 2 (target 88–92%)"
                             accentColor="emerald"
                         />
-                        <CheckboxCard
+                        <Chip
                             name="on_supplemental_o2"
                             checked={formData.on_supplemental_o2}
                             onChange={handleRiskFactorChange}
-                            title="On Supplemental O₂"
-                            subtitle="Adds +2 points to NEWS2 score"
+                            label="On Supplemental O₂"
+                            title="Adds +2 to NEWS2 score"
                             accentColor="blue"
                         />
                     </div>
-                    
-                    {/* Active Risk Factors Display */}
+
                     {(formData.is_copd || formData.on_supplemental_o2) && (
-                        <div className="mt-4 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
-                            <p className="text-xs font-semibold text-emerald-800 mb-2">Active Risk Factors:</p>
-                            <div className="flex flex-wrap gap-2">
-                                {formData.is_copd && (
-                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-200 text-emerald-800">
-                                        COPD (Scale 2)
-                                    </span>
-                                )}
-                                {formData.on_supplemental_o2 && (
-                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
-                                        O₂ Supplementation (+2)
-                                    </span>
-                                )}
-                            </div>
+                        <div className="mt-4 px-3 py-2 bg-emerald-50/80 rounded-lg border border-emerald-200 text-[11.5px] text-emerald-800 flex flex-wrap items-center gap-2">
+                            <span className="font-semibold uppercase tracking-wide text-[10px]">
+                                NEWS2 inputs:
+                            </span>
+                            {formData.is_copd && (
+                                <span className="inline-flex items-center font-mono font-semibold px-2 py-0.5 rounded-full bg-white border border-emerald-200 text-emerald-800">
+                                    COPD · Scale 2
+                                </span>
+                            )}
+                            {formData.on_supplemental_o2 && (
+                                <span className="inline-flex items-center font-mono font-semibold px-2 py-0.5 rounded-full bg-white border border-blue-200 text-blue-800">
+                                    O₂ supp · +2
+                                </span>
+                            )}
                         </div>
                     )}
                 </SectionCard>
@@ -1283,16 +1346,18 @@ export default function TriageForm({ onResult }) {
                     accentColor="purple"
                 >
                     <div className="space-y-4">
-                        <CheckboxCard
-                            name="is_immunocompromised"
-                            checked={formData.is_immunocompromised}
-                            onChange={handleRiskFactorChange}
-                            title="Immunocompromised | ضعف المناعة"
-                            subtitle="Check if patient has weakened immune system"
-                            accentColor="purple"
-                        />
+                        <div className="flex flex-wrap gap-2">
+                            <Chip
+                                name="is_immunocompromised"
+                                checked={formData.is_immunocompromised}
+                                onChange={handleRiskFactorChange}
+                                label="Immunocompromised | ضعف المناعة"
+                                title="Patient has a weakened immune system"
+                                accentColor="purple"
+                            />
+                        </div>
 
-                        {/* Reason dropdown - only show if immunocompromised */}
+                        {/* Reason dropdown — only when active */}
                         {formData.is_immunocompromised && (
                             <SelectField
                                 label="Reason for Immunocompromise"
@@ -1352,16 +1417,18 @@ export default function TriageForm({ onResult }) {
                         accentColor="rose"
                     >
                         <div className="space-y-4">
-                            <CheckboxCard
-                                name="is_pregnant"
-                                checked={formData.is_pregnant}
-                                onChange={handleRiskFactorChange}
-                                title="Currently Pregnant | حامل حالياً"
-                                subtitle="Check if patient is pregnant"
-                                accentColor="rose"
-                            />
+                            <div className="flex flex-wrap gap-2">
+                                <Chip
+                                    name="is_pregnant"
+                                    checked={formData.is_pregnant}
+                                    onChange={handleRiskFactorChange}
+                                    label="Currently Pregnant | حامل حالياً"
+                                    title="Patient is pregnant"
+                                    accentColor="rose"
+                                />
+                            </div>
 
-                            {/* Pregnancy details - only show if pregnant */}
+                            {/* Pregnancy details — only when pregnant */}
                             {formData.is_pregnant && (
                                 <>
                                     <InputField
