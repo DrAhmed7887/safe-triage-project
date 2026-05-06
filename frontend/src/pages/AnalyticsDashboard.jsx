@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getIdToken } from '../lib/firebaseClient';
+import AppHeader from '../components/AppHeader';
 
 const API_URL = import.meta.env.VITE_API_URL || import.meta.env.REACT_APP_API_URL || 'http://localhost:8000';
 
@@ -95,17 +96,22 @@ export default function AnalyticsDashboard() {
 
   if (!isSupervisor) {
     return (
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
-          <div className="font-semibold">Access Denied | تم رفض الوصول</div>
-          <div className="text-sm mt-1">Analytics dashboard is restricted to supervisors only.</div>
-        </div>
-        <button
-          onClick={() => navigate('/dashboard')}
-          className="mt-4 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-100"
-        >
-          Back to Dashboard
-        </button>
+      <div className="min-h-screen bg-slate-50 font-sans" dir="ltr">
+        <AppHeader />
+        <main className="max-w-4xl mx-auto p-6">
+          <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
+            <div className="font-semibold">Access Denied | تم رفض الوصول</div>
+            <div className="text-sm mt-1">
+              Analytics dashboard is restricted to supervisors only.
+            </div>
+          </div>
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="mt-4 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-100"
+          >
+            Back to Triage
+          </button>
+        </main>
       </div>
     );
   }
@@ -120,30 +126,30 @@ export default function AnalyticsDashboard() {
   const hourly = stats?.hourly_volume || [];
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-slate-900">Analytics Dashboard | لوحة التحليلات</h1>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setRange('24h')}
-            className={`rounded-md px-3 py-1.5 text-sm ${range === '24h' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-700'}`}
-          >
-            Last 24h
-          </button>
-          <button
-            onClick={() => setRange('7d')}
-            className={`rounded-md px-3 py-1.5 text-sm ${range === '7d' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-700'}`}
-          >
-            Last 7d
-          </button>
-          <button
-            onClick={() => navigate('/dashboard')}
-            className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100"
-          >
-            Back
-          </button>
+    <div className="min-h-screen bg-slate-50 font-sans" dir="ltr">
+      <AppHeader />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-2xl font-bold text-slate-900 inline-flex items-baseline gap-2 flex-wrap">
+            <span>Analytics Dashboard</span>
+            <span className="text-slate-300 font-normal" aria-hidden="true">|</span>
+            <span dir="rtl" className="font-arabic text-xl text-slate-700">لوحة التحليلات</span>
+          </h1>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setRange('24h')}
+              className={`rounded-md px-3 py-1.5 text-sm ${range === '24h' ? 'bg-teal-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            >
+              Last 24h
+            </button>
+            <button
+              onClick={() => setRange('7d')}
+              className={`rounded-md px-3 py-1.5 text-sm ${range === '7d' ? 'bg-teal-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            >
+              Last 7d
+            </button>
+          </div>
         </div>
-      </div>
 
       <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
         Privacy notice: anonymized aggregate statistics only. No individual patient data is shown.
@@ -224,6 +230,7 @@ export default function AnalyticsDashboard() {
           </div>
         </>
       )}
+      </main>
     </div>
   );
 }
