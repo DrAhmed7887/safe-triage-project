@@ -100,3 +100,7 @@ htmlcov/
 # Generated data and outputs
 data/
 output/
+
+# Parity harness generated reports (regenerate on every run)
+tests/parity/python_results.json
+tests/parity/js_results.json

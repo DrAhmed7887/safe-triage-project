@@ -1,0 +1,67 @@
+name: Triage parity
+
+# Gate that protects the deterministic triage engine and its JS
+# offline fallback from drifting apart on safety-critical cases.
+#
+# Why: in Hospital Lite mode the browser falls back to a JS engine when
+# the backend is unreachable.  The shared fixture in tests/parity/
+# encodes the parity rule that the JS fallback may over-triage but
+# must never under-triage relative to the canonical Python engine.
+#
+# Triggered only on PRs that touch the engine, fallback, fixtures, or
+# this workflow itself — so unrelated PRs aren't blocked or charged.
+
+on:
+  pull_request:
+    paths:
+      - 'backend/logic/deterministic_triage.py'
+      - 'backend/logic/icd10_mapping.py'
+      - 'backend/logic/esi_v5_compliance.py'
+      - 'backend/logic/keyword_database.py'
+      - 'backend/models.py'
+      - 'backend/tests/test_arabic_chest_pain.py'
+      - 'frontend/src/lib/triageEngineOfflineFallback.js'
+      - 'frontend/src/lib/triageEngineOfflineFallback.smoke.mjs'
+      - 'tests/parity/**'
+      - '.github/workflows/triage-parity.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: triage-parity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  parity:
+    name: Cross-engine parity (Python ↔ JS fallback)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Minimal deps — the deterministic engine + parity runner only need
+      # python-dotenv (engine), pydantic (models), and pytest (regression
+      # suite).  No torch / transformers / fastapi here.
+      - name: Install minimal Python deps
+        run: pip install --no-cache-dir python-dotenv pydantic pytest
+
+      - name: Arabic chest-pain regression suite
+        run: python -m pytest backend/tests/test_arabic_chest_pain.py -v
+
+      - name: Canonical Python engine on shared fixtures
+        run: python tests/parity/run_python_engine.py
+
+      - name: JS offline-fallback smoke test
+        run: node frontend/src/lib/triageEngineOfflineFallback.smoke.mjs
+
+      - name: JS fallback parity compare (no under-triage vs Python)
+        run: node tests/parity/run_js_engine.mjs --compare
