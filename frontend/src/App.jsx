@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import OfflineIndicator from './components/OfflineIndicator';
 import Dashboard from './pages/Dashboard';
@@ -11,7 +11,9 @@ import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import MedGemmaDashboard from './pages/MedGemmaDashboard';
 import QueuePage from './pages/QueuePage';
 import KnowledgePage from './pages/KnowledgePage';
-import { useAuth } from './context/AuthContext';
+import HospitalLitePage from './pages/HospitalLite/HospitalLitePage';
+import { IS_HOSPITAL_LITE } from './lib/hospitalLite';
+import { getLang, setLang as applyLang } from './lib/i18n';
 
 function AppRoutes() {
   const { user } = useAuth();
@@ -35,7 +37,31 @@ function AppRoutes() {
   );
 }
 
+/**
+ * Hospital Lite shell — bypasses Firebase / Auth entirely. Designed for a
+ * standalone hospital pilot or hackathon demo. Single route, no router state
+ * is needed because the page manages its own stages internally.
+ */
+function HospitalLiteApp() {
+  useEffect(() => {
+    // Ensure RTL/LTR is applied on first paint.
+    applyLang(getLang());
+    // Reflect mode in the document title so the browser tab is honest.
+    document.title = 'SAFE-Triage · Hospital Lite';
+  }, []);
+
+  return (
+    <>
+      <OfflineIndicator />
+      <HospitalLitePage />
+    </>
+  );
+}
+
 function App() {
+  if (IS_HOSPITAL_LITE) {
+    return <HospitalLiteApp />;
+  }
   return (
     <AuthProvider>
       <OfflineIndicator />
