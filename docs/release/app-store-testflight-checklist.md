@@ -2,7 +2,7 @@
 
 **Owner:** Dr. Ahmed Zayed
 **Status:** Draft. Not submitted. No App Store Connect record created.
-**Last updated:** 2026-05-19
+**Last updated:** 2026-05-20
 
 > **Decision support only — clinician must confirm.**
 > SAFE-Triage Lite is a Phase-1 educational / decision-support prototype. It is not a certified medical device. Apple App Review will be sensitive to clinical wording; this checklist treats that as a primary risk.
@@ -21,6 +21,25 @@ This is the operational checklist. Every item below has to either be ticked or e
 | Team role: Account Holder or Admin | ☐ | Needed to create the App Record and submit. |
 
 **Blocker until done:** TestFlight upload will be impossible without these.
+
+## Final submission blockers
+
+These items remain manual blockers before Ahmed can submit a TestFlight or App
+Store build. Codex did not perform any App Store Connect, signing, upload, or
+cloud action.
+
+- Apple Developer Program membership and current developer agreements.
+- App Store Connect app record.
+- Final bundle ID alignment between App Store Connect, Xcode, and
+  `frontend/capacitor.config.ts`.
+- Xcode signing team and provisioning profile.
+- Hosted privacy policy URL.
+- Synthetic iPhone and iPad screenshots.
+- Age-rating questionnaire.
+- App Privacy nutrition label.
+- Export compliance answers, if App Store Connect asks for them.
+- Xcode archive, validation, and upload.
+- `webContentsDebuggingEnabled` release decision before archive.
 
 ## 2. App Store Connect — App Record (manual)
 

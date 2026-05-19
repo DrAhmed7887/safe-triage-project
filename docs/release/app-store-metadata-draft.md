@@ -1,7 +1,7 @@
 # SAFE-Triage Lite — App Store Metadata Draft
 
 **Status:** Draft. Not submitted. Wording deliberately cautious for App Review.
-**Last updated:** 2026-05-19
+**Last updated:** 2026-05-20
 
 > Apple App Review for medical-adjacent apps is strict. Every line below has been written to avoid: (a) unsupported clinical claims, (b) implication of regulatory approval, (c) any suggestion that this app replaces clinical judgement. **Do not edit these strings to sound more confident before review** — they are tuned to pass §1.4.1 and §5.1 of the App Review Guidelines.
 
@@ -143,8 +143,10 @@ Hello App Review,
 
 SAFE-Triage Lite is a synthetic-demo educational prototype for emergency-triage decision
 support. It is not a medical device, does not diagnose patients, and does not handle real
-protected health information (PHI). Everything in the app runs locally on the device; no
-network requests are required and none of the included flows transmit data.
+protected health information (PHI). The Hospital Lite build runs locally on the device; no
+cloud network requests are required and none of the included flows transmit data to the
+developer. If a developer runs the optional localhost backend during a local demo, that
+backend is a loopback development endpoint, not a cloud service.
 
 How to test the full flow without entering any clinical text:
 
@@ -166,8 +168,8 @@ Optional: tap "AR" in the top-right to switch the entire interface to Arabic (ri
 The app deliberately:
 - Asks for NO permissions (no camera, microphone, location, contacts, notifications).
 - Performs NO tracking, analytics, advertising, or third-party SDK calls.
-- Stores any test data in the device's local storage only. The user can clear it from
-  device Settings → SAFE-Triage Lite → Storage.
+- Stores any test data in the device's local storage only. The user can clear it by
+  uninstalling the app or clearing the app's local website data.
 
 If you require credentials for any reason, no credentials exist. The app has no accounts.
 

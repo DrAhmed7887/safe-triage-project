@@ -1,7 +1,7 @@
 # SAFE-Triage Lite — Privacy Policy (Draft)
 
 **Effective date placeholder:** 2026-05-19
-**Last updated:** 2026-05-19
+**Last updated:** 2026-05-20
 **Owner:** Dr. Ahmed Zayed, MBBCh (zayedmd)
 
 > Draft. Not yet hosted. Apple App Store requires this policy be reachable at a public URL **before** the app can be submitted for review. Recommended host: `https://zayedmd.com/safe-triage/privacy`. The wording here matches the SAFE-Triage Lite Hospital Lite build *as it ships today* — do not relax this language without re-inspecting the code.
@@ -11,7 +11,8 @@
 
 This policy reflects the app's behaviour as verified in source code. Specifically, the
 Hospital Lite build (the only build distributed via TestFlight / the App Store) bypasses
-Firebase Authentication at runtime, ships no Firebase Cloud Messaging worker, and uses no
+Firebase Authentication at runtime, ships no Firebase Cloud Messaging worker, strips the
+unused standard-app Firebase/Auth bundle assets from the Hospital Lite build, and uses no
 camera, microphone, location, contacts, advertising-identifier, or tracking APIs.
 
 ---
@@ -65,8 +66,15 @@ Reinstalling the app does not restore the data.
 ## 4. Network access
 
 The Hospital Lite build does not require network access to function. The deterministic
-ESI v5 / NEWS2 engine runs entirely on your device. The app does not attempt to call any
-cloud service for triage decisions in this build.
+ESI v5 / NEWS2 engine runs on your device through the bundled browser fallback. The app
+does not call any cloud service for triage decisions in this build.
+
+During local developer demos, Ahmed may optionally run a backend on
+`http://localhost:8000` so the app can exercise the canonical Python engine on the same
+machine. If that local backend is not present, the app falls back to the bundled browser
+engine and displays an offline-fallback warning. Do not use optional connected mode with
+real patient data unless a separate clinical-governance and privacy review has approved
+that workflow.
 
 If a future "connected" build is distributed, the network behaviour for that build will be
 documented in this same policy and announced in the App Store "What's New" notes.

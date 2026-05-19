@@ -2,7 +2,7 @@
 
 **Audience:** App Review reviewers, hospital leadership, hackathon judges, thesis defense panel.
 **Tone:** Professional. Cautious. Honest about prototype status.
-**Last updated:** 2026-05-19
+**Last updated:** 2026-05-20
 
 > **Decision support only — clinician must confirm.**
 
@@ -139,7 +139,7 @@ Apple's reviewer has a copy of the script in `docs/release/app-store-metadata-dr
 
 If the reviewer pushes on clinical claims, the answer is:
 
-> "The app is a synthetic-demo / educational prototype. It does not diagnose, it does not treat, and it does not transmit any data. The clinical wording inside the app is intentionally cautious. The supporting paper is in submission to AIiH 2026 and EuSEM 2026; this app is a teaching tool, not the regulatory submission."
+> "The app is a synthetic-demo / educational prototype. It does not diagnose, it does not treat, and it does not transmit data to any cloud service or developer server. The clinical wording inside the app is intentionally cautious. The supporting paper is in submission to AIiH 2026 and EuSEM 2026; this app is a teaching tool, not the regulatory submission."
 
 ---
 
