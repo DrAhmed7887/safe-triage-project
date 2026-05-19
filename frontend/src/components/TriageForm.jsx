@@ -240,7 +240,7 @@ export default function TriageForm({ onResult }) {
                     typeof data?.news2?.total_score === 'number' ? data.news2.total_score : null
                 );
                 setManualVitalsUnlocked(false);
-            } catch (_err) {
+            } catch {
                 if (!cancelled) {
                     setVitalsSource('manual');
                     setMonitorNews2Score(null);
@@ -366,7 +366,7 @@ export default function TriageForm({ onResult }) {
                     return prev + 1;
                 });
             }, 1000);
-        } catch (err) {
+        } catch {
             setError('Microphone access denied. Please allow microphone permission. | تم رفض صلاحية الميكروفون. يرجى السماح بالوصول.');
         }
     };

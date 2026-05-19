@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { CheckCircle2, Timer, AlertTriangle } from 'lucide-react';
 
 export default function TriageConfirmation({
-    patientId,
     recommendedESI,
     category,
     redFlags = [],

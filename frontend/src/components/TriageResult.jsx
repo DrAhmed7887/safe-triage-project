@@ -35,7 +35,7 @@ export default function TriageResult({ result, onReset }) {
                     }),
                 });
                 setPendingRegistered(true);
-            } catch (e) {
+            } catch {
                 // Silent fail for now
             }
         };
@@ -173,7 +173,7 @@ export default function TriageResult({ result, onReset }) {
     }, [result?.patient_id, result?.level, result?.insufficient_info_warning]);
 
     // Determine gradient based on level
-    const getGradient = (code) => {
+    const getGradient = () => {
         switch (result.level) {
             case 1: return "from-red-500 to-red-600";
             case 2: return "from-orange-500 to-orange-600";
@@ -254,7 +254,7 @@ export default function TriageResult({ result, onReset }) {
 
             {/* Main Card */}
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                <div className={`px-6 sm:px-8 pt-7 pb-6 bg-gradient-to-br ${getGradient(result.color_code)} text-white text-center`}>
+                <div className={`px-6 sm:px-8 pt-7 pb-6 bg-gradient-to-br ${getGradient()} text-white text-center`}>
                     <h2 className="text-[11px] uppercase tracking-[0.18em] font-bold opacity-90 mb-1">
                         Recommended ESI Level
                     </h2>
