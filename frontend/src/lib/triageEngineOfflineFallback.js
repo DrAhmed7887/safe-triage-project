@@ -399,6 +399,32 @@ function applyCriticalSafetyFloors(level, { vitals, consciousness, painScale, is
     if (temp != null && temp >= 40) out = cap(out, 2, 'hyperthermia', `Hyperthermia (${temp}°C)`, `حرارة شديدة (${temp}°C)`);
     if (temp != null && temp <= 35) out = cap(out, 2, 'hypothermia', `Hypothermia (${temp}°C)`, `هبوط حرارة (${temp}°C)`);
 
+    // Fever + tachycardia sepsis pathway — mirrors the canonical Python
+    // engine (`backend/logic/deterministic_triage.py`, "Fever + tachycardia
+    // (sepsis pathway)" block).  When the complaint mentions fever (EN/AR)
+    // *or* the measured temperature is ≥ 38.0 °C, AND the heart rate is
+    // > 100, the patient cannot drop below ESI 2.  Without this floor the
+    // JS fallback under-triaged febrile-tachycardic adults relative to
+    // Python (e.g. "fever and chills", HR 105, T 38.2 → L3 in JS vs L2 in
+    // Python).
+    {
+        const normalizedComplaint = normalizeText(complaint);
+        const fevTerms = ['fever', 'سخونية', 'سخونة', 'حمى'];
+        const complaintHasFever = fevTerms.some((t) => normalizedComplaint.includes(t));
+        const tempElevated = temp != null && temp >= 38.0;
+        const hrTachy = hr != null && hr > 100;
+        if ((complaintHasFever || tempElevated) && hrTachy) {
+            const tempLabel = temp != null ? `${temp}°C` : 'N/A';
+            out = cap(
+                out,
+                2,
+                'sepsis_fever_tachycardia',
+                `Fever + tachycardia (temp=${tempLabel}, HR=${hr}) — sepsis pathway`,
+                `حمى مع تسارع القلب (الحرارة=${tempLabel}، النبض=${hr}) — مسار تعفن`,
+            );
+        }
+    }
+
     if (painScale != null && painScale >= 8) {
         out = cap(out, 2, 'severe_pain', `Severe pain (${painScale}/10)`, `ألم شديد (${painScale}/10)`);
     }

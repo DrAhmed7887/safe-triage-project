@@ -146,6 +146,17 @@ assertCase('Toddler fever + tachycardia', {
     consciousness: 'A',
 }, { maxLevel: 2 });
 
+// ---- Adult fever + tachycardia → sepsis floor (Codex P1) ----
+// Mirrors Python's "Fever + tachycardia (sepsis pathway)" floor — without
+// the JS-side floor, fever_with_symptoms (L3) + non-extreme HR/temp would
+// have left this case at L3, under-triaging vs Python's L2.
+assertCase('Adult fever + chills + tachycardia (sepsis floor)', {
+    age: 45, gender: 'male',
+    chief_complaint_text: 'fever and chills',
+    vitals: { hr: 105, rr: 18, sbp: 120, dbp: 78, spo2: 97, temp: 38.2 },
+    consciousness: 'A',
+}, { maxLevel: 2, floors: ['sepsis_fever_tachycardia'] });
+
 for (const c of cases) {
     const mark = c.ok ? 'PASS' : 'FAIL';
     console.log(`[${mark}] ${c.name} — level=${c.level} cat=${c.category}`);

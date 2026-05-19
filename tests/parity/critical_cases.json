@@ -204,6 +204,16 @@
         "consciousness": "A"
       },
       "expected_max_level": 3
+    },
+    {
+      "name": "Adult fever + tachycardia (Codex P1: sepsis pathway)",
+      "input": {
+        "age": 45, "gender": "male",
+        "chief_complaint_text": "fever and chills",
+        "vitals": {"hr": 105, "rr": 18, "sbp": 120, "dbp": 78, "spo2": 97, "temp": 38.2},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
     }
   ]
 }
