@@ -111,6 +111,39 @@
       "expected_max_level": 2
     },
     {
+      "name": "Arabic chest pain (possessive — صدري)",
+      "$why": "Possessive form 'في صدري' was previously caught only by the Python engine. CI must reject any JS fallback drift that under-triages possessive variants (Codex PR #17 finding).",
+      "input": {
+        "age": 56, "gender": "male",
+        "chief_complaint_text": "ألم في صدري بقاله نص ساعة",
+        "vitals": {"hr": 94, "rr": 18, "sbp": 138, "dbp": 86, "spo2": 97, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest pain (possessive — صدره)",
+      "$why": "Third-person masculine possessive — narrator describing the patient.",
+      "input": {
+        "age": 64, "gender": "male",
+        "chief_complaint_text": "أبويا بيقول وجع في صدره",
+        "vitals": {"hr": 90, "rr": 18, "sbp": 142, "dbp": 88, "spo2": 96, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest pain (possessive — صدرها)",
+      "$why": "Third-person feminine possessive — narrator describing a female patient.",
+      "input": {
+        "age": 58, "gender": "female",
+        "chief_complaint_text": "ماما حاسة بضيق في صدرها",
+        "vitals": {"hr": 96, "rr": 20, "sbp": 140, "dbp": 88, "spo2": 96, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
       "name": "Egyptian dialect respiratory arrest",
       "input": {
         "age": 70, "gender": "male",

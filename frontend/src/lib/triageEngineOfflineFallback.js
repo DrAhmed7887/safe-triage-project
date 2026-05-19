@@ -141,14 +141,82 @@ function normalizeText(s) {
     return (s || '').toString().toLowerCase().trim();
 }
 
+/**
+ * Arabic hamza-bearing alif normalization — أ / إ / آ → ا.  Mirrors the
+ * canonical Python engine (`backend/logic/deterministic_triage.py`)
+ * which collapses these characters before pair-matching.  Keeping the
+ * two engines aligned on normalization is what lets the pair-check
+ * below recognise the same Arabic pain × chest co-occurrences the
+ * Python engine recognises.
+ */
+function normalizeArabic(s) {
+    return (s || '').replace(/[أإآ]/g, 'ا');
+}
+
+/**
+ * Mirrors the Python canonical engine's pain ⊕ chest co-occurrence
+ * check (see _AR_PAIN_TERMS / _AR_CHEST_TERMS in
+ * `backend/logic/deterministic_triage.py`).  Any Arabic pain-word
+ * together with any Arabic chest-word — in any order, with any
+ * modifier between them, including possessive forms (صدري / صدره /
+ * صدرها) — routes to `chest_pain_cardiac`.  Without this the JS
+ * fallback would silently under-triage cases like "ألم في صدري"
+ * relative to the Python engine.
+ */
+const _AR_PAIN_TERMS = [
+    'الم',      // ألم / الم after hamza-alif normalization
+    'وجع',
+    'اوجاع',
+    'اوجع',
+    'حرقان',
+    'ضغط',
+    'ضيق',
+    'ضيقة',
+    'نغزة',
+    'حارق',
+];
+const _AR_CHEST_TERMS = [
+    'في الصدر',
+    'بالصدر',
+    'على الصدر',
+    'في صدري',
+    'في صدره',
+    'في صدرها',
+    'بصدري',
+    'صدري',
+];
+
+function hasArabicChestPainPair(normalized) {
+    if (!normalized) return false;
+    const hasPain  = _AR_PAIN_TERMS.some((p) => normalized.includes(p));
+    const hasChest = _AR_CHEST_TERMS.some((c) => normalized.includes(c));
+    return hasPain && hasChest;
+}
+
 export function classifyComplaint(complaint) {
     const text = normalizeText(complaint);
     if (!text) return { category: 'unclear_needs_evaluation', confidence: 'low', matched: null };
+    const normalized = normalizeArabic(text);
     for (const rule of KEYWORD_RULES) {
         for (const kw of rule.kw) {
-            if (text.includes(kw)) {
+            // Match against both the raw lowercase form and the
+            // hamza-collapsed form so keywords written with either
+            // ألم or الم catch correctly.
+            if (text.includes(kw) || normalized.includes(normalizeArabic(kw))) {
                 return { category: rule.cat, confidence: 'medium', matched: kw };
             }
+        }
+        // Synthetic Arabic pair-check at the chest_pain_cardiac slot.
+        // Runs only after every L1 rule has been considered (since L1
+        // rules precede chest_pain_cardiac in KEYWORD_RULES) and only
+        // when no L1 keyword fired — guaranteeing the more-acute L1
+        // categories still win when a complaint contains both.
+        if (rule.cat === 'chest_pain_cardiac' && hasArabicChestPainPair(normalized)) {
+            return {
+                category: 'chest_pain_cardiac',
+                confidence: 'medium',
+                matched: 'ar_pain_chest_pair',
+            };
         }
     }
     return { category: 'unclear_needs_evaluation', confidence: 'low', matched: null };
