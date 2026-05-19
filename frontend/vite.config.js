@@ -19,6 +19,16 @@ function stripFirebaseMessagingInHospitalLite(mode) {
         fs.rmSync(target)
         console.log('[hospital_lite] stripped dist/firebase-messaging-sw.js')
       }
+
+      const assetsDir = path.resolve('dist/assets')
+      if (fs.existsSync(assetsDir)) {
+        for (const fileName of fs.readdirSync(assetsDir)) {
+          if (fileName.startsWith('StandardApp-')) {
+            fs.rmSync(path.join(assetsDir, fileName))
+            console.log(`[hospital_lite] stripped dist/assets/${fileName}`)
+          }
+        }
+      }
     },
   }
 }
