@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- SAFE-Triage app icon. Teal-600 (#0d9488) rounded background, white ECG
+       heartbeat line + medical cross dot. Matches Lucide Activity glyph used
+       in HospitalShell so the home-screen icon reads like the in-app logo. -->
+  <rect width="512" height="512" rx="112" ry="112" fill="#0d9488"/>
+  <!-- Subtle inner shadow / depth -->
+  <rect x="8" y="8" width="496" height="496" rx="106" ry="106" fill="none"
+        stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+  <!-- Heartbeat trace -->
+  <path d="M64 256 H170 L208 168 L264 344 L304 232 L342 256 H448"
+        fill="none"
+        stroke="#ffffff"
+        stroke-width="28"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+  <!-- Pulse dot -->
+  <circle cx="448" cy="256" r="18" fill="#ffffff"/>
+</svg>
