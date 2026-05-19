@@ -59,7 +59,7 @@ function toPatientInput(input) {
  * suggestion shape `runOfflineFallbackTriage` returns. This keeps every
  * component downstream agnostic to which engine produced the answer.
  */
-function adaptBackendResult(raw, input) {
+function adaptBackendResult(raw) {
     const level = Number(raw.level) || 3;
     const levelLabel = LEVEL_LABELS[level] || LEVEL_LABELS[3];
 
@@ -155,7 +155,7 @@ export async function getTriageSuggestion(input) {
         }
         const data = await res.json();
         return {
-            suggestion: adaptBackendResult(data, input),
+            suggestion: adaptBackendResult(data),
             source: 'python_engine',
         };
     } catch (err) {

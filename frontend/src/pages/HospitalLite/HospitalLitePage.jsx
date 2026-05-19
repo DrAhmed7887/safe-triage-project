@@ -163,6 +163,7 @@ export default function HospitalLitePage() {
                             lang={lang}
                             suggestion={suggestion}
                             engineError={engineError}
+                            patientAge={pendingInput?.age}
                             onDecision={handleDecision}
                         />
                     )}

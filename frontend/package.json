@@ -6,12 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:hospital-lite": "vite build --mode hospital_lite",
     "lint": "eslint .",
     "preview": "vite preview",
     "ios:add": "cap add ios",
     "ios:sync": "vite build && cap sync ios",
+    "ios:sync:hospital-lite": "vite build --mode hospital_lite && cap sync ios",
     "ios:open": "cap open ios",
-    "ios:run": "vite build && cap sync ios && cap run ios"
+    "ios:run": "vite build && cap sync ios && cap run ios",
+    "ios:run:hospital-lite": "vite build --mode hospital_lite && cap sync ios && cap run ios"
   },
   "dependencies": {
     "@capacitor/app": "^8.1.0",
@@ -40,6 +43,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "typescript": "^6.0.3",
     "vite": "^7.2.4"
   }
 }

@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { ShieldCheck, AlertTriangle, Pencil, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, AlertTriangle, Pencil, CheckCircle2, ShieldAlert, Baby } from 'lucide-react';
 import { LEVEL_LABELS } from '../../lib/triageEngineOfflineFallback';
 import { t } from '../../lib/i18n';
 import EngineSourceBadge from './EngineSourceBadge';
+
+// NEWS2 (Royal College of Physicians) is validated for adults. Hospital Lite
+// surfaces a clear caveat for paediatric cases so a reviewer never reads
+// "NEWS2 = 10" on a four-year-old without knowing the score is adult-derived
+// and that paediatric safety here comes from age-banded vital thresholds in
+// the engine, not from a paediatric early-warning score.
+const PAEDIATRIC_AGE_CUTOFF = 16;
 
 const tone = {
     red:    { ring: 'ring-red-200', bg: 'bg-red-50',    text: 'text-red-700',    bar: 'bg-red-500' },
@@ -24,7 +31,7 @@ const tone = {
  * The component intentionally does no networking. The parent decides
  * what to do with the decision (write to the queue + audit + advance).
  */
-export default function SuggestedTriage({ lang, suggestion, engineError, onDecision }) {
+export default function SuggestedTriage({ lang, suggestion, engineError, patientAge, onDecision }) {
     const [overriding, setOverriding] = useState(false);
     const [newLevel, setNewLevel] = useState(suggestion?.level || 3);
     const [reason, setReason] = useState('');
@@ -33,6 +40,9 @@ export default function SuggestedTriage({ lang, suggestion, engineError, onDecis
 
     const label = suggestion.level_label || LEVEL_LABELS[suggestion.level];
     const toneCfg = tone[label?.tone] || tone.yellow;
+    const ageN = Number(patientAge);
+    const isPaediatric = Number.isFinite(ageN) && ageN < PAEDIATRIC_AGE_CUTOFF;
+    const floors = suggestion.floorsApplied || [];
 
     const submitConfirm = () => {
         onDecision({
@@ -90,11 +100,40 @@ export default function SuggestedTriage({ lang, suggestion, engineError, onDecis
                     <span>{t('decision_support', lang)}</span>
                 </div>
 
-                {/* Rules / red flags */}
+                {floors.length > 0 && (
+                    <div
+                        role="status"
+                        aria-label={t('safety_floor_applied', lang)}
+                        className="rounded-xl border border-red-200 bg-red-50 px-3 py-2"
+                    >
+                        <div className="flex items-center gap-2 text-red-800">
+                            <ShieldAlert className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                            <p className="text-[12.5px] font-semibold leading-tight">
+                                {t('safety_floor_applied', lang)}
+                            </p>
+                        </div>
+                        <ul className="mt-1.5 ms-6 space-y-0.5 text-[12px] text-red-800 list-disc">
+                            {floors.map((f) => (
+                                <li key={f.name}>
+                                    <span className="font-mono">L{f.level}</span>
+                                    <span className="mx-1.5 opacity-70" aria-hidden="true">·</span>
+                                    <span>{lang === 'ar' ? f.reason_ar : f.reason_en}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
                 <div className="grid sm:grid-cols-2 gap-3">
                     <Card title={t('rules_used', lang)}>
                         <ul className="text-[12.5px] text-slate-700 space-y-1 leading-snug">
                             <li className="font-mono">NEWS2 = {suggestion.news2?.total} ({suggestion.news2?.risk})</li>
+                            {isPaediatric && (
+                                <li className="text-amber-900 bg-amber-50 border border-amber-200 rounded-md px-2 py-1.5 flex items-start gap-1.5 text-[11.5px] leading-snug">
+                                    <Baby className="w-3.5 h-3.5 mt-[1px] flex-shrink-0" aria-hidden="true" />
+                                    <span>{t('pediatric_news2_caveat', lang)}</span>
+                                </li>
+                            )}
                             <li className="font-mono break-all">{suggestion.decision_path}</li>
                             {suggestion.news2?.missing?.length > 0 && (
                                 <li className="text-amber-700">⚠ {t('missing_vitals_note', lang)}</li>
@@ -115,15 +154,6 @@ export default function SuggestedTriage({ lang, suggestion, engineError, onDecis
                             </div>
                         ) : (
                             <p className="text-[12.5px] text-slate-500">—</p>
-                        )}
-                        {suggestion.floorsApplied?.length > 0 && (
-                            <ul className="text-[11.5px] text-red-700 mt-2 space-y-0.5 list-disc list-inside">
-                                {suggestion.floorsApplied.map((f) => (
-                                    <li key={f.name}>
-                                        L{f.level} · {lang === 'ar' ? f.reason_ar : f.reason_en}
-                                    </li>
-                                ))}
-                            </ul>
                         )}
                     </Card>
                 </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, ShieldCheck, LogOut } from 'lucide-react';
+import { Activity, ShieldCheck, LogOut, FlaskConical } from 'lucide-react';
 import LangToggle from './LangToggle';
 import { t } from '../../lib/i18n';
 
@@ -54,6 +54,21 @@ export default function HospitalShell({ lang, onLangChange, clinician, onSignOut
                     </div>
                 </div>
             </header>
+
+            <div
+                role="note"
+                aria-label={t('synthetic_demo_banner', lang)}
+                className="bg-amber-50 border-b border-amber-200 text-amber-900 print:hidden"
+            >
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-start gap-2 text-[12px] sm:text-[12.5px] leading-snug">
+                    <FlaskConical className="w-4 h-4 mt-[1px] flex-shrink-0 text-amber-700" aria-hidden="true" />
+                    <p>
+                        <span className="font-semibold">{t('synthetic_demo_banner_title', lang)}</span>
+                        <span className="mx-1.5 text-amber-700/70" aria-hidden="true">·</span>
+                        <span>{t('synthetic_demo_banner_body', lang)}</span>
+                    </p>
+                </div>
+            </div>
 
             <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
                 {children}

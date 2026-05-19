@@ -46,9 +46,9 @@ function nextCounter() {
     let n = 0;
     try {
         n = parseInt(localStorage.getItem(KEYS.counter) || '0', 10) || 0;
-    } catch {}
+    } catch { /* localStorage may be disabled — start from 0 */ }
     n += 1;
-    try { localStorage.setItem(KEYS.counter, String(n)); } catch {}
+    try { localStorage.setItem(KEYS.counter, String(n)); } catch { /* localStorage may be disabled — skip persist */ }
     return n;
 }
 

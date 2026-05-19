@@ -110,7 +110,12 @@ const KEYWORD_RULES = [
     { cat: 'stroke_symptoms',         kw: ['stroke', 'facial droop', 'slurred speech', 'one sided weakness', 'hemiparesis', 'fast positive', 'جلطة', 'سكتة دماغية', 'لخبطة في الكلام', 'ضعف نصفي'] },
     { cat: 'respiratory_distress',    kw: ['shortness of breath', 'severe sob', 'gasping', 'using accessory muscles', 'ضيق تنفس شديد', 'مش قادر يتنفس'] },
     { cat: 'severe_bleeding',         kw: ['heavy bleeding', 'massive bleeding', 'hemorrhage', 'spurting blood', 'نزيف شديد', 'نزيف كتير'] },
-    { cat: 'altered_mental_status',   kw: ['confused', 'altered mental', 'disoriented', 'lethargic', 'تغير في الوعي', 'مش فاهم', 'هياج'] },
+    // AMS keyword list kept in lockstep with the Python canonical engine
+    // (see backend/logic/deterministic_triage.py — `_text_has_altered_mental_status_signal`
+    // and the glucose-recommend AMS tokens). Adding 'confusion' / 'new confusion'
+    // / 'تشوش' closes a JS-only gap Codex flagged in the Phase-1 QA review
+    // (confused-elderly preset previously fell through to unclear_needs_evaluation).
+    { cat: 'altered_mental_status',   kw: ['confused', 'confusion', 'new confusion', 'altered mental', 'altered mental status', 'altered mentality', 'disoriented', 'lethargic', 'تغير في الوعي', 'تغير الوعي', 'تشوش', 'مش فاهم', 'هياج'] },
     { cat: 'psychiatric_emergency',   kw: ['suicidal', 'suicide', 'self harm', 'violent', 'أفكار انتحارية', 'انتحار', 'إيذاء نفسه'] },
     { cat: 'obstetric_emergency',     kw: ['vaginal bleeding', 'labor', 'pregnant bleeding', 'placental', 'ruptured membranes', 'نزيف حمل', 'طلق', 'مية الجنين نزلت'] },
     { cat: 'diabetic_emergency',      kw: ['hypoglycemia', 'hyperglycemia', 'dka', 'diabetic ketoacidosis', 'هبوط سكر', 'ارتفاع سكر شديد'] },
@@ -306,10 +311,14 @@ export function calculateNews2(vitals, options = {}) {
 
     const total = Object.values(scores).reduce((a, b) => a + b, 0);
     const hasExtreme = Object.values(scores).some((s) => s === 3);
+    // NEWS2 risk banding mirrors the Royal College of Physicians escalation:
+    //   - Any single parameter scoring 3 → HIGH risk (covered by `hasExtreme`).
+    //   - Aggregate total 7+ → HIGH risk.
+    //   - Aggregate total 5-6 → MEDIUM risk.
+    //   - Anything else → LOW risk.
     let risk;
     if (total >= 7 || hasExtreme) risk = 'HIGH';
     else if (total >= 5)          risk = 'MEDIUM';
-    else if (hasExtreme)          risk = 'LOW_MEDIUM';
     else                          risk = 'LOW';
 
     return { total, risk, scores, missing };
@@ -461,8 +470,12 @@ function buildRedFlags(category, news2, vitals, consciousness) {
  * and audit trail can clearly mark which engine produced the suggestion.
  */
 export function runOfflineFallbackTriage(input) {
+    // gender is intentionally not destructured: ESI v5 / NEWS2 do not use
+    // gender as a triage discriminator. The Python canonical engine also
+    // ignores it on the decision path. Pregnancy is captured separately via
+    // `is_pregnant` because it is a clinical state, not a gender field.
     const {
-        age, gender, chief_complaint_text,
+        age, chief_complaint_text,
         vitals = {}, consciousness = 'A',
         pain_scale = null, is_pregnant = false,
         is_copd = false, on_supplemental_o2 = false,

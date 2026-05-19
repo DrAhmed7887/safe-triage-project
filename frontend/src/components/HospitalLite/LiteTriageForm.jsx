@@ -4,6 +4,7 @@ import {
 } from 'lucide-react';
 import { t } from '../../lib/i18n';
 import { generatePatientId } from '../../lib/hospitalLite';
+import DemoPresetsBar from './DemoPresetsBar';
 
 const PAIN_OPTIONS = Array.from({ length: 11 }, (_, i) => i); // 0..10
 const CONSCIOUSNESS_OPTIONS = [
@@ -78,6 +79,21 @@ export default function LiteTriageForm({ lang, onSubmit, loading = false }) {
     const update = (patch) => setForm((p) => ({ ...p, ...patch }));
     const updateVital = (k, v) => setForm((p) => ({ ...p, vitals: { ...p.vitals, [k]: v } }));
 
+    // Demo-preset loader: shallow merge top-level fields + deep merge vitals.
+    // Patient ID / name are intentionally NOT overwritten so each preset run
+    // produces a fresh ID at submit time.
+    const loadPreset = (preset) => {
+        if (!preset) return;
+        setForm((p) => ({
+            ...p,
+            ...preset,
+            patient_id: p.patient_id,
+            patient_name: p.patient_name,
+            vitals: { ...p.vitals, ...(preset.vitals || {}) },
+        }));
+        setError(null);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!form.chief_complaint_text.trim()) {
@@ -108,6 +124,8 @@ export default function LiteTriageForm({ lang, onSubmit, loading = false }) {
 
     return (
         <form className="grid gap-4" onSubmit={handleSubmit}>
+            <DemoPresetsBar lang={lang} onLoadPreset={loadPreset} />
+
             <Section icon={User} title={t('section_patient', lang)}>
                 <div className="grid sm:grid-cols-2 gap-3">
                     <Field label={t('patient_id', lang)}>

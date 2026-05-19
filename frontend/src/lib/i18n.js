@@ -14,13 +14,13 @@ export function getLang() {
     try {
         const v = localStorage.getItem(STORAGE_KEY);
         if (v && SUPPORTED_LANGS.includes(v)) return v;
-    } catch {}
+    } catch { /* localStorage may be disabled — fall through to default */ }
     return DEFAULT_LANG;
 }
 
 export function setLang(lang) {
     if (!SUPPORTED_LANGS.includes(lang)) return;
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch { /* localStorage may be disabled — ignore */ }
     if (typeof document !== 'undefined') {
         document.documentElement.lang = lang;
         document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -32,6 +32,11 @@ export const dirFor = (lang) => (lang === 'ar' ? 'rtl' : 'ltr');
 export const STRINGS = {
     app_title:            { en: 'SAFE-Triage · Hospital Lite',          ar: 'سيف-فرز · نسخة المستشفى' },
     decision_support:     { en: 'Decision support only — clinician must confirm.', ar: 'أداة دعم قرار فقط — يجب على الطبيب التأكيد.' },
+    synthetic_demo_banner:       { en: 'Synthetic demo notice',             ar: 'تنبيه: عرض تجريبي' },
+    synthetic_demo_banner_title: { en: 'Synthetic demo · Phase-1 prototype', ar: 'عرض تجريبي · نموذج المرحلة الأولى' },
+    synthetic_demo_banner_body:  { en: 'Decision-support prototype only. Do not enter real patient names or identifiers (PHI). Use the demo presets or fully synthetic cases.', ar: 'نموذج لدعم القرار فقط. من فضلك لا تُدخل أي بيانات حقيقية أو معرّفات للمرضى. استخدم الحالات التجريبية أو بيانات افتراضية بالكامل.' },
+    safety_floor_applied:        { en: 'Safety floor applied',                ar: 'تم تفعيل حد الأمان' },
+    pediatric_news2_caveat:      { en: 'NEWS2 is validated for adults. For paediatric cases (under 16) the deterministic engine uses age-banded vital thresholds; the displayed NEWS2 number is informational only.', ar: 'مقياس NEWS2 مُصمّم للبالغين. في حالات الأطفال (أقل من 16 سنة) يعتمد المحرك على عتبات حيوية حسب الفئة العمرية، ورقم NEWS2 الظاهر هنا للعرض فقط.' },
     new_case:             { en: 'New case',                              ar: 'حالة جديدة' },
     active_queue:         { en: 'Active queue',                          ar: 'طابور الفرز' },
     no_cases:             { en: 'No active cases',                       ar: 'لا توجد حالات نشطة' },
