@@ -17,7 +17,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 //   npm --prefix frontend run build && npx --prefix frontend cap sync ios
 const config: CapacitorConfig = {
     appId: 'app.safetriage.hospitallite',
-    appName: 'SAFE-Triage',
+    appName: 'SAFE-Triage Lite',
     webDir: 'dist',
     // Don't ship the dev server URL inside the IPA — that would proxy the app
     // through Vite at runtime. Bundled-asset mode is what we want for a
@@ -35,13 +35,13 @@ const config: CapacitorConfig = {
     ios: {
         // Match the PWA brand. Status bar is set programmatically (see
         // src/main.jsx) so this is just the launch / chrome backdrop.
-        backgroundColor: '#0d9488ff',
+        backgroundColor: '#071525ff',
         // Disable bouncy rubber-band scrolling — feels more clinical-app and
         // less Safari-tab.
         scrollEnabled: true,
-        // Keep WKWebView debuggable from Safari → Develop on the Mac so we
-        // can inspect a real device for the demo.
-        webContentsDebuggingEnabled: true,
+        // Keep WKWebView remote debugging off for TestFlight/App Store builds.
+        // Flip this temporarily only when inspecting a local device from Safari.
+        webContentsDebuggingEnabled: false,
     },
 };
 

@@ -110,7 +110,8 @@ Codex's review listed many Should-Fix and Nice-to-Have items. Confirming what is
 2. **Safety floors as a first-class strip on the review card.** Currently nested inside red-flags. Not implemented this pass.
 3. **Pediatric NEWS2 caveat** in the UI. The engine handles age-banded vitals correctly, but the UI says "NEWS2" on a 4-year-old. Not changed this pass.
 4. **"Clear local demo data" button** for presenters. Not implemented.
-5. **`webContentsDebuggingEnabled: true`** in `capacitor.config.ts` — fine for dev / simulator, must be flipped before any TestFlight build. Not changed.
+5. **`webContentsDebuggingEnabled` release setting** — resolved in the final
+   release-candidate pass; `capacitor.config.ts` now sets it to `false`.
 6. **Bundle identifier finalization** (`app.safetriage.hospitallite` vs `app.zayedmd.safetriage`). Tracked in `docs/implementation-notes/safe-triage-phase1-hospital-lite.md`.
 7. **`frontend/.env.production`** still points at `safe-triage-eciux5h4aq-uc.a.run.app` + Firebase project config. Codex flagged that a plain `vite build` (without `--mode hospital_lite`) produces the cloud-connected app, which is correct and *intended*, but is worth being explicit about in the runbook.
 8. **`SUPERVISOR_PIN=0000`** default in `backend/.env.hospital_lite` (Codex Privacy §6). Frontend does not use it today; any future downgrade-PIN feature must not ship this default.
@@ -119,7 +120,9 @@ Codex's review listed many Should-Fix and Nice-to-Have items. Confirming what is
 
 ## 7. Privacy / security notes for this pass
 
-- **No GCP resources touched.** No IAM. No secrets added. No new env files. No deploys.
+- **No GCP resources touched.** No IAM. No deploys. A later final
+  release-candidate pass added an ignored local `.env.apple-connect.local` file
+  for App Store Connect identifiers; no secrets are committed.
 - **`firebase-messaging-sw.js`** is now physically absent from Hospital Lite builds. The Firebase project ID + web API key are no longer in `dist/` after `build:hospital-lite`. (They remain in the standard `build` because the standard app legitimately uses FCM.)
 - **The banner explicitly tells clinicians not to enter PHI.** It is a UX guard, not a technical one — `localStorage` is still unencrypted, and a determined user could still type a real name into the patient-name field.
 - **No PHI added anywhere.** All edits are config / UI chrome / keyword list / vite plugin.

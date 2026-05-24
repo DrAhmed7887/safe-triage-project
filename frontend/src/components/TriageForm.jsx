@@ -419,7 +419,7 @@ export default function TriageForm({ onResult }) {
             if (audioContextRef.current) audioContextRef.current.close().catch(() => {});
             if (pendingAudioUrl) URL.revokeObjectURL(pendingAudioUrl);
         };
-    }, []);
+    }, [pendingAudioUrl]);
 
     /**
      * Send audio to backend for Gemini AI transcription

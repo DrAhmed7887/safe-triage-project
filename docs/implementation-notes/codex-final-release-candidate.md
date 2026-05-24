@@ -77,9 +77,9 @@ Current support status from code inspection:
 
 Release concerns carried forward:
 
-- `webContentsDebuggingEnabled` is `true` in `frontend/capacitor.config.ts`.
-  This is useful for simulator/device inspection but must be flipped or handled
-  by a release config before TestFlight / App Store upload.
+- `webContentsDebuggingEnabled` is now `false` in
+  `frontend/capacitor.config.ts` for TestFlight/App Store readiness. Flip it
+  temporarily only for local Safari WKWebView inspection, then restore `false`.
 - Bundle ID is currently `app.safetriage.hospitallite`. It is professional
   enough for local RC work, but the final App Store Connect bundle ID decision
   remains Ahmed's manual choice before the first upload.
@@ -166,8 +166,15 @@ Capacitor/iOS checks passed for local release-candidate readiness:
   notification permission strings.
 - Version/build values are present in Xcode project settings:
   `MARKETING_VERSION = 1.0`, `CURRENT_PROJECT_VERSION = 1`.
-- `webContentsDebuggingEnabled` is still `true`; this remains a release-time
-  manual blocker before TestFlight/App Store archive.
+- `webContentsDebuggingEnabled` is `false` for the release path.
+- iOS 26.5 platform/runtime is installed on this machine.
+- Unsigned native iOS Release compile passed with `CODE_SIGNING_ALLOWED=NO`.
+- `frontend/ios/ExportOptions.testflight.plist` exists for internal TestFlight
+  export packaging.
+- Signed archive with the provided App Store Connect API key was attempted and
+  stopped at the Apple manual blocker: Xcode reported `No Account for Team
+  "7R65LRGNHT"` and no provisioning profile for
+  `app.safetriage.hospitallite`.
 
 `npm --prefix frontend run ios:open` was not run because opening Xcode is a GUI
 handoff step. Ahmed should run it manually.
@@ -197,8 +204,24 @@ The final QA report was written to
 - Do not change ESI/NEWS2 thresholds.
 - Do not weaken safety floors.
 - Do not add cloud, analytics, ads, tracking, or SDKs.
-- Do not run App Store Connect submission.
+- Do not submit for App Review without Ahmed's explicit final approval.
 - Keep the final bundle ID decision manual until Ahmed creates the App Store
   Connect record.
-- Keep `webContentsDebuggingEnabled` documented as a must-resolve release
-  setting rather than silently changing the local debugging workflow.
+- Keep App Store Connect private keys out of the repository. The active key was
+  moved to `~/.appstoreconnect/private_keys/AuthKey_C26JYVJZ24.p8`.
+
+## Launch-engineer addendum
+
+After Ahmed provided App Store Connect API identifiers, Codex saved them in the
+ignored `.env.apple-connect.local` file and moved the uploaded private key out
+of the repository root. `.gitignore` now blocks `*.p8` and `AuthKey_*.p8` files.
+
+The App Store Connect key currently configured locally is:
+
+```text
+ASC_KEY_ID=C26JYVJZ24
+ASC_ISSUER_ID=14ce111d-36f7-4419-abda-22672f874c7b
+ASC_KEY_PATH=$HOME/.appstoreconnect/private_keys/AuthKey_C26JYVJZ24.p8
+```
+
+Do not commit the `.env.apple-connect.local` file or any `.p8` key file.

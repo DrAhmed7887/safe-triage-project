@@ -25,8 +25,8 @@ const VITAL_FIELDS = [
 
 function Section({ icon: Icon, title, children }) {
     return (
-        <section className="bg-white rounded-2xl border border-slate-200 shadow-sm">
-            <header className="px-4 py-3 border-b border-slate-100 flex items-center gap-2">
+        <section className="bg-white rounded-xl border border-slate-200 shadow-sm">
+            <header className="px-4 py-3 border-b border-slate-100 bg-slate-50 flex items-center gap-2 rounded-t-xl">
                 {Icon ? <Icon className="w-4 h-4 text-teal-600" aria-hidden="true" /> : null}
                 <h3 className="text-[13.5px] font-bold text-slate-900">{title}</h3>
             </header>

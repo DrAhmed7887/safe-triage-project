@@ -1,6 +1,6 @@
 # SAFE-Triage Lite — Privacy Policy (Draft)
 
-**Effective date placeholder:** 2026-05-19
+**Effective date:** 2026-05-20
 **Last updated:** 2026-05-20
 **Owner:** Dr. Ahmed Zayed, MBBCh (zayedmd)
 
@@ -142,7 +142,7 @@ Prior versions of this policy will be retained in the project repository at
 
 For questions about this policy or the app:
 
-- **Email:** [placeholder — Ahmed's support email]
+- **Email:** [manual placeholder — Ahmed's support email]
 - **GitHub issues:** https://github.com/DrAhmed7887/safe-triage-project-github/issues
 - **Postal address:** [placeholder — required by some jurisdictions if Ahmed wants App Store distribution in those markets]
 

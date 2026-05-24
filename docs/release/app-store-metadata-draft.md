@@ -107,14 +107,14 @@ suggested triage level. No real patient data is collected or transmitted.
 
 ## Marketing URL (optional)
 
-Placeholder until a landing page is ready:
+Placeholder until a landing page is hosted:
 
 ```
 https://zayedmd.com/safe-triage
 ```
 
-(Site doesn't exist yet; create a one-page landing before submitting to App Store proper.
-TestFlight does not require a marketing URL.)
+(The site must exist before App Store submission if this URL is used. TestFlight
+does not require a marketing URL.)
 
 ## Support URL (required for App Store, optional for TestFlight)
 

@@ -111,7 +111,8 @@ Design direction kept: deep teal accent, slate text, restrained amber for caveat
 - `ios:open` — would open Xcode if a real human were running it; not invoked from here.
 - Info.plist verified: `CFBundleDisplayName = SAFE-Triage`. No mic / camera / location / Bluetooth / contacts permission strings (truthful — no plugin uses those).
 - No FCM in Hospital Lite build (Vite plugin strips the SW).
-- `webContentsDebuggingEnabled: true` left as-is for dev; must flip to false before TestFlight build #1 (release-checklist §13).
+- `webContentsDebuggingEnabled` is now `false` for the release path. Flip it
+  temporarily only for local Safari WKWebView debugging.
 
 ### Phase 7 — Release package ✅
 
@@ -163,8 +164,8 @@ Docs:
 |---|---|---|---|
 | T-1 | Decide final bundle ID before App Record creation | Ahmed | Before TestFlight build #1 |
 | T-2 | Host privacy policy at a public URL | Ahmed | Before App Store submission |
-| T-3 | Flip `webContentsDebuggingEnabled` to false in release config | Ahmed (Xcode/config) | Before TestFlight build #1 |
-| T-4 | Generate iOS screenshots from real-device runs | Ahmed | Before App Store submission |
+| T-3 | Confirm `webContentsDebuggingEnabled: false` before each archive | Ahmed (Xcode/config) | Before TestFlight build #1 |
+| T-4 | Review prepared screenshots or replace with signed-device captures | Ahmed | Before App Store submission |
 | T-5 | Refactor `AuthContext.jsx` + `useFirebaseMessaging.js` for React 19 hooks-rule compliance | Ahmed / future PR | Out of scope here |
 | T-6 | Add Capacitor splash / app icon assets if defaults are insufficient | Ahmed | Before App Store submission |
 | T-7 | One-tap "Clear local demo data" control in the UI | Optional | Phase 2 polish |
@@ -187,7 +188,9 @@ Docs:
 - No new SDKs, no analytics, no tracking.
 - FCM SW physically absent from `dist/` after `build:hospital-lite`.
 - No permissions requested.
-- No new env files. No secrets added. No IAM changes. No GCP changes.
+- A local ignored `.env.apple-connect.local` file stores App Store Connect
+  identifiers for Ahmed's machine. No secrets are committed. No IAM changes. No
+  GCP changes.
 - Privacy policy draft matches the code's actual behaviour.
 
 ## 9. iOS / Xcode status
@@ -196,8 +199,11 @@ Docs:
 - Capacitor 8 + iOS 8 wrapper present.
 - Bundle identifier currently `app.safetriage.hospitallite` (rename decision deferred to Ahmed before App Record creation).
 - Info.plist has no fake permission strings.
-- `webContentsDebuggingEnabled: true` left as-is for dev; flagged as must-flip-before-submission.
-- Did **not** open Xcode — Claude can't run an interactive GUI. Ahmed runs `npm --prefix frontend run ios:open` manually.
+- `webContentsDebuggingEnabled: false` is set for release builds.
+- Xcode workspace can be opened with `npm --prefix frontend run ios:open`.
+- Command-line signed archive is blocked by Apple account/team provisioning:
+  Xcode reports `No Account for Team "7R65LRGNHT"` and no provisioning profile
+  for `app.safetriage.hospitallite`.
 
 ## 10. App Store readiness status
 

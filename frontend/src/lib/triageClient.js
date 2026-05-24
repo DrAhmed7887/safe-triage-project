@@ -1,14 +1,15 @@
 /**
  * triageClient.js — calls the canonical Python triage engine via the FastAPI
- * backend, and falls back to the JS offline engine only when the network
- * call fails.
+ * backend when one is configured, and falls back to the JS offline engine
+ * when the network call fails. Hospital Lite App Store builds do not ship
+ * with a backend URL, so they run the local deterministic fallback directly.
  *
  * The Python engine in `backend/logic/triage_engine_v2.py` is the *source of
  * truth* — it is what the project benchmarks against (MIETIC, MIETIC-Arabic,
  * KTAS, NHAMCS). This module's job is to:
  *
  *   1. Map the Hospital Lite form payload to the backend `PatientInput` shape.
- *   2. POST it to `/triage` with a tight timeout.
+ *   2. POST it to `/triage` with a tight timeout when a backend URL exists.
  *   3. Adapt the backend `TriageResult` to the UI-facing suggestion shape.
  *   4. On any failure (offline, timeout, 4xx/5xx, parse error), call the
  *      offline JS fallback engine and tag the result so the UI can warn.
@@ -19,7 +20,8 @@
 
 import { runOfflineFallbackTriage, LEVEL_LABELS, ESI_CATEGORIES } from './triageEngineOfflineFallback';
 
-const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '');
+const RAW_API_URL = (import.meta.env.VITE_API_URL || '').trim();
+const API_URL = RAW_API_URL.replace(/\/$/, '');
 const TRIAGE_TIMEOUT_MS = 6000;
 
 /**
@@ -126,6 +128,17 @@ function adaptBackendResult(raw) {
  * `suggestion.engine_source` for convenience.
  */
 export async function getTriageSuggestion(input) {
+    // App Store / Hospital Lite builds are intentionally self-contained. They
+    // use the local deterministic fallback unless a developer explicitly sets
+    // VITE_API_URL for a localhost backend demo.
+    if (!API_URL) {
+        return {
+            suggestion: runOfflineFallbackTriage(input),
+            source: 'offline_js_fallback',
+            error: { kind: 'local_demo', message: 'Hospital Lite local-only mode' },
+        };
+    }
+
     // If we already know we're offline, skip the fetch round-trip.
     if (typeof navigator !== 'undefined' && navigator.onLine === false) {
         return {
@@ -171,4 +184,4 @@ export async function getTriageSuggestion(input) {
     }
 }
 
-export const TRIAGE_API_URL = `${API_URL}/triage`;
+export const TRIAGE_API_URL = API_URL ? `${API_URL}/triage` : null;

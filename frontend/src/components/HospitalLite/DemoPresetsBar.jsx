@@ -104,12 +104,12 @@ export default function DemoPresetsBar({ lang, onLoadPreset }) {
 
     return (
         <section
-            className="bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm"
+            className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden"
             aria-label={heading}
         >
-            <header className="px-4 py-2.5 border-b border-slate-100 flex items-center gap-2">
-                <FlaskConical className="w-4 h-4 text-slate-500" aria-hidden="true" />
-                <h3 className="text-[12.5px] font-semibold text-slate-700">{heading}</h3>
+            <header className="px-4 py-2.5 border-b border-slate-100 bg-slate-50 flex items-center gap-2">
+                <FlaskConical className="w-4 h-4 text-teal-700" aria-hidden="true" />
+                <h3 className="text-[12.5px] font-bold text-slate-800">{heading}</h3>
             </header>
             <div className="p-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
                 {PRESETS.map((p) => {
@@ -119,7 +119,7 @@ export default function DemoPresetsBar({ lang, onLoadPreset }) {
                             type="button"
                             key={p.id}
                             onClick={() => onLoadPreset(p.fill)}
-                            className={`text-start rounded-xl border bg-white px-3 py-2.5 transition-colors ${TONE[p.tone] || TONE.green}`}
+                            className={`text-start rounded-lg border bg-white px-3 py-2.5 transition-colors ${TONE[p.tone] || TONE.green}`}
                         >
                             <div className="flex items-center gap-2">
                                 <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />

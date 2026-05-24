@@ -11,8 +11,8 @@ SAFE-Triage Lite is ready as a local Hospital Lite release candidate for
 synthetic demos, thesis defense, hackathon review, and iOS handoff into Xcode.
 
 It can be built as a Hospital Lite production bundle, synced into Capacitor iOS,
-and prepared for TestFlight/App Store work. It is not ready for App Store upload
-until Ahmed completes the Apple manual blockers listed below.
+and prepared for TestFlight/App Store work. It is not ready for App Store
+submission until Ahmed completes the Apple manual blockers listed below.
 
 The clinical safety posture held: deterministic rules remain authoritative,
 the JS fallback did not under-triage relative to the Python parity fixtures, and
@@ -46,6 +46,9 @@ Codex inspected and tested:
 | `node tests/parity/run_js_engine.mjs --compare` | Pass | 19/19 parity checks; tolerance 0; no JS under-triage. |
 | `npm --prefix frontend run lint` | Fails | 9 remaining standard-app issues; no Hospital Lite blockers. |
 | `npm --prefix frontend run ios:sync:hospital-lite` | Pass | Hospital Lite bundle copied into `frontend/ios/App/App/public/`. |
+| `xcodebuild -downloadPlatform iOS -buildVersion 26.5 -architectureVariant arm64` | Pass | iOS 26.5 platform/runtime installed locally. |
+| `xcodebuild ... CODE_SIGNING_ALLOWED=NO` | Pass | Unsigned native iOS Release compile passed. |
+| `xcodebuild ... -allowProvisioningUpdates ... archive` | Blocked | Xcode reported `No Account for Team "7R65LRGNHT"` and no provisioning profile for `app.safetriage.hospitallite`. |
 
 ### Lint classification
 
@@ -123,9 +126,9 @@ cloud service.
 | Xcode version/build placeholders | `MARKETING_VERSION = 1.0`, `CURRENT_PROJECT_VERSION = 1` in project settings |
 | Xcode open | Not run; opening GUI was left as Ahmed's manual step |
 
-`frontend/capacitor.config.ts` still has
-`webContentsDebuggingEnabled: true`. Keep it for simulator/local QA, but flip it
-or use a release config before TestFlight/App Store archive.
+`frontend/capacitor.config.ts` now has `webContentsDebuggingEnabled: false` for
+the release path. Flip it temporarily only for local Safari WKWebView debugging,
+then restore `false` before archiving.
 
 ## 7. App Store/TestFlight readiness
 
@@ -156,12 +159,15 @@ Ahmed must complete these manually before TestFlight/App Store submission:
 - App Store Connect app record.
 - Final bundle ID alignment.
 - Xcode signing team and provisioning.
+- Xcode account/team access for `7R65LRGNHT`.
 - Hosted privacy policy URL.
-- Synthetic screenshots for required iPhone/iPad sizes.
+- Synthetic screenshots for required iPhone/iPad sizes are prepared in
+  `docs/release/app-store-screenshots/`; Ahmed can replace them with
+  signed-device captures if needed.
 - Age-rating questionnaire.
 - App Privacy nutrition label.
 - Export compliance answers if App Store Connect asks.
-- Flip or release-gate `webContentsDebuggingEnabled`.
+- Confirm `webContentsDebuggingEnabled: false`.
 - Xcode archive, validation, upload, and TestFlight review.
 
 Standard cloud-app cleanup remains separate:
@@ -179,7 +185,7 @@ Standard cloud-app cleanup remains separate:
 3. Select the Apple developer team under **Signing & Capabilities**.
 4. Decide whether to keep `SAFE-Triage` display name or set
    `SAFE-Triage Lite`.
-5. Flip `webContentsDebuggingEnabled` for the release archive path.
+5. Confirm `webContentsDebuggingEnabled: false` for the release archive path.
 6. Archive with **Product → Archive**.
 7. Upload only after the hosted privacy policy URL, screenshots, age rating,
    privacy label, and App Review notes are ready.

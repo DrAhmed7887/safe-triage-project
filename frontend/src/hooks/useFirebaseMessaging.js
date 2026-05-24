@@ -4,6 +4,7 @@ import { ensureMessaging, isFirebaseConfigured } from '../lib/firebaseClient';
 
 const VAPID_KEY = 'BHlF5l1hUENEJtQiT_RapgStjvNGBgsMvoudCkTyLi8Wk8m_HE-ZflnDhxFyDdw4SFNUzOvwjeSQhQfaPjQ2itc';
 const API_URL = import.meta.env.VITE_API_URL || 'https://safe-triage-eciux5h4aq-uc.a.run.app';
+const MAX_HISTORY = 20;
 
 const supportsNotifications = () =>
     typeof window !== 'undefined' &&
@@ -12,21 +13,21 @@ const supportsNotifications = () =>
 
 export function useFirebaseMessaging() {
     const { user } = useAuth();
+    const notificationSupport = isFirebaseConfigured && supportsNotifications();
     const [notification, setNotification] = useState(null);
-    const [fcmToken, setFcmToken] = useState(null);
+    const [notificationHistory, setNotificationHistory] = useState([]);
+    const [registeredToken, setRegisteredToken] = useState(null);
     const [permissionStatus, setPermissionStatus] = useState(
-        supportsNotifications() ? Notification.permission : 'unsupported'
+        notificationSupport ? Notification.permission : 'unsupported'
     );
     const initializedUserRef = useRef(null);
 
     useEffect(() => {
         if (!user?.uid) {
             initializedUserRef.current = null;
-            setFcmToken(null);
             return;
         }
-        if (!isFirebaseConfigured || !supportsNotifications()) {
-            setPermissionStatus('unsupported');
+        if (!notificationSupport) {
             return;
         }
         if (initializedUserRef.current === user.uid) {
@@ -61,7 +62,7 @@ export function useFirebaseMessaging() {
 
                 if (token) {
                     initializedUserRef.current = user.uid;
-                    setFcmToken(token);
+                    setRegisteredToken(token);
                     await fetch(`${API_URL}/api/fcm/register`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -74,12 +75,14 @@ export function useFirebaseMessaging() {
                 }
 
                 unsubscribe = messagingModule.onMessage(messaging, (payload) => {
-                    setNotification({
+                    const nextNotification = {
                         title: payload.notification?.title || 'SAFE-Triage Alert',
                         body: payload.notification?.body || '',
                         data: payload.data || {},
                         receivedAt: new Date().toISOString(),
-                    });
+                    };
+                    setNotification(nextNotification);
+                    setNotificationHistory((current) => [nextNotification, ...current].slice(0, MAX_HISTORY));
                 });
             } catch (error) {
                 console.error('FCM init error:', error);
@@ -94,11 +97,12 @@ export function useFirebaseMessaging() {
                 unsubscribe();
             }
         };
-    }, [user?.uid, user?.role]);
+    }, [notificationSupport, user?.uid, user?.role]);
 
     return {
         notification,
-        fcmToken,
+        notificationHistory,
+        fcmToken: user?.uid ? registeredToken : null,
         permissionStatus,
         clearNotification: () => setNotification(null),
     };

@@ -1,13 +1,15 @@
 # SAFE-Triage Lite — TestFlight / App Store Submission Checklist
 
 **Owner:** Dr. Ahmed Zayed
-**Status:** Draft. Not submitted. No App Store Connect record created.
-**Last updated:** 2026-05-20
+**Status:** Build uploaded to App Store Connect. Not submitted for App Review.
+**Last updated:** 2026-05-21
 
 > **Decision support only — clinician must confirm.**
 > SAFE-Triage Lite is a Phase-1 educational / decision-support prototype. It is not a certified medical device. Apple App Review will be sensitive to clinical wording; this checklist treats that as a primary risk.
 
-This is the operational checklist. Every item below has to either be ticked or explicitly waived before TestFlight build #1 goes to Apple. Anything marked **manual** must be done by Ahmed — Claude cannot perform these from here.
+This is the operational checklist. Build `1.0 (2)` has been uploaded and Apple
+reports it as `VALID`. Anything marked **manual** must still be completed by
+Ahmed in App Store Connect before external TestFlight or App Review.
 
 ---
 
@@ -15,72 +17,59 @@ This is the operational checklist. Every item below has to either be ticked or e
 
 | Item | Status | Notes |
 |---|---|---|
-| Active Apple Developer Program membership ($99/yr) | ☐ | Required for any TestFlight / App Store upload. |
-| Two-factor authentication on the Apple ID | ☐ | Required to sign in to App Store Connect from Xcode. |
-| Developer agreement + paid-apps agreement signed | ☐ | App Store Connect → Agreements, Tax, and Banking. Even free apps need the Free Apps Agreement. |
-| Team role: Account Holder or Admin | ☐ | Needed to create the App Record and submit. |
+| Active Apple Developer Program membership ($99/yr) | Done | Required for TestFlight / App Store upload. |
+| Two-factor authentication on the Apple ID | Done | Required to sign in to App Store Connect from Xcode. |
+| Developer agreement + paid-apps agreement signed | Verify | App Store Connect → Agreements, Tax, and Banking. Even free apps need the Free Apps Agreement. |
+| Team role: Account Holder or Admin | Done | API key role reported as Admin. |
 
-**Blocker until done:** TestFlight upload will be impossible without these.
+**Current status:** command-line upload is working.
 
 ## Final submission blockers
 
-These items remain manual blockers before Ahmed can submit a TestFlight or App
-Store build. Codex did not perform any App Store Connect, signing, upload, or
-cloud action.
+These items remain manual blockers before Ahmed can submit for external
+TestFlight or full App Review. Codex uploaded the build but did not submit it
+for review.
 
-- Apple Developer Program membership and current developer agreements.
-- App Store Connect app record.
-- Final bundle ID alignment between App Store Connect, Xcode, and
-  `frontend/capacitor.config.ts`.
-- Xcode signing team and provisioning profile.
 - Hosted privacy policy URL.
-- Synthetic iPhone and iPad screenshots.
+- Final iPhone and iPad screenshots in App Store Connect.
 - Age-rating questionnaire.
 - App Privacy nutrition label.
 - Export compliance answers, if App Store Connect asks for them.
-- Xcode archive, validation, and upload.
-- `webContentsDebuggingEnabled` release decision before archive.
+- Build selection for TestFlight internal testing.
+- External TestFlight review, if using external testers.
+- Final App Store metadata completion and human review approval.
 
 ## 2. App Store Connect — App Record (manual)
 
 | Item | Status | Notes |
 |---|---|---|
-| Create new iOS app record | ☐ | App Store Connect → My Apps → "+". |
-| Bundle ID: decision needed (see §3) | ☐ | Cannot be changed after first build is uploaded. |
-| App name: **SAFE-Triage Lite** | ☐ | 30-char max. Reserved at app-record creation. |
-| Primary language: **English (U.S.)** | ☐ | We can add Arabic localisation later. |
-| SKU: e.g. `SAFETRIAGE-LITE-001` | ☐ | Free-text, internal. |
+| Create new iOS app record | Done | App Store Connect app ID `6771520904`. |
+| Bundle ID: `app.safetriage.hospitallite` | Done | Cannot be changed after the uploaded builds. |
+| App name: **SAFE-Triage Lite** | Done | 30-char max. Reserved at app-record creation. |
+| Primary language: **English (U.S.)** | Done | Add Arabic localisation later if needed. |
+| SKU: `SAFE-TRIAGE-LITE-IOS` | Done | Free-text, internal. |
 | User access: Limited Access | ☐ | Defer until Ahmed has co-collaborators. |
 
 ## 3. Bundle Identifier
 
 Current Capacitor config (`frontend/capacitor.config.ts`): `app.safetriage.hospitallite`.
 
-Decision needed before App Record creation:
+Final Bundle ID:
 
-| Option | Pro | Con |
-|---|---|---|
-| `app.safetriage.hospitallite` (keep current) | No code changes. iOS project state stable. | Brand reads as a generic side-project. |
-| `app.zayedmd.safetriage` | Aligns with the zayedmd brand the user already owns (github.com/DrAhmed7887/zayedmd). | One-time Xcode rename + cap sync. |
-| `com.zayedmd.safetriage` | `com.` is the historically dominant prefix. | Same rename cost. |
+```text
+app.safetriage.hospitallite
+```
 
-**Recommendation:** `app.zayedmd.safetriage` once the App Store Connect record is created. Do **not** rename in-place after the first TestFlight upload — Apple ties the bundle ID to the SKU for app analytics and you cannot change it. If you want to rename, do so before the first upload.
-
-**Steps if renaming (manual, in Xcode):**
-
-1. Open `frontend/ios/App/App.xcworkspace`.
-2. Select the `App` target → *General* tab → set *Bundle Identifier*.
-3. Also update `frontend/capacitor.config.ts` → `appId` so future `cap sync` doesn't overwrite the Xcode project.
-4. Re-run `npm --prefix frontend run ios:sync`.
-5. Sign in *Signing & Capabilities* and confirm Xcode resolves provisioning.
+Do not rename it for this App Store Connect record. Apple ties uploaded builds
+to the Bundle ID.
 
 ## 4. Signing & Capabilities (manual)
 
 | Item | Status | Notes |
 |---|---|---|
-| Development team selected in Xcode | ☐ | *Signing & Capabilities* → *Team*. |
-| "Automatically manage signing" enabled | ☐ | OK for a single-developer flow. |
-| Provisioning profile generated | ☐ | Auto with the above. |
+| Development team selected for archive | Done | Command-line archive used team `6F22G47URV`. |
+| Signing style | Done | Manual App Store signing used for the uploaded archive. |
+| Provisioning profile generated | Done | `SAFE-Triage Lite App Store` installed locally. |
 | Push Notifications capability | ☐ | **Do NOT add this.** Hospital Lite has no FCM. |
 | Background Modes | ☐ | **Do NOT add.** No background work. |
 | HealthKit | ☐ | **Do NOT add.** Triggers extra App Review scrutiny and we don't use it. |
@@ -90,11 +79,13 @@ Decision needed before App Record creation:
 
 | Field | Initial value | Notes |
 |---|---|---|
-| Marketing Version (`CFBundleShortVersionString`) | `0.1.0` | Three-digit semver. Bump on every public release. |
-| Build Number (`CFBundleVersion`) | `1` | Must be monotonically increasing on TestFlight. |
+| Marketing Version (`CFBundleShortVersionString`) | `1.0` | Current uploaded marketing version. |
+| Latest uploaded Build Number (`CFBundleVersion`) | `2` | Build `2` is `VALID` in App Store Connect. |
 | Strategy | `1`, `2`, `3`, … per TestFlight build | Bump even for trivial fixes once a build is uploaded. |
 
-Both live in `frontend/ios/App/App/Info.plist` (`$(MARKETING_VERSION)` / `$(CURRENT_PROJECT_VERSION)` placeholders) or directly in the Xcode target's *General* tab. They are **not** in source today; set them in Xcode for build #1.
+Both live in `frontend/ios/App/App/Info.plist` (`$(MARKETING_VERSION)` /
+`$(CURRENT_PROJECT_VERSION)` placeholders) and the Xcode target build settings.
+The build `2` upload used a command-line `CURRENT_PROJECT_VERSION=2` override.
 
 ## 6. Privacy
 
@@ -120,9 +111,14 @@ Be cautious: choosing "Frequent/Intense Medical/Treatment Information" will infl
 
 Minimum required:
 
-- **6.7" iPhone** (iPhone 15 Pro Max / 16 Pro Max): 1290 × 2796 — **at least 3, up to 10**.
+- **6.9" iPhone** (iPhone 14 Pro Max through newer Max/Plus models): accepted portrait sizes include 1260 × 2736, 1290 × 2796, and 1320 × 2868 — **at least 3, up to 10**.
 - **6.5" iPhone** (iPhone 14 Plus / 11 Pro Max): 1284 × 2778 or 1242 × 2688 — optional but recommended.
-- **iPad 12.9"** (Pro 6th gen): 2048 × 2732 — required if you say the app supports iPad.
+- **13" iPad**: accepted portrait sizes include 2064 × 2752 and 2048 × 2732 — required if the app supports iPad.
+
+Prepared screenshot assets:
+
+- `docs/release/app-store-screenshots/iphone-6.9/`
+- `docs/release/app-store-screenshots/ipad-13/`
 
 Suggested screenshots (synthetic content only):
 
@@ -137,11 +133,13 @@ Suggested screenshots (synthetic content only):
 
 ## 9. TestFlight — internal testing (manual)
 
-1. In Xcode, **Product → Archive**.
-2. Open *Organizer* → select the archive → **Distribute App** → **App Store Connect**.
-3. Wait for Apple to finish "Processing" (typically 10-30 min).
-4. App Store Connect → *TestFlight* → *Internal Testing* → add Ahmed's Apple ID as a tester. Internal testers do not need Beta App Review.
-5. Test on a real iPhone and a real iPad before any external invitation.
+1. App Store Connect → *TestFlight* → select build `1.0 (2)`.
+2. Add Ahmed's Apple ID as an internal tester. Internal testers do not need
+   Beta App Review.
+3. Install from the TestFlight app on a real iPhone and a real iPad.
+4. Run the SOB / low SpO2 preset and the Fever in child preset.
+5. Confirm the no-real-PHI warning, safety-floor strip, pediatric NEWS2 caveat,
+   and clinician confirmation flow before any external invitation.
 
 ## 10. TestFlight — external testing (manual)
 
@@ -179,9 +177,9 @@ If App Review rejects, the most likely reasons are:
 | Decide bundle ID (§3) | Ahmed | ☐ |
 | Create App Record in App Store Connect | Ahmed | ☐ |
 | Host privacy policy at a real URL | Ahmed | ☐ |
-| Generate iOS screenshots (synthetic content) | Ahmed | ☐ |
+| Review prepared iPhone/iPad screenshots and replace with signed-device captures if needed | Ahmed | ☐ |
 | Set Marketing + Build version in Xcode | Ahmed | ☐ |
-| Disable `webContentsDebuggingEnabled` for the release scheme — see §13 | Ahmed | ☐ |
+| Confirm `webContentsDebuggingEnabled: false` before archive — see §13 | Ahmed | ☐ |
 | Archive + upload via Xcode | Ahmed | ☐ |
 | Internal TestFlight smoke on real iPhone + iPad | Ahmed | ☐ |
 | Submit for Beta App Review (for external testers) | Ahmed | ☐ |
@@ -189,14 +187,14 @@ If App Review rejects, the most likely reasons are:
 
 ## 13. Pre-flight: `webContentsDebuggingEnabled`
 
-`frontend/capacitor.config.ts` currently sets `webContentsDebuggingEnabled: true`. This is the right value for the simulator and a local iPhone connected to Xcode (you can inspect the WKWebView from Safari → Develop). **It must be `false` for any TestFlight or App Store build** — Apple has historically accepted it both ways, but it's a clear "release vs debug" signal and an easy reason to be questioned.
+`frontend/capacitor.config.ts` currently sets `webContentsDebuggingEnabled: false`. Keep it false for TestFlight and App Store builds. Flip it temporarily only when debugging a local simulator or connected iPhone from Safari → Develop, then restore `false` before archiving.
 
-Two ways to fix at release time:
+If debugging is needed before release:
 
-- **Manual:** flip the boolean to `false`, run `npm --prefix frontend run ios:sync`, archive.
-- **Better (later):** add a `capacitor.config.release.ts` and a build-time switch. Not required for build #1.
+- **Temporary debug:** set the value to `true`, run `npm --prefix frontend run ios:sync`, inspect the device, then restore `false`.
+- **Release:** run `npm --prefix frontend run ios:sync:hospital-lite` after restoring `false`, then archive.
 
-Track this on the must-flip-before-submit list.
+Track this as a confirmation item before every archive.
 
 ## 14. What this checklist does NOT cover
 

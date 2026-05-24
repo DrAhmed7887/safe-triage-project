@@ -18,7 +18,7 @@ function HospitalLiteApp() {
     // Ensure RTL/LTR is applied on first paint.
     applyLang(getLang());
     // Reflect mode in the document title so the browser tab is honest.
-    document.title = 'SAFE-Triage · Hospital Lite';
+    document.title = 'SAFE-Triage Lite';
   }, []);
 
   return (

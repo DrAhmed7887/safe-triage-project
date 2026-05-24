@@ -92,7 +92,8 @@ Readiness problems:
 
 - I did not run Xcode/iOS because this QA pass was local web only.
 - `frontend/ios/` is untracked in git status; generated public assets are ignored. This makes it unclear which iOS wrapper files Claude intends to commit.
-- `webContentsDebuggingEnabled: true` is acceptable for simulator/dev, but should not ship in a serious TestFlight or stakeholder build.
+- Resolved in the final release-candidate pass:
+  `webContentsDebuggingEnabled` is now `false` for the release path.
 - Bundle identifier `app.safetriage.hospitallite` should be finalized before TestFlight.
 - There is no explicit release/privacy copy for localStorage PHI in the app itself.
 
@@ -174,4 +175,3 @@ Risks:
 - `frontend/public/firebase-messaging-sw.js`
 - `frontend/capacitor.config.ts`
 - `docs/demo/safe-triage-phase1-hospital-lite-runbook.md`
-

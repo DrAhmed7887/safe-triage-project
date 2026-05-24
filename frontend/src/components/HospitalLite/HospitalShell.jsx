@@ -1,6 +1,7 @@
 import React from 'react';
-import { Activity, ShieldCheck, LogOut, FlaskConical } from 'lucide-react';
+import { ShieldCheck, LogOut, FlaskConical, LockKeyhole } from 'lucide-react';
 import LangToggle from './LangToggle';
+import SafeTriageLogo from './SafeTriageLogo';
 import { t } from '../../lib/i18n';
 
 /**
@@ -10,19 +11,18 @@ import { t } from '../../lib/i18n';
  */
 export default function HospitalShell({ lang, onLangChange, clinician, onSignOut, children }) {
     return (
-        <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
-            <header className="bg-white sticky top-0 z-30 border-b border-slate-200 shadow-sm print:hidden">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-14 flex items-center justify-between gap-3 py-2">
+        <div className="min-h-screen bg-[#eef5f7] font-sans text-slate-900">
+            <header className="sticky top-0 z-30 border-b border-white/10 bg-[#071525] text-white shadow-lg shadow-slate-950/10 print:hidden">
+                <div className="h-1 bg-gradient-to-r from-teal-400 via-cyan-300 to-amber-400" aria-hidden="true" />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-16 flex items-center justify-between gap-3 py-2">
                     <div className="flex items-center gap-2 min-w-0">
-                        <div className="bg-teal-600 p-2 rounded-xl shadow-sm shadow-teal-600/20 flex-shrink-0">
-                            <Activity className="w-5 h-5 text-white" aria-hidden="true" />
-                        </div>
+                        <SafeTriageLogo className="h-10 w-10 flex-shrink-0" />
                         <div className="min-w-0">
-                            <h1 className="text-[15px] sm:text-base font-bold leading-tight tracking-tight">
+                            <h1 className="text-[15px] sm:text-[17px] font-extrabold leading-tight tracking-tight">
                                 {t('app_title', lang)}
                             </h1>
-                            <p className="text-[11px] text-slate-500 leading-tight flex items-center gap-1.5">
-                                <ShieldCheck className="w-3.5 h-3.5 text-teal-600" aria-hidden="true" />
+                            <p className="hidden sm:flex text-[11px] text-slate-300 leading-tight items-center gap-1.5 truncate">
+                                <ShieldCheck className="w-3.5 h-3.5 text-teal-200" aria-hidden="true" />
                                 <span>{t('decision_support', lang)}</span>
                             </p>
                         </div>
@@ -31,20 +31,24 @@ export default function HospitalShell({ lang, onLangChange, clinician, onSignOut
                     <div className="flex items-center gap-2 flex-shrink-0">
                         {clinician?.name && (
                             <div className="hidden sm:flex flex-col items-end leading-tight">
-                                <span className="text-[12.5px] font-semibold text-slate-900 truncate max-w-[160px]">
+                                <span className="text-[12.5px] font-semibold text-white truncate max-w-[160px]">
                                     {clinician.name}
                                 </span>
-                                <span className="text-[10.5px] text-slate-500">
+                                <span className="text-[10.5px] text-slate-300">
                                     {t(`role_${clinician.role || 'nurse'}`, lang)}
                                 </span>
                             </div>
                         )}
+                        <div className="hidden md:inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-[11px] font-semibold text-cyan-100">
+                            <LockKeyhole className="h-3.5 w-3.5 text-cyan-200" aria-hidden="true" />
+                            <span>{t('brand_signal_local', lang)}</span>
+                        </div>
                         <LangToggle lang={lang} onChange={onLangChange} />
                         {clinician?.name && (
                             <button
                                 type="button"
                                 onClick={onSignOut}
-                                className="p-1.5 rounded-lg text-slate-500 hover:text-red-600 hover:bg-slate-50 transition-colors"
+                                className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
                                 aria-label="Sign out"
                                 title="Sign out"
                             >
@@ -74,8 +78,8 @@ export default function HospitalShell({ lang, onLangChange, clinician, onSignOut
                 {children}
             </main>
 
-            <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-slate-400 text-[12px] print:hidden">
-                {t('decision_support', lang)}
+            <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-slate-500 text-[12px] print:hidden">
+                {t('brand_rule', lang)}
             </footer>
         </div>
     );

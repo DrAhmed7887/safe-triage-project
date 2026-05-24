@@ -5,13 +5,16 @@ import { t } from '../../lib/i18n';
 /**
  * Visible chip + optional full-width warning that tells the clinician which
  * triage engine produced the suggestion. The Python backend engine is the
- * canonical SAFE-Triage engine; the JS fallback only runs when the network
- * call to `/triage` fails. Both states must be surfaced — silent fallback
- * is the failure mode we are trying to avoid.
+ * canonical SAFE-Triage engine; Hospital Lite can also run the local
+ * deterministic demo engine when no backend is configured. The UI must surface
+ * both states because silent fallback is the failure mode we are avoiding.
  */
 export default function EngineSourceBadge({ lang, source, error, variant = 'inline' }) {
     const isFallback = source === 'offline_js_fallback';
+    const isLocalDemo = isFallback && error?.kind === 'local_demo';
     const Icon = isFallback ? CloudOff : CloudCheck;
+    const fallbackTitleKey = isLocalDemo ? 'engine_local' : 'engine_fallback';
+    const fallbackHelpKey = isLocalDemo ? 'engine_local_help' : 'engine_fallback_help';
 
     if (variant === 'chip') {
         return (
@@ -21,10 +24,10 @@ export default function EngineSourceBadge({ lang, source, error, variant = 'inli
                         ? 'bg-amber-50 text-amber-800 border-amber-300'
                         : 'bg-emerald-50 text-emerald-700 border-emerald-200'
                 }`}
-                title={t(isFallback ? 'engine_fallback_help' : 'engine_python_help', lang)}
+                title={t(isFallback ? fallbackHelpKey : 'engine_python_help', lang)}
             >
                 <Icon className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>{t(isFallback ? 'engine_fallback' : 'engine_python', lang)}</span>
+                <span>{t(isFallback ? fallbackTitleKey : 'engine_python', lang)}</span>
             </span>
         );
     }
@@ -37,9 +40,9 @@ export default function EngineSourceBadge({ lang, source, error, variant = 'inli
             >
                 <CloudOff className="w-4 h-4 flex-shrink-0 mt-0.5" aria-hidden="true" />
                 <div className="leading-snug">
-                    <p className="font-semibold">{t('engine_fallback', lang)}</p>
-                    <p>{t('engine_fallback_help', lang)}</p>
-                    {error?.kind && (
+                    <p className="font-semibold">{t(fallbackTitleKey, lang)}</p>
+                    <p>{t(fallbackHelpKey, lang)}</p>
+                    {error?.kind && !isLocalDemo && (
                         <p className="text-[11px] mt-1 font-mono opacity-70">
                             {error.kind}{error.status ? ` ${error.status}` : ''}
                         </p>

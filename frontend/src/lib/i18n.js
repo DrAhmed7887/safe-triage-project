@@ -30,7 +30,19 @@ export function setLang(lang) {
 export const dirFor = (lang) => (lang === 'ar' ? 'rtl' : 'ltr');
 
 export const STRINGS = {
-    app_title:            { en: 'SAFE-Triage · Hospital Lite',          ar: 'سيف-فرز · نسخة المستشفى' },
+    app_title:            { en: 'SAFE-Triage Lite',                     ar: 'سيف-فرز لايت' },
+    app_subtitle:         { en: 'Bilingual emergency triage decision-support demo', ar: 'عرض ثنائي اللغة لدعم قرار فرز الطوارئ' },
+    brand_kicker:         { en: 'Physician-led emergency workflow', ar: 'سير عمل طوارئ بإشراف طبي' },
+    brand_headline:       { en: 'AI extracts. Rules decide. Clinicians confirm.', ar: 'الذكاء الاصطناعي يستخلص. القواعد تقرر. الطبيب يؤكد.' },
+    brand_body:           { en: 'A self-contained Hospital Lite workflow inspired by the SAFE-Triage web platform. Built for synthetic demos, thesis review, and hospital leadership walkthroughs without real patient data.', ar: 'تجربة Hospital Lite محلية مستوحاة من منصة SAFE-Triage. مخصصة للعروض الافتراضية ومراجعة الرسالة وعرضها على قيادات المستشفيات بدون بيانات مرضى حقيقية.' },
+    brand_rule:           { en: 'AI extracts -> rules decide -> humans confirm', ar: 'الذكاء الاصطناعي يستخلص -> القواعد تقرر -> الطبيب يؤكد' },
+    brand_signal_language:{ en: 'Arabic + English',                     ar: 'العربية + الإنجليزية' },
+    brand_signal_rules:   { en: 'ESI + NEWS2',                          ar: 'ESI + NEWS2' },
+    brand_signal_local:   { en: 'Local synthetic demo',                 ar: 'عرض محلي افتراضي' },
+    preview_complaint:    { en: 'Chief complaint',                      ar: 'الشكوى الرئيسية' },
+    preview_complaint_value:{ en: 'Shortness of breath, SpO2 86%',      ar: 'ضيق نفس، تشبع الأكسجين ٨٦٪' },
+    preview_safety:       { en: 'Safety floor applied',                 ar: 'تم تفعيل حد الأمان' },
+    preview_confirmation: { en: 'Clinician confirmation required',      ar: 'تأكيد الطبيب مطلوب' },
     decision_support:     { en: 'Decision support only — clinician must confirm.', ar: 'أداة دعم قرار فقط — يجب على الطبيب التأكيد.' },
     synthetic_demo_banner:       { en: 'Synthetic demo notice',             ar: 'تنبيه: عرض تجريبي' },
     synthetic_demo_banner_title: { en: 'Synthetic demo · Phase-1 prototype', ar: 'عرض تجريبي · نموذج المرحلة الأولى' },
@@ -102,8 +114,10 @@ export const STRINGS = {
 
     // Engine source
     engine_python:        { en: 'Online · backend engine',                ar: 'متصل · المحرك الرسمي' },
+    engine_local:         { en: 'Local deterministic demo engine',        ar: 'محرك محلي حتمي للعرض' },
     engine_fallback:      { en: 'Offline fallback · clinician must verify', ar: 'وضع غير متصل · يجب التحقق من قِبَل الطبيب' },
     engine_python_help:   { en: 'Validated SAFE-Triage engine (Python).', ar: 'محرك سيف-فرز الموثق (Python).' },
+    engine_local_help:    { en: 'Self-contained Hospital Lite build: no backend or cloud call. Clinician confirmation is required.', ar: 'نسخة المستشفى الخفيفة تعمل محلياً: لا خادم ولا اتصال سحابي. تأكيد الطبيب مطلوب.' },
     engine_fallback_help: { en: 'Backend unreachable — this suggestion came from the browser fallback engine. It is best-effort, not benchmark-validated. Confirm with caution.', ar: 'تعذّر الوصول للخادم — هذا الاقتراح من المحرك الاحتياطي في المتصفح. اقتراح أولي غير مُختبر إكلينيكياً، يرجى التحقق بحرص.' },
     running_triage:       { en: 'Running deterministic triage…',          ar: 'جارٍ تشغيل الفرز...' },
     engine_source_label:  { en: 'Engine source',                          ar: 'مصدر المحرك' },

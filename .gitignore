@@ -19,6 +19,8 @@ build/
 *.key
 service-account*.json
 *-credentials.json
+*.p8
+AuthKey_*.p8
 
 # Firebase and Google Cloud
 .firebase/

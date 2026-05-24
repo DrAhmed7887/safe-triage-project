@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Bell, BellOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useFirebaseMessaging } from '../hooks/useFirebaseMessaging';
-
-const MAX_HISTORY = 20;
 
 const buildCaseUrl = (notificationData) => {
     const caseId = notificationData?.patient_id || notificationData?.case_id;
@@ -15,16 +13,8 @@ const buildCaseUrl = (notificationData) => {
 
 export default function NotificationBell() {
     const navigate = useNavigate();
-    const { notification, permissionStatus, clearNotification } = useFirebaseMessaging();
+    const { notification, notificationHistory, permissionStatus, clearNotification } = useFirebaseMessaging();
     const [showPanel, setShowPanel] = useState(false);
-    const [history, setHistory] = useState([]);
-
-    useEffect(() => {
-        if (!notification) {
-            return;
-        }
-        setHistory((current) => [notification, ...current].slice(0, MAX_HISTORY));
-    }, [notification]);
 
     if (permissionStatus === 'unsupported' || permissionStatus === 'denied') {
         return (
@@ -61,13 +51,13 @@ export default function NotificationBell() {
                     <div className="border-b border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800">
                         Triage Alerts | تنبيهات SAFE-Triage
                     </div>
-                    {history.length === 0 ? (
+                    {notificationHistory.length === 0 ? (
                         <div className="px-4 py-6 text-center text-sm text-slate-500">
                             No alerts yet | لا توجد تنبيهات
                         </div>
                     ) : (
                         <div className="max-h-80 overflow-y-auto">
-                            {history.map((item, index) => (
+                            {notificationHistory.map((item, index) => (
                                 <button
                                     type="button"
                                     key={`${item.receivedAt}-${index}`}
