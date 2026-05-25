@@ -2,12 +2,12 @@
 
 **Owner:** Dr. Ahmed Zayed
 **Status:** Build uploaded to App Store Connect. Not submitted for App Review.
-**Last updated:** 2026-05-21
+**Last updated:** 2026-05-25
 
 > **Decision support only — clinician must confirm.**
 > SAFE-Triage Lite is a Phase-1 educational / decision-support prototype. It is not a certified medical device. Apple App Review will be sensitive to clinical wording; this checklist treats that as a primary risk.
 
-This is the operational checklist. Build `1.0 (2)` has been uploaded and Apple
+This is the operational checklist. Build `1.0 (3)` has been uploaded and Apple
 reports it as `VALID`. Anything marked **manual** must still be completed by
 Ahmed in App Store Connect before external TestFlight or App Review.
 
@@ -80,12 +80,12 @@ to the Bundle ID.
 | Field | Initial value | Notes |
 |---|---|---|
 | Marketing Version (`CFBundleShortVersionString`) | `1.0` | Current uploaded marketing version. |
-| Latest uploaded Build Number (`CFBundleVersion`) | `2` | Build `2` is `VALID` in App Store Connect. |
+| Latest uploaded Build Number (`CFBundleVersion`) | `3` | Build `3` is `VALID` in App Store Connect. |
 | Strategy | `1`, `2`, `3`, … per TestFlight build | Bump even for trivial fixes once a build is uploaded. |
 
 Both live in `frontend/ios/App/App/Info.plist` (`$(MARKETING_VERSION)` /
 `$(CURRENT_PROJECT_VERSION)` placeholders) and the Xcode target build settings.
-The build `2` upload used a command-line `CURRENT_PROJECT_VERSION=2` override.
+The current valid candidate is build `1.0 (3)`.
 
 ## 6. Privacy
 
@@ -133,7 +133,7 @@ Suggested screenshots (synthetic content only):
 
 ## 9. TestFlight — internal testing (manual)
 
-1. App Store Connect → *TestFlight* → select build `1.0 (2)`.
+1. App Store Connect → *TestFlight* → select build `1.0 (3)`.
 2. Add Ahmed's Apple ID as an internal tester. Internal testers do not need
    Beta App Review.
 3. Install from the TestFlight app on a real iPhone and a real iPad.
@@ -174,13 +174,12 @@ If App Review rejects, the most likely reasons are:
 
 | Step | Owner | Done |
 |---|---|---|
-| Decide bundle ID (§3) | Ahmed | ☐ |
-| Create App Record in App Store Connect | Ahmed | ☐ |
+| Confirm selected build is `1.0 (3)` (`VALID`) | Ahmed | ☐ |
 | Host privacy policy at a real URL | Ahmed | ☐ |
 | Review prepared iPhone/iPad screenshots and replace with signed-device captures if needed | Ahmed | ☐ |
-| Set Marketing + Build version in Xcode | Ahmed | ☐ |
-| Confirm `webContentsDebuggingEnabled: false` before archive — see §13 | Ahmed | ☐ |
-| Archive + upload via Xcode | Ahmed | ☐ |
+| Complete App Privacy nutrition labels and age rating | Ahmed | ☐ |
+| Answer export-compliance questions for build `1.0 (3)` | Ahmed | ☐ |
+| Complete metadata and reviewer notes using the cautious draft | Ahmed | ☐ |
 | Internal TestFlight smoke on real iPhone + iPad | Ahmed | ☐ |
 | Submit for Beta App Review (for external testers) | Ahmed | ☐ |
 | Submit for full App Review (when ready for App Store) | Ahmed | ☐ |
