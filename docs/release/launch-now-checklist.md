@@ -1,12 +1,12 @@
 # SAFE-Triage Lite Launch-Now Checklist
 
-Date: 2026-05-21
+Date: 2026-05-25
 Branch: `codex/safe-triage-lite-release-candidate`
-Commit: `9fac8a0`
+Build-control commit: `08dd16a`
 
 ## 0. Current App Store Connect Status
 
-Updated: 2026-05-21.
+Updated: 2026-05-25.
 
 - App Store Connect app record exists: `SAFE-Triage Lite`, SKU
   `SAFE-TRIAGE-LITE-IOS`.
@@ -29,6 +29,17 @@ Updated: 2026-05-21.
   uploaded successfully after replacing the App Store icon with an opaque PNG.
   Xcode reported: `Uploaded package is processing`, `Upload succeeded`, and
   `** EXPORT SUCCEEDED **`.
+- App Store Connect reports build `1.0 (3)` as `VALID` but `INTERNAL_ONLY`, so
+  Apple rejects it for the App Store version relationship.
+- Build `1.0 (4)` was required as a true release blocker correction. It was
+  archived from the same Hospital Lite bundle with the App Store-eligible
+  export configuration, uploaded successfully, and reports `VALID` and
+  `APP_STORE_ELIGIBLE`.
+- Build `1.0 (4)` is selected for App Store version `1.0` and is available in
+  the internal TestFlight group.
+- App Store Connect metadata, privacy-policy URL, categories, age rating,
+  export compliance, and ten screenshots have been completed. App Privacy
+  web confirmation and real-device smoke testing remain manual.
 - App Store Connect API now shows two valid builds:
   - build `1` uploaded `2026-05-20T14:11:32-07:00`, state `VALID`
   - build `2` uploaded `2026-05-20T14:31:13-07:00`, state `VALID`
@@ -38,12 +49,9 @@ Updated: 2026-05-21.
 
 ## 1. Current Branch And Commit
 
-- Repository: `/Volumes/Extreme SSD/safe-triage-project-github`
+- Repository: `/Users/ahmedzayed/Downloads/safe-triage-project-github`
 - Branch: `codex/safe-triage-lite-release-candidate`
-- Latest commit: `9fac8a0 chore(frontend): clean up safe lint issues`
-- Working tree before launch preflight: clean. Current uncommitted changes are
-  limited to release hardening, launch documentation, export options, and
-  App Store screenshot assets.
+- Build-control commit: `08dd16a release: prepare App Store eligible build 4`
 
 ## 2. Commands Run
 
@@ -118,11 +126,19 @@ Additional bundle checks were run with `find` and `rg` against `frontend/dist`,
   because the large App Icon contained an alpha channel. The icon generator was
   corrected to emit opaque RGB icons, assets were regenerated, and the second
   build `3` archive/upload succeeded.
+- App Store eligibility check: build `1.0 (3)` is `INTERNAL_ONLY` and cannot be
+  selected for an App Store version.
+- Replacement App Store upload: passed for build `1.0 (4)` from
+  `frontend/ios/build/SAFE-Triage-Lite-build4-appstore.xcarchive`.
+- App Store Connect API verification: build `1.0 (4)` is `VALID`,
+  `APP_STORE_ELIGIBLE`, has `usesNonExemptEncryption = false`, and is selected
+  for version `1.0`.
 
 Lint classification:
 
 - Hospital Lite blocking: none found.
-- iOS/TestFlight blocking: none found for the Hospital Lite bundle.
+- iOS/TestFlight blocking: internal-only export of build `3` was resolved by
+  the minimal App Store-eligible build `4` upload.
 - Standard cloud app only: `NotificationBell.jsx`, `AuthContext.jsx`, `useFirebaseMessaging.js`.
 - Safe cleanup backlog: `TriageConfirmation.jsx`, `TriageForm.jsx`, `TriageStatsWidget.jsx`.
 
@@ -233,26 +249,27 @@ real patient information.
 Current Xcode project values:
 
 - `MARKETING_VERSION = 1.0`
-- `CURRENT_PROJECT_VERSION = 3`
+- `CURRENT_PROJECT_VERSION = 4`
 
 Current first TestFlight choice:
 
 - Keep Marketing Version `1.0`.
-- Use build `3` for the latest branded Hospital Lite binary.
+- Use build `4` for the current App Store-eligible Hospital Lite binary.
 - Increment `CURRENT_PROJECT_VERSION` for every future upload.
 
 Make the version number consistent across Xcode, App Store Connect, and release docs.
 
 ## 12. TestFlight Internal Testing Steps
 
-1. In Xcode, archive the `App` target with the signed team and final Bundle ID.
-2. Open Organizer and upload the archive to App Store Connect.
-3. In App Store Connect, wait for processing.
-4. Complete export compliance if prompted.
-5. Add internal testers only.
-6. Install through TestFlight on iPhone.
-7. Repeat the SOB / low SpO2 and Fever in child checks.
-8. Record any iOS-only layout, safe-area, or storage issues before external testing.
+Build `1.0 (4)` is already uploaded, export compliance is recorded, and Ahmed
+is assigned to the internal TestFlight group. Complete the remaining test
+steps:
+
+1. Install build `1.0 (4)` through TestFlight on a real iPhone and a real
+   iPad.
+2. Repeat the SOB / low SpO2 and Fever in child checks.
+3. Record any iOS-only layout, safe-area, or storage issues before external
+   testing.
 
 ## 13. App Review Caution Wording
 
@@ -285,18 +302,17 @@ device approval.
 - Xcode open: ready.
 - iOS 26.5 local Xcode platform/runtime: installed on this machine with `xcodebuild -downloadPlatform iOS -buildVersion 26.5 -architectureVariant arm64`.
 - Unsigned native iOS Release compile: passed with `CODE_SIGNING_ALLOWED=NO`.
-- Signed archive: ready and completed for build `1.0 (3)` using the installed
+- Signed archive: ready and completed for build `1.0 (4)` using the installed
   Apple Distribution certificate and App Store profile for
   `app.safetriage.hospitallite`.
 - iOS simulator run: ready for manual Xcode run after selecting a compatible simulator.
-- Physical iPhone run: ready for manual Xcode/TestFlight install after Apple
-  finishes build processing and Ahmed adds testers.
-- TestFlight: local archive/upload is complete. Remaining blockers are Apple
-  processing, selecting build `1.0 (3)` in App Store Connect, export compliance
-  answers, internal tester setup, and any Apple account prompts.
-- App Store Review: blocked by hosted privacy policy URL, final screenshots,
-  privacy nutrition label, age rating, export compliance, review notes, and
-  explicit human submission approval.
+- Physical iPhone/iPad run: pending Ahmed's internal TestFlight install and
+  synthetic-preset smoke test.
+- TestFlight: build `1.0 (4)` is in the internal tester group; real-device
+  smoke testing remains.
+- App Store Review: blocked only by App Privacy web confirmation, review
+  contact/reviewer-note confirmation, real-device smoke testing, and explicit
+  human submission approval.
 
 Launch should stop at App Store Connect manual action. Do not deploy cloud
 resources and do not submit to App Review without explicit human approval.
@@ -360,7 +376,8 @@ app record exists:
 apps?filter[bundleId]=app.safetriage.hospitallite -> SAFE-Triage Lite, app id 6771520904
 build 1 -> VALID
 build 2 -> VALID
-build 3 -> VALID
+build 3 -> VALID, INTERNAL_ONLY
+build 4 -> VALID, APP_STORE_ELIGIBLE, selected for version 1.0
 ```
 
 To check status from the command line, load the local API environment:
@@ -378,7 +395,7 @@ xcodebuild \
   -configuration Release \
   -sdk iphoneos26.5 \
   -destination generic/platform=iOS \
-  -archivePath frontend/ios/build/SAFE-Triage-Lite-build4.xcarchive \
+  -archivePath frontend/ios/build/SAFE-Triage-Lite-build4-appstore.xcarchive \
   archive \
   DEVELOPMENT_TEAM=6F22G47URV \
   CODE_SIGN_STYLE=Manual \
@@ -393,14 +410,14 @@ Then upload with:
 ```bash
 xcodebuild \
   -exportArchive \
-  -archivePath frontend/ios/build/SAFE-Triage-Lite-build4.xcarchive \
-  -exportPath frontend/ios/build/export-build4 \
-  -exportOptionsPlist frontend/ios/build/ExportOptions.testflight-upload.plist \
+  -archivePath frontend/ios/build/SAFE-Triage-Lite-build4-appstore.xcarchive \
+  -exportPath frontend/ios/build/export-build4-appstore \
+  -exportOptionsPlist frontend/ios/ExportOptions.appstore-upload.plist \
   -authenticationKeyPath "$ASC_KEY_PATH" \
   -authenticationKeyID "$ASC_KEY_ID" \
   -authenticationKeyIssuerID "$ASC_ISSUER_ID"
 ```
 
-Do not submit the build for App Review until Ahmed manually confirms the
-metadata, screenshots, privacy policy URL, nutrition label, export compliance
-answers, and review notes.
+Do not submit the build for App Review until Ahmed manually completes App
+Privacy, runs real-device smoke testing, confirms the review contact and notes,
+and explicitly decides to submit.

@@ -7,9 +7,11 @@
 > **Decision support only — clinician must confirm.**
 > SAFE-Triage Lite is a Phase-1 educational / decision-support prototype. It is not a certified medical device. Apple App Review will be sensitive to clinical wording; this checklist treats that as a primary risk.
 
-This is the operational checklist. Build `1.0 (3)` has been uploaded and Apple
-reports it as `VALID`. Anything marked **manual** must still be completed by
-Ahmed in App Store Connect before external TestFlight or App Review.
+This is the operational checklist. Build `1.0 (4)` has been uploaded, Apple
+reports it as `VALID` and `APP_STORE_ELIGIBLE`, and it is selected for version
+`1.0`. Build `1.0 (3)` remains `VALID` for internal TestFlight only. Anything
+marked **manual** still requires Ahmed's authenticated web session or device
+testing before any later App Review submission.
 
 ---
 
@@ -27,17 +29,14 @@ Ahmed in App Store Connect before external TestFlight or App Review.
 ## Final submission blockers
 
 These items remain manual blockers before Ahmed can submit for external
-TestFlight or full App Review. Codex uploaded the build but did not submit it
-for review.
+TestFlight or full App Review. No Beta App Review or App Review submission has
+been made.
 
-- Public app-specific privacy policy URL entered in App Store Connect.
-- Final iPhone and iPad screenshots in App Store Connect.
-- Age-rating questionnaire.
-- App Privacy nutrition label.
-- Export compliance answers, if App Store Connect asks for them.
-- Build selection for TestFlight internal testing.
-- External TestFlight review, if using external testers.
-- Final App Store metadata completion and human review approval.
+- App Privacy nutrition label confirmation in the authenticated web interface.
+- Internal TestFlight smoke testing on a real iPhone and a real iPad.
+- App Review contact information, reviewer-note verification, and Ahmed's
+  explicit decision to submit.
+- External TestFlight review, only if external testers are later used.
 
 ## 2. App Store Connect — App Record (manual)
 
@@ -80,20 +79,22 @@ to the Bundle ID.
 | Field | Initial value | Notes |
 |---|---|---|
 | Marketing Version (`CFBundleShortVersionString`) | `1.0` | Current uploaded marketing version. |
-| Latest uploaded Build Number (`CFBundleVersion`) | `3` | Build `3` is `VALID` in App Store Connect. |
+| Latest uploaded Build Number (`CFBundleVersion`) | `4` | Build `4` is `VALID` and `APP_STORE_ELIGIBLE` in App Store Connect. |
 | Strategy | `1`, `2`, `3`, … per TestFlight build | Bump even for trivial fixes once a build is uploaded. |
 
 Both live in `frontend/ios/App/App/Info.plist` (`$(MARKETING_VERSION)` /
 `$(CURRENT_PROJECT_VERSION)` placeholders) and the Xcode target build settings.
-The current valid candidate is build `1.0 (3)`.
+The current valid App Store candidate is build `1.0 (4)`. Build `1.0 (3)` is
+valid only for internal TestFlight because it was exported with the
+internal-testing-only option.
 
 ## 6. Privacy
 
 | Item | Status | Notes |
 |---|---|---|
-| Privacy policy URL — **required for App Store submission** | Prepared | Publish `docs/release/privacy-policy.md` at the public repository URL and enter it in App Store Connect. |
+| Privacy policy URL — **required for App Store submission** | Done | Published from `docs/release/privacy-policy.md` and entered in App Store Connect. |
 | Privacy Manifest (`PrivacyInfo.xcprivacy`) | ☐ | Apple now requires this for many APIs. Hospital Lite uses none of the flagged APIs (no UserDefaults beyond Capacitor defaults, no file timestamp, no system boot time, no disk space). Default Capacitor template should be fine. |
-| App Privacy nutrition label | ☐ | See `docs/release/app-store-metadata-draft.md` §App Privacy. |
+| App Privacy nutrition label | Manual | In the web interface, save no data collected by the developer and no tracking for Hospital Lite. |
 | `NSUserTrackingUsageDescription` | ☐ | **Not needed.** No tracking. |
 | Mic / camera / location / Bluetooth usage strings | ☐ | **None needed.** None of those APIs used. Confirm by re-inspecting `Info.plist`. |
 
@@ -101,11 +102,13 @@ The current valid candidate is build `1.0 (3)`.
 
 | Item | Decision | Notes |
 |---|---|---|
-| Apple age rating (computed) | 17+ (medical/health/clinical) | Triggered by *Medical/Treatment Information* — yes (occasional). |
+| Apple age rating (computed) | 17+ | Completed with health/wellness topics and frequent or intense medical/treatment information. |
 | "Made for Kids" | No | |
 | Restricted Web Access | No | |
 
-Be cautious: choosing "Frequent/Intense Medical/Treatment Information" will inflate the rating, but understating clinical content risks App Review rejection. *Occasional* is the honest setting for a demo / decision-support prototype that doesn't render real patient charts.
+The selected frequent-or-intense medical/treatment value honestly reflects that
+the prototype's core subject is emergency triage, even though it uses only
+synthetic data and is not for clinical use.
 
 ## 8. Screenshot requirements
 
@@ -120,6 +123,9 @@ Prepared screenshot assets:
 - `docs/release/app-store-screenshots/iphone-6.9/`
 - `docs/release/app-store-screenshots/ipad-13/`
 
+App Store Connect upload status on May 25, 2026: done. Five iPhone images and
+five iPad images are uploaded, and Apple reports all ten assets as complete.
+
 Suggested screenshots (synthetic content only):
 
 1. ClinicianGate (sign-in screen) — shows decision-support badge + synthetic-demo banner.
@@ -133,12 +139,11 @@ Suggested screenshots (synthetic content only):
 
 ## 9. TestFlight — internal testing (manual)
 
-1. App Store Connect → *TestFlight* → select build `1.0 (3)`.
-2. Add Ahmed's Apple ID as an internal tester. Internal testers do not need
-   Beta App Review.
-3. Install from the TestFlight app on a real iPhone and a real iPad.
-4. Run the SOB / low SpO2 preset and the Fever in child preset.
-5. Confirm the no-real-PHI warning, safety-floor strip, pediatric NEWS2 caveat,
+1. Install build `1.0 (4)` from the existing internal TestFlight group on a
+   real iPhone and a real iPad. Ahmed is already assigned as an internal
+   tester, and internal testers do not require Beta App Review.
+2. Run the SOB / low SpO2 preset and the Fever in child preset.
+3. Confirm the no-real-PHI warning, safety-floor strip, pediatric NEWS2 caveat,
    and clinician confirmation flow before any external invitation.
 
 ## 10. TestFlight — external testing (manual)
@@ -174,11 +179,12 @@ If App Review rejects, the most likely reasons are:
 
 | Step | Owner | Done |
 |---|---|---|
-| Confirm selected build is `1.0 (3)` (`VALID`) | Ahmed | ☐ |
-| Confirm public privacy policy URL in App Store Connect | Ahmed | ☐ |
-| Review prepared iPhone/iPad screenshots and replace with signed-device captures if needed | Ahmed | ☐ |
-| Complete App Privacy nutrition labels and age rating | Ahmed | ☐ |
-| Answer export-compliance questions for build `1.0 (3)` | Ahmed | ☐ |
+| Confirm selected build is `1.0 (4)` (`VALID`, `APP_STORE_ELIGIBLE`) | Codex | Done |
+| Confirm public privacy policy URL in App Store Connect | Codex | Done |
+| Upload prepared iPhone/iPad screenshots | Codex | Done |
+| Complete age-rating declaration | Codex | Done |
+| Complete App Privacy nutrition labels in authenticated web UI | Ahmed | ☐ |
+| Answer export-compliance questions for build `1.0 (4)` | Codex | Done |
 | Complete metadata and reviewer notes using the cautious draft | Ahmed | ☐ |
 | Internal TestFlight smoke on real iPhone + iPad | Ahmed | ☐ |
 | Submit for Beta App Review (for external testers) | Ahmed | ☐ |

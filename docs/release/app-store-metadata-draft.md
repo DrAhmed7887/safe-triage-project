@@ -1,7 +1,7 @@
 # SAFE-Triage Lite — App Store Metadata Draft
 
-**Status:** Draft. Not submitted. Wording deliberately cautious for App Review.
-**Last updated:** 2026-05-20
+**Status:** Metadata entered in App Store Connect. Not submitted for App Review.
+**Last updated:** 2026-05-25
 
 > Apple App Review for medical-adjacent apps is strict. Every line below has been written to avoid: (a) unsupported clinical claims, (b) implication of regulatory approval, (c) any suggestion that this app replaces clinical judgement. **Do not edit these strings to sound more confident before review** — they are tuned to pass §1.4.1 and §5.1 of the App Review Guidelines.
 
@@ -51,7 +51,7 @@ decision-support workflow. It is bilingual (English / Arabic) and runs fully off
 and iPad, with no patient data sent to any server.
 
 This app is intended for clinicians, healthcare students, hackathon judges, thesis reviewers,
-and hospital leadership who want to inspect how an AI-assisted, rules-first triage workflow
+and hospital leadership who want to inspect how a local rules-first triage workflow
 behaves. It is not a medical device. It does not diagnose, treat, or replace clinical
 judgement. Every suggested triage level must be confirmed by a qualified clinician before any
 clinical action is taken.
@@ -119,7 +119,7 @@ does not require a marketing URL.)
 ## Support URL (required for App Store, optional for TestFlight)
 
 ```
-https://github.com/DrAhmed7887/safe-triage-project-github/issues
+https://github.com/DrAhmed7887/safe-triage-project/issues
 ```
 
 (Public issue tracker is acceptable. For App Store, an email-based support page is usually
@@ -245,7 +245,7 @@ secondary because of the demo / training framing.)
 
 ## Age rating
 
-- **Apple computed:** 17+ (occasional Medical/Treatment Information).
+- **Apple computed:** 17+ (frequent or intense Medical/Treatment Information).
 - See `docs/release/app-store-testflight-checklist.md` §7 for the answers to give Apple's
   age-rating questionnaire.
 

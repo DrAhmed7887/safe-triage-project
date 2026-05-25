@@ -1,54 +1,104 @@
-# SAFE-Triage Lite App Store Connect Handoff
+# SAFE-Triage Lite App Store Connect handoff
 
-Date: 2026-05-25
+Date: May 25, 2026
 Owner: Ahmed
-Status: Manual Apple steps remaining. Do not submit for App Review in this release-control pass.
+Status: Build `1.0 (4)` is selected for version `1.0`. Do not submit for
+App Review in this release-control pass.
 
 ## Candidate
 
+This is the App Store Connect release-candidate record for the offline Hospital
+Lite binary.
+
 - App: `SAFE-Triage Lite`
-- App Store Connect: <https://appstoreconnect.apple.com/apps/6771520904/appstore>
-- TestFlight build page: <https://appstoreconnect.apple.com/apps/6771520904/testflight/ios>
-- Privacy policy URL: <https://github.com/DrAhmed7887/safe-triage-project/blob/codex/safe-triage-lite-release-candidate/docs/release/privacy-policy.md>
+- App Store Connect:
+  <https://appstoreconnect.apple.com/apps/6771520904/appstore>
+- TestFlight:
+  <https://appstoreconnect.apple.com/apps/6771520904/testflight/ios>
+- Privacy policy:
+  <https://github.com/DrAhmed7887/safe-triage-project/blob/codex/safe-triage-lite-release-candidate/docs/release/privacy-policy.md>
 - Bundle ID: `app.safetriage.hospitallite`
-- Version/build: `1.0 (3)`
-- Apple team/profile used for upload: `6F22G47URV` / `SAFE-Triage Lite App Store`
-- App Store Connect processing status: build `1.0 (3)` is `VALID`.
+- Current App Store candidate: `1.0 (4)`, `VALID`, `APP_STORE_ELIGIBLE`
+- Prior internal-only baseline: `1.0 (3)`, `VALID`, `INTERNAL_ONLY`
+- Apple team/profile: `6F22G47URV` / `SAFE-Triage Lite App Store`
 
-## Manual Apple Steps Remaining
+Build `1.0 (4)` was required because Apple rejects build `1.0 (3)` for the App
+Store version relationship: it was exported for internal TestFlight only.
 
-1. In App Store Connect, select build `1.0 (3)` for the intended internal TestFlight release.
-2. Confirm the published app-specific privacy policy URL remains publicly reachable.
-3. Upload/review final iPhone and iPad screenshots listed below, using synthetic content only.
-4. Complete App Privacy, age-rating, export-compliance, support/contact, metadata, and review-note fields.
-5. Run internal TestFlight smoke testing on a real iPhone and iPad using only the synthetic presets.
-6. Stop before Beta App Review or App Review submission unless Ahmed separately elects to proceed.
+## Completed preparation
 
-## What Not To Claim
+The following App Store Connect preparation was completed without submitting
+for review:
 
-Do not claim validated clinical use, diagnosis, autonomous triage, medical-device approval or certification, or replacement of a clinician. Describe this build only as a bilingual English/Arabic synthetic-demo decision-support prototype that requires clinician confirmation.
+- [x] Entered cautious subtitle, promotional text, description, keywords,
+  support URL, privacy-policy URL, categories, and copyright.
+- [x] Uploaded five 6.9-inch iPhone screenshots and five 13-inch iPad
+  screenshots; Apple reports all ten assets as complete.
+- [x] Completed the age-rating declaration honestly as health/wellness content
+  with frequent or intense medical/treatment information; Apple computes 17+.
+- [x] Answered export compliance for build `1.0 (4)` as not using nonexempt
+  encryption.
+- [x] Added build `1.0 (4)` to the internal TestFlight group with Ahmed as an
+  internal tester.
+- [x] Selected build `1.0 (4)` for App Store version `1.0`.
 
-## Screenshots Checklist
+## Manual Apple steps remaining
 
-- [ ] Upload the five prepared 6.9-inch iPhone images from `docs/release/app-store-screenshots/iphone-6.9/` (`1320 x 2868`).
-- [ ] Upload the five prepared 13-inch iPad images from `docs/release/app-store-screenshots/ipad-13/` (`2064 x 2752`), because iPad is supported.
-- [ ] Confirm screenshots show only synthetic cases and no names, MRNs, identifiers, contact details, or clinical photos.
-- [ ] Confirm the set shows the no-real-PHI/clinician gate, demo presets, safety-floor result, pediatric caveat, and Arabic interface.
+Ahmed must complete these user-account or device-dependent steps:
 
-## Privacy Checklist
+1. In the App Store Connect web interface, complete **App Privacy** for this
+   Hospital Lite binary as no data collected by the developer and no tracking.
+2. Before any later review submission, provide and verify App Review contact
+   details and reviewer notes.
+3. Install build `1.0 (4)` through internal TestFlight on a real iPhone and a
+   real iPad, and run the synthetic-preset smoke tests.
+4. Stop before **Beta App Review** or **App Review** unless Ahmed separately
+   decides to proceed.
 
-- [x] Publish the app-specific privacy policy at its public HTTPS repository URL.
-- [ ] Declare no developer-collected data and no tracking for this Hospital Lite binary, subject to the final App Store Connect questionnaire.
-- [ ] Confirm no push notifications, analytics, advertising, or Firebase runtime/messaging behavior is represented for Hospital Lite.
-- [ ] Confirm text explains local-only synthetic demo storage and instructs users not to enter real patient data.
-- [ ] Confirm no camera, microphone, location, contacts, Bluetooth, or tracking permission claims are added.
+## What not to claim
 
-## Export Compliance Checklist
+Do not claim validated clinical use, diagnosis, autonomous triage,
+medical-device approval or certification, or replacement of a clinician.
+Describe this build only as a bilingual English/Arabic synthetic-demo
+decision-support prototype that requires clinician confirmation.
 
-- [ ] Open build `1.0 (3)` in App Store Connect and answer any export-compliance prompt before tester availability.
-- [ ] Confirm the app uses only Apple's platform-provided HTTPS/TLS behavior and contains no custom or separately implemented encryption before selecting the corresponding exempt/not-using-nonexempt-encryption answer.
-- [ ] Record the completed export-compliance response in the App Store Connect build record; do not alter the binary for this administrative answer.
+## Screenshots checklist
+
+The screenshot submission is complete and uses synthetic content only:
+
+- [x] Five prepared 6.9-inch iPhone images (`1320 x 2868`) uploaded.
+- [x] Five prepared 13-inch iPad images (`2064 x 2752`) uploaded.
+- [x] Sets include the no-real-PHI clinician gate, demo presets, safety-floor
+  result, pediatric caveat, and Arabic interface.
+- [x] No real names, MRNs, identifiers, contact details, or clinical photos
+  are shown.
+
+## Privacy checklist
+
+The public policy and binary checks are complete; the public-facing Apple
+questionnaire still requires Ahmed's authenticated web confirmation.
+
+- [x] Published the app-specific privacy policy at the public HTTPS repository
+  URL above and entered that URL in App Store Connect.
+- [x] Confirmed the archived Hospital Lite bundle has no Firebase messaging
+  worker and no Firebase or messaging runtime strings.
+- [x] Confirmed the policy describes local-only synthetic demo storage and
+  tells users not to enter real patient data.
+- [ ] In **App Privacy**, save the declarations: no developer-collected data
+  and no tracking.
+
+## Export-compliance checklist
+
+The export answer is recorded for the current candidate:
+
+- [x] Confirmed build `1.0 (4)` uses no custom or separately implemented
+  nonexempt encryption.
+- [x] Recorded `usesNonExemptEncryption = false` for build `1.0 (4)`.
 
 ## Rollback
 
-Build `1.0 (3)` is the current valid candidate. If any manual metadata, screenshot, privacy, or export-compliance issue prevents release, leave build `1.0 (3)` unsubmitted while correcting the App Store Connect materials. Do not revert to an older build or upload a new binary unless a real binary blocker is identified.
+Build `1.0 (4)` is the current valid App Store candidate. Build `1.0 (3)`
+remains valid for internal TestFlight only and cannot be selected for the App
+Store version. Leave build `1.0 (4)` unsubmitted while correcting any remaining
+App Privacy or device-testing issue; do not return to build `1.0 (3)` for an
+App Store release.
