@@ -127,11 +127,10 @@ expected; a hosted page on zayedmd.com is better.)
 
 ## Privacy Policy URL (required for App Store submission)
 
-Placeholder; host the policy from `docs/release/privacy-policy-draft.md` at a public URL
-before submitting:
+Published app-specific policy URL:
 
 ```
-https://zayedmd.com/safe-triage/privacy
+https://github.com/DrAhmed7887/safe-triage-project/blob/codex/safe-triage-lite-release-candidate/docs/release/privacy-policy.md
 ```
 
 ## App Review Information — Notes for Reviewer

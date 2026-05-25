@@ -1,11 +1,9 @@
-# SAFE-Triage Lite — Privacy Policy (Draft)
+# SAFE-Triage Lite - Privacy Policy
 
-**Effective date:** 2026-05-20
-**Last updated:** 2026-05-20
+**Effective date:** 2026-05-25
+**Last updated:** 2026-05-25
 **Owner:** Dr. Ahmed Zayed, MBBCh (zayedmd)
 
-> Draft. Not yet hosted. Apple App Store requires this policy be reachable at a public URL **before** the app can be submitted for review. Recommended host: `https://zayedmd.com/safe-triage/privacy`. The wording here matches the SAFE-Triage Lite Hospital Lite build *as it ships today* — do not relax this language without re-inspecting the code.
->
 > **Where this policy says "we", it means Dr. Ahmed Zayed as developer.**
 > **Where it says "the app", it means the SAFE-Triage Lite iOS application distributed via TestFlight and (later) the App Store.**
 
@@ -135,29 +133,12 @@ analytics, by enabling cloud sync, or by collecting any new category of data), w
 - For any change that introduces collection of personal data, request explicit consent
   inside the app before any new collection begins.
 
-Prior versions of this policy will be retained in the project repository at
-`docs/release/privacy-policy-draft.md` so users can see what changed.
+Prior versions of this policy are retained in the public project repository so
+users can see what changed.
 
 ## 12. Contact
 
 For questions about this policy or the app:
 
-- **Email:** [manual placeholder — Ahmed's support email]
-- **GitHub issues:** https://github.com/DrAhmed7887/safe-triage-project-github/issues
-- **Postal address:** [placeholder — required by some jurisdictions if Ahmed wants App Store distribution in those markets]
-
-## 13. Legal review needed
-
-This is a developer-drafted privacy policy that matches the app's current technical
-behaviour. Before publishing, it should be reviewed by:
-
-- A lawyer familiar with **App Store / TestFlight** requirements in the target markets
-  (Egypt + US for build #1).
-- A lawyer familiar with **medical-adjacent product** language, particularly any
-  market where the user resides (Egypt's PDPL, EU GDPR if listed in EU, US state laws if
-  listed in the US).
-- Apple's **App Privacy nutrition label** wizard in App Store Connect — the answers in
-  `docs/release/app-store-metadata-draft.md` §App Privacy must agree with this document.
-
-Any contradiction between this policy and code behaviour is a defect — fix the code, not
-this document. The policy is the contract.
+- **Contact form:** <https://zayedmd.com/contact/>
+- **GitHub issues:** <https://github.com/DrAhmed7887/safe-triage-project/issues>

@@ -183,9 +183,9 @@ created unless there is a clear reason.
 
 ## 8. Privacy Policy URL Requirement
 
-Apple requires a publicly reachable privacy policy URL. The draft at
-`docs/release/privacy-policy-draft.md` matches current Hospital Lite behavior, but
-it must be hosted before TestFlight/App Store submission.
+Apple requires a publicly reachable privacy policy URL. The app-specific policy at
+`docs/release/privacy-policy.md` matches current Hospital Lite behavior and is
+published through the public repository release branch for App Store Connect use.
 
 ## 9. Privacy Nutrition Label Answers
 

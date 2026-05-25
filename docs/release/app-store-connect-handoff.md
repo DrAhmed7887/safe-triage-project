@@ -9,6 +9,7 @@ Status: Manual Apple steps remaining. Do not submit for App Review in this relea
 - App: `SAFE-Triage Lite`
 - App Store Connect: <https://appstoreconnect.apple.com/apps/6771520904/appstore>
 - TestFlight build page: <https://appstoreconnect.apple.com/apps/6771520904/testflight/ios>
+- Privacy policy URL: <https://github.com/DrAhmed7887/safe-triage-project/blob/codex/safe-triage-lite-release-candidate/docs/release/privacy-policy.md>
 - Bundle ID: `app.safetriage.hospitallite`
 - Version/build: `1.0 (3)`
 - Apple team/profile used for upload: `6F22G47URV` / `SAFE-Triage Lite App Store`
@@ -17,7 +18,7 @@ Status: Manual Apple steps remaining. Do not submit for App Review in this relea
 ## Manual Apple Steps Remaining
 
 1. In App Store Connect, select build `1.0 (3)` for the intended internal TestFlight release.
-2. Host `docs/release/privacy-policy-draft.md` at a public HTTPS URL and enter that URL in App Store Connect.
+2. Confirm the published app-specific privacy policy URL remains publicly reachable.
 3. Upload/review final iPhone and iPad screenshots listed below, using synthetic content only.
 4. Complete App Privacy, age-rating, export-compliance, support/contact, metadata, and review-note fields.
 5. Run internal TestFlight smoke testing on a real iPhone and iPad using only the synthetic presets.
@@ -36,7 +37,7 @@ Do not claim validated clinical use, diagnosis, autonomous triage, medical-devic
 
 ## Privacy Checklist
 
-- [ ] Publish the privacy policy and enter its public HTTPS URL.
+- [x] Publish the app-specific privacy policy at its public HTTPS repository URL.
 - [ ] Declare no developer-collected data and no tracking for this Hospital Lite binary, subject to the final App Store Connect questionnaire.
 - [ ] Confirm no push notifications, analytics, advertising, or Firebase runtime/messaging behavior is represented for Hospital Lite.
 - [ ] Confirm text explains local-only synthetic demo storage and instructs users not to enter real patient data.

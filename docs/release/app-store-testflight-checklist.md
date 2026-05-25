@@ -30,7 +30,7 @@ These items remain manual blockers before Ahmed can submit for external
 TestFlight or full App Review. Codex uploaded the build but did not submit it
 for review.
 
-- Hosted privacy policy URL.
+- Public app-specific privacy policy URL entered in App Store Connect.
 - Final iPhone and iPad screenshots in App Store Connect.
 - Age-rating questionnaire.
 - App Privacy nutrition label.
@@ -91,7 +91,7 @@ The current valid candidate is build `1.0 (3)`.
 
 | Item | Status | Notes |
 |---|---|---|
-| Privacy policy URL — **required for App Store submission** | ☐ | Draft at `docs/release/privacy-policy-draft.md`. Host at https://zayedmd.com/safe-triage/privacy or similar before submitting. |
+| Privacy policy URL — **required for App Store submission** | Prepared | Publish `docs/release/privacy-policy.md` at the public repository URL and enter it in App Store Connect. |
 | Privacy Manifest (`PrivacyInfo.xcprivacy`) | ☐ | Apple now requires this for many APIs. Hospital Lite uses none of the flagged APIs (no UserDefaults beyond Capacitor defaults, no file timestamp, no system boot time, no disk space). Default Capacitor template should be fine. |
 | App Privacy nutrition label | ☐ | See `docs/release/app-store-metadata-draft.md` §App Privacy. |
 | `NSUserTrackingUsageDescription` | ☐ | **Not needed.** No tracking. |
@@ -175,7 +175,7 @@ If App Review rejects, the most likely reasons are:
 | Step | Owner | Done |
 |---|---|---|
 | Confirm selected build is `1.0 (3)` (`VALID`) | Ahmed | ☐ |
-| Host privacy policy at a real URL | Ahmed | ☐ |
+| Confirm public privacy policy URL in App Store Connect | Ahmed | ☐ |
 | Review prepared iPhone/iPad screenshots and replace with signed-device captures if needed | Ahmed | ☐ |
 | Complete App Privacy nutrition labels and age rating | Ahmed | ☐ |
 | Answer export-compliance questions for build `1.0 (3)` | Ahmed | ☐ |
