@@ -310,9 +310,7 @@ device approval.
   synthetic-preset smoke test.
 - TestFlight: build `1.0 (4)` is in the internal tester group; real-device
   smoke testing remains.
-- App Store Review: blocked only by App Privacy web confirmation, review
-  contact/reviewer-note confirmation, real-device smoke testing, and explicit
-  human submission approval.
+- App Store Review: blocked only by App Privacy web confirmation, real-device smoke testing, and explicit human submission approval. Review contact/notes, pricing (FREE), and content rights are fully configured on App Store Connect by Codex.
 
 Launch should stop at App Store Connect manual action. Do not deploy cloud
 resources and do not submit to App Review without explicit human approval.

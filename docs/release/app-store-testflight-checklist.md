@@ -185,7 +185,7 @@ If App Review rejects, the most likely reasons are:
 | Complete age-rating declaration | Codex | Done |
 | Complete App Privacy nutrition labels in authenticated web UI | Ahmed | ☐ |
 | Answer export-compliance questions for build `1.0 (4)` | Codex | Done |
-| Complete metadata and reviewer notes using the cautious draft | Ahmed | ☐ |
+| Complete metadata and reviewer notes using the cautious draft | Codex/API | Done |
 | Internal TestFlight smoke on real iPhone + iPad | Ahmed | ☐ |
 | Submit for Beta App Review (for external testers) | Ahmed | ☐ |
 | Submit for full App Review (when ready for App Store) | Ahmed | ☐ |

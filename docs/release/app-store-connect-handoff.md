@@ -48,8 +48,7 @@ Ahmed must complete these user-account or device-dependent steps:
 
 1. In the App Store Connect web interface, complete **App Privacy** for this
    Hospital Lite binary as no data collected by the developer and no tracking.
-2. Before any later review submission, provide and verify App Review contact
-   details and reviewer notes.
+2. [Completed by Codex/API] App Review contact details, pricing (FREE), content rights, and reviewer notes are fully configured on App Store Connect.
 3. Install build `1.0 (4)` through internal TestFlight on a real iPhone and a
    real iPad, and run the synthetic-preset smoke tests.
 4. Stop before **Beta App Review** or **App Review** unless Ahmed separately

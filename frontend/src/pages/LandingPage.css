@@ -99,6 +99,10 @@
   background: none;
   border: none;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 }
 
 .st-nav-transparent .st-logo {
