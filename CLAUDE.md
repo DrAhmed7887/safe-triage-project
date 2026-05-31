@@ -52,9 +52,9 @@ AUC AI & Business capstone thesis. Uses hybrid deterministic + AI architecture.
 - `pyxis.csv.gz` - Dispensing records (DO NOT USE - failed in prior attempt)
 
 ## Benchmarking
-- **MIETIC (primary):** 36 expert-validated cases. Target: 0% critical under-triage. Current: 97.2% exact, 0% crit.
-- **MIETIC Arabic:** 36 mirror cases in Egyptian dialect. Current: 97.2% exact, 0% crit.
-- **KTAS (external):** 1,262 Korean ED cases. Current: 0/26 KTAS-1 missed, 2.9% crit under-triage.
+- **MIETIC (primary):** 36 expert-validated cases. Current: 35/36 exact = 97.2% (95% Wilson CI 85.8%-99.5%), 36/36 within-one, 0/36 critical under-triage (95% Wilson CI 0.0%-9.6%).
+- **MIETIC Arabic:** 36 translated mirror cases in Egyptian dialect. Current: 35/36 exact = 97.2%, 36/36 within-one, 0/36 critical under-triage; same CI bounds as English.
+- **KTAS (external):** 1,262 Korean ED cases, cross-protocol stress test. Current: 477/1,262 exact = 37.8%, 1,030/1,262 within-one = 81.6%, 16/1,262 critical under-triage = 1.3% (95% Wilson CI 0.8%-2.0%).
 - **NHAMCS:** 10,495 US CDC cases. Current: 40% exact, 7.9% crit under-triage (needs work).
 - **MIMIC replay (secondary):** 7K balanced sample. Stress test, not primary validation.
 - **English scenarios:** 88 hand-crafted regression tests.

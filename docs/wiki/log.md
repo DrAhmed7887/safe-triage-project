@@ -72,9 +72,9 @@ Codex review fixes (from PR #8 comments):
 - `همدان` (fatigue) narrowed to compound phrases `همدان ومش فايق`/`همدان وتعب` — standalone too aggressive for common fatigue
 
 Results:
-- KTAS English critical: 17 → 16 (-1)
-- KTAS English exact: 36.8% → 37.8% (+1.0%)
-- KTAS Arabic critical: 12 → 13 (+1, expected from hemdan narrowing)
-- MIETIC: 0 critical (unchanged), MIETIC Arabic: 0 critical (unchanged)
+- KTAS English critical: 17 -> 16 (-1), locked as 16/1,262 = 1.3% (95% Wilson CI 0.8%-2.0%)
+- KTAS English exact: 36.8% -> 37.8% (+1.0%), locked as 477/1,262 = 37.8% (95% Wilson CI 35.2%-40.5%)
+- KTAS Arabic critical: 12 -> 13 (+1, expected from hemdan narrowing), locked as 13/1,262 = 1.0% (95% Wilson CI 0.6%-1.8%)
+- MIETIC: 0/36 critical (unchanged; 95% Wilson CI 0.0%-9.6%), MIETIC Arabic: 0/36 critical (unchanged; 95% Wilson CI 0.0%-9.6%)
 
 Remaining 16 English critical cases are vitals-dependent — not fixable by keywords

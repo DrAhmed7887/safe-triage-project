@@ -6,6 +6,8 @@
 
 ---
 
+> **Superseded-results note (2026-05-31):** This March audit is retained as historical engineering context. The current public-facing locked benchmark is the regenerated 20260408T223413Z run: MIETIC English 35/36 exact = 97.2% (95% Wilson CI 85.8%-99.5%), 36/36 within-one = 100.0% (95% Wilson CI 90.4%-100.0%), 0/36 critical under-triage (95% Wilson CI 0.0%-9.6%). The Arabic mirror has the same locked metrics. Do not quote the older 69.4%, 94.4%, 27.8%, or 12/36 pre-fix values as current performance.
+
 ## Executive Summary
 
 This report documents a comprehensive audit, restructuring, and safety fix of

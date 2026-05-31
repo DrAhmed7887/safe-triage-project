@@ -6,8 +6,8 @@ This file defines which claims are safe to use in the thesis, slides, demos, and
 
 - SAFE-Triage follows the architecture: `AI Extracts -> Rules Decide -> Humans Confirm`.
 - The deterministic rules engine is the final authority for live triage decisions.
-- MIETIC primary benchmark performance is `35/36 exact`, `36/36 within-one`, and `0 critical under-triage`.
-- The Arabic MIETIC mirror currently matches the same safety profile: `35/36 exact`, `36/36 within-one`, and `0 critical under-triage`.
+- MIETIC primary benchmark performance is `35/36 exact` (97.2%; 95% Wilson CI 85.8%-99.5%), `36/36 within-one` (100.0%; 95% Wilson CI 90.4%-100.0%), and `0/36 critical under-triage` (95% Wilson CI 0.0%-9.6%).
+- The Arabic MIETIC mirror currently matches the same safety profile: `35/36 exact`, `36/36 within-one`, and `0/36 critical under-triage`, with the same confidence-interval bounds as the English MIETIC run.
 - The system has a meaningful Arabic dialect differentiation story because the project explicitly targets Egyptian colloquial complaint language, not only formal Arabic.
 - KTAS can be presented as an external generalizability benchmark, with clear caveats that it is a cross-protocol comparison.
 - NHAMCS can be presented as a large-scale stress test with sparse complaint labels and cross-system mismatch, not as the primary validation basis.
@@ -47,7 +47,7 @@ Recommended thesis wording:
 `docs/VALIDATION_REPORT.md` has a strong summary section that should not be quoted blindly without checking its dataset scope against NHAMCS.
 
 Recommended safe wording:
-- "The project achieved zero critical under-triage on the primary expert-validated MIETIC benchmark and its Arabic mirror. External datasets are reported separately as stress tests and cross-protocol evaluations."
+- "The project achieved 0/36 critical under-triage on the primary expert-validated MIETIC benchmark and its Arabic mirror (95% Wilson CI 0.0%-9.6% for each 36-case set). External datasets are reported separately as stress tests and cross-protocol evaluations."
 
 ### Protocol-version drift
 Some older materials still say ESI `v4`, while current architecture files and recent docs emphasize ESI `v5`.

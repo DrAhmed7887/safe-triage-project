@@ -37,7 +37,7 @@ for en_case, ar_case in zip(english_cases, ar_cases):
 
 ## Also Run Regression Checks After Every Fix
 ```bash
-# English MIETIC (must stay 97.2% exact, 0% critical under-triage)
+# English MIETIC (must stay 35/36 exact = 97.2%, 0/36 critical under-triage; report Wilson CIs)
 .venv/bin/python -m benchmarks.mietic_benchmark 2>&1 | grep -E "Exact|Critical|SAFETY"
 
 # KTAS External (must stay 0% ESI-1 missed)
@@ -90,7 +90,7 @@ for en_case, ar_case in zip(english_cases, ar_cases):
 4. `backend/logic/esi_v5_engine.py` — signal sets (secondary)
 
 ## Rules
-- Do NOT break English MIETIC (must stay 97.2% exact, 0% critical under-triage)
+- Do NOT break English MIETIC (must stay 35/36 exact = 97.2% and 0/36 critical under-triage; report Wilson CIs from `scripts/wilson_ci.py`)
 - Do NOT break KTAS External (must stay 0% ESI-1 missed)
 - Only ADD Arabic keywords or fix Arabic-specific issues — don't change English logic
 - Test after EVERY change: run the benchmark script above

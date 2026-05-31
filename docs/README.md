@@ -29,6 +29,9 @@ Expected:
 
 ## References
 
+- `docs/reproducibility/SYSTEM_CARD.md`
+- `docs/reproducibility/EVALUATION_PROTOCOL.md`
+- `docs/reproducibility/DATA_AVAILABILITY.md`
 - `docs/DEFENSE_CHECKLIST.md`
 - `docs/thesis_defense/Deployment_Guide.md`
 - `docs/thesis_defense/Performance_Benchmark.md`

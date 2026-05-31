@@ -36,6 +36,28 @@
     "over_triage_rate": 0.5317,
     "critical_under_triage": 13,
     "critical_under_triage_rate": 0.0103,
+    "confidence_intervals_95_wilson": {
+      "exact_match": {
+        "lower": 0.338,
+        "upper": 0.391
+      },
+      "within_one": {
+        "lower": 0.8,
+        "upper": 0.842
+      },
+      "critical_under_triage": {
+        "lower": 0.006,
+        "upper": 0.018
+      },
+      "over_triage": {
+        "lower": 0.504,
+        "upper": 0.559
+      },
+      "under_triage": {
+        "lower": 0.089,
+        "upper": 0.123
+      }
+    },
     "per_class_recall": {
       "1": 0.8077,
       "2": 0.8128,
@@ -173,6 +195,28 @@
     "over_triage_rate": 0.561,
     "critical_under_triage": 16,
     "critical_under_triage_rate": 0.0127,
+    "confidence_intervals_95_wilson": {
+      "exact_match": {
+        "lower": 0.352,
+        "upper": 0.405
+      },
+      "within_one": {
+        "lower": 0.794,
+        "upper": 0.837
+      },
+      "critical_under_triage": {
+        "lower": 0.008,
+        "upper": 0.02
+      },
+      "over_triage": {
+        "lower": 0.533,
+        "upper": 0.588
+      },
+      "under_triage": {
+        "lower": 0.049,
+        "upper": 0.076
+      }
+    },
     "per_class_recall": {
       "1": 0.6154,
       "2": 0.8311,

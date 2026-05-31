@@ -8,11 +8,11 @@
 
 | Metric | Arabic | English | Delta |
 |--------|--------|---------|-------|
-| Exact match | 36.4% | 37.8% | -1.4% |
-| Within-one | 82.2% | 81.6% | +0.6% |
-| Under-triage | 10.5% | 6.1% | +4.4% |
-| Over-triage | 53.2% | 56.1% | -2.9% |
-| Critical under-triage | 1.0% | 1.3% | -0.2% |
+| Exact match | 459/1262 = 36.4% (95% Wilson CI 33.8% to 39.1%) | 477/1262 = 37.8% (95% Wilson CI 35.2% to 40.5%) | -1.4% |
+| Within-one | 1037/1262 = 82.2% (95% Wilson CI 80.0% to 84.2%) | 1030/1262 = 81.6% (95% Wilson CI 79.4% to 83.7%) | +0.6% |
+| Under-triage | 132/1262 = 10.5% (95% Wilson CI 8.9% to 12.3%) | 77/1262 = 6.1% (95% Wilson CI 4.9% to 7.6%) | +4.4% |
+| Over-triage | 671/1262 = 53.2% (95% Wilson CI 50.4% to 55.9%) | 708/1262 = 56.1% (95% Wilson CI 53.3% to 58.8%) | -2.9% |
+| Critical under-triage | 13/1262 = 1.0% (95% Wilson CI 0.6% to 1.8%) | 16/1262 = 1.3% (95% Wilson CI 0.8% to 2.0%) | -0.2% |
 
 ## Parity Differences (246 cases)
 

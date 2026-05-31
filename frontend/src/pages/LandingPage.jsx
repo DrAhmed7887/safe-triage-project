@@ -63,25 +63,25 @@ export default function LandingPage() {
     const heroStats = useMemo(
         () => [
             {
-                value: '0/76',
-                label: 'ESI-1 Patients Missed',
-                qualifier: 'across 3 expert-validated benchmarks',
+                value: '0/36',
+                label: 'Critical Under-triage',
+                qualifier: 'MIETIC target-protocol benchmark; 95% CI 0.0-9.6%',
             },
             {
-                value: '0%',
-                label: 'Critical Under-triage',
-                qualifier: 'MIETIC + ESI Handbook (246 cases)',
+                value: '35/36',
+                label: 'Exact ESI Agreement',
+                qualifier: '97.2%; 95% CI 85.8-99.5%',
             },
             {
                 value: '100%',
                 label: 'Arabic–English Parity',
-                qualifier: '36/36 MIETIC cases · 2,000+ Egyptian dialect terms',
+                qualifier: 'within-one agreement; same safety profile',
                 isNew: true,
             },
             {
-                value: '97.2%',
-                label: 'Exact ESI Match',
-                qualifier: 'MIETIC gold standard (35/36)',
+                value: '1.3%',
+                label: 'KTAS Critical Under-triage',
+                qualifier: 'cross-protocol stress test; 16/1,262',
             },
         ],
         []
@@ -250,7 +250,7 @@ export default function LandingPage() {
                             ))}
                         </div>
                         <div className="st-validation-banner">
-                            0% critical under-triage in English AND Egyptian Arabic · 0 resuscitation patients missed across 76 ESI-1 cases · Validated on 1,544+ cases (English + Arabic + Korean) · <strong>Arabic 100% exact match on all 36 MIETIC cases</strong> · 2,000+ Egyptian dialect medical terms
+                            MIETIC English and Arabic mirror: 35/36 exact agreement, 36/36 within-one agreement, 0/36 critical under-triage. KTAS cross-protocol stress test: 1,030/1,262 within-one agreement and 16/1,262 critical under-triage. Confidence intervals are reported in the repository reproducibility docs.
                         </div>
                     </div>
                 </section>
@@ -407,49 +407,49 @@ export default function LandingPage() {
                                         <tr>
                                             <td><strong>ESI-1 Patients Missed</strong></td>
                                             <td className="st-bad-cell">5–15%</td>
-                                            <td className="st-good-cell">0/14 (0%) ✓</td>
-                                            <td className="st-good-cell">0/14 (0%) ✓</td>
-                                            <td className="st-good-cell">0/36 (0%) ✓</td>
-                                            <td className="st-good-cell">0/26 (0%) ✓</td>
+                                            <td className="st-good-cell">0/14 (0%)</td>
+                                            <td className="st-good-cell">0/14 (0%)</td>
+                                            <td className="st-good-cell">0/36 (0%; CI 0.0-9.6)</td>
+                                            <td className="st-good-cell">0/26 (0%; CI 0.0-12.9)</td>
                                         </tr>
                                         <tr>
                                             <td>Exact ESI Match</td>
                                             <td>61.3%</td>
-                                            <td className="st-good-cell">97.2% ✓</td>
-                                            <td className="st-good-cell">97.2% ✓</td>
-                                            <td>51.4%†</td>
-                                            <td>37.8%‡</td>
+                                            <td className="st-good-cell">97.2% (CI 85.8-99.5)</td>
+                                            <td className="st-good-cell">97.2% (CI 85.8-99.5)</td>
+                                            <td>51.4%† (CI 44.7-58.1)</td>
+                                            <td>37.8%‡ (CI 35.2-40.5)</td>
                                         </tr>
                                         <tr>
                                             <td>Within-1 Accuracy</td>
                                             <td>82.9%</td>
-                                            <td className="st-good-cell">100.0% ✓</td>
-                                            <td className="st-good-cell">100.0% ✓</td>
-                                            <td className="st-good-cell">86.7% ✓</td>
-                                            <td className="st-good-cell">82.6% ✓</td>
+                                            <td className="st-good-cell">100.0% (CI 90.4-100)</td>
+                                            <td className="st-good-cell">100.0% (CI 90.4-100)</td>
+                                            <td className="st-good-cell">86.7% (CI 81.4-90.6)</td>
+                                            <td className="st-good-cell">81.6% (CI 79.4-83.7)</td>
                                         </tr>
                                         <tr>
                                             <td>Critical Under-triage</td>
                                             <td className="st-bad-cell">5–15%</td>
-                                            <td className="st-good-cell">0.0% ✓</td>
-                                            <td className="st-good-cell">0.0% ✓</td>
-                                            <td className="st-good-cell">0.0% ✓</td>
-                                            <td className="st-good-cell">2.9% ✓</td>
+                                            <td className="st-good-cell">0.0% (CI 0.0-9.6)</td>
+                                            <td className="st-good-cell">0.0% (CI 0.0-9.6)</td>
+                                            <td className="st-good-cell">0.0% (CI 0.0-1.8)</td>
+                                            <td className="st-good-cell">1.3%‡ (CI 0.8-2.0)</td>
                                         </tr>
                                         <tr>
                                             <td>Arabic / Dialect Support</td>
                                             <td className="st-bad-cell">Limited</td>
                                             <td className="st-good-cell">Full (2,000+ terms)</td>
-                                            <td className="st-good-cell">100% parity ✓</td>
+                                            <td className="st-good-cell">35/36 exact; 36/36 within-one</td>
                                             <td>N/A (English only)</td>
                                             <td>N/A (English only)</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p className="st-footnote">† ESI Handbook: official AHRQ training vignettes (TriageAgent EMNLP 2024, 210 cases). ‡ KTAS External: 1,262 Korean ED patients, expert-validated by 3 triage specialists. MIETIC Arabic: same 36 expert cases translated to Egyptian colloquial Arabic. Lower exact match on KTAS/Handbook reflects cross-protocol validation and conservative safety bias. Human nurse figures from published ED reliability studies.</p>
+                                <p className="st-footnote">† ESI Handbook: official AHRQ training vignettes (TriageAgent EMNLP 2024, 210 cases). ‡ KTAS External: 1,262 Korean ED patients, expert-validated by 3 triage specialists; this is a cross-protocol stress test, not native ESI validation. MIETIC Arabic: same 36 expert cases translated to Egyptian colloquial Arabic. Lower exact match on KTAS/Handbook reflects cross-protocol validation and conservative safety bias. Human nurse figures from published ED reliability studies.</p>
                                 <div style={{ marginTop: 12 }}>
                                     <div style={{ padding: 10, background: 'var(--st-teal-light)', borderRadius: 8, borderLeft: '3px solid var(--st-teal-dark)' }}>
-                                        <strong style={{ color: 'var(--st-teal-dark)' }}>Key safety result:</strong> Zero critical under-triage in both English and Egyptian Arabic across 72 expert-validated MIETIC cases. Zero ESI-1 patients missed across 76 cases from 3 independent benchmarks (US + Korean EDs). Arabic achieves <strong>97.2% exact ESI match</strong> (35/36) with 0% critical under-triage — full bilingual safety parity powered by 2,000+ Egyptian dialect medical terms.
+                                        <strong style={{ color: 'var(--st-teal-dark)' }}>Key safety result:</strong> MIETIC English and the Egyptian-Arabic mirror both produced 35/36 exact ESI agreement, 36/36 within-one agreement, and 0/36 critical under-triage. The Arabic mirror is a translated benchmark; Arabic-native ED validation remains future work.
                                     </div>
                                 </div>
                             </div>
@@ -529,7 +529,7 @@ export default function LandingPage() {
                                 <div className="st-cost-row"><div className="st-cost-cell">ED Length of Stay</div><div className="st-cost-cell"><span className="st-bad">~184 min</span> to <span className="st-good">~51 min</span></div></div>
                                 <div className="st-cost-row"><div className="st-cost-cell">ED Mortality Rate</div><div className="st-cost-cell"><span className="st-bad">15.7%</span> to <span className="st-good">10.7%</span></div></div>
                                 <div className="st-cost-row"><div className="st-cost-cell">Triage Discrimination</div><div className="st-cost-cell"><span className="st-bad">AUROC 0.67 to 0.80</span> to <span className="st-good">AUROC 0.82 to 0.86</span></div></div>
-                                <div className="st-cost-row"><div className="st-cost-cell">Under-Triage</div><div className="st-cost-cell"><span className="st-good">0/76 resuscitation patients missed across 3 expert-validated benchmarks (MIETIC + ESI Handbook + KTAS External)</span></div></div>
+                                <div className="st-cost-row"><div className="st-cost-cell">Under-Triage</div><div className="st-cost-cell"><span className="st-good">0/36 critical under-triage on MIETIC English and Arabic mirror benchmarks; KTAS cross-protocol stress test reported separately at 16/1,262.</span></div></div>
                                 <div className="st-cost-row"><div className="st-cost-cell">Arabic Support</div><div className="st-cost-cell"><span className="st-good">Egyptian dialect support with AI + keyword safety net</span></div></div>
                                 <div className="st-cost-row"><div className="st-cost-cell">Safety Alignment</div><div className="st-cost-cell"><span className="st-good">Designed to align with GAHAR safety requirements</span></div></div>
                             </div>

@@ -16,11 +16,11 @@
 | Metric | Value |
 |--------|-------|
 | Total cases | 1262 |
-| Exact ESI match | 477 (37.8%) |
-| Within-one-level | 1030 (81.6%) |
-| Under-triage (all) | 77 (6.1%) |
-| Over-triage (all) | 708 (56.1%) |
-| **Critical under-triage** | **16 (1.3%)** |
+| Exact ESI match | 477/1262 = 37.8% (95% Wilson CI 35.2% to 40.5%) |
+| Within-one-level | 1030/1262 = 81.6% (95% Wilson CI 79.4% to 83.7%) |
+| Under-triage (all) | 77/1262 = 6.1% (95% Wilson CI 4.9% to 7.6%) |
+| Over-triage (all) | 708/1262 = 56.1% (95% Wilson CI 53.3% to 58.8%) |
+| **Critical under-triage** | **16/1262 = 1.3% (95% Wilson CI 0.8% to 2.0%)** |
 
 > SAFETY GATE: **FAILED** (16 critical under-triage cases)
 

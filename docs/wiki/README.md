@@ -41,7 +41,7 @@ Recommended update loop:
 5. If the fix changes a thesis-facing claim, update `validation-claims.md`.
 
 Minimum safety gates after any triage logic change:
-- MIETIC must remain at `35/36 exact`, `36/36 within-one`, `0 critical under-triage`
+- MIETIC must remain at `35/36 exact`, `36/36 within-one`, `0/36 critical under-triage`, with 95% Wilson CIs reported from `scripts/wilson_ci.py`
 - MIETIC Arabic must preserve the same safety profile
 - KTAS should not regress on ESI-1 recall or critical under-triage
 - NHAMCS can be used for stress testing and clustering, but should not drive unsafe rule relaxation

@@ -6,10 +6,10 @@ This file is the starting point for systematic error reduction.
 
 | Dataset | Exact match | Within-one | Critical under-triage | Intended role |
 | --- | --- | --- | --- | --- |
-| MIETIC | `35/36` = `97.22%` | `36/36` = `100%` | `0` | primary expert-validated safety benchmark |
-| MIETIC Arabic mirror | `35/36` = `97.22%` | `36/36` = `100%` | `0` | Arabic parity benchmark |
-| KTAS external | `37.80%` | `81.62%` | `16` | external generalizability signal |
-| KTAS Arabic | `36.37%` | `82.17%` | `13` | Arabic parity and phrase-coverage stress test |
+| MIETIC | `35/36` = `97.2%` (95% Wilson CI `85.8%-99.5%`) | `36/36` = `100.0%` (95% Wilson CI `90.4%-100.0%`) | `0/36` (95% Wilson CI `0.0%-9.6%`) | primary expert-validated safety benchmark |
+| MIETIC Arabic mirror | `35/36` = `97.2%` (95% Wilson CI `85.8%-99.5%`) | `36/36` = `100.0%` (95% Wilson CI `90.4%-100.0%`) | `0/36` (95% Wilson CI `0.0%-9.6%`) | Arabic parity benchmark |
+| KTAS external | `477/1262` = `37.8%` (95% Wilson CI `35.2%-40.5%`) | `1030/1262` = `81.6%` (95% Wilson CI `79.4%-83.7%`) | `16/1262` = `1.3%` (95% Wilson CI `0.8%-2.0%`) | external generalizability signal |
+| KTAS Arabic | `459/1262` = `36.4%` (95% Wilson CI `33.8%-39.1%`) | `1037/1262` = `82.2%` (95% Wilson CI `80.0%-84.2%`) | `13/1262` = `1.0%` (95% Wilson CI `0.6%-1.8%`) | Arabic parity and phrase-coverage stress test |
 | NHAMCS | `39.96%` | `83.74%` | `831` | large low-context stress test, not primary validation |
 
 Primary source files:

@@ -7,18 +7,18 @@
 - **Runnable Arabic cases**: 36
 - **Acuity distribution**: {1: 14, 2: 11, 3: 5, 4: 4, 5: 2}
 - **Cases with missing vitals**: 11
-- **Timestamp**: 20260405T115415Z
+- **Timestamp**: 20260408T223420Z
 
 ## Summary Metrics
 
 | Metric | Value |
 |--------|-------|
 | Total cases | 36 |
-| Exact ESI match | 35 (97.2%) |
-| Within-one-level | 36 (100.0%) |
-| Under-triage (all) | 0 (0.0%) |
-| Over-triage (all) | 1 (2.8%) |
-| **Critical under-triage** | **0 (0.0%)** |
+| Exact ESI match | 35/36 = 97.2% (95% Wilson CI 85.8% to 99.5%) |
+| Within-one-level | 36/36 = 100.0% (95% Wilson CI 90.4% to 100.0%) |
+| Under-triage (all) | 0/36 = 0.0% (95% Wilson CI 0.0% to 9.6%) |
+| Over-triage (all) | 1/36 = 2.8% (95% Wilson CI 0.5% to 14.2%) |
+| **Critical under-triage** | **0/36 = 0.0% (95% Wilson CI 0.0% to 9.6%)** |
 
 > SAFETY GATE: PASSED (zero critical under-triage)
 

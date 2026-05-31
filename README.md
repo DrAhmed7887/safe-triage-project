@@ -26,13 +26,13 @@ Egyptian emergency departments face a convergence of crises:
 
 ## The Solution
 
-SAFE-Triage is a **production-deployed, hybrid AI system** that follows one golden rule:
+SAFE-Triage is a **research-stage, hybrid AI decision-support system** that follows one golden rule:
 
 > ### 🧠 AI Extracts → 📏 Rules Decide → 👨‍⚕️ Humans Confirm
 
 | Layer | Role | Technology |
 |-------|------|------------|
-| **AI Extraction** | Understands patient complaints in Arabic dialect & English | Gemini 2.5-flash + MedGemma on Vertex AI |
+| **AI Extraction** | Understands patient complaints in Arabic dialect & English | Gemini 2.5-flash + structured keyword/rules fallback |
 | **Deterministic Rules** | Makes all safety-critical triage decisions | ESI v5 + NEWS2 (pre-encoded from official handbooks) |
 | **Human Confirmation** | Clinician reviews and confirms every case | Real-time physician alerts + web dashboard |
 
@@ -42,14 +42,12 @@ SAFE-Triage is a **production-deployed, hybrid AI system** that follows one gold
 
 ## MedGemma Integration
 
-SAFE-Triage integrates **MedGemma 4B-IT**, Google's open medical foundation model, deployed natively on **Vertex AI Model Garden** as a clinical quality assurance layer:
+SAFE-Triage has evaluated **MedGemma 4B-IT**, Google's open medical foundation model, as a clinical quality assurance layer during development:
 
-- **Vertex AI Deployment** — MedGemma runs on a dedicated Vertex AI endpoint (L4 GPU, scale-to-zero) within the same `safe-triage-ai` Google Cloud project. No third-party API dependencies.
-- **Batch QA Review** — MedGemma performs asynchronous hourly review of triage decisions, flagging cases where AI extraction may have missed atypical presentations
-- **Silent Killer Detection** — Catches high-risk cases with misleading mild symptoms (e.g., diabetic patient with "mild heartburn" → atypical MI → escalated to ESI 2)
-- **QA Dashboard** — Dedicated monitoring dashboard at `/medgemma/dashboard` showing severity breakdown, pattern trends, daily flag volume, and recent flagged cases. Backed by BigQuery analytics views.
+- **Development QA Review** — MedGemma was tested as an asynchronous reviewer that flags cases where extraction or deterministic rules may need human attention.
+- **Hard-case flagging** — In an offline KTAS hard-case review, MedGemma flagged 12/17 critical or borderline cases (70.6%; 95% Wilson CI 46.9% to 86.7%).
+- **Current status** — MedGemma is not the final triage authority and should be described as a development-stage QA component unless a current deployment check confirms otherwise.
 - **Arabic Medical NLP** — Combined with Gemini 2.5-flash, provides robust bilingual understanding of Egyptian dialect medical complaints
-- **Disaster Protocol Activation** — Triggers mass casualty protocols when unusual case volume patterns are detected
 
 The system was submitted to the **MedGemma Impact Challenge on Kaggle** (February 2026) for both the Main Track and Novel Task Prize categories, positioning Arabic dialect emergency triage as a genuinely novel application.
 
@@ -59,25 +57,27 @@ The system was submitted to the **MedGemma Impact Challenge on Kaggle** (Februar
 
 ### Primary Benchmark — MIETIC (n=36, expert-validated)
 
-| Metric | SAFE-Triage | Human Nurses | Industry Standard |
-|--------|-------------|--------------|-------------------|
-| **Exact ESI Accuracy** | **97.2%** (35/36) | 61.3% | ~72% |
-| **Within-1 Accuracy** | **100%** (36/36) | 82.9% | ~85% |
-| **Critical Under-triage** | **0.0%** (0/36) | 5-15% | <5% (ACS-COT) |
-| **Over-triage** | 2.8% (1/36) | ~20% | ~30% |
+| Metric | SAFE-Triage | 95% Wilson CI | Framing |
+|--------|-------------|----------------|---------|
+| **Exact ESI agreement** | **35/36 = 97.2%** | 85.8% to 99.5% | Small expert-validated MIETIC subset |
+| **Within-one agreement** | **36/36 = 100.0%** | 90.4% to 100.0% | Agreement within one ESI level |
+| **Critical under-triage** | **0/36 = 0.0%** | 0.0% to 9.6% | Primary safety endpoint |
+| **Over-triage** | 1/36 = 2.8% | 0.5% to 14.2% | Safe-direction discordance |
 
-*Zero critical under-triage on 36 expert-reviewed cases. Arabic mirror benchmark matches identical safety profile.*
+The Arabic mirror benchmark produced the same locked result: 35/36 exact ESI agreement, 36/36 within-one agreement, 0/36 critical under-triage, and 1/36 safe-direction over-triage. The mirror is a translation of the English MIETIC cases, not an Arabic-native ED corpus.
 
-### External Benchmark — KTAS (n=1,262, cross-national)
+### External Benchmark — KTAS (n=1,262, cross-protocol stress test)
 
-| Language | Exact Match | Within-1 | Critical Under-triage |
-|----------|-------------|----------|-----------------------|
-| English | 36.8% | 81.5% | 1.3% (17 cases) |
-| Arabic (Egyptian dialect) | 36.5% | 82.1% | **1.0%** (12 cases) |
+| Metric | SAFE-Triage | 95% Wilson CI | Framing |
+|--------|-------------|----------------|---------|
+| Exact agreement | 477/1,262 = 37.8% | 35.2% to 40.5% | Expected to be low because KTAS and ESI are non-equivalent protocols |
+| Within-one agreement | 1,030/1,262 = 81.6% | 79.4% to 83.7% | Robustness signal, not native ESI validation |
+| Critical under-triage | 16/1,262 = 1.3% | 0.8% to 2.0% | Non-zero limitation under protocol mismatch |
+| Over-triage | 708/1,262 = 56.1% | 53.3% to 58.8% | Predominantly safe-direction disagreement |
 
-*Korean ED dataset. Arabic dialect achieves lower critical under-triage rate than English — demonstrating Arabic parity. Cross-protocol comparison (KTAS vs ESI) explains lower exact match.*
+KTAS is a Korean Triage and Acuity Scale dataset. These results must be framed as cross-protocol stress testing, not as SAFE-Triage accuracy on its home ESI protocol.
 
-See `backend/benchmarks/` for fully reproducible benchmark code.
+See `backend/benchmarks/` for benchmark code and `scripts/wilson_ci.py` for the confidence-interval calculation.
 
 ---
 
@@ -159,9 +159,9 @@ Patient Complaint (Arabic/English)
 | Dataset | Source | Cases | Purpose |
 |---------|--------|-------|---------|
 | MIMIC-IV-ED | MIT/PhysioNet | 425,000+ | Large-scale ED visit validation |
-| MIETIC (RETAIN subset) | Expert panel | 36 | Primary validation — 97.2% exact, 0% critical under-triage |
-| MIETIC Arabic mirror | Internal | 36 | Arabic parity — identical safety profile to English |
-| Korean KTAS | External | 1,262 | Cross-cultural stress test — Arabic achieves lower critical under-triage than English |
+| MIETIC (RETAIN subset) | Expert panel | 36 | Primary benchmark - 35/36 exact, 36/36 within-one, 0/36 critical under-triage |
+| MIETIC Arabic mirror | Internal | 36 | Translated mirror benchmark - same locked metrics as English |
+| Korean KTAS | External | 1,262 | Cross-protocol stress test - 477/1,262 exact, 1,030/1,262 within-one, 16/1,262 critical under-triage |
 | NHAMCS (CDC) | US CDC | 10,495 | Large low-context stress test |
 
 ---

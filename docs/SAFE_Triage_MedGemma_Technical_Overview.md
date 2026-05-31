@@ -5,7 +5,7 @@
 **🏅 Track:** Main Competition + Agentic Workflow Prize
 **🌐 Live System:** [safe-triage-ai.web.app](https://safe-triage-ai.web.app) | **💻 Code:** [GitHub Repository](https://github.com/DrAhmed7887/safe-triage-project) | **🎥 Video Demo:** [Watch 3-minute Demo](#)
 
-> **TL;DR:** SAFE-Triage is a hybrid AI/deterministic triage system designed to address the 32% preventable mortality rate in Egyptian Emergency Departments. By utilizing **MedGemma** for offline-capable extraction from Egyptian Arabic and as an autonomous QA agent, alongside deterministic rules (ESI v5 + NEWS2), the system achieves **97.2% exact ESI match and 100% within-1 accuracy** on the MIETIC expert-validated benchmark. Zero critical under-triage on the MIETIC primary benchmark (2026-04-01).
+> **TL;DR:** SAFE-Triage is a hybrid AI/deterministic triage system designed to address preventable triage failures in Egyptian Emergency Departments. Alongside deterministic rules (ESI v5 + NEWS2), the locked MIETIC benchmark shows **35/36 exact ESI agreement (97.2%; 95% Wilson CI 85.8% to 99.5%)**, **36/36 within-one agreement (100.0%; 95% Wilson CI 90.4% to 100.0%)**, and **0/36 critical under-triage (95% Wilson CI 0.0% to 9.6%)** on the 20260408T223413Z frozen run. MedGemma is framed as a development-stage QA layer, not final triage authority.
 
 ---
 
@@ -89,13 +89,13 @@ Validated on **36 expert-RETAIN cases** from the MIETIC dataset (MIMIC-IV-ED Tri
 
 | Metric | SAFE-Triage (MIETIC, n=36) | Human Nurses (Global Avg.) |
 | :--- | :--- | :--- |
-| **Exact ESI Match** | **97.2%** (35/36) | 59.2% |
-| **Within-1 Accuracy** | **100%** (36/36) | 82.9% |
-| **Critical Under-triage** | **0%** (0/36) | 8.4% |
-| **Over-triage** | 2.8% (1/36) | ~20% |
+| **Exact ESI Match** | **35/36 = 97.2%** (95% Wilson CI 85.8% to 99.5%) | 59.2% |
+| **Within-1 Accuracy** | **36/36 = 100.0%** (95% Wilson CI 90.4% to 100.0%) | 82.9% |
+| **Critical Under-triage** | **0/36 = 0.0%** (95% Wilson CI 0.0% to 9.6%) | 8.4% |
+| **Over-triage** | 1/36 = 2.8% (95% Wilson CI 0.5% to 14.2%) | ~20% |
 | **Arabic Dialect Support** | **Native (1,858 terms)** | Variable |
 
-> **Benchmark:** MIETIC primary (36 expert-RETAIN cases, MIMIC-IV-ED). Results as of 2026-04-01. See `backend/benchmarks/outputs/mietic/summary.json` for the canonical machine-readable artifact and `backend/benchmarks/` for fully reproducible code.
+> **Benchmark:** MIETIC primary (36 expert-RETAIN cases, MIMIC-IV-ED). Results locked to the 20260408T223413Z frozen run. See `backend/benchmarks/outputs/mietic/summary.json` for the canonical machine-readable artifact, `backend/benchmarks/` for benchmark code, and `scripts/wilson_ci.py` for confidence intervals.
 
 ---
 

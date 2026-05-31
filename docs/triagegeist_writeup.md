@@ -64,10 +64,10 @@ SAFE-Triage was evaluated on four independent benchmarks:
 
 | Metric | Value |
 |--------|-------|
-| Exact match | 97.2% (35/36) |
-| Within-one accuracy | 100% (36/36) |
-| Critical under-triage | **0%** (0 cases) |
-| Over-triage | 2.8% (1 case, ESI-3 triaged as ESI-2) |
+| Exact match | 35/36 = 97.2% (95% Wilson CI 85.8% to 99.5%) |
+| Within-one accuracy | 36/36 = 100.0% (95% Wilson CI 90.4% to 100.0%) |
+| Critical under-triage | **0/36 = 0.0%** (95% Wilson CI 0.0% to 9.6%) |
+| Over-triage | 1/36 = 2.8% (95% Wilson CI 0.5% to 14.2%); ESI-3 triaged as ESI-2 |
 | ESI-1 recall | 100% (14/14) |
 | ESI-2 recall | 100% (11/11) |
 
@@ -78,9 +78,10 @@ The same 36 cases translated to Egyptian colloquial Arabic, using natural ED pat
 
 | Metric | Value |
 |--------|-------|
-| Exact match | 97.2% (35/36) |
-| Critical under-triage | **0%** |
-| Over-triage | 2.8% (1 case) |
+| Exact match | 35/36 = 97.2% (95% Wilson CI 85.8% to 99.5%) |
+| Within-one accuracy | 36/36 = 100.0% (95% Wilson CI 90.4% to 100.0%) |
+| Critical under-triage | **0/36 = 0.0%** (95% Wilson CI 0.0% to 9.6%) |
+| Over-triage | 1/36 = 2.8% (95% Wilson CI 0.5% to 14.2%) |
 
 Arabic performance is identical to English, confirming that the dialect keyword layer and bilingual AI extraction produce equivalent triage decisions.
 
@@ -89,12 +90,12 @@ Arabic performance is identical to English, confirming that the dialect keyword 
 
 | Metric | Value |
 |--------|-------|
-| Exact match | 36.8% |
-| Within-one accuracy | 81.5% |
-| Critical under-triage | 1.4% (17 cases) |
-| Over-triage | 54.1% |
+| Exact match | 477/1,262 = 37.8% (95% Wilson CI 35.2% to 40.5%) |
+| Within-one accuracy | 1,030/1,262 = 81.6% (95% Wilson CI 79.4% to 83.7%) |
+| Critical under-triage | 16/1,262 = 1.3% (95% Wilson CI 0.8% to 2.0%) |
+| Over-triage | 708/1,262 = 56.1% (95% Wilson CI 53.3% to 58.8%) |
 
-The low exact match reflects a systematic over-triage bias -- by design, SAFE-Triage's safety floors escalate aggressively. Of the 17 critical under-triage cases, most involved ambiguous chief complaints ("abd pain", "headache", "fever") where the KTAS expert panel assigned ESI-2 based on clinical context not available in the structured data. No KTAS-1 cases were missed entirely (all received ESI-1 or ESI-2).
+The low exact match reflects a systematic over-triage bias -- by design, SAFE-Triage's safety floors escalate aggressively. Of the 16 critical under-triage cases, most involved ambiguous chief complaints ("abd pain", "headache", "fever") where the KTAS expert panel assigned high acuity based on clinical context not available in the structured data. KTAS is a cross-protocol stress test, not a native ESI validation dataset.
 
 ### NHAMCS (National Hospital Ambulatory Medical Care Survey)
 10,495 US CDC cases. Current results: approximately 40% exact match, 7.9% critical under-triage. This dataset is the most challenging due to sparse vitals, unstructured chief complaints, and a different triage philosophy (US nurse-assigned ESI vs. our deterministic protocol). NHAMCS performance is an active area of improvement.

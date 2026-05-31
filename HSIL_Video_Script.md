@@ -22,7 +22,7 @@ This is the problem we decided to solve.
 
 ## [0:40–1:10] THE SOLUTION
 
-SAFE-Triage is a production-deployed, hybrid AI triage system built specifically for this environment. The golden rule is simple: **AI extracts. Rules decide. Humans confirm.**
+SAFE-Triage is a research-stage, hybrid AI triage decision-support system built specifically for this environment. The golden rule is simple: **AI extracts. Rules decide. Humans confirm.**
 
 Our AI — powered by Gemini and MedGemma — understands native Egyptian Arabic dialect, with 1,858 colloquial medical keywords. But it never decides how sick someone is. That decision belongs entirely to deterministic clinical protocols: ESI v5 and NEWS2, encoded directly from international guidelines. A clinician confirms every single case. No exceptions.
 
@@ -42,7 +42,7 @@ No training required. The interface was designed so any nurse can use it on day 
 
 ## [1:35–1:50] VALIDATION
 
-We validated against the **MIETIC expert-validated benchmark** — 36 expert-reviewed cases from MIMIC-IV-ED. The system achieves **97.2% exact ESI match** (35/36), **100% within-one-level accuracy** (36/36), and **zero critical under-triage**. No ESI 1 or 2 patient was ever downgraded to ESI 4 or 5. Every case is logged to BigQuery, audit-ready for GAHAR hospital accreditation.
+We validated against the **MIETIC expert-validated benchmark** — 36 expert-reviewed cases from MIMIC-IV-ED. The system achieved **35/36 exact ESI agreement** (97.2%; 95% Wilson CI 85.8%-99.5%), **36/36 within-one-level agreement** (100.0%; 95% Wilson CI 90.4%-100.0%), and **0/36 critical under-triage** (95% Wilson CI 0.0%-9.6%) on the frozen benchmark run. No ESI 1 or 2 patient was assigned ESI 3, 4, or 5. Every case is logged to BigQuery, audit-ready for GAHAR hospital accreditation.
 
 ---
 

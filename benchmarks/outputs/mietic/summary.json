@@ -1,6 +1,6 @@
 {
   "benchmark": "MIETIC",
-  "timestamp": "20260402T015928Z",
+  "timestamp": "20260408T223413Z",
   "dataset": {
     "total": 36,
     "acuity_distribution": {
@@ -24,6 +24,24 @@
     "over_triage_rate": 0.0278,
     "critical_under_triage": 0,
     "critical_under_triage_rate": 0.0,
+    "confidence_intervals_95_wilson": {
+      "exact_match": {
+        "lower": 0.858,
+        "upper": 0.995
+      },
+      "within_one": {
+        "lower": 0.904,
+        "upper": 1.0
+      },
+      "critical_under_triage": {
+        "lower": 0.0,
+        "upper": 0.096
+      },
+      "over_triage": {
+        "lower": 0.005,
+        "upper": 0.142
+      }
+    },
     "per_class_recall": {
       "1": 1.0,
       "2": 1.0,

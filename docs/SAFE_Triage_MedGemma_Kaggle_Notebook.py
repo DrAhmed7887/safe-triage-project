@@ -599,5 +599,6 @@ Design Principle: AI Extracts → Rules Decide → Humans Confirm
 """)
 
 print("\n🏥 SAFE-Triage: Making Egyptian Emergency Departments Safer")
-print("📊 97.7% within-1 accuracy | 0.7% critical under-triage | 17s response time")
-print("🌐 Bilingual Arabic-English | Offline-capable | Production-deployed")
+print("📊 MIETIC: 35/36 exact, 36/36 within-one, 0/36 critical under-triage")
+print("📊 Wilson CIs: exact 85.8%-99.5%, critical under-triage 0.0%-9.6%")
+print("🌐 Bilingual Arabic-English | Offline-capable | Research-stage public demo")
