@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Activity, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://safe-triage-eciux5h4aq-uc.a.run.app';
@@ -16,7 +16,7 @@ export default function TriageStatsWidget() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [error, setError] = useState('');
 
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}/stats/${period}`);
       if (!response.ok) {
@@ -31,7 +31,7 @@ export default function TriageStatsWidget() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [period]);
 
   useEffect(() => {
     let isMounted = true;
@@ -44,7 +44,7 @@ export default function TriageStatsWidget() {
       isMounted = false;
       clearInterval(interval);
     };
-  }, [period]);
+  }, [fetchStats]);
 
   const metric = useMemo(() => {
     const totalCases = stats?.total_cases?.count || 0;

@@ -1,0 +1,219 @@
+{
+  "$comment": [
+    "Shared cross-engine parity fixtures for SAFE-Triage.",
+    "",
+    "Each case is run against BOTH:",
+    "  - Python canonical engine: backend/logic/triage_engine_v2.py (DeterministicTriageEngine)",
+    "  - JS offline fallback:     frontend/src/lib/triageEngineOfflineFallback.js",
+    "",
+    "Parity rule (under-triage = failure):",
+    "  Numerically, ESI 1 is the most acute and ESI 5 is the least acute.",
+    "  We require:  js_level <= python_level + tolerance",
+    "  (i.e. the JS fallback may over-triage — produce a more acute level —",
+    "  but must never under-triage relative to the canonical engine.)",
+    "",
+    "Each case may also declare 'expected_max_level' (the level under which",
+    "the case must never go in either engine — the absolute safety floor).",
+    "",
+    "Add cases drawn from MIETIC critical subset + Egyptian dialect examples."
+  ],
+  "tolerance": 0,
+  "cases": [
+    {
+      "name": "Cardiac arrest, no pulse",
+      "input": {
+        "age": 60, "gender": "male",
+        "chief_complaint_text": "cardiac arrest, no pulse",
+        "vitals": {"hr": 0, "rr": 0, "sbp": 0, "dbp": 0, "spo2": 60, "temp": 35},
+        "consciousness": "U"
+      },
+      "expected_max_level": 1
+    },
+    {
+      "name": "Unresponsive elderly (AVPU=U)",
+      "input": {
+        "age": 78, "gender": "female",
+        "chief_complaint_text": "found unresponsive at home",
+        "vitals": {"hr": 110, "rr": 22, "sbp": 100, "dbp": 60, "spo2": 92, "temp": 36.5},
+        "consciousness": "U"
+      },
+      "expected_max_level": 1
+    },
+    {
+      "name": "Severe hypoxia floor (SpO2 85)",
+      "input": {
+        "age": 40, "gender": "female",
+        "chief_complaint_text": "feels dizzy and weak",
+        "vitals": {"hr": 95, "rr": 22, "sbp": 110, "dbp": 70, "spo2": 85, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest pain (severe modifier)",
+      "input": {
+        "age": 55, "gender": "male",
+        "chief_complaint_text": "ألم شديد في الصدر منذ ساعة",
+        "vitals": {"hr": 95, "rr": 18, "sbp": 140, "dbp": 90, "spo2": 96, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest pain (plain)",
+      "input": {
+        "age": 58, "gender": "male",
+        "chief_complaint_text": "ألم في الصدر",
+        "vitals": {"hr": 92, "rr": 18, "sbp": 135, "dbp": 85, "spo2": 97, "temp": 36.9},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest pain (وجع)",
+      "input": {
+        "age": 62, "gender": "male",
+        "chief_complaint_text": "وجع في الصدر بقاله ساعتين",
+        "vitals": {"hr": 96, "rr": 18, "sbp": 140, "dbp": 88, "spo2": 96, "temp": 37.0},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest pressure (ضغط)",
+      "input": {
+        "age": 60, "gender": "male",
+        "chief_complaint_text": "ضغط في الصدر",
+        "vitals": {"hr": 94, "rr": 18, "sbp": 140, "dbp": 88, "spo2": 97, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest tightness (ضيق)",
+      "input": {
+        "age": 57, "gender": "female",
+        "chief_complaint_text": "ضيق في الصدر",
+        "vitals": {"hr": 98, "rr": 20, "sbp": 138, "dbp": 86, "spo2": 96, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest burning (حرقان)",
+      "$why": "Chest burning is clinically ambiguous between heartburn and atypical ACS. Canonical engine routes to silent_mi (now protected from ceiling demotion). Must be L2 in connected mode.",
+      "input": {
+        "age": 60, "gender": "male",
+        "chief_complaint_text": "حرقان في الصدر",
+        "vitals": {"hr": 92, "rr": 18, "sbp": 138, "dbp": 86, "spo2": 97, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest pain (possessive — صدري)",
+      "$why": "Possessive form 'في صدري' was previously caught only by the Python engine. CI must reject any JS fallback drift that under-triages possessive variants (Codex PR #17 finding).",
+      "input": {
+        "age": 56, "gender": "male",
+        "chief_complaint_text": "ألم في صدري بقاله نص ساعة",
+        "vitals": {"hr": 94, "rr": 18, "sbp": 138, "dbp": 86, "spo2": 97, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest pain (possessive — صدره)",
+      "$why": "Third-person masculine possessive — narrator describing the patient.",
+      "input": {
+        "age": 64, "gender": "male",
+        "chief_complaint_text": "أبويا بيقول وجع في صدره",
+        "vitals": {"hr": 90, "rr": 18, "sbp": 142, "dbp": 88, "spo2": 96, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Arabic chest pain (possessive — صدرها)",
+      "$why": "Third-person feminine possessive — narrator describing a female patient.",
+      "input": {
+        "age": 58, "gender": "female",
+        "chief_complaint_text": "ماما حاسة بضيق في صدرها",
+        "vitals": {"hr": 96, "rr": 20, "sbp": 140, "dbp": 88, "spo2": 96, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Egyptian dialect respiratory arrest",
+      "input": {
+        "age": 70, "gender": "male",
+        "chief_complaint_text": "الراجل مش بيتنفس",
+        "vitals": {"hr": 50, "rr": 4, "sbp": 80, "dbp": 50, "spo2": 70, "temp": 36},
+        "consciousness": "P"
+      },
+      "expected_max_level": 1
+    },
+    {
+      "name": "Hypotension floor",
+      "input": {
+        "age": 65, "gender": "male",
+        "chief_complaint_text": "feels weak",
+        "vitals": {"hr": 105, "rr": 20, "sbp": 85, "dbp": 55, "spo2": 96, "temp": 37},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Severe abdominal pain (pain=9)",
+      "input": {
+        "age": 30, "gender": "female",
+        "chief_complaint_text": "abdominal pain",
+        "vitals": {"hr": 100, "rr": 18, "sbp": 120, "dbp": 80, "spo2": 98, "temp": 37},
+        "consciousness": "A",
+        "pain_scale": 9
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Pregnant with vaginal bleeding",
+      "input": {
+        "age": 28, "gender": "female",
+        "chief_complaint_text": "vaginal bleeding",
+        "vitals": {"hr": 110, "rr": 20, "sbp": 100, "dbp": 65, "spo2": 97, "temp": 37},
+        "consciousness": "A",
+        "is_pregnant": true,
+        "pregnancy_complaint": "vaginal_bleeding"
+      },
+      "expected_max_level": 2
+    },
+    {
+      "name": "Mild fever, normal vitals",
+      "input": {
+        "age": 25, "gender": "male",
+        "chief_complaint_text": "mild fever, runny nose",
+        "vitals": {"hr": 80, "rr": 16, "sbp": 120, "dbp": 80, "spo2": 99, "temp": 37.8},
+        "consciousness": "A"
+      }
+    },
+    {
+      "name": "Toddler with fever + tachycardia",
+      "input": {
+        "age": 2, "gender": "male",
+        "chief_complaint_text": "fever and vomiting",
+        "vitals": {"hr": 170, "rr": 32, "sbp": 90, "dbp": 55, "spo2": 96, "temp": 39.5},
+        "consciousness": "A"
+      },
+      "expected_max_level": 3
+    },
+    {
+      "name": "Adult fever + tachycardia (Codex P1: sepsis pathway)",
+      "input": {
+        "age": 45, "gender": "male",
+        "chief_complaint_text": "fever and chills",
+        "vitals": {"hr": 105, "rr": 18, "sbp": 120, "dbp": 78, "spo2": 97, "temp": 38.2},
+        "consciousness": "A"
+      },
+      "expected_max_level": 2
+    }
+  ]
+}

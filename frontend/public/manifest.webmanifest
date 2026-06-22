@@ -1,0 +1,41 @@
+{
+  "name": "SAFE-Triage · Hospital Lite",
+  "short_name": "SAFE-Triage",
+  "description": "Offline-capable bilingual (English / Arabic) emergency department triage decision support. ESI v5 + NEWS2 deterministic engine — clinician must confirm every suggestion.",
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#071525",
+  "theme_color": "#071525",
+  "lang": "en",
+  "dir": "auto",
+  "categories": ["medical", "health", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/pwa/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/pwa/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/pwa/icon-512-maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/app-icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}

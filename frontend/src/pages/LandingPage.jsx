@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import SafeTriageLogo from '../components/HospitalLite/SafeTriageLogo';
 import './LandingPage.css';
 
 const GAHAR_TEXT = 'Designed to Align with GAHAR Safety Requirements | مصمم وفقاً لمتطلبات سلامة الجهار';
@@ -134,7 +135,10 @@ export default function LandingPage() {
 
             <header className={`st-nav ${scrolled ? 'st-nav-solid' : 'st-nav-transparent'}`}>
                 <div className="st-container st-nav-inner">
-                    <button className="st-logo" onClick={() => scrollToId('top')}>SAFE-Triage</button>
+                    <button className="st-logo" onClick={() => scrollToId('top')}>
+                        <SafeTriageLogo className="h-8 w-8 flex-shrink-0" />
+                        <span>SAFE-Triage</span>
+                    </button>
 
                     <nav className="st-nav-center" aria-label="Main">
                         {navLinks.map((item) => (

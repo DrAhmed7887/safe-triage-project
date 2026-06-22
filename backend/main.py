@@ -115,11 +115,47 @@ engine_logic_ai = DeterministicTriageEngine(use_ai=True)
 ENGLISH_KEYWORD_JSON_PATH = Path(__file__).resolve().parent / "logic" / "english_clinical_keywords.json"
 ENGLISH_KEYWORD_INDEX: Dict[str, Dict[str, Any]] = {}
 
+# Hospital Lite mode — minimal hospital pilot. Skips external AI warmup,
+# MedGemma jobs, FCM, BigQuery exporters, alerts. Deterministic triage only.
+# Enable with `SAFE_TRIAGE_MODE=hospital_lite`.
+SAFE_TRIAGE_MODE = os.getenv("SAFE_TRIAGE_MODE", "research").strip().lower()
+HOSPITAL_LITE = SAFE_TRIAGE_MODE == "hospital_lite"
+
+
+@app.get("/api/mode")
+def get_runtime_mode():
+    return {
+        "mode": SAFE_TRIAGE_MODE,
+        "hospital_lite": HOSPITAL_LITE,
+        "decision_support_only": True,
+        "notice_en": "Decision support only — clinician must confirm.",
+        "notice_ar": "أداة دعم قرار فقط — يجب على الطبيب التأكيد.",
+    }
+
+
 # Warmup to reduce cold starts
 @app.on_event("startup")
 async def startup_warmup():
     """Preload heavy resources to reduce cold start latency."""
     global ENGLISH_KEYWORD_INDEX
+    if HOSPITAL_LITE:
+        print("🏥 Hospital Lite mode — skipping AI/UMLS warmup, MedGemma, FCM.", flush=True)
+        try:
+            ENGLISH_KEYWORD_INDEX = load_keyword_index_from_sqlite()
+        except Exception as e:
+            print(f"Hospital Lite keyword index load failed (non-fatal): {e}", flush=True)
+        try:
+            engine_logic.triage(
+                {
+                    "age": 30,
+                    "gender": "male",
+                    "chief_complaint_text": "warmup",
+                    "vitals": {"hr": 80, "sbp": 120, "dbp": 80, "rr": 16, "temp": 37, "spo2": 98},
+                }
+            )
+        except Exception as e:
+            print(f"Hospital Lite deterministic warmup failed (non-fatal): {e}", flush=True)
+        return
     try:
         if ENGLISH_KEYWORD_JSON_PATH.exists():
             print("🔥 Warmup: loading english_clinical_keywords into sqlite", flush=True)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Activity } from 'lucide-react';
+import SafeTriageLogo from '../components/HospitalLite/SafeTriageLogo';
 import './SignIn.css';
 
 export default function SignIn() {
@@ -35,9 +35,7 @@ export default function SignIn() {
 
             <div className="si-card">
                 <div className="si-top">
-                    <div className="si-icon-wrap">
-                        <Activity className="si-icon" />
-                    </div>
+                    <SafeTriageLogo className="h-16 w-16 mx-auto mb-3 block" />
                     <h1 className="si-title">Sign in to SAFE-Triage AI</h1>
                     <p className="si-subtitle">Use your hospital Google account to continue</p>
                     <p className="si-subtitle si-ar">استخدم حساب المستشفى على جوجل للمتابعة</p>

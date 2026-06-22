@@ -2,12 +2,46 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SAFE-Triage AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <title>SAFE-Triage Lite</title>
+    <meta name="description" content="Offline-capable bilingual (English / Arabic) emergency department triage decision support. ESI v5 + NEWS2 deterministic engine — clinician confirms every suggestion." />
+
+    <!-- PWA / theme -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#071525" />
+
+    <!-- Generic favicon -->
+    <link rel="icon" type="image/svg+xml" href="/app-icon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/pwa/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/pwa/icon-512.png" />
+
+    <!-- iOS Safari home-screen / standalone mode -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SAFE-Triage Lite" />
+    <link rel="apple-touch-icon" href="/icons/pwa/apple-touch-icon-180.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/pwa/apple-touch-icon-180.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/icons/pwa/apple-touch-icon-167.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/pwa/apple-touch-icon-152.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/pwa/apple-touch-icon-120.png" />
+    <link rel="apple-touch-icon-precomposed" href="/icons/pwa/apple-touch-icon-precomposed-180.png" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Register the offline service worker (production build only).
+      // The dev server serves source files; a SW would interfere with HMR.
+      if ('serviceWorker' in navigator && location.hostname !== 'localhost' && !location.hostname.startsWith('127.')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/sw.js', { scope: '/' })
+            .catch((err) => console.warn('SW registration failed:', err));
+        });
+      }
+    </script>
   </body>
 </html>

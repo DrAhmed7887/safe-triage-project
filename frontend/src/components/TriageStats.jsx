@@ -7,11 +7,22 @@ import {
   Globe
 } from 'lucide-react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+const SkeletonCard = () => (
+  <div className="bg-slate-50 p-6 rounded-xl border border-slate-100 animate-pulse">
+    <div className="flex items-center justify-between mb-4">
+      <div className="h-4 bg-slate-200 rounded w-1/2"></div>
+      <div className="w-9 h-9 bg-slate-200 rounded-lg"></div>
+    </div>
+    <div className="h-10 bg-slate-200 rounded w-1/4"></div>
+  </div>
+);
+
 const TriageStats = ({ data }) => {
   const [lang, setLang] = useState('en');
   const [backendStats, setBackendStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
   const mockData = {
     total: 38,
@@ -85,16 +96,6 @@ const TriageStats = ({ data }) => {
   };
 
   const maxEsiCount = Math.max(...Object.values(stats.esiBreakdown));
-
-  const SkeletonCard = () => (
-    <div className="bg-slate-50 p-6 rounded-xl border border-slate-100 animate-pulse">
-      <div className="flex items-center justify-between mb-4">
-        <div className="h-4 bg-slate-200 rounded w-1/2"></div>
-        <div className="w-9 h-9 bg-slate-200 rounded-lg"></div>
-      </div>
-      <div className="h-10 bg-slate-200 rounded w-1/4"></div>
-    </div>
-  );
 
   return (
     <div className={`p-6 bg-white rounded-xl shadow-lg border border-slate-100 ${t.dir === 'rtl' ? 'font-arabic' : ''}`} dir={t.dir}>

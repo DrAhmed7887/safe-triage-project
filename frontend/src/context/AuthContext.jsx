@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
     isFirebaseConfigured,
     signInWithGoogle,
@@ -44,12 +45,11 @@ const formatAuthError = (error) => {
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(isFirebaseConfigured);
     const [authError, setAuthError] = useState(null);
 
     useEffect(() => {
         if (!isFirebaseConfigured) {
-            setLoading(false);
             return;
         }
 
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
         };
     }, []);
 
-    const loginWithGoogle = async (role, rememberMe = true) => {
+    const loginWithGoogle = useCallback(async (role, rememberMe = true) => {
         setAuthError(null);
         if (!isFirebaseConfigured) {
             const message = 'Firebase configuration missing.';
@@ -119,18 +119,21 @@ export const AuthProvider = ({ children }) => {
             setAuthError(message);
             return { success: false, message };
         }
-    };
+    }, []);
 
-    const updateRole = (role) => {
-        if (!user?.uid || !role) return;
-        setRoleForUid(user.uid, role);
-        setUser((prev) => ({ ...prev, role }));
-    };
+    const updateRole = useCallback((role) => {
+        if (!role) return;
+        setUser((prev) => {
+            if (!prev?.uid) return prev;
+            setRoleForUid(prev.uid, role);
+            return { ...prev, role };
+        });
+    }, []);
 
-    const logout = async () => {
+    const logout = useCallback(async () => {
         await signOutUser();
         setUser(null);
-    };
+    }, []);
 
     const value = useMemo(
         () => ({
@@ -142,7 +145,7 @@ export const AuthProvider = ({ children }) => {
             authError,
             isFirebaseConfigured,
         }),
-        [user, loading, authError]
+        [user, loginWithGoogle, updateRole, logout, loading, authError]
     );
 
     return (

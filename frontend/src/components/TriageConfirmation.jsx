@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { CheckCircle2, Timer, AlertTriangle } from 'lucide-react';
 
 export default function TriageConfirmation({
-    patientId,
     recommendedESI,
     category,
     redFlags = [],
@@ -12,22 +11,37 @@ export default function TriageConfirmation({
     onOverride,
     onTimeout,
 }) {
-    const [remaining, setRemaining] = useState(timeoutSeconds);
+    const [timerState, setTimerState] = useState({
+        isActive,
+        remaining: timeoutSeconds,
+        timeoutSeconds,
+    });
     const [overrideLevel, setOverrideLevel] = useState('');
     const [overrideReason, setOverrideReason] = useState('');
     const [supervisorPin, setSupervisorPin] = useState('');
+    const remaining = timerState.remaining;
+
+    if (
+        timerState.timeoutSeconds !== timeoutSeconds ||
+        timerState.isActive !== isActive
+    ) {
+        setTimerState({
+            isActive,
+            remaining: timeoutSeconds,
+            timeoutSeconds,
+        });
+    }
 
     useEffect(() => {
         if (!isActive) return undefined;
-        setRemaining(timeoutSeconds);
         const interval = setInterval(() => {
-            setRemaining((prev) => {
-                if (prev <= 1) {
+            setTimerState((prev) => {
+                if (prev.remaining <= 1) {
                     clearInterval(interval);
                     if (onTimeout) onTimeout();
-                    return 0;
+                    return { ...prev, remaining: 0 };
                 }
-                return prev - 1;
+                return { ...prev, remaining: prev.remaining - 1 };
             });
         }, 1000);
         return () => clearInterval(interval);

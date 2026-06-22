@@ -19,6 +19,8 @@ build/
 *.key
 service-account*.json
 *-credentials.json
+*.p8
+AuthKey_*.p8
 
 # Firebase and Google Cloud
 .firebase/
@@ -100,3 +102,17 @@ htmlcov/
 # Generated data and outputs
 data/
 output/
+
+# Parity harness generated reports (regenerate on every run)
+tests/parity/python_results.json
+tests/parity/js_results.json
+
+# Capacitor iOS — commit the Xcode project (frontend/ios/App/App, .xcodeproj,
+# Podfile, Info.plist) but NOT the npm-managed synced web build or CocoaPods.
+frontend/ios/App/Pods/
+frontend/ios/App/App/public/
+frontend/ios/App/build/
+frontend/ios/.gradle/
+frontend/ios/DerivedData/
+frontend/ios/App/App/capacitor.config.json
+frontend/ios/App/App/config.xml

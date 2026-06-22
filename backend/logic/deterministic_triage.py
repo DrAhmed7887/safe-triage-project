@@ -972,6 +972,17 @@ _ESI2_MANDATORY_CATEGORIES: set = {
     "chest_pain_cardiac",     # Cardiac chest pain → always ESI 2
     "diabetic_emergency",     # DKA/hypoglycemia → always ESI 2
     "obstetric_emergency",    # Obstetric emergency → always ESI 2
+    # Silent MI is, by clinical definition, an atypical ACS presentation
+    # that *lacks* the explicit instability signals the ceiling looks for
+    # (no overt diaphoresis is required, no severe chest pain narrative).
+    # Excluding it from the protection set caused the ceiling to demote
+    # silent_mi to ESI 3, and the resource-prediction path then dropped
+    # the final level to ESI 4 — an under-triage hazard surfaced by the
+    # cross-engine parity harness against the Arabic complaint
+    # "حرقان في الصدر".  Treat silent_mi like the other mandatory ESI 2
+    # categories: the clinical reason it was placed there cannot be
+    # negated by an absent text signal.
+    "silent_mi",
 }
 
 
@@ -2299,11 +2310,70 @@ class AISymptomClassifier:
             "حرقان صدر",
             "حارق بالصدر",
             "ضغط على الصدر",
+            # Common Arabic / Egyptian variants where a modifier like
+            # "شديد" / "حاد" / "خفيف" may sit between the pain-word and
+            # the chest-word.  Listed here for fast-path matching; the
+            # generic pain⊕chest co-occurrence check below catches the
+            # long tail.
+            "الم في الصدر",
+            "الم شديد في الصدر",
+            "الم حاد في الصدر",
+            "الم في صدري",
+            "الم في صدره",
+            "الم في صدرها",
+            "ضغط في الصدر",
+            "ضغط في صدري",
+            "ضيق في الصدر",
             "ضيقة في الصدر",
+            "ضيق في صدري",
+            "حرقان في الصدر",
         ]
+        # Egyptian Arabic chest-pain expressions are very flexible in
+        # word order: "ألم شديد في الصدر منذ ساعة" must trip the same
+        # safety floor as "ألم في الصدر".  Listing every modifier
+        # permutation in `chest_discomfort_tokens` does not scale, so we
+        # also accept the co-occurrence of ANY Arabic pain-word with
+        # ANY Arabic chest-word in the same complaint as chest
+        # discomfort.  This is intentionally conservative — if a
+        # clinician writes either a pain term or a chest term, the
+        # canonical engine routes to the cardiac chest-pain pathway and
+        # downstream ESI v5 / safety floors do the rest.  Both sides of
+        # the check operate on `normalized_text`, which has already had
+        # hamza-bearing alif collapsed (أ → ا), so unnormalised lemmas
+        # ("ألم" → "الم") match correctly.
+        _AR_PAIN_TERMS = (
+            "الم",      # ألم / الم (post-normalization)
+            "وجع",      # pain (dialect)
+            "اوجاع",    # plural
+            "اوجع",     # variant
+            "حرقان",    # burning
+            "ضغط",      # pressure
+            "ضيق",      # tightness
+            "ضيقة",
+            "نغزة",     # stabbing pain
+            "حارق",
+        )
+        _AR_CHEST_TERMS = (
+            "في الصدر",
+            "بالصدر",
+            "على الصدر",
+            "في صدري",
+            "في صدره",
+            "في صدرها",
+            "بصدري",
+            "صدري",
+        )
+        _has_ar_chest_pain_pair = (
+            any(p in normalized_text for p in _AR_PAIN_TERMS)
+            and any(c in normalized_text for c in _AR_CHEST_TERMS)
+        )
+
         has_silent_mi_gi = any(token in normalized_text for token in silent_mi_gi_tokens)
         has_silent_mi_signal = any(token in normalized_text for token in silent_mi_signal_tokens)
-        has_chest_discomfort = any(token in normalized_text for token in chest_discomfort_tokens)
+        has_chest_discomfort = (
+            any(token in normalized_text for token in chest_discomfort_tokens)
+            or _has_ar_chest_pain_pair
+        )
         if has_silent_mi_gi and (has_silent_mi_signal or has_chest_discomfort):
             return "silent_mi"
         if has_chest_discomfort:
